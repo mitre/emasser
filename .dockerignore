@@ -1,0 +1,11 @@
+# git
+.git
+.gitignore
+CHANGELOG.md
+
+# ci
+.gitlab-ci.yml
+
+# code
+test
+.env

@@ -1,0 +1,16 @@
+/.bundle/
+/.yardoc
+/_yardoc/
+/coverage/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+
+**/*.un~
+
+emassing/test/test_example.zip
+.DS_Store
+.byebug_history
+.env
+Gemfile.lock

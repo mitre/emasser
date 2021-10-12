@@ -1,0 +1,24 @@
+Copyright 2021 The MITRE Corporation
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright/ digital rights legend, this list of conditions and the following Notice.
+
+* Redistributions in binary form must reproduce the above copyright copyright/ digital rights legend, this list of conditions and the following Notice in the documentation and/or other materials provided with the distribution.
+
+* Neither the name of The MITRE Corporation nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+NOTICE
+
+This software was produced for the U. S. Government under Basic Contract
+No. W56KGU-18-D-0004, and is subject to the Rights in Noncommercial Computer
+Software and Noncommercial Computer Software Documentation
+Clause 252.227-7014 (SEP 2019)
+
+(c) 2021 The MITRE Corporation.
+
+No other use other than that granted to the U. S. Government, or to those acting on behalf of the U. S. Government under that Clause is authorized without the express written permission of The MITRE Corporation.
+
+MITRE’s licensed products include third-party materials that are subject to open source or free software licenses (“Open Source Materials”). The Open Source Materials are as follows:
+
+* swagger-codegen / Copyright 2019 SmartBear Software / https://github.com/swagger-api/swagger-codegen/blob/master/LICENSE
