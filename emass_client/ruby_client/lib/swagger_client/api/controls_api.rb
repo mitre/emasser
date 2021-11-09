@@ -20,8 +20,8 @@ module SwaggerClient
     # Returns system control information for matching `systemId` path parameter
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :acronyms **Acronym**: The system acronym(s) been queried (single value or common delimited values). (default to PM-6)
-    # @return [ControlResponse]
+    # @option opts [String] :acronyms **Acronym**: The system acronym(s) being queried (single value or comma delimited values). (default to PM-6)
+    # @return [ControlsResponseGet]
     def get_system_by_system_id(system_id, opts = {})
       data, _status_code, _headers = get_system_by_system_id_with_http_info(system_id, opts)
       data
@@ -31,8 +31,8 @@ module SwaggerClient
     # Returns system control information for matching &#x60;systemId&#x60; path parameter
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :acronyms **Acronym**: The system acronym(s) been queried (single value or common delimited values).
-    # @return [Array<(ControlResponse, Integer, Hash)>] ControlResponse data, response status code and response headers
+    # @option opts [String] :acronyms **Acronym**: The system acronym(s) being queried (single value or comma delimited values).
+    # @return [Array<(ControlsResponseGet, Integer, Hash)>] ControlsResponseGet data, response status code and response headers
     def get_system_by_system_id_with_http_info(system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ControlsApi.get_system_by_system_id ...'
@@ -59,9 +59,9 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] 
 
-      return_type = opts[:return_type] || 'ControlResponse' 
+      return_type = opts[:return_type] || 'ControlsResponseGet' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -76,22 +76,22 @@ module SwaggerClient
       return data, status_code, headers
     end
     # Update control information in a system for one or many controls
-    # Update an existing control by System Id
+    # Update an existing control by System Id based on the following rules:<br> | Implementation Status `implementationStatus` | Required Fields |----------------------------------------------|--------------------------------------------------- | Planned  or Implemented                      | `controlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments` | Not Applicable                               |  `naJustification`, `controlDesignation`, `responsibleEntities`   | Manually Inherited                           | `commonControlProvider`, `securityControlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments` | Inherited                                    | Only the following fields can be updated: `commonnControlProvider`, `controlDesignation`
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Model200]
+    # @return [ControlsResponsePut]
     def update_control_by_system_id(body, system_id, opts = {})
       data, _status_code, _headers = update_control_by_system_id_with_http_info(body, system_id, opts)
       data
     end
 
     # Update control information in a system for one or many controls
-    # Update an existing control by System Id
+    # Update an existing control by System Id based on the following rules:&lt;br&gt; | Implementation Status &#x60;implementationStatus&#x60; | Required Fields |----------------------------------------------|--------------------------------------------------- | Planned  or Implemented                      | &#x60;controlDesignation&#x60;, &#x60;estimatedCompletionDate&#x60;, &#x60;responsibleEntities&#x60;, &#x60;slcmCriticality&#x60;, &#x60;slcmFrequency&#x60;, &#x60;slcmMethod&#x60;, &#x60;slcmReporting&#x60;, &#x60;slcmTracking&#x60;, &#x60;slcmComments&#x60; | Not Applicable                               |  &#x60;naJustification&#x60;, &#x60;controlDesignation&#x60;, &#x60;responsibleEntities&#x60;   | Manually Inherited                           | &#x60;commonControlProvider&#x60;, &#x60;securityControlDesignation&#x60;, &#x60;estimatedCompletionDate&#x60;, &#x60;responsibleEntities&#x60;, &#x60;slcmCriticality&#x60;, &#x60;slcmFrequency&#x60;, &#x60;slcmMethod&#x60;, &#x60;slcmReporting&#x60;, &#x60;slcmTracking&#x60;, &#x60;slcmComments&#x60; | Inherited                                    | Only the following fields can be updated: &#x60;commonnControlProvider&#x60;, &#x60;controlDesignation&#x60;
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
+    # @return [Array<(ControlsResponsePut, Integer, Hash)>] ControlsResponsePut data, response status code and response headers
     def update_control_by_system_id_with_http_info(body, system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ControlsApi.update_control_by_system_id ...'
@@ -115,363 +115,17 @@ module SwaggerClient
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
-      form_params['systemId'] = system_id
-      form_params['name'] = name
-      form_params['acronym'] = acronym
-      form_params['ccis'] = ccis
-      form_params['isInherited'] = is_inherited
-      form_params['modifiedByOverlays'] = modified_by_overlays
-      form_params['includedStatus'] = included_status
-      form_params['complianceStatus'] = compliance_status
-      form_params['responsibleEntities'] = responsible_entities
-      form_params['implementationStatus'] = implementation_status
-      form_params['commonControlProvider'] = common_control_provider
-      form_params['naJustification'] = na_justification
-      form_params['controlDesignation'] = control_designation
-      form_params['estimatedCompletionDate'] = estimated_completion_date
-      form_params['comments'] = comments
-      form_params['slcmCriticality'] = slcm_criticality
-      form_params['slcmFrequency'] = slcm_frequency
-      form_params['slcmMethod'] = slcm_method
-      form_params['slcmReporting'] = slcm_reporting
-      form_params['slcmTracking'] = slcm_tracking
-      form_params['slcmComments'] = slcm_comments
-      form_params['severity'] = severity
-      form_params['vulnerabiltySummary'] = vulnerabilty_summary
-      form_params['recommendations'] = recommendations
-      form_params['relevanceOfThreat'] = relevance_of_threat
-      form_params['likelihood'] = likelihood
-      form_params['impact'] = impact
-      form_params['impactDescription'] = impact_description
-      form_params['residualRiskLevel'] = residual_risk_level
 
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'Model200' 
+      return_type = opts[:return_type] || 'ControlsResponsePut' 
 
-      auth_names = opts[:auth_names] || []
-      data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type)
-
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: ControlsApi#update_control_by_system_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-    # Update control information in a system for one or many controls
-    # Update an existing control by System Id
-    # @param system_id2 
-    # @param name 
-    # @param acronym 
-    # @param ccis 
-    # @param is_inherited 
-    # @param modified_by_overlays 
-    # @param included_status 
-    # @param compliance_status 
-    # @param responsible_entities 
-    # @param implementation_status 
-    # @param common_control_provider 
-    # @param na_justification 
-    # @param control_designation 
-    # @param estimated_completion_date 
-    # @param comments 
-    # @param slcm_criticality 
-    # @param slcm_frequency 
-    # @param slcm_method 
-    # @param slcm_reporting 
-    # @param slcm_tracking 
-    # @param slcm_comments 
-    # @param severity 
-    # @param vulnerabilty_summary 
-    # @param recommendations 
-    # @param relevance_of_threat 
-    # @param likelihood 
-    # @param impact 
-    # @param impact_description 
-    # @param residual_risk_level 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Model200]
-    def update_control_by_system_id(system_id2, name, acronym, ccis, is_inherited, modified_by_overlays, included_status, compliance_status, responsible_entities, implementation_status, common_control_provider, na_justification, control_designation, estimated_completion_date, comments, slcm_criticality, slcm_frequency, slcm_method, slcm_reporting, slcm_tracking, slcm_comments, severity, vulnerabilty_summary, recommendations, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, system_id, opts = {})
-      data, _status_code, _headers = update_control_by_system_id_with_http_info(system_id2, name, acronym, ccis, is_inherited, modified_by_overlays, included_status, compliance_status, responsible_entities, implementation_status, common_control_provider, na_justification, control_designation, estimated_completion_date, comments, slcm_criticality, slcm_frequency, slcm_method, slcm_reporting, slcm_tracking, slcm_comments, severity, vulnerabilty_summary, recommendations, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, system_id, opts)
-      data
-    end
-
-    # Update control information in a system for one or many controls
-    # Update an existing control by System Id
-    # @param system_id2 
-    # @param name 
-    # @param acronym 
-    # @param ccis 
-    # @param is_inherited 
-    # @param modified_by_overlays 
-    # @param included_status 
-    # @param compliance_status 
-    # @param responsible_entities 
-    # @param implementation_status 
-    # @param common_control_provider 
-    # @param na_justification 
-    # @param control_designation 
-    # @param estimated_completion_date 
-    # @param comments 
-    # @param slcm_criticality 
-    # @param slcm_frequency 
-    # @param slcm_method 
-    # @param slcm_reporting 
-    # @param slcm_tracking 
-    # @param slcm_comments 
-    # @param severity 
-    # @param vulnerabilty_summary 
-    # @param recommendations 
-    # @param relevance_of_threat 
-    # @param likelihood 
-    # @param impact 
-    # @param impact_description 
-    # @param residual_risk_level 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
-    def update_control_by_system_id_with_http_info(system_id2, name, acronym, ccis, is_inherited, modified_by_overlays, included_status, compliance_status, responsible_entities, implementation_status, common_control_provider, na_justification, control_designation, estimated_completion_date, comments, slcm_criticality, slcm_frequency, slcm_method, slcm_reporting, slcm_tracking, slcm_comments, severity, vulnerabilty_summary, recommendations, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, system_id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: ControlsApi.update_control_by_system_id ...'
-      end
-      # verify the required parameter 'system_id2' is set
-      if @api_client.config.client_side_validation && system_id2.nil?
-        fail ArgumentError, "Missing the required parameter 'system_id2' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'name' is set
-      if @api_client.config.client_side_validation && name.nil?
-        fail ArgumentError, "Missing the required parameter 'name' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'acronym' is set
-      if @api_client.config.client_side_validation && acronym.nil?
-        fail ArgumentError, "Missing the required parameter 'acronym' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'ccis' is set
-      if @api_client.config.client_side_validation && ccis.nil?
-        fail ArgumentError, "Missing the required parameter 'ccis' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'is_inherited' is set
-      if @api_client.config.client_side_validation && is_inherited.nil?
-        fail ArgumentError, "Missing the required parameter 'is_inherited' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'modified_by_overlays' is set
-      if @api_client.config.client_side_validation && modified_by_overlays.nil?
-        fail ArgumentError, "Missing the required parameter 'modified_by_overlays' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Privacy', 'Requirements', 'Concurrency'].include?(modified_by_overlays)
-        fail ArgumentError, "invalid value for 'modified_by_overlays', must be one of Privacy, Requirements, Concurrency"
-      end
-      # verify the required parameter 'included_status' is set
-      if @api_client.config.client_side_validation && included_status.nil?
-        fail ArgumentError, "Missing the required parameter 'included_status' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Mandated', 'Manually', 'Inherent'].include?(included_status)
-        fail ArgumentError, "invalid value for 'included_status', must be one of Mandated, Manually, Inherent"
-      end
-      # verify the required parameter 'compliance_status' is set
-      if @api_client.config.client_side_validation && compliance_status.nil?
-        fail ArgumentError, "Missing the required parameter 'compliance_status' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'responsible_entities' is set
-      if @api_client.config.client_side_validation && responsible_entities.nil?
-        fail ArgumentError, "Missing the required parameter 'responsible_entities' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Compliant', 'Non-Compliant', 'Unknown'].include?(responsible_entities)
-        fail ArgumentError, "invalid value for 'responsible_entities', must be one of Compliant, Non-Compliant, Unknown"
-      end
-      # verify the required parameter 'implementation_status' is set
-      if @api_client.config.client_side_validation && implementation_status.nil?
-        fail ArgumentError, "Missing the required parameter 'implementation_status' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Planned', 'Implemented', 'Inherited', 'Not Applicable', 'Manually Inherited'].include?(implementation_status)
-        fail ArgumentError, "invalid value for 'implementation_status', must be one of Planned, Implemented, Inherited, Not Applicable, Manually Inherited"
-      end
-      # verify the required parameter 'common_control_provider' is set
-      if @api_client.config.client_side_validation && common_control_provider.nil?
-        fail ArgumentError, "Missing the required parameter 'common_control_provider' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['DoD', 'Component', 'Enclave'].include?(common_control_provider)
-        fail ArgumentError, "invalid value for 'common_control_provider', must be one of DoD, Component, Enclave"
-      end
-      # verify the required parameter 'na_justification' is set
-      if @api_client.config.client_side_validation && na_justification.nil?
-        fail ArgumentError, "Missing the required parameter 'na_justification' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['System EOL within 30 days', 'System EOL within 60 days', 'System EOL within 120 days', 'Unknown'].include?(na_justification)
-        fail ArgumentError, "invalid value for 'na_justification', must be one of System EOL within 30 days, System EOL within 60 days, System EOL within 120 days, Unknown"
-      end
-      # verify the required parameter 'control_designation' is set
-      if @api_client.config.client_side_validation && control_designation.nil?
-        fail ArgumentError, "Missing the required parameter 'control_designation' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Common', 'System-Specific', 'Hybrid'].include?(control_designation)
-        fail ArgumentError, "invalid value for 'control_designation', must be one of Common, System-Specific, Hybrid"
-      end
-      # verify the required parameter 'estimated_completion_date' is set
-      if @api_client.config.client_side_validation && estimated_completion_date.nil?
-        fail ArgumentError, "Missing the required parameter 'estimated_completion_date' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'comments' is set
-      if @api_client.config.client_side_validation && comments.nil?
-        fail ArgumentError, "Missing the required parameter 'comments' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'slcm_criticality' is set
-      if @api_client.config.client_side_validation && slcm_criticality.nil?
-        fail ArgumentError, "Missing the required parameter 'slcm_criticality' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'slcm_frequency' is set
-      if @api_client.config.client_side_validation && slcm_frequency.nil?
-        fail ArgumentError, "Missing the required parameter 'slcm_frequency' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Constantly', 'Daily', 'Weekly', 'Monthly', 'Quarterly', 'Semi-Annually', 'Annually', 'Undetermined'].include?(slcm_frequency)
-        fail ArgumentError, "invalid value for 'slcm_frequency', must be one of Constantly, Daily, Weekly, Monthly, Quarterly, Semi-Annually, Annually, Undetermined"
-      end
-      # verify the required parameter 'slcm_method' is set
-      if @api_client.config.client_side_validation && slcm_method.nil?
-        fail ArgumentError, "Missing the required parameter 'slcm_method' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Automated', 'Semi-Automated', 'Manual', 'Undetermined'].include?(slcm_method)
-        fail ArgumentError, "invalid value for 'slcm_method', must be one of Automated, Semi-Automated, Manual, Undetermined"
-      end
-      # verify the required parameter 'slcm_reporting' is set
-      if @api_client.config.client_side_validation && slcm_reporting.nil?
-        fail ArgumentError, "Missing the required parameter 'slcm_reporting' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'slcm_tracking' is set
-      if @api_client.config.client_side_validation && slcm_tracking.nil?
-        fail ArgumentError, "Missing the required parameter 'slcm_tracking' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'slcm_comments' is set
-      if @api_client.config.client_side_validation && slcm_comments.nil?
-        fail ArgumentError, "Missing the required parameter 'slcm_comments' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'severity' is set
-      if @api_client.config.client_side_validation && severity.nil?
-        fail ArgumentError, "Missing the required parameter 'severity' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(severity)
-        fail ArgumentError, "invalid value for 'severity', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'vulnerabilty_summary' is set
-      if @api_client.config.client_side_validation && vulnerabilty_summary.nil?
-        fail ArgumentError, "Missing the required parameter 'vulnerabilty_summary' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'recommendations' is set
-      if @api_client.config.client_side_validation && recommendations.nil?
-        fail ArgumentError, "Missing the required parameter 'recommendations' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'relevance_of_threat' is set
-      if @api_client.config.client_side_validation && relevance_of_threat.nil?
-        fail ArgumentError, "Missing the required parameter 'relevance_of_threat' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(relevance_of_threat)
-        fail ArgumentError, "invalid value for 'relevance_of_threat', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'likelihood' is set
-      if @api_client.config.client_side_validation && likelihood.nil?
-        fail ArgumentError, "Missing the required parameter 'likelihood' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(likelihood)
-        fail ArgumentError, "invalid value for 'likelihood', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'impact' is set
-      if @api_client.config.client_side_validation && impact.nil?
-        fail ArgumentError, "Missing the required parameter 'impact' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(impact)
-        fail ArgumentError, "invalid value for 'impact', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'impact_description' is set
-      if @api_client.config.client_side_validation && impact_description.nil?
-        fail ArgumentError, "Missing the required parameter 'impact_description' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify the required parameter 'residual_risk_level' is set
-      if @api_client.config.client_side_validation && residual_risk_level.nil?
-        fail ArgumentError, "Missing the required parameter 'residual_risk_level' when calling ControlsApi.update_control_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(residual_risk_level)
-        fail ArgumentError, "invalid value for 'residual_risk_level', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'system_id' is set
-      if @api_client.config.client_side_validation && system_id.nil?
-        fail ArgumentError, "Missing the required parameter 'system_id' when calling ControlsApi.update_control_by_system_id"
-      end
-      # resource path
-      local_var_path = '/api/systems/{systemId}/controls'.sub('{' + 'systemId' + '}', system_id.to_s)
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-      form_params['systemId'] = system_id
-      form_params['name'] = name
-      form_params['acronym'] = acronym
-      form_params['ccis'] = ccis
-      form_params['isInherited'] = is_inherited
-      form_params['modifiedByOverlays'] = modified_by_overlays
-      form_params['includedStatus'] = included_status
-      form_params['complianceStatus'] = compliance_status
-      form_params['responsibleEntities'] = responsible_entities
-      form_params['implementationStatus'] = implementation_status
-      form_params['commonControlProvider'] = common_control_provider
-      form_params['naJustification'] = na_justification
-      form_params['controlDesignation'] = control_designation
-      form_params['estimatedCompletionDate'] = estimated_completion_date
-      form_params['comments'] = comments
-      form_params['slcmCriticality'] = slcm_criticality
-      form_params['slcmFrequency'] = slcm_frequency
-      form_params['slcmMethod'] = slcm_method
-      form_params['slcmReporting'] = slcm_reporting
-      form_params['slcmTracking'] = slcm_tracking
-      form_params['slcmComments'] = slcm_comments
-      form_params['severity'] = severity
-      form_params['vulnerabiltySummary'] = vulnerabilty_summary
-      form_params['recommendations'] = recommendations
-      form_params['relevanceOfThreat'] = relevance_of_threat
-      form_params['likelihood'] = likelihood
-      form_params['impact'] = impact
-      form_params['impactDescription'] = impact_description
-      form_params['residualRiskLevel'] = residual_risk_level
-
-      # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(body) 
-
-      return_type = opts[:return_type] || 'Model200' 
-
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
         :query_params => query_params,

@@ -22,6 +22,18 @@ Adds an Approval for given `systemId` path parameter<br><br> POST requests will 
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
 body = SwaggerClient::PostApprovalCac.new # PostApprovalCac | Update an existing Artifact by Id
@@ -50,7 +62,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -70,6 +82,18 @@ Adds an Approval for given `systemId` path parameter<br><br> POST requests will 
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
 control_acronyms = 'control_acronyms_example' # String | 
@@ -100,7 +124,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -120,6 +144,18 @@ Adds a Package Approval Chain (PAC) for given `systemId` path parameter
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
 body = SwaggerClient::PostApprovalPac.new # PostApprovalPac | Update an existing Artifact by Id
@@ -148,7 +184,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -168,6 +204,18 @@ Adds a Package Approval Chain (PAC) for given `systemId` path parameter
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
 type = 'type_example' # String | 
@@ -200,7 +248,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -220,11 +268,23 @@ Returns the location of a system's package in the Control Approval Chain (CAC) f
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
-  control_acronyms: 'control_acronyms_example' # String | **System Acronym**: Filter query by given system acronym (single or common separated).
+  control_acronyms: 'control_acronyms_example' # String | **System Acronym**: Filter query by given system acronym (single or comma separated).
 }
 
 begin
@@ -241,7 +301,7 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
- **control_acronyms** | **String**| **System Acronym**: Filter query by given system acronym (single or common separated). | [optional] 
+ **control_acronyms** | **String**| **System Acronym**: Filter query by given system acronym (single or comma separated). | [optional] 
 
 ### Return type
 
@@ -249,7 +309,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -269,6 +329,18 @@ Returns the location of a system's package in the Package Approval Chain (PAC) f
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
@@ -295,7 +367,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 

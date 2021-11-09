@@ -68,7 +68,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -140,7 +140,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -207,7 +207,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -290,7 +290,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -308,7 +308,7 @@ module SwaggerClient
     # Returns the location of a system's package in the Control Approval Chain (CAC) for matching `systemId` path parameter
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or common separated).
+    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or comma separated).
     # @return [ApprovalCacResponse]
     def get_cac_approval_by_system_id(system_id, opts = {})
       data, _status_code, _headers = get_cac_approval_by_system_id_with_http_info(system_id, opts)
@@ -319,7 +319,7 @@ module SwaggerClient
     # Returns the location of a system&#x27;s package in the Control Approval Chain (CAC) for matching &#x60;systemId&#x60; path parameter
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or common separated).
+    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or comma separated).
     # @return [Array<(ApprovalCacResponse, Integer, Hash)>] ApprovalCacResponse data, response status code and response headers
     def get_cac_approval_by_system_id_with_http_info(system_id, opts = {})
       if @api_client.config.debugging
@@ -349,7 +349,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'ApprovalCacResponse' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -405,7 +405,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'InlineResponse2001' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,

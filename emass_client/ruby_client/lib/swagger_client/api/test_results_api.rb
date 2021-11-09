@@ -21,7 +21,7 @@ module SwaggerClient
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Model200]
+    # @return [TestResultsResponsePost]
     def add_test_results_by_system_id(body, system_id, opts = {})
       data, _status_code, _headers = add_test_results_by_system_id_with_http_info(body, system_id, opts)
       data
@@ -32,7 +32,7 @@ module SwaggerClient
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
+    # @return [Array<(TestResultsResponsePost, Integer, Hash)>] TestResultsResponsePost data, response status code and response headers
     def add_test_results_by_system_id_with_http_info(body, system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: TestResultsApi.add_test_results_by_system_id ...'
@@ -56,147 +56,17 @@ module SwaggerClient
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
-      form_params['control'] = control
-      form_params['ccis'] = ccis
-      form_params['isInherited'] = is_inherited
-      form_params['testedBy'] = tested_by
-      form_params['testDate'] = test_date
-      form_params['description'] = description
-      form_params['type'] = type
-      form_params['complianceStatus'] = compliance_status
 
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'Model200' 
+      return_type = opts[:return_type] || 'TestResultsResponsePost' 
 
-      auth_names = opts[:auth_names] || []
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type)
-
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: TestResultsApi#add_test_results_by_system_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-    # Add one or many test results in a system
-    # Adds test results for given `systemId`
-    # @param control 
-    # @param ccis 
-    # @param is_inherited 
-    # @param tested_by 
-    # @param test_date 
-    # @param description 
-    # @param type 
-    # @param compliance_status 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Model200]
-    def add_test_results_by_system_id(control, ccis, is_inherited, tested_by, test_date, description, type, compliance_status, system_id, opts = {})
-      data, _status_code, _headers = add_test_results_by_system_id_with_http_info(control, ccis, is_inherited, tested_by, test_date, description, type, compliance_status, system_id, opts)
-      data
-    end
-
-    # Add one or many test results in a system
-    # Adds test results for given &#x60;systemId&#x60;
-    # @param control 
-    # @param ccis 
-    # @param is_inherited 
-    # @param tested_by 
-    # @param test_date 
-    # @param description 
-    # @param type 
-    # @param compliance_status 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
-    def add_test_results_by_system_id_with_http_info(control, ccis, is_inherited, tested_by, test_date, description, type, compliance_status, system_id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: TestResultsApi.add_test_results_by_system_id ...'
-      end
-      # verify the required parameter 'control' is set
-      if @api_client.config.client_side_validation && control.nil?
-        fail ArgumentError, "Missing the required parameter 'control' when calling TestResultsApi.add_test_results_by_system_id"
-      end
-      # verify the required parameter 'ccis' is set
-      if @api_client.config.client_side_validation && ccis.nil?
-        fail ArgumentError, "Missing the required parameter 'ccis' when calling TestResultsApi.add_test_results_by_system_id"
-      end
-      # verify the required parameter 'is_inherited' is set
-      if @api_client.config.client_side_validation && is_inherited.nil?
-        fail ArgumentError, "Missing the required parameter 'is_inherited' when calling TestResultsApi.add_test_results_by_system_id"
-      end
-      # verify the required parameter 'tested_by' is set
-      if @api_client.config.client_side_validation && tested_by.nil?
-        fail ArgumentError, "Missing the required parameter 'tested_by' when calling TestResultsApi.add_test_results_by_system_id"
-      end
-      # verify the required parameter 'test_date' is set
-      if @api_client.config.client_side_validation && test_date.nil?
-        fail ArgumentError, "Missing the required parameter 'test_date' when calling TestResultsApi.add_test_results_by_system_id"
-      end
-      # verify the required parameter 'description' is set
-      if @api_client.config.client_side_validation && description.nil?
-        fail ArgumentError, "Missing the required parameter 'description' when calling TestResultsApi.add_test_results_by_system_id"
-      end
-      # verify the required parameter 'type' is set
-      if @api_client.config.client_side_validation && type.nil?
-        fail ArgumentError, "Missing the required parameter 'type' when calling TestResultsApi.add_test_results_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Self-Assessment', 'Schedule-Assessment'].include?(type)
-        fail ArgumentError, "invalid value for 'type', must be one of Self-Assessment, Schedule-Assessment"
-      end
-      # verify the required parameter 'compliance_status' is set
-      if @api_client.config.client_side_validation && compliance_status.nil?
-        fail ArgumentError, "Missing the required parameter 'compliance_status' when calling TestResultsApi.add_test_results_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Compliant', 'Non-Compliant', 'Not Applicable'].include?(compliance_status)
-        fail ArgumentError, "invalid value for 'compliance_status', must be one of Compliant, Non-Compliant, Not Applicable"
-      end
-      # verify the required parameter 'system_id' is set
-      if @api_client.config.client_side_validation && system_id.nil?
-        fail ArgumentError, "Missing the required parameter 'system_id' when calling TestResultsApi.add_test_results_by_system_id"
-      end
-      # resource path
-      local_var_path = '/api/systems/{systemId}/test-results'.sub('{' + 'systemId' + '}', system_id.to_s)
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-      form_params['control'] = control
-      form_params['ccis'] = ccis
-      form_params['isInherited'] = is_inherited
-      form_params['testedBy'] = tested_by
-      form_params['testDate'] = test_date
-      form_params['description'] = description
-      form_params['type'] = type
-      form_params['complianceStatus'] = compliance_status
-
-      # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(body) 
-
-      return_type = opts[:return_type] || 'Model200' 
-
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -214,10 +84,10 @@ module SwaggerClient
     # Returns system test results information for matching parameters.<br>
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or common separated).
-    # @option opts [String] :ccis **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
-    # @option opts [BOOLEAN] :latest_only **Latest Results Only**: Indicates that only the latest test resultes are retrieved (single or common separated). (default to true)
-    # @return [TestResultslResponse]
+    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or comma separated).
+    # @option opts [String] :cci **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+    # @option opts [BOOLEAN] :latest_only **Latest Results Only**: Indicates that only the latest test resultes are retrieved (single or comma separated). (default to true)
+    # @return [TestResultsResponseGet]
     def get_test_results_by_system_id(system_id, opts = {})
       data, _status_code, _headers = get_test_results_by_system_id_with_http_info(system_id, opts)
       data
@@ -227,10 +97,10 @@ module SwaggerClient
     # Returns system test results information for matching parameters.&lt;br&gt;
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or common separated).
-    # @option opts [String] :ccis **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
-    # @option opts [BOOLEAN] :latest_only **Latest Results Only**: Indicates that only the latest test resultes are retrieved (single or common separated).
-    # @return [Array<(TestResultslResponse, Integer, Hash)>] TestResultslResponse data, response status code and response headers
+    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or comma separated).
+    # @option opts [String] :cci **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+    # @option opts [BOOLEAN] :latest_only **Latest Results Only**: Indicates that only the latest test resultes are retrieved (single or comma separated).
+    # @return [Array<(TestResultsResponseGet, Integer, Hash)>] TestResultsResponseGet data, response status code and response headers
     def get_test_results_by_system_id_with_http_info(system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: TestResultsApi.get_test_results_by_system_id ...'
@@ -245,7 +115,7 @@ module SwaggerClient
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'controlAcronyms'] = opts[:'control_acronyms'] if !opts[:'control_acronyms'].nil?
-      query_params[:'ccis'] = opts[:'ccis'] if !opts[:'ccis'].nil?
+      query_params[:'cci'] = opts[:'cci'] if !opts[:'cci'].nil?
       query_params[:'latestOnly'] = opts[:'latest_only'] if !opts[:'latest_only'].nil?
 
       # header parameters
@@ -259,9 +129,9 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] 
 
-      return_type = opts[:return_type] || 'TestResultslResponse' 
+      return_type = opts[:return_type] || 'TestResultsResponseGet' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,

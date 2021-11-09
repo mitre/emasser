@@ -52,7 +52,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Test' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,

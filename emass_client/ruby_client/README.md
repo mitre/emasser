@@ -54,6 +54,18 @@ Please follow the [installation](#installation) procedure and then run the follo
 ```ruby
 # Load the gem
 require 'swagger_client'
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
 body = SwaggerClient::PostApprovalCac.new # PostApprovalCac | Update an existing Artifact by Id
@@ -68,6 +80,18 @@ begin
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ApprovalChainApi->add_c_ac_approval_chain_by_system_id: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
@@ -85,11 +109,23 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ApprovalChainApi->add_pac_approval_chain_by_system_id: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
-  control_acronyms: 'control_acronyms_example' # String | **System Acronym**: Filter query by given system acronym (single or common separated).
+  control_acronyms: 'control_acronyms_example' # String | **System Acronym**: Filter query by given system acronym (single or comma separated).
 }
 
 begin
@@ -98,6 +134,18 @@ begin
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ApprovalChainApi->get_cac_approval_by_system_id: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
@@ -111,6 +159,18 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ApprovalChainApi->get_pac_approval_by_system_id: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ArtifactsApi.new
 zipper = 'zipper_example' # String | 
@@ -123,6 +183,18 @@ begin
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ArtifactsApi->add_artifacts_by_system_id: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::ArtifactsApi.new
@@ -138,13 +210,25 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ArtifactsApi->api_systems_system_id_artifacts_export_get: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ArtifactsApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
   filename: 'filename_example', # String | **File Name**: The file name (to include file-extension).
-  control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or common separated).
-  ccis: 'ccis_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+  control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or comma separated).
+  cci: 'cci_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
   system_only: true # BOOLEAN | **Systems Only**: Indicates that only system(s) information is retrieved.
 }
 
@@ -154,6 +238,18 @@ begin
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ArtifactsApi->api_systems_system_id_artifacts_get: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::ArtifactsApi.new
@@ -167,6 +263,18 @@ begin
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ArtifactsApi->delete_artifact: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::ArtifactsApi.new
@@ -191,11 +299,23 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ArtifactsApi->update_artifact_by_system_id: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ControlsApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
-  acronyms: 'PM-6' # String | **Acronym**: The system acronym(s) been queried (single value or common delimited values).
+  acronyms: 'PM-6' # String | **Acronym**: The system acronym(s) being queried (single value or comma delimited values).
 }
 
 begin
@@ -205,47 +325,42 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ControlsApi->get_system_by_system_id: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ControlsApi.new
-body = SwaggerClient::Controls.new # Controls | Update an existing control by Id
-system_id = 789 # Integer | 
-name = 'name_example' # String | 
-acronym = 'acronym_example' # String | 
-ccis = 'ccis_example' # String | 
-is_inherited = true # BOOLEAN | 
-modified_by_overlays = 'modified_by_overlays_example' # String | 
-included_status = 'included_status_example' # String | 
-compliance_status = 'compliance_status_example' # String | 
-responsible_entities = 'responsible_entities_example' # String | 
-implementation_status = 'implementation_status_example' # String | 
-common_control_provider = 'common_control_provider_example' # String | 
-na_justification = 'na_justification_example' # String | 
-control_designation = 'control_designation_example' # String | 
-estimated_completion_date = 56 # Integer | 
-comments = 'comments_example' # String | 
-slcm_criticality = 'slcm_criticality_example' # String | 
-slcm_frequency = 'slcm_frequency_example' # String | 
-slcm_method = 'slcm_method_example' # String | 
-slcm_reporting = 'slcm_reporting_example' # String | 
-slcm_tracking = 'slcm_tracking_example' # String | 
-slcm_comments = 'slcm_comments_example' # String | 
-severity = 'severity_example' # String | 
-vulnerabilty_summary = 'vulnerabilty_summary_example' # String | 
-recommendations = 'recommendations_example' # String | 
-relevance_of_threat = 'relevance_of_threat_example' # String | 
-likelihood = 'likelihood_example' # String | 
-impact = 'impact_example' # String | 
-impact_description = 'impact_description_example' # String | 
-residual_risk_level = 'residual_risk_level_example' # String | 
+body = SwaggerClient::ControlsRequestBody.new # ControlsRequestBody | Update an existing control by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
 begin
   #Update control information in a system for one or many controls
-  result = api_instance.update_control_by_system_id(body, system_id, name, acronym, ccis, is_inherited, modified_by_overlays, included_status, compliance_status, responsible_entities, implementation_status, common_control_provider, na_justification, control_designation, estimated_completion_date, comments, slcm_criticality, slcm_frequency, slcm_method, slcm_reporting, slcm_tracking, slcm_comments, severity, vulnerabilty_summary, recommendations, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, system_id)
+  result = api_instance.update_control_by_system_id(body, system_id)
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ControlsApi->update_control_by_system_id: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::POAMApi.new
@@ -263,6 +378,18 @@ begin
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->add_milestone_by_system_id_and_poam_id: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::POAMApi.new
@@ -310,14 +437,26 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->add_poam_by_system_id: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
   scheduled_completion_date_start: 'scheduled_completion_date_start_example', # String | **Date Started**: Filter query by the scheduled competion start date.
   scheduled_completion_date_end: 'scheduled_completion_date_end_example', # String | **Date Ended**: Filter query by the scheduled competion start date.
-  control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or common separated).
-  ccis: 'ccis_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+  control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or comma separated).
+  cci: 'cci_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
   system_only: true # BOOLEAN | **Systems Only**: Indicates that only system(s) information is retrieved.
 }
 
@@ -327,6 +466,18 @@ begin
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->api_systems_system_id_poams_get: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::POAMApi.new
@@ -342,6 +493,18 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->delete_milestone: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
@@ -354,6 +517,18 @@ begin
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->delete_poam: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::POAMApi.new
@@ -371,6 +546,18 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->get_milestones_by_system_id_and_poam_id: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
@@ -385,6 +572,18 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->get_milestones_by_system_id_and_poam_id_andf_milestone_id: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
@@ -397,6 +596,18 @@ begin
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->get_poam_by_system_id_and_poam_id: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::POAMApi.new
@@ -414,6 +625,18 @@ begin
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->update_milestone_by_system_id_and_poam_id: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::POAMApi.new
@@ -461,6 +684,18 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->update_poam_by_system_id: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::RegistrationApi.new
 body = SwaggerClient::RegisterUser.new # RegisterUser | User certificate previously provided by eMASS.
@@ -473,6 +708,18 @@ begin
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling RegistrationApi->register_user: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::SystemRolesApi.new
@@ -489,6 +736,18 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling SystemRolesApi->get_system_by_role_category_id: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::SystemRolesApi.new
 
@@ -498,6 +757,18 @@ begin
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling SystemRolesApi->get_system_roles: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::SystemsApi.new
@@ -518,6 +789,18 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling SystemsApi->get_systems: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::TestApi.new
 
@@ -528,34 +811,50 @@ begin
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling TestApi->test_connection: #{e}"
 end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::TestResultsApi.new
-body = SwaggerClient::TestResults.new # TestResults | Update an existing control by Id
-control = 'control_example' # String | 
-ccis = 'ccis_example' # String | 
-is_inherited = true # BOOLEAN | 
-tested_by = 'tested_by_example' # String | 
-test_date = 789 # Integer | 
-description = 'description_example' # String | 
-type = 'type_example' # String | 
-compliance_status = 'compliance_status_example' # String | 
+body = SwaggerClient::TestResultsRequestBody.new # TestResultsRequestBody | Update an existing control by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
 begin
   #Add one or many test results in a system
-  result = api_instance.add_test_results_by_system_id(body, control, ccis, is_inherited, tested_by, test_date, description, type, compliance_status, system_id)
+  result = api_instance.add_test_results_by_system_id(body, system_id)
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling TestResultsApi->add_test_results_by_system_id: #{e}"
+end
+# Setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
 api_instance = SwaggerClient::TestResultsApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
-  control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or common separated).
-  ccis: 'ccis_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
-  latest_only: true # BOOLEAN | **Latest Results Only**: Indicates that only the latest test resultes are retrieved (single or common separated).
+  control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or comma separated).
+  cci: 'cci_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+  latest_only: true # BOOLEAN | **Latest Results Only**: Indicates that only the latest test resultes are retrieved (single or comma separated).
 }
 
 begin
@@ -615,8 +914,11 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::ArtifactsGetResponse](docs/ArtifactsGetResponse.md)
  - [SwaggerClient::ArtifactsPutPostResponse](docs/ArtifactsPutPostResponse.md)
  - [SwaggerClient::ArtifactsPutPostResponseData](docs/ArtifactsPutPostResponseData.md)
- - [SwaggerClient::ControlResponse](docs/ControlResponse.md)
- - [SwaggerClient::Controls](docs/Controls.md)
+ - [SwaggerClient::ControlsGet](docs/ControlsGet.md)
+ - [SwaggerClient::ControlsPut](docs/ControlsPut.md)
+ - [SwaggerClient::ControlsRequestBody](docs/ControlsRequestBody.md)
+ - [SwaggerClient::ControlsResponseGet](docs/ControlsResponseGet.md)
+ - [SwaggerClient::ControlsResponsePut](docs/ControlsResponsePut.md)
  - [SwaggerClient::DeleteArtifacts](docs/DeleteArtifacts.md)
  - [SwaggerClient::DeleteArtifactsInner](docs/DeleteArtifactsInner.md)
  - [SwaggerClient::Error](docs/Error.md)
@@ -656,11 +958,25 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::Systems2](docs/Systems2.md)
  - [SwaggerClient::Test](docs/Test.md)
  - [SwaggerClient::TestData](docs/TestData.md)
- - [SwaggerClient::TestResults](docs/TestResults.md)
- - [SwaggerClient::TestResultslResponse](docs/TestResultslResponse.md)
+ - [SwaggerClient::TestResultsGet](docs/TestResultsGet.md)
+ - [SwaggerClient::TestResultsPost](docs/TestResultsPost.md)
+ - [SwaggerClient::TestResultsRequestBody](docs/TestResultsRequestBody.md)
+ - [SwaggerClient::TestResultsResponseGet](docs/TestResultsResponseGet.md)
+ - [SwaggerClient::TestResultsResponsePost](docs/TestResultsResponsePost.md)
  - [SwaggerClient::Users](docs/Users.md)
 
 ## Documentation for Authorization
 
- All endpoints do not require authorization.
+
+### apikey
+
+- **Type**: API key
+- **API key parameter name**: api-key
+- **Location**: HTTP header
+
+### userid
+
+- **Type**: API key
+- **API key parameter name**: user-uid
+- **Location**: HTTP header
 

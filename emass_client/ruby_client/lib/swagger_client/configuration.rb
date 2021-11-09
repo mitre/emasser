@@ -197,6 +197,20 @@ module SwaggerClient
     # Returns Auth Settings hash for api client.
     def auth_settings
       {
+        'apikey' =>
+          {
+            type: 'api_key',
+            in: 'header',
+            key: 'api-key',
+            value: api_key_with_prefix('api-key')
+          },
+        'userid' =>
+          {
+            type: 'api_key',
+            in: 'header',
+            key: 'user-uid',
+            value: api_key_with_prefix('user-uid')
+          },
       }
     end
   end
