@@ -30,6 +30,18 @@ Adds a milestone for given `systemId` and `poamId` path parameters
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 body = SwaggerClient::PostMilestones.new # PostMilestones | Update an existing milestone
@@ -60,7 +72,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -80,6 +92,18 @@ Adds a milestone for given `systemId` and `poamId` path parameters
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 poam_id2 = 789 # Integer | 
@@ -114,7 +138,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -134,6 +158,18 @@ Adds POA&M for given `systemId`<br> **Note**<br> If a POC email is supplied, the
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 body = SwaggerClient::POAM.new # POAM | Update an existing control by Id
@@ -162,7 +198,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -182,6 +218,18 @@ Adds POA&M for given `systemId`<br> **Note**<br> If a POC email is supplied, the
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 poam_id = 789 # Integer | 
@@ -274,7 +322,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -294,14 +342,26 @@ Returns system containing POA&M items for matching parameters.
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
   scheduled_completion_date_start: 'scheduled_completion_date_start_example', # String | **Date Started**: Filter query by the scheduled competion start date.
   scheduled_completion_date_end: 'scheduled_completion_date_end_example', # String | **Date Ended**: Filter query by the scheduled competion start date.
-  control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or common separated).
-  ccis: 'ccis_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+  control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or comma separated).
+  cci: 'cci_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
   system_only: true # BOOLEAN | **Systems Only**: Indicates that only system(s) information is retrieved.
 }
 
@@ -321,8 +381,8 @@ Name | Type | Description  | Notes
  **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
  **scheduled_completion_date_start** | **String**| **Date Started**: Filter query by the scheduled competion start date. | [optional] 
  **scheduled_completion_date_end** | **String**| **Date Ended**: Filter query by the scheduled competion start date. | [optional] 
- **control_acronyms** | **String**| **System Acronym**: Filter query by given system acronym (single or common separated). | [optional] 
- **ccis** | **String**| **CCI System**: Filter query by Control Correlation Identifiers (CCIs). | [optional] 
+ **control_acronyms** | **String**| **System Acronym**: Filter query by given system acronym (single or comma separated). | [optional] 
+ **cci** | **String**| **CCI System**: Filter query by Control Correlation Identifiers (CCIs). | [optional] 
  **system_only** | **BOOLEAN**| **Systems Only**: Indicates that only system(s) information is retrieved. | [optional] [default to true]
 
 ### Return type
@@ -331,7 +391,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -351,6 +411,18 @@ Remove the POA&M matching `systemId` path parameter<br> **Notes**<br> To delete 
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
@@ -381,7 +453,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -401,6 +473,18 @@ Remove the POA&M matching `systemId` path parameter and `poamId` query parameter
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
@@ -429,7 +513,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -449,6 +533,18 @@ Returns system containing milestones for matching parameters.
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
@@ -482,7 +578,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -502,6 +598,18 @@ Returns systems containing milestones for matching parameters.
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
@@ -532,7 +640,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -552,6 +660,18 @@ Returns system test results information for matching parameters.<br>
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
@@ -580,7 +700,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -600,6 +720,18 @@ Updates a milestone for given `systemId` and `poamId` path parameters
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 body = SwaggerClient::PutMilestones.new # PutMilestones | Update an existing control by Id
@@ -630,7 +762,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -650,6 +782,18 @@ Updates a milestone for given `systemId` and `poamId` path parameters
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 poam_id2 = 789 # Integer | 
@@ -684,7 +828,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -704,6 +848,18 @@ Update Adds POA&M for given `systemId`<br> **Note**<br> If a POC email is suppli
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 body = SwaggerClient::POAM.new # POAM | Update an existing control by Id
@@ -732,7 +888,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -752,6 +908,18 @@ Update Adds POA&M for given `systemId`<br> **Note**<br> If a POC email is suppli
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::POAMApi.new
 poam_id = 789 # Integer | 
@@ -844,7 +1012,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 

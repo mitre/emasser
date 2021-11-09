@@ -6,6 +6,8 @@
 /pkg/
 /spec/reports/
 /tmp/
+/emasser_secrets
+/.vscode
 
 **/*.un~
 
@@ -13,4 +15,3 @@ emassing/test/test_example.zip
 .DS_Store
 .byebug_history
 .env
-Gemfile.lock

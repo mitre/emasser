@@ -1,8 +1,9 @@
+# eMass Rest Open API specification
 ---
 openapi: 3.0.3
 #------------------------------------------------------------------------------
-# I N F O  - API metadata 
-#------------------------------------------------------------------------------  
+# I N F O  - API metadata
+#------------------------------------------------------------------------------
 info:
   title: Enterprise Mission Assurance Support Service (eMASS)
   description: |-
@@ -11,7 +12,7 @@ info:
       associated with system records. This document will provide an outline of all eMASS
       objects and their associated endpoints to include Department of Defense (DoD) business
       rules that pertain to each.
-      
+
       New users will need to register an API key with the eMASS development team prior to
       accessing the site for the first time. The eMASS REST API requires a client certificate
       (SSL/TLS, DoD PKI only) where {url}/api/register (POST) is used to register the client
@@ -26,7 +27,7 @@ info:
       | Key      | Example Value                | Description
       |----------|------------------------------|------------------------------------
       |`api-key` |avalid-apikey-isrequired-here |This API key must be provided in the request header for all endpoint calls
-      |`user-uid`|USER.UID.KEY                  |This User unique identifier key must be provided in the request header for all PUT, POST, and DELETE endpoint calls. 
+      |`user-uid`|USER.UID.KEY                  |This User unique identifier key must be provided in the request header for all PUT, POST, and DELETE endpoint calls.
       |          |                              |Note: For DoD users this is the DoD ID Number (EIDIPI) on their DoD CAC.
 
       Users are required to log-in to eMASS and grant permissions for a client to update data
@@ -55,11 +56,11 @@ externalDocs:
   url: 'https://nisp.emass.apps.mil/Content/Help/jobaids/eMASS_OT_NewUser_Job_Aid.pdf'
 #------------------------------------------------------------------------------
 # S E R V E R S - Array of Server Objects which provide connectivity information
-#                  to target servers. 
-#------------------------------------------------------------------------------  
+#                  to target servers.
+#------------------------------------------------------------------------------
 servers:
   - url: "http://localhost:4010"
-    description: Use localhost mock server 
+    description: Use localhost mock server
   - url: "https://localhost:4433"
     description: Use localhost secure mock server
 
@@ -81,7 +82,7 @@ tags:
   - name: SystemRoles
     description: "The System Roles endpoints provide the ability to access user data assigned to systems"
   - name: Controls
-    description: "The Control endpoints provide the ability to add Security Control information to a system for both the Implementation Plan and Risk Assessment."
+    description: "The Control endpoints provide the ability to retrieve or update Security Control information to a system for both the Implementation Plan and Risk Assessment."
   - name: TestResults
     description: >
       The Test Result endpoints provide the ability to add test results for a system's DoD
@@ -137,7 +138,7 @@ paths:
         '500':
           description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
-  #----------------------------------------------------------------------------       
+  #----------------------------------------------------------------------------
   # Register endpoint
   #----------------------------------------------------------------------------
   /api/api-key:
@@ -146,7 +147,7 @@ paths:
         - Registration
       summary: "Register user certificate and obtain an API key"
       description: "Returns the api-key - This API key must be provided in the request header for all endpoint calls (api-key)."
-      operationId: registerUser      
+      operationId: registerUser
       requestBody:
         description: "User certificate previously provided by eMASS."
         content:
@@ -166,7 +167,7 @@ paths:
                 "$ref": "#/components/schemas/Register"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
-       
+
         '401':
           description: "Request requires user authentication. Client may repeat the request with suitable Authorization"
           content:
@@ -174,9 +175,9 @@ paths:
               schema:
                 "$ref": "#/components/schemas/401"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"                  
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
-  #----------------------------------------------------------------------------   
+  #----------------------------------------------------------------------------
   # Systems endpoint
   #----------------------------------------------------------------------------
   /api/systems:
@@ -191,7 +192,7 @@ paths:
             <li>If a system is dual-policy enabled, the returned system details default to the RMF policy information unless otherwise specified for an individual system.</li>
             <li>Certain fields are instance specific and may not be returned in GET request.</li>
           </ul>
-      operationId: getSystems          
+      operationId: getSystems
       parameters:
         - $ref: '#/components/parameters/includePackage'
         - $ref: '#/components/parameters/registrationType'
@@ -199,7 +200,7 @@ paths:
         - $ref: '#/components/parameters/coamsId'
         - $ref: '#/components/parameters/policy'
         - $ref: '#/components/parameters/includeDitprMetrics'
-        - $ref: '#/components/parameters/includeDecommissioned'          
+        - $ref: '#/components/parameters/includeDecommissioned'
       responses:
         '200':
           description: "Successful response"
@@ -231,9 +232,9 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
-  #---------------------------------------------------------------------------- 
+  #----------------------------------------------------------------------------
   # System Roles endpoint
   #----------------------------------------------------------------------------
   /api/system-roles:
@@ -247,7 +248,7 @@ paths:
             <ul>
               <li>If a system is dual-policy enabled, the returned system role information default to the RMF policy information unless otherwise specified.</li>
             </ul>
-      operationId: getSystemRoles                
+      operationId: getSystemRoles
       responses:
         '200':
           description: "Successful response"
@@ -277,7 +278,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
   /api/system-roles/{roleCategory}:
     get:
@@ -290,7 +291,7 @@ paths:
             <ul>
               <li>If a system is dual-policy enabled, the returned system role information default to the RMF policy information unless otherwise specified.</li>
             </ul>
-      operationId: getSystemByRoleCategoryId            
+      operationId: getSystemByRoleCategoryId
       parameters:
         - $ref: '#/components/parameters/roleCategory'
         - $ref: '#/components/parameters/role'
@@ -324,7 +325,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
   #----------------------------------------------------------------------------
   # Control endpoint
@@ -336,7 +337,7 @@ paths:
       summary: "Get control information in a system for one or many controls"
       description: |-
           Returns system control information for matching `systemId` path parameter
-      operationId: getSystemBySystemId          
+      operationId: getSystemBySystemId
       parameters:
         - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/acronyms'
@@ -346,10 +347,9 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ControlResponse"
+                "$ref": "#/components/schemas/ControlsResponseGet"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
-
         '401':
           description: "Request requires user authentication. Client may repeat the request with suitable Authorization"
           content:
@@ -369,25 +369,31 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
-      
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
+
     put:
       tags:
         - Controls
       summary: "Update control information in a system for one or many controls"
-      description: "Update an existing control by System Id"
+
+
+      description: |-
+          Update an existing control by System Id based on the following rules:<br>
+          | Implementation Status `implementationStatus` | Required Fields
+          |----------------------------------------------|---------------------------------------------------
+          | Planned  or Implemented                      | `controlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments`
+          | Not Applicable                               | `naJustification`, `controlDesignation`, `responsibleEntities`
+          | Manually Inherited                           | `commonControlProvider`, `controlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments`
+          | Inherited                                    | Only the following fields can be updated: `commonnControlProvider`, `controlDesignation`
       operationId: updateControlBySystemId
       parameters:
-        - $ref: '#/components/parameters/systemId'      
+        - $ref: '#/components/parameters/systemId'
       requestBody:
         description: "Update an existing control by Id"
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/Controls"
-          application/x-www-form-urlencoded:
-            schema:
-              "$ref": "#/components/schemas/Controls"    
+              "$ref": "#/components/schemas/ControlsRequestBody"
         required: true
       responses:
         '200':
@@ -395,10 +401,9 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/200"
+                "$ref": "#/components/schemas/ControlsResponsePut"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
-
         '401':
           description: "Request requires user authentication. Client may repeat the request with suitable Authorization"
           content:
@@ -418,7 +423,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
   #----------------------------------------------------------------------------
   # Test Results endpoint
@@ -430,11 +435,11 @@ paths:
       summary: "Get one or many test results in a system"
       description: |-
           Returns system test results information for matching parameters.<br>
-      operationId: getTestResultsBySystemId    
+      operationId: getTestResultsBySystemId
       parameters:
-        - $ref: '#/components/parameters/systemId'    
+        - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/controlAcronyms'
-        - $ref: '#/components/parameters/ccis'
+        - $ref: '#/components/parameters/cci'
         - $ref: '#/components/parameters/latestOnly'
       responses:
         '200':
@@ -442,10 +447,9 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/TestResultslResponse"
+                "$ref": "#/components/schemas/TestResultsResponseGet"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
-
         '401':
           description: "Request requires user authentication. Client may repeat the request with suitable Authorization"
           content:
@@ -465,8 +469,8 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
-           
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
+
     post:
       tags:
         - TestResults
@@ -474,27 +478,23 @@ paths:
       description: "Adds test results for given `systemId`"
       operationId: addTestResultsBySystemId
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
       requestBody:
         description: "Update an existing control by Id"
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/TestResults"
-          application/x-www-form-urlencoded:
-            schema:
-              "$ref": "#/components/schemas/TestResults"               
-        required: true      
+              "$ref": "#/components/schemas/TestResultsRequestBody"
+        required: true
       responses:
         '200':
           description: "Successful response"
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/200"
+                "$ref": "#/components/schemas/TestResultsResponsePost"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
-
         '401':
           description: "Request requires user authentication. Client may repeat the request with suitable Authorization"
           content:
@@ -514,8 +514,8 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
-  
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
+
   #----------------------------------------------------------------------------
   # POA&M endpoint
   #----------------------------------------------------------------------------
@@ -525,14 +525,14 @@ paths:
         - POAM
       summary: "Get one or many poa&m items in a system"
       description: |-
-          Returns system containing POA&M items for matching parameters. 
+          Returns system containing POA&M items for matching parameters.
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/scheduledCompletionDateStart'
         - $ref: '#/components/parameters/scheduledCompletionDateEnd'
         - $ref: '#/components/parameters/controlAcronyms'
-        - $ref: '#/components/parameters/ccis'
-        - $ref: '#/components/parameters/systemOnly'      
+        - $ref: '#/components/parameters/cci'
+        - $ref: '#/components/parameters/systemOnly'
       responses:
         '200':
           description: "Successful response"
@@ -562,7 +562,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
     post:
       tags:
@@ -577,7 +577,7 @@ paths:
         `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`
       operationId: addPoamBySystemId
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
       requestBody:
         description: "Update an existing control by Id"
         content:
@@ -586,8 +586,8 @@ paths:
               "$ref": "#/components/schemas/POAM"
           application/x-www-form-urlencoded:
             schema:
-              "$ref": "#/components/schemas/POAM"                 
-        required: true      
+              "$ref": "#/components/schemas/POAM"
+        required: true
       responses:
         '200':
           description: "Successful response"
@@ -617,7 +617,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
     put:
       tags:
@@ -632,7 +632,7 @@ paths:
         `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`
       operationId: updatePoamBySystemId
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
       requestBody:
         description: "Update an existing control by Id"
         content:
@@ -641,7 +641,7 @@ paths:
               "$ref": "#/components/schemas/POAM"
           application/x-www-form-urlencoded:
             schema:
-              "$ref": "#/components/schemas/POAM"              
+              "$ref": "#/components/schemas/POAM"
         required: true
       responses:
         '200':
@@ -672,7 +672,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
     delete:
       tags:
@@ -682,9 +682,9 @@ paths:
         Remove the POA&M matching `systemId` path parameter and `poamId` query parameter<br>
       operationId: deletePoam
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
         - name: poamId
-          in: query        
+          in: query
           description: "**POA&M Id**: The unique POA&M record identifier."
           required: true
           schema:
@@ -697,7 +697,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/200"      
+                "$ref": "#/components/schemas/200"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
 
@@ -707,7 +707,7 @@ paths:
             text/plain:
               schema:
                 "$ref": "#/components/schemas/401"
-              
+
   /api/systems/{systemId}/poams/{poamId}:
     get:
       tags:
@@ -717,7 +717,7 @@ paths:
           Returns system test results information for matching parameters.<br>
       operationId: getPoamBySystemIdAndPoamId
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/poamId'
       responses:
         '200':
@@ -748,7 +748,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
   /api/systems/{systemId}/poams/{poamId}/milestones:
     get:
@@ -756,13 +756,13 @@ paths:
         - POAM
       summary: "Get milestones in one or many poa&m items in a system"
       description: |-
-          Returns system containing milestones for matching parameters. 
-      operationId: getMilestonesBySystemIdAndPoamId 
+          Returns system containing milestones for matching parameters.
+      operationId: getMilestonesBySystemIdAndPoamId
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/poamId'
-        - $ref: '#/components/parameters/scheduledCompletionDateStart' 
-        - $ref: '#/components/parameters/scheduledCompletionDateEnd'        
+        - $ref: '#/components/parameters/scheduledCompletionDateStart'
+        - $ref: '#/components/parameters/scheduledCompletionDateEnd'
       responses:
         '200':
           description: "Successful response"
@@ -792,7 +792,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
     post:
       tags:
@@ -801,7 +801,7 @@ paths:
       description: "Adds a milestone for given `systemId` and `poamId` path parameters"
       operationId: addMilestoneBySystemIdAndPoamId
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/poamId'
       requestBody:
         description: "Update an existing milestone"
@@ -811,8 +811,8 @@ paths:
               "$ref": "#/components/schemas/PostMilestones"
           application/x-www-form-urlencoded:
             schema:
-              "$ref": "#/components/schemas/PostMilestones"                 
-        required: true      
+              "$ref": "#/components/schemas/PostMilestones"
+        required: true
       responses:
         '200':
           description: "Successful response"
@@ -842,7 +842,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
     put:
       tags:
@@ -851,7 +851,7 @@ paths:
       description: "Updates a milestone for given `systemId` and `poamId` path parameters"
       operationId: updateMilestoneBySystemIdAndPoamId
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/poamId'
       requestBody:
         description: "Update an existing control by Id"
@@ -861,7 +861,7 @@ paths:
               "$ref": "#/components/schemas/PutMilestones"
           application/x-www-form-urlencoded:
             schema:
-              "$ref": "#/components/schemas/PostMilestones"                 
+              "$ref": "#/components/schemas/PostMilestones"
         required: true
       responses:
         '200':
@@ -892,7 +892,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
     delete:
       tags:
@@ -904,10 +904,10 @@ paths:
         To delete a milestone the record must be inactive by having the field isActive set to false (`isActive=false`).
       operationId: deleteMilestone
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/poamId'
         - name: milestoneId
-          in: query        
+          in: query
           description: "**Milestone Id**: The unique milestone record identifier."
           required: true
           schema:
@@ -920,7 +920,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/200"      
+                "$ref": "#/components/schemas/200"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
 
@@ -937,12 +937,12 @@ paths:
         - POAM
       summary: "Get milestone by id in poa&m item in a system"
       description: |-
-          Returns systems containing milestones for matching parameters. 
+          Returns systems containing milestones for matching parameters.
       operationId: getMilestonesBySystemIdAndPoamIdAndfMilestoneId
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/poamId'
-        - $ref: '#/components/parameters/milestoneId' 
+        - $ref: '#/components/parameters/milestoneId'
       responses:
         '200':
           description: "Successful response"
@@ -972,7 +972,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
   #----------------------------------------------------------------------------
   # Artifacts endpoint
@@ -985,11 +985,11 @@ paths:
       description: |-
           Returns selected artifacts matching parameters to include the file name containing the artifacts.
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/filename'
         - $ref: '#/components/parameters/controlAcronyms'
-        - $ref: '#/components/parameters/ccis'
-        - $ref: '#/components/parameters/systemOnly'      
+        - $ref: '#/components/parameters/cci'
+        - $ref: '#/components/parameters/systemOnly'
       responses:
         '200':
           description: "Successful response"
@@ -1015,7 +1015,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/404Response"                
+                "$ref": "#/components/schemas/404Response"
         '480':
           description: "Business rule is violated that prevents the requested action."
           content:
@@ -1029,7 +1029,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
     post:
       tags:
@@ -1057,18 +1057,18 @@ paths:
           or new artifacts that will be created upon successful receipt.<br><br>
           <strong>Business Rules</strong><br>
           Artifact cannot be saved if the file does not have the following file extensions:
-          
+
               .docx,.doc,.txt,.rtf,.xfdl,.xml,.mht,.mh,tml,.html,.htm,.pdf,.mdb,.accdb,.ppt,
               .pptx,.xls,.xlsx,.csv,.log,.jpeg,.jpg,.tiff,.bmp,.tif,.png,.gif,.zip,.rar,.msg,
               .vsd,.vsw,.vdx,.z{#},.ckl,.avi,.vsdx
 
           Artifact version cannot be saved if an Artifact with the same file name already exist in the system.
 
-          Artifact cannot be saved if the file size exceeds 30MB.          
+          Artifact cannot be saved if the file size exceeds 30MB.
       operationId: addArtifactsBySystemId
 
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
   #     requestBody:
   #       description: "Upload a zip file contain one or more files corresponding to existing artifacts or new artifacts that will be created upon successful receipt. Max 30MB per artifact."
   #       content:
@@ -1076,7 +1076,7 @@ paths:
   #           schema:
   #             type: string
   #             format: binary
-  #       required: true        
+  #       required: true
       requestBody:
         description: "See notes above for additional information"
         content:
@@ -1086,8 +1086,8 @@ paths:
               properties:
                 Zipper:
                   type: string
-                  format: binary   
-        required: true                      
+                  format: binary
+        required: true
       responses:
         '200':
           description: "Successful response"
@@ -1112,7 +1112,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/404Response"                  
+                "$ref": "#/components/schemas/404Response"
     put:
       tags:
         - Artifacts
@@ -1127,7 +1127,7 @@ paths:
         `fileName`, `isTemplate`, `type`, and `category`
       operationId: updateArtifactBySystemId
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
       requestBody:
         description: "See notes above for additional information"
         content:
@@ -1136,7 +1136,7 @@ paths:
               "$ref": "#/components/schemas/PutArtifacts"
           application/x-www-form-urlencoded:
             schema:
-              "$ref": "#/components/schemas/PutArtifacts"                 
+              "$ref": "#/components/schemas/PutArtifacts"
         required: true
       responses:
         '200':
@@ -1159,7 +1159,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/404Response"                  
+                "$ref": "#/components/schemas/404Response"
         '480':
           description: "Business rule is violated that prevents the requested action."
           content:
@@ -1173,7 +1173,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
     delete:
       tags:
@@ -1182,11 +1182,11 @@ paths:
       description: |-
         Remove the Artifact(s) matching `systemId` path parameter and request body artifact(s) file name<br><br>
         <b>Note:</b>
-        The endpoint expects an array of objects containing `filename: file_to_delete`. 
-        Multiple files can be deleted by providing multiple file objects (common delimited)
+        The endpoint expects an array of objects containing `filename: file_to_delete`.
+        Multiple files can be deleted by providing multiple file objects (comma delimited)
       operationId: deleteArtifact
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
         #- $ref: '#/components/parameters/filename'
       requestBody:
         description: "See notes above for additional information"
@@ -1202,7 +1202,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ArtifactsDelResponse"      
+                "$ref": "#/components/schemas/ArtifactsDelResponse"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
 
@@ -1217,7 +1217,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/404Response"                  
+                "$ref": "#/components/schemas/404Response"
   /api/systems/{systemId}/artifacts-export:
     get:
       tags:
@@ -1229,28 +1229,28 @@ paths:
           If `compress` parameter is specified and set to `true`, the zip archive of binary file associated with given filename is returned.<br>
           If `compress` parameter is specified and set to `false`, the zip archive contents associated with given filename is returned.<br>
       parameters:
-        - $ref: '#/components/parameters/systemId'       
+        - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/exportfilename'
-        - $ref: '#/components/parameters/exportcompress'      
+        - $ref: '#/components/parameters/exportcompress'
       responses:
         '200':
           description: "Successful retrieved Artifacts file"
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ArtifactGetExportResponse"            
-            application/octet-stream: 
+                "$ref": "#/components/schemas/ArtifactGetExportResponse"
+            application/octet-stream:
               schema:
                 description: "Artifacts file ready for download"
                 type: string
-                format: binary   
+                format: binary
                 example: "Binary file associated with given filename"
         '404':
           description: "Server could not find what was requested."
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/404Response"       
+                "$ref": "#/components/schemas/404Response"
         'default':
           description: "Unexpected error"
           content:
@@ -1268,7 +1268,7 @@ paths:
       summary: "Get location of one or many controls in CAC"
       description: |-
           Returns the location of a system's package in the Control Approval Chain (CAC) for matching `systemId` path parameter
-      operationId: getCacApprovalBySystemId          
+      operationId: getCacApprovalBySystemId
       parameters:
         - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/controlAcronyms'
@@ -1301,8 +1301,8 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
-     
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
+
     post:
       tags:
         - ApprovalChain
@@ -1314,7 +1314,7 @@ paths:
         returned.
       operationId: addCAcApprovalChainBySystemId
       parameters:
-        - $ref: '#/components/parameters/systemId' 
+        - $ref: '#/components/parameters/systemId'
       requestBody:
         description: "Update an existing Artifact by Id"
         content:
@@ -1323,8 +1323,8 @@ paths:
               "$ref": "#/components/schemas/PostApprovalCac"
           application/x-www-form-urlencoded:
             schema:
-              "$ref": "#/components/schemas/PostApprovalCac"          
-        required: true                   
+              "$ref": "#/components/schemas/PostApprovalCac"
+        required: true
       responses:
         '200':
           description: "Successful response"
@@ -1354,7 +1354,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
   /api/systems/{systemId}/approval/pac:
     get:
@@ -1366,7 +1366,7 @@ paths:
           If the indicated system has an active package, the response will include the package type
           and the current role the package is sitting at. If there is no active package, then a null data
           member will be returned.
-      operationId: getPacApprovalBySystemId          
+      operationId: getPacApprovalBySystemId
       parameters:
         - $ref: '#/components/parameters/systemId'
       responses:
@@ -1400,7 +1400,7 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
     post:
       tags:
@@ -1416,11 +1416,11 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PostApprovalPac" 
+              "$ref": "#/components/schemas/PostApprovalPac"
           application/x-www-form-urlencoded:
             schema:
-              "$ref": "#/components/schemas/PostApprovalPac"              
-        required: true                       
+              "$ref": "#/components/schemas/PostApprovalPac"
+        required: true
       responses:
         '200':
           description: "Successful response"
@@ -1450,15 +1450,15 @@ paths:
               schema:
                 "$ref": "#/components/schemas/490"
         '500':
-          description: "Server encountered an unexpected condition which prevented it from fulfilling the request" 
+          description: "Server encountered an unexpected condition which prevented it from fulfilling the request"
 
 #------------------------------------------------------------------------------
 # C O M P O N E N T S
 #------------------------------------------------------------------------------
 components:
   #----------------------------------------------------------------------------
-  # Parameters 
-  #----------------------------------------------------------------------------  
+  # Parameters
+  #----------------------------------------------------------------------------
   parameters:
 
     #--------------------------------------------------------------------------
@@ -1466,7 +1466,7 @@ components:
     #-------------------------------------------------------------------------=
 
     #--------------------------------------------------------------------------
-    # Path 
+    # Path
     #-------------------------------------------------------------------------=
     roleCategory:
       name: roleCategory
@@ -1479,7 +1479,7 @@ components:
         # example: IAO
         type: string
         enum: ["CAC","PAC","Other"]
-        default: "PAC"           
+        default: "PAC"
     systemId:
       name: systemId
       in: path
@@ -1491,7 +1491,7 @@ components:
         example: 35
     poamId:
       name: poamId
-      in: path        
+      in: path
       description: "**POA&M Id**: The unique POA&M record identifier."
       required: true
       schema:
@@ -1500,7 +1500,7 @@ components:
         example: 45
     milestoneId:
       name: milestoneId
-      in: path        
+      in: path
       description: "**Milestone Id**: The unique milestone record identifier."
       required: true
       schema:
@@ -1512,21 +1512,21 @@ components:
     role:
       name: role
       in: query
-      description: "**Role**: Required parameter. Accepts single value from available options." 
+      description: "**Role**: Required parameter. Accepts single value from available options."
       required: true
       schema:
         type: string
         #enum: ["AO","Auditor","Artifact Manager","C&A Team","IAO","PM/IAM","SCA","User Rep (View Only)", "Validator (IV&V)"]
         enum: ["AO","Auditor","Artifact Manager","C&A Team","IAO","ISSO","PM/IAM","SCA","User Rep (View Only)", "Validator (IV&V)"]
-        default: "Validator (IV&V)" 
+        default: "Validator (IV&V)"
     exportfilename:
       name: filename
       in: query
       required: true
       description: "**File Name**: The file name (to include file-extension)."
       schema:
-        type: string   
-        example: ArtifactsExporFile.pdf 
+        type: string
+        example: ArtifactsExporFile.pdf
     exportcompress:
       name: compress
       in: query
@@ -1538,7 +1538,6 @@ components:
         default: true
     #--------------------------------------------------------------------------
     # Query - Optional --------------------------------------------------------
-
     includePackage:
       name: includePackage
       in: query
@@ -1564,7 +1563,7 @@ components:
             - guest
             - regular
             - functional
-            - cloudServiceProvider 
+            - cloudServiceProvider
     ditprId:
       name: ditprId
       in: query
@@ -1580,7 +1579,7 @@ components:
     policy:
       name: policy
       in: query
-      description: "**System Policy**: Filter query by system policy. If no value is specified and more than one policy is available, the default return is the RMF policy information." 
+      description: "**System Policy**: Filter query by system policy. If no value is specified and more than one policy is available, the default return is the RMF policy information."
       schema:
         type: string
         enum: ["diacap", "rmf", "reporting"]
@@ -1588,10 +1587,10 @@ components:
     acronyms:
       name: acronyms
       in: query
-      description: "**Acronym**: The system acronym(s) been queried (single value or common delimited values)." 
+      description: "**Acronym**: The system acronym(s) being queried (single value or comma delimited values)."
       schema:
         type: string
-        default: "PM-6"   
+        default: "PM-6"
     includeDitprMetrics:
       name: includeDitprMetrics
       in: query
@@ -1618,8 +1617,8 @@ components:
       in: query
       description: "**File Name**: The file name (to include file-extension)."
       schema:
-        type: string   
-        example: ArtifactsExporFile.pdf 
+        type: string
+        example: ArtifactsExporFile.pdf
     compress:
       name: compress
       in: query
@@ -1627,15 +1626,15 @@ components:
       schema:
         type: boolean
         enum: [true, false]
-        default: true       
+        default: true
     controlAcronyms:
       name: controlAcronyms
       in: query
-      description: "**System Acronym**: Filter query by given system acronym (single or common separated)."
+      description: "**System Acronym**: Filter query by given system acronym (single or comma separated)."
       schema:
         type: string
-    ccis:
-      name: ccis
+    cci:
+      name: cci
       in: query
       description: "**CCI System**: Filter query by Control Correlation Identifiers (CCIs)."
       schema:
@@ -1643,11 +1642,11 @@ components:
     latestOnly:
       name: latestOnly
       in: query
-      description: "**Latest Results Only**: Indicates that only the latest test resultes are retrieved (single or common separated)."
+      description: "**Latest Results Only**: Indicates that only the latest test resultes are retrieved (single or comma separated)."
       schema:
         type: boolean
         enum: [true, false]
-        default: true                
+        default: true
     scheduledCompletionDateStart:
       name: scheduledCompletionDateStart
       in: query
@@ -1673,7 +1672,7 @@ components:
       in: query
       description: "**Description**: Milestone description information."
       schema:
-        type: string    
+        type: string
     scheduledCompletionDate:
       name: scheduledCompletionDate
       in: query
@@ -1692,6 +1691,263 @@ components:
         user-uid:
           type: string
           example: "MY.USERUUID.KEY"
+    # Request Body for (POST & PUTS)
+    ControlsRequestBody:
+      title: Controls Query Body
+      type: object
+      required:
+        - acronym
+        - responsibleEntities
+        - controlDesignation
+        - estimatedCompletionDate
+        - comments
+      additionalProperties: false
+      properties:
+        acronym:
+          type: string
+          pattern: '^[A-Z0-9-]{3,6}'
+          description: "[Required] Acronym of the system record."
+          example: "AC-3"
+        responsibleEntities:
+          type: string
+          description: "[Required] Include written description of Responsible Entities that are responsible for the Security Control. Character Limit = 2,000."
+          example: "Unknown"
+        implementationStatus:
+          type: string
+          description: |-
+            [Optional] Implementation Status of the Security Control for the information system.<br>
+            Values include the following options:
+            <ul>
+              <li>Planned</li>
+              <li>Implemented</li>
+              <li>Inherited</li>
+              <li>Not Applicable</li>
+              <li>Manually Inherited</li>
+            </ul>
+          example: "Planned"
+          enum:
+            - "Planned"
+            - "Implemented"
+            - "Inherited"
+            - "Not Applicable"
+            - "Manually Inherited"
+        commonControlProvider:
+          type: string
+          description: |-
+            [Conditional] Indicate the type of Common Control Provider for an “Inherited” Security Control.<br>
+            Values include the following options:
+            <ul>
+              <li>DoD</li>
+              <li>Component</li>
+              <li>Enclave</li>
+            </ul>
+          example: "DoD"
+          enum:
+            - "DoD"
+            - "Component"
+            - "Enclave"
+        naJustification:
+          type: string
+          description: "[Conditional] Provide justification for Security Controls deemed Not Applicable to the system."
+          example: "System EOL within 120 days"
+        controlDesignation:
+          type: string
+          description: |-
+            [Required] Values include the following options:<br>
+            <ul>
+              <li>Common</li>
+              <li>System-Specific</li>
+              <li>Hybrid</li>
+            </ul>
+          example: "Common"
+          enum:
+            - "Common"
+            - "System-Specific"
+            - "Hybrid"
+        estimatedCompletionDate:
+          type: integer
+          description: "[Required] Field is required for Implementation Plan."
+          example: 1496581500
+          minimum: 1400000000
+          maximum: 1600000000
+        comments:
+          type: string
+          description: "[Required] Includes security control comments. Character Limit = 2,000."
+          x-faker: random.words
+          example: "Comments text."
+        slcmCriticality:
+          type: string
+          description: "[Conditional] Criticality of Security Control regarding SLCM. Character Limit = 2,000."
+          x-faker: random.word
+          example: "Text content"
+        slcmFrequency:
+          type: string
+          description: |-
+            [Conditional] Values include the following options:<br>
+            <ul>
+              <li>Constantly</li>
+              <li>Daily</li>
+              <li>Weekly</li>
+              <li>Monthly</li>
+              <li>Quarterly</li>
+              <li>Semi-Annually</li>
+              <li>Annually</li>
+              <li>Undetermined</li>
+            </ul>
+          example: "Annually"
+          enum:
+            - "Constantly"
+            - "Daily"
+            - "Weekly"
+            - "Monthly"
+            - "Quarterly"
+            - "Semi-Annually"
+            - "Annually"
+            - "Undetermined"
+        slcmMethod:
+          type: string
+          description: |-
+            [Conditional] Values include the following options:<br>
+            <ul>
+              <li>Automated</li>
+              <li>Semi-Automated</li>
+              <li>Manual</li>
+              <li>Undetermined</li>
+            </ul>
+          example: "Automated"
+          enum:
+            - "Automated"
+            - "Semi-Automated"
+            - "Manual"
+            - "Undetermined"
+        slcmReporting:
+          type: string
+          description: "[Conditional] Method for reporting Security Control for SLCM. Character Limit = 2,000."
+          x-faker: random.word
+          example: "Text content"
+        slcmTracking:
+          type: string
+          description: "[Conditional] How Non-Compliant Security Controls will be tracked for SLCM. Character Limit = 2,000."
+          x-faker: random.word
+          example: "Text content"
+        slcmComments:
+          type: string
+          description: "[Conditional] Additional comments for Security Control regarding SLCM. Character Limit = 4,000."
+          x-faker: random.word
+          example: "Text content"
+        severity:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        vulnerabiltySummary:
+          type: string
+          description: "[Optional] Include vulnerability summary. Character Limit = 2,000."
+          x-faker: random.words
+          example: "Text content"
+        recommendations:
+          type: string
+          description: "[Optional] Include recommendations. Character Limit = 2,000."
+          x-faker: random.words
+          example: "Text content"
+        relevanceOfThreat:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        likelihood:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        impact:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        impactDescription:
+          type: string
+          description: "[Optional] Include description of Security Control’s impact."
+          x-faker: random.words
+          example: "Impact text"
+        residualRiskLevel:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+    TestResultsRequestBody:
+      title: Test Results Query Body
+      type: object
+      required:
+        - cci
+        - testedBy
+        - testDate
+        - description
+        - complianceStatus
+      additionalProperties: false
+      properties:
+        cci:
+          type: string
+          pattern: '^\d{5,6},\d{5,6}'
+          description: "[Required] CCI associated with test result."
+          example: "000001,000002"
+        testedBy:
+          type: string
+          description: "[Required] Last Name, First Name. 100 Characters."
+          x-faker: name.findName
+          example: "Smith, Joe"
+        testDate:
+          type: integer
+          format: int64
+          description: "[Required] Unix time format."
+          example: 1496581500
+          minimum: 1400000000
+          maximum: 1600000000
+        description:
+          type: string
+          description: "[Required] Include description of test result. 4000 Characters."
+          x-faker: random.words
+          example: "Test result description"
+        complianceStatus:
+          type: string
+          description: |-
+            [Required] Values include the following options:<br>
+            <ul>
+              <li>Compliant</li>
+              <li>Non-Compliant</li>
+              <li>Not Applicable</li>
+            </ul>
+          example: "Compliant"
+          enum:
+            - "Compliant"
+            - "Non-Compliant"
+            - "Not Applicable"
+
     # 200 responses
     Test:
       type: object
@@ -1702,7 +1958,7 @@ components:
           type: object
           additionalProperties: false
           properties:
-            success: 
+            success:
               type: boolean
               x-faker: random.boolean
               example: true
@@ -1715,10 +1971,10 @@ components:
           type: object
           additionalProperties: false
           properties:
-            apikey: 
+            apikey:
               type: string
               x-faker: random.uuid
-              example: f32516cc-57d3-43f5-9e16-8f86780a4cce  
+              example: f32516cc-57d3-43f5-9e16-8f86780a4cce
     SystemResponse1:
       title: "SystemResponse1"
       type: object
@@ -1742,7 +1998,7 @@ components:
           type: array
           maxItems: 5
           items:
-            $ref: "#/components/schemas/Systems2"            
+            $ref: "#/components/schemas/Systems2"
     SystemRolesResponse:
       title: "SystemRolesResponse"
       type: object
@@ -1774,8 +2030,7 @@ components:
           maxItems: 4
           items:
             $ref: "#/components/schemas/RoleCategory"
-    ControlResponse:
-      #title: "Successful response"
+    ControlsResponseGet:
       type: object
       additionalProperties: false
       properties:
@@ -1785,9 +2040,8 @@ components:
           type: array
           maxItems: 5
           items:
-            $ref: '#/components/schemas/Controls'
-    TestResultslResponse:
-      #title: "Successful response"
+            $ref: '#/components/schemas/ControlsGet'
+    ControlsResponsePut:
       type: object
       additionalProperties: false
       properties:
@@ -1797,9 +2051,30 @@ components:
           type: array
           maxItems: 5
           items:
-            $ref: "#/components/schemas/TestResults"
+            $ref: "#/components/schemas/ControlsPut"
+    TestResultsResponseGet:
+      type: object
+      additionalProperties: false
+      properties:
+        meta:
+          "$ref": "#/components/schemas/200"
+        data:
+          type: array
+          maxItems: 5
+          items:
+            $ref: "#/components/schemas/TestResultsGet"
+    TestResultsResponsePost:
+      type: object
+      additionalProperties: false
+      properties:
+        meta:
+          "$ref": "#/components/schemas/200"
+        data:
+          type: array
+          maxItems: 5
+          items:
+            $ref: "#/components/schemas/TestResultsPost"
     PoamResponse:
-      #title: "Successful response"
       type: object
       additionalProperties: false
       properties:
@@ -1848,7 +2123,7 @@ components:
           minItems: 1
           type: array
           items:
-            additionalProperties: false 
+            additionalProperties: false
     ArtifactsPutPostResponse:
       type: object
       additionalProperties: false
@@ -1861,23 +2136,23 @@ components:
           type: array
           items:
             type: object
-            additionalProperties: false      
-            properties:            
+            additionalProperties: false
+            properties:
               filename:
                 type: string
                 description: "[Required] File name should match exactly one file within the provided zip file. 1000 Characters."
                 x-faker: system.commonFileName
                 example: "AutorizationGuidance.pdf"
-              success: 
+              success:
                 type: boolean
                 x-faker: random.boolean
                 example: true
               systemId:
                 type: integer
-                format: int64          
+                format: int64
                 example: 33
                 minimum: 1
-                maximum: 3000       
+                maximum: 3000
     ApprovalCacResponse:
       type: object
       additionalProperties: false
@@ -1888,13 +2163,13 @@ components:
           maxItems: 10
           type: array
           items:
-            $ref: '#/components/schemas/ApprovalCac'            
+            $ref: '#/components/schemas/ApprovalCac'
     ApprovalPacResponse1:
       type: object
       additionalProperties: false
       properties:
         meta:
-          "$ref": "#/components/schemas/200"       
+          "$ref": "#/components/schemas/200"
         data:
           maxItems: 10
           type: array
@@ -1905,13 +2180,13 @@ components:
       additionalProperties: false
       properties:
         meta:
-          "$ref": "#/components/schemas/200"       
+          "$ref": "#/components/schemas/200"
         data:
           type: string
           default: null
           enum:
            - null
-  
+
     #400 Responses
     400Response:
       type: object
@@ -1927,7 +2202,7 @@ components:
           "$ref": "#/components/schemas/404"
 
 # Supporting 200 responses
-    # Response when (includeDitprMetrics=False, includeDecommissioned=True, includePackage=True)              
+    # Response when (includeDitprMetrics=False, includeDecommissioned=True, includePackage=True)
     Systems1:
       title: "SystemResponseIncludeMetrics"
       type: object
@@ -1935,7 +2210,7 @@ components:
       properties:
         systemId:
           type: integer
-          format: int64          
+          format: int64
           description: "[Read-only] Unique system record identifier."
           #x-faker: random.number
           example: 803
@@ -1947,7 +2222,7 @@ components:
           #x-faker: random.word
           example: RMF
           enum:
-            - "RMF"          
+            - "RMF"
             - "DIACAP"
             - "Reporting"
         registrationType:
@@ -1958,10 +2233,10 @@ components:
           enum:
             - "Assess and Authorize"
             - "Assess Only"
-            - "Guest"       
+            - "Guest"
             - "Regular"
             - "Functional"
-            - "Cloud Service Provider"      
+            - "Cloud Service Provider"
         name:
           type: string
           description: "[Read-only] Name of the system record."
@@ -1991,10 +2266,10 @@ components:
           enum:
             - "Army"
             - "Navy"
-            - "Air Force"       
+            - "Air Force"
             - "Marines"
             - "DoD"
-            - "Defense Information Systems Agency"             
+            - "Defense Information Systems Agency"
         secondaryOrganization:
           type: string
           description: "[Read-only] Secondary organization that owns the system record (i.e. Sub-Organization-level."
@@ -2013,10 +2288,10 @@ components:
           enum:
             - "IS Major Application"
             - "IS Enclave"
-            - "Platform IT"       
+            - "Platform IT"
             - "Platform IT System"
             - "Interconnection"
-            - "AIS Application"            
+            - "AIS Application"
         isNSS:
           type: boolean
           description: "[Read-only] Is the system record a National Security System?"
@@ -2026,13 +2301,13 @@ components:
           type: boolean
           description: "[Read-only] Does the system record have a public facing component/presence."
           x-faker: random.boolean
-          example: true          
+          example: true
         coamsId:
           type: integer
           format: int64
           #pattern: '^\d{5}'
           description: "[Read-only] Corresponding Cyber Operational Attributes Management System (COAMS) identifier for the system record."
-          example: 93054 
+          example: 93054
           minimum: 40000
           maximum: 98536
         ditprId:
@@ -2060,7 +2335,7 @@ components:
                 <li>Denied Authority to Operate (DATO)</li>
                 <li>Unaccredited</li>
                 <li>Decommissioned</li>
-              </ul>  
+              </ul>
           example: "Authority to Operate (ATO)"
           enum:
             - "Authority to Operate (ATO)"
@@ -2088,7 +2363,7 @@ components:
           description: "[Read-only] Length of system’s Authorization. Calculated based off of Authorization Date & Authorization Termination Date."
           example: 365
           minimum: 30
-          maximum: 1825           
+          maximum: 1825
         termsForAuth:
           type: string
           description: "[Read-only] Terms/Conditions for receiving and maintaining the system’s Authorization. Assigned by the Authorizing Official."
@@ -2099,8 +2374,8 @@ components:
           example: "Approved"
           enum:
             - "Approved"
-            - "Not Yet Approved"  
-            - "Denied"        
+            - "Not Yet Approved"
+            - "Denied"
         securityPlanApprovalDate:
           type: integer
           description: "[Read-only] Approval date of the system’s RMF Security Plan."
@@ -2291,7 +2566,7 @@ components:
             - "Legal"
             - "Transportation"
             - "Not Applicable (N/A)"
-            - "Integration and Testing"          
+            - "Integration and Testing"
         primaryControlSet:
           type: string
           description: "[Read-only] Primary Control Set of the system record. RMF values include the following options (NIST SP 800-53 Revision 4), DIACAP values include the following options (DoDI 8500.2)"
@@ -2305,7 +2580,7 @@ components:
           enum:
             - "High"
             - "Moderate"
-            - "Low"          
+            - "Low"
         integrity:
           type: string
           description: "[Read-only] Integrity of the system record. RMF values include the following options (High, Moderate, Low)"
@@ -2321,13 +2596,13 @@ components:
           enum:
             - "High"
             - "Moderate"
-            - "Low"  
+            - "Low"
         securityReviewDate:
           type: integer
           description: "[Read-only] Date the system record’s Annual Security Review was conducted."
           example: 1531958400
           minimum: 1400000000
-          maximum: 1600000000             
+          maximum: 1600000000
         appliedOverlays:
           type: string
           description: |-
@@ -2342,7 +2617,7 @@ components:
               <li>Nuclear Command, Communication, Control Systems (NC3)</li>
               <li>Cloud Service Provider (CSP)</li>
             </ul>
-          example: "Classified Information" 
+          example: "Classified Information"
           enum:
             - "Classified Information"
             - "Privacy"
@@ -2350,7 +2625,7 @@ components:
             - "Financial Management"
             - "Intelligence"
             - "Nuclear Command, Communication, Control Systems (NC3)"
-            - "Cloud Service Provider (CSP)" 
+            - "Cloud Service Provider (CSP)"
         rmfActivity:
           type: string
           description: |-
@@ -2371,14 +2646,14 @@ components:
               <li>Maintain ATO and conduct reviews</li>
               <li>Decommission</li>
             </ul>
-          example: "Maintain ATO and conduct reviews" 
+          example: "Maintain ATO and conduct reviews"
           enum:
-            - "Initiate and plan C&A"          
+            - "Initiate and plan C&A"
             - "Initiate and plan cybersecurity Assessment Authorization"
             - "Implement and validate assigned security controls"
             - "Make assessment determination and authorization decision"
             - "Maintain ATO and conduct reviews"
-            - "Decommission" 
+            - "Decommission"
         crossDomainTicket:
           type: string
           description: "[Read-only] Cross Domain Tickets of the system record."
@@ -2392,7 +2667,7 @@ components:
       properties:
         systemId:
           type: integer
-          format: int64          
+          format: int64
           description: "[Read-only] Unique system record identifier."
           #x-faker: random.number
           example: 803
@@ -2404,7 +2679,7 @@ components:
           #x-faker: random.word
           example: RMF
           enum:
-            - "RMF"          
+            - "RMF"
             - "DIACAP"
             - "Reporting"
         registrationType:
@@ -2415,10 +2690,10 @@ components:
           enum:
             - "Assess and Authorize"
             - "Assess Only"
-            - "Guest"       
+            - "Guest"
             - "Regular"
             - "Functional"
-            - "Cloud Service Provider"      
+            - "Cloud Service Provider"
         name:
           type: string
           description: "[Read-only] Name of the system record."
@@ -2443,10 +2718,10 @@ components:
           enum:
             - "Army"
             - "Navy"
-            - "Air Force"       
+            - "Air Force"
             - "Marines"
             - "DoD"
-            - "Defense Information Systems Agency"             
+            - "Defense Information Systems Agency"
         versionReleaseNo:
           type: string
           description: "[Read-only] Version/Release Number of system record."
@@ -2460,10 +2735,10 @@ components:
           enum:
             - "IS Major Application"
             - "IS Enclave"
-            - "Platform IT"       
+            - "Platform IT"
             - "Platform IT System"
             - "Interconnection"
-            - "AIS Application"            
+            - "AIS Application"
         authorizationStatus:
           type: string
           description: |
@@ -2484,7 +2759,7 @@ components:
                 <li>Denied Authority to Operate (DATO)</li>
                 <li>Unaccredited</li>
                 <li>Decommissioned</li>
-              </ul>  
+              </ul>
           example: "Authority to Operate (ATO)"
           enum:
             - "Authority to Operate (ATO)"
@@ -2514,7 +2789,7 @@ components:
           enum:
             - "High"
             - "Moderate"
-            - "Low"          
+            - "Low"
         integrity:
           type: string
           description: "[Read-only] Integrity of the system record. RMF values include the following options (High, Moderate, Low)"
@@ -2530,12 +2805,12 @@ components:
           enum:
             - "High"
             - "Moderate"
-            - "Low" 
+            - "Low"
         ditprId:
           type: string
           pattern: '^\d{5}'
           description: "[Read-only] DITPR ID of the system record."
-          example: "93059"                     
+          example: "93059"
         ditprDonId:
           type: string
           pattern: '^\d{4}'
@@ -2548,15 +2823,15 @@ components:
           enum:
             - "I"
             - "II"
-            - "III"           
+            - "III"
         dodConfidentiality:
           type: string
           description: "[Read-only] DoD Confidentiality of the system record. DIACAP values include the following options (Public, Sensitive, Classified)"
-          example: "Sensitive" 
+          example: "Sensitive"
           enum:
-            - "Public" 
-            - "Sensitive" 
-            - "Classified"                                     
+            - "Public"
+            - "Sensitive"
+            - "Classified"
         contingencyPlanTested:
           type: boolean
           description: "[Read-only] Has the system record’s Contingency Plan been tested?"
@@ -2567,55 +2842,53 @@ components:
           description: "[Read-only] Date the system record’s Contingency Plan was tested."
           example: 1426957321
           minimum: 1400000000
-          maximum: 1600000000          
+          maximum: 1600000000
         securityReviewDate:
           type: integer
           description: "[Read-only] Date the system record’s Annual Security Review was conducted."
           example: 1531958400
           minimum: 1400000000
-          maximum: 1600000000          
+          maximum: 1600000000
         hasOpenPoamItem:
           type: boolean
           description: "[Read-only] Does the system record have an Ongoing or Risk Accepted POA&M Item?"
-          x-faker: random.boolean          
+          x-faker: random.boolean
           example: false
         hasOpenPoamItem90to120PastScheduledCompletionDate:
           type: boolean
           description: "[Read-only] Does the system record have an Ongoing or Risk Accepted POA&M Item 90 to 120 days past it’s Scheduled Completion Date?"
-          x-faker: random.boolean          
+          x-faker: random.boolean
           example: true
         hasOpenPoamItem120PlusPastScheudledCompletionDate:
           type: boolean
           description: "[Read-only] Does the system record have an Ongoing or Risk Accepted POA&M Item 120 days past it’s Scheduled Completion Date?"
           x-faker: random.boolean
-          example: false  
-
+          example: false
+    # Endpoint response - returned values
     RoleCategory:
       title: System Roles
       type: object
-      additionalProperties: false      
-      properties:   
+      additionalProperties: false
+      properties:
         systemId:
           type: integer
-          format: int64          
+          format: int64
           description: "[Read-only] Unique system record identifier."
-          #x-faker: random.number
           example: 803
           minimum: 1
-          maximum: 3000          
+          maximum: 3000
         systemName:
           type: string
           description: "[Read-only] Name of the system record."
-          #x-faker: random.word
           example: "Test system 1"
           enum:
             - "Test system 1"
             - "Test system 2"
             - "Test system 3"
-            - "Test system 4"                                    
+            - "Test system 4"
         systemAcronym:
           type: string
-          pattern: '^[A-Z0-9-]{3,6}'          
+          pattern: '^[A-Z0-9-]{3,6}'
           description: "[Read-only] Acronym of the system record."
           example: "S-XYZ"
         roles:
@@ -2644,13 +2917,13 @@ components:
     Users:
       title: Users
       type: object
-      additionalProperties: false      
+      additionalProperties: false
       properties:
         firstName:
           type: string
           x-faker: name.firstName
           example: "John"
-        lastName: 
+        lastName:
           type: string
           x-faker: name.lastName
           example: "Smith"
@@ -2659,19 +2932,18 @@ components:
           format: email
           x-faker: internet.email
           example: "John.Smith@hb.com"
-    Controls:
-      title: System Control
+    ControlsGet:
+      title: Controls - server returned data from the GET call
       type: object
       additionalProperties: false
       properties:
         systemId:
           type: integer
-          format: int64          
+          format: int64
           description: "[Required] Unique system record identifier."
-          #x-faker: random.number({min:1, max:3000})
           example: 803
           minimum: 1
-          maximum: 3000          
+          maximum: 3000
         name:
           type: string
           description: "[Read-only] Name of the system record."
@@ -2679,52 +2951,40 @@ components:
           example: "System XYZ"
         acronym:
           type: string
-          pattern: '^[A-Z0-9-]{3,6}'          
+          pattern: '^[A-Z0-9-]{3,6}'
           description: "[Required] Acronym of the system record."
-          #x-faker: finance.bic
           example: "AC-3"
         ccis:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
           description: "[Read-only] Comma separated list of CCIs associated with the control."
-          example: "000001,000002"          
+          example: "000001,000002"
         isInherited:
           type: boolean
           description: "[Read-only] Indicates whether a control is inherited."
-          x-faker: random.boolean          
+          x-faker: random.boolean
           example: true
-        modifiedByOverlays:
-          type: string
-          description: "[Read-only] List of overlays that affect the control."
-          #x-faker: random.word
-          example: "Requirements" 
-          enum:
-            - "Privacy"
-            - "Requirements"
-            - "Concurrency"
         includedStatus:
           type: string
           description: "[Read-only] Indicates the manner by which a control was included in the system’s categorization."
-          #x-faker: random.word
-          example: "Manually" 
-          enum:
-           - "Mandated"
-           - "Manually"
-           - "Inherent"
+          example: "Manually"
         complianceStatus:
           type: string
           description: "[Read-only] Compliance of the control."
           x-faker: random.word
-          example: "Status" 
+          example: "Status"
+        modifiedByOverlays:
+          type: string
+          description: "[Read-only] List of overlays that affect the control."
+          example: "Requirements"
+          enum:
+            - "Privacy"
+            - "Requirements"
+            - "Concurrency"
         responsibleEntities:
           type: string
           description: "[Required] Include written description of Responsible Entities that are responsible for the Security Control. Character Limit = 2,000."
-          #x-faker: random.word
-          example: "Unknown" 
-          enum:
-           - "Compliant"
-           - "Non-Compliant"
-           - "Unknown"
+          example: "Unknown"
         implementationStatus:
           type: string
           description: |-
@@ -2737,7 +2997,6 @@ components:
               <li>Not Applicable</li>
               <li>Manually Inherited</li>
             </ul>
-          #x-faker: random.word
           example: "Planned"
           enum:
             - "Planned"
@@ -2755,22 +3014,15 @@ components:
               <li>Component</li>
               <li>Enclave</li>
             </ul>
-          #x-faker: random.word
-          example: "DoD"       
+          example: "DoD"
           enum:
             - "DoD"
             - "Component"
-            - "Enclave"  
+            - "Enclave"
         naJustification:
           type: string
           description: "[Conditional] Provide justification for Security Controls deemed Not Applicable to the system."
-          #x-faker: random.word
-          example: "System EOL within 120 days"  
-          enum:
-            - "System EOL within 30 days"
-            - "System EOL within 60 days"
-            - "System EOL within 120 days"
-            - "Unknown"
+          example: "System EOL within 120 days"
         controlDesignation:
           type: string
           description: |-
@@ -2779,13 +3031,12 @@ components:
               <li>Common</li>
               <li>System-Specific</li>
               <li>Hybrid</li>
-            </ul>        
-          #x-faker: random.word
-          example: "Common" 
+            </ul>
+          example: "Common"
           enum:
             - "Common"
             - "System-Specific"
-            - "Hybrid" 
+            - "Hybrid"
         estimatedCompletionDate:
           type: integer
           description: "[Required] Field is required for Implementation Plan."
@@ -2796,12 +3047,12 @@ components:
           type: string
           description: "[Required] Includes security control comments. Character Limit = 2,000."
           x-faker: random.words
-          example: "Comments text." 
+          example: "Comments text."
         slcmCriticality:
           type: string
           description: "[Conditional] Criticality of Security Control regarding SLCM. Character Limit = 2,000."
           x-faker: random.word
-          example: "Text content" 
+          example: "Text content"
         slcmFrequency:
           type: string
           description: |-
@@ -2815,18 +3066,18 @@ components:
               <li>Semi-Annually</li>
               <li>Annually</li>
               <li>Undetermined</li>
-            </ul>        
+            </ul>
           #x-faker: random.word
-          example: "Annually" 
+          example: "Annually"
           enum:
             - "Constantly"
             - "Daily"
-            - "Weekly"       
+            - "Weekly"
             - "Monthly"
             - "Quarterly"
-            - "Semi-Annually"  
+            - "Semi-Annually"
             - "Annually"
-            - "Undetermined"                             
+            - "Undetermined"
         slcmMethod:
           type: string
           description: |-
@@ -2836,83 +3087,79 @@ components:
               <li>Semi-Automated</li>
               <li>Manual</li>
               <li>Undetermined</li>
-            </ul>        
+            </ul>
           #x-faker: random.word
-          example: "Automated" 
+          example: "Automated"
           enum:
             - "Automated"
             - "Semi-Automated"
-            - "Manual"       
-            - "Undetermined"            
+            - "Manual"
+            - "Undetermined"
         slcmReporting:
           type: string
           description: "[Conditional] Method for reporting Security Control for SLCM. Character Limit = 2,000."
           x-faker: random.word
-          example: "Text content" 
+          example: "Text content"
         slcmTracking:
           type: string
           description: "[Conditional] How Non-Compliant Security Controls will be tracked for SLCM. Character Limit = 2,000."
           x-faker: random.word
-          example: "Text content" 
+          example: "Text content"
         slcmComments:
           type: string
           description: "[Conditional] Additional comments for Security Control regarding SLCM. Character Limit = 4,000."
           x-faker: random.word
-          example: "Text content" 
+          example: "Text content"
         severity:
           type: string
           description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
-          #x-faker: random.word
           example: "Low"
           enum:
             - "Very Low"
             - "Low"
-            - "Moderate"       
+            - "Moderate"
             - "High"
-            - "Very High"            
+            - "Very High"
         vulnerabiltySummary:
           type: string
           description: "[Optional] Include vulnerability summary. Character Limit = 2,000."
           x-faker: random.words
-          example: "Text content" 
+          example: "Text content"
         recommendations:
           type: string
           description: "[Optional] Include recommendations. Character Limit = 2,000."
           x-faker: random.words
-          example: "Text content"           
+          example: "Text content"
         relevanceOfThreat:
           type: string
           description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
-          #x-faker: random.word
           example: "Low"
           enum:
             - "Very Low"
             - "Low"
-            - "Moderate"       
+            - "Moderate"
             - "High"
-            - "Very High"           
+            - "Very High"
         likelihood:
           type: string
           description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
-          #x-faker: random.word
           example: "Low"
           enum:
             - "Very Low"
             - "Low"
-            - "Moderate"       
+            - "Moderate"
             - "High"
-            - "Very High"            
+            - "Very High"
         impact:
           type: string
           description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
-          #x-faker: random.word
           example: "Low"
           enum:
             - "Very Low"
             - "Low"
-            - "Moderate"       
+            - "Moderate"
             - "High"
-            - "Very High"            
+            - "Very High"
         impactDescription:
           type: string
           description: "[Optional] Include description of Security Control’s impact."
@@ -2921,43 +3168,61 @@ components:
         residualRiskLevel:
           type: string
           description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
-          #x-faker: random.word
           example: "Low"
           enum:
             - "Very Low"
             - "Low"
-            - "Moderate"       
+            - "Moderate"
             - "High"
-            - "Very High" 
-                
-    TestResults:
-      title: Test Results
+            - "Very High"
+    ControlsPut:
+      title: Controls - return query from the server for the PUT call
       type: object
-      additionalProperties: false      
+      additionalProperties: false
       properties:
-        # systemId:
-        #   type: integer
-        #   format: int64          
-        #   description: "[Required] Unique eMASS identifier. Will need to provide correct number"
-        #   #x-faker: random.number
-        #   example: 803
-        #   minimum: 1
-        #   maximum: 3000          
+        acronym:
+          type: string
+          pattern: '^[A-Z0-9-]{3,6}'
+          description: "Acronym of the system record."
+          example: "AC-3"
+        success:
+          type: boolean
+          description: "Indicates if operations result (success/fail)"
+          x-faker: random.boolean
+          example: true
+        systemId:
+          type: integer
+          format: int64
+          description: "The system identifier for the system being updated."
+          example: 33
+          minimum: 10
+          maximum: 3000
+    TestResultsGet:
+      title: Test Results - server returned data from the GET call
+      type: object
+      additionalProperties: false
+      properties:
+        systemId:
+          type: integer
+          format: int64
+          description: "[Required] Unique eMASS identifier. Will need to provide correct number"
+          example: 803
+          minimum: 1
+          maximum: 3000
         control:
           type: string
           description: "[Read-Only] Control acronym associated with the test result. NIST SP 800-53 Revision 4 defined."
           x-faker: finance.bic
           example: “AC-3”
-        ccis:
+        cci:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
           description: "[Required] CCI associated with test result."
-          #x-faker: random.word
-          example: "000001,000002"   
+          example: "000001,000002"
         isInherited:
           type: boolean
           description: "[Read-only] Indicates whether a test result is inherited."
-          x-faker: random.boolean          
+          x-faker: random.boolean
           example: true
         testedBy:
           type: string
@@ -2968,11 +3233,9 @@ components:
           type: integer
           format: int64
           description: "[Required] Unix time format."
-          #x-faker: time.recent
-          #x-faker: random.number
           example: 1496581500
           minimum: 1400000000
-          maximum: 1600000000          
+          maximum: 1600000000
         description:
           type: string
           description: "[Required] Include description of test result. 4000 Characters."
@@ -2981,9 +3244,8 @@ components:
         type:
           type: string
           description: "[Read-Only] Indicates the location in the Control Approval Chain when the test result is submitted."
-          #x-faker: random.word
-          example: "Self-Assessment"  
-          enum: ["Self-Assessment", "Schedule-Assessment"]        
+          example: "Self-Assessment"
+          enum: ["Self-Assessment", "Schedule-Assessment"]
         complianceStatus:
           type: string
           description: |-
@@ -2992,47 +3254,68 @@ components:
               <li>Compliant</li>
               <li>Non-Compliant</li>
               <li>Not Applicable</li>
-            </ul>        
-          #x-faker: random.word
-          example: "Compliant" 
-          enum: 
+            </ul>
+          example: "Compliant"
+          enum:
             - "Compliant"
             - "Non-Compliant"
             - "Not Applicable"
+    TestResultsPost:
+      title: Test Results - return query from the server for the POST call
+      type: object
+      additionalProperties: false
+      properties:
+        cci:
+          type: string
+          pattern: '^\d{5,6},\d{5,6}'
+          description: "CCI associated with test result."
+          example: "000001,000002"
+        success:
+          type: boolean
+          description: "Indicates if operations result (success/fail)"
+          x-faker: random.boolean
+          example: true
+        systemId:
+          type: integer
+          format: int64
+          description: "The system identifier for the system being updated."
+          example: 803
+          minimum: 10
+          maximum: 3000
     POAM:
       title: POAM
       type: object
-      additionalProperties: false       
+      additionalProperties: false
       properties:
         # systemId:
         #   type: integer
-        #   format: int64          
+        #   format: int64
         #   description: "[Required] Unique eMASS system identifier."
         #   #x-faker: random.number
         #   example: 830
         #   minimum: 1
-        #   maximum: 3000          
+        #   maximum: 3000
         poamId:
           type: integer
-          format: int64          
+          format: int64
           description: "[Required] Unique item identifier"
           #x-faker: random.number
           example: 45
           minimum: 1
-          maximum: 300            
+          maximum: 300
         isInherited:
           type: boolean
           description: "[Read-only] Indicates whether a test result is inherited."
-          x-faker: random.boolean          
+          x-faker: random.boolean
           example: true
         externalUid:
           type: string
           description: "[Optional] Unique identifier external to the eMASS application for use with associating POA&Ms. 100 Characters."
           x-faker: random.word
-          example: “9834556”        
+          example: “9834556”
         controlAcronyms:
           type: string
-          #pattern: '^[A-Z0-9-]{3,6}'          
+          #pattern: '^[A-Z0-9-]{3,6}'
           description: "[Read-Only] System acronym name."
           x-faker: finance.bic
           example: “AC-3”
@@ -3045,7 +3328,7 @@ components:
         systemOnly:
           type: boolean
           description: "[Read-only] Indicates whether to include systems only."
-          x-faker: random.boolean          
+          x-faker: random.boolean
           example: true
         severity:
           type: string
@@ -3055,9 +3338,9 @@ components:
           enum:
             - "Very Low"
             - "Low"
-            - "Moderate"       
+            - "Moderate"
             - "High"
-            - "Very High"            
+            - "Very High"
         rawSeverity:
           type: string
           description: "[Optional] Values include the following options (I,II,III)"
@@ -3066,7 +3349,7 @@ components:
           enum:
             - "I"
             - "II"
-            - "III"       
+            - "III"
         status:
           type: string
           description: "[Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable"
@@ -3075,17 +3358,17 @@ components:
           enum:
             - "Ongoing"
             - "Risk Accepted"
-            - "Completed"       
+            - "Completed"
             - "Not Applicable"
         reviewStatus:
           type: string
           description: "OPTIONAL/REQUIRED Values include the following options: (Not Approved,Under Review,Approved)"
           #x-faker: random.word
-          example: "Under Review"        
+          example: "Under Review"
           enum:
             - "Not Approved"
             - "Under Review"
-            - "Approved"            
+            - "Approved"
         scheduledCompletionDate:
           type: integer
           format: int64
@@ -3093,7 +3376,7 @@ components:
           #x-faker: random.number #time.recent
           example: 1499644800
           minimum: 1400000000
-          maximum: 1600000000            
+          maximum: 1600000000
         completionDate:
           type: integer
           format: int64
@@ -3102,7 +3385,7 @@ components:
           #x-faker: random.number
           example: 1505916276
           minimum: 1400000000
-          maximum: 1600000000            
+          maximum: 1600000000
         extensionDate:
           type: integer
           format: int64
@@ -3114,7 +3397,7 @@ components:
           #x-faker: random.number
           example: 1505916298
           minimum: 1400000000
-          maximum: 1600000000            
+          maximum: 1600000000
         scheduledCompletionDateStart:
           type: integer
           format: int64
@@ -3123,46 +3406,46 @@ components:
           #x-faker: random.number
           example: 1499644800
           minimum: 1400000000
-          maximum: 1600000000            
+          maximum: 1600000000
         scheduledCompletionDateEnd:
           type: integer
           format: int64
           description: "[Required] Unix time format."
           #x-faker: time.recent
           #x-faker: random.number
-          example: 1499990400  
+          example: 1499990400
           minimum: 1400000000
-          maximum: 1600000000                    
+          maximum: 1600000000
         pocOrganization:
           type: string
           description: "[Required] Organization/Office represented. 100 Characters."
           x-faker: company.companyName
-          example: "Army"          
+          example: "Army"
         pocFirstName:
           type: string
           description: "[Required] First name of POC. 100 Characters."
           x-faker: name.firstName
-          example: "John"           
+          example: "John"
         pocLastName:
           type: string
           description: "[Required] Last name of POC. 100 Characters."
           x-faker: name.lastName
-          example: "Smith"           
+          example: "Smith"
         pocEmail:
           type: string
           description: "[Required] Email address of POC. 100 Characters."
           x-faker: internet.email
-          example: "smith@ah.com"           
+          example: "smith@ah.com"
         pocPhoneNumber:
           type: string
           description: "[Required] Phone number of POC (area code) ***-**** format. 100 Characters."
           x-faker: phone.phoneNumber.email
-          example: "555-555-5555"     
+          example: "555-555-5555"
         vulnerabilityDescription:
           type: string
           description: "[Required] Provide a description of the POA&M Item. 2000 Characters."
           x-faker: random.words
-          example: "Description text" 
+          example: "Description text"
         mitigation:
           type: string
           description: "[Optional] Include mitigation explanation. 2000 Characters."
@@ -3172,27 +3455,27 @@ components:
           type: string
           description: "[Conditional] Field is required for completed and risk accepted POA&M items. 2000 Characters"
           x-faker: random.words
-          example: "Comments text." 
+          example: "Comments text."
         resources:
           type: string
           description: "[Optional] List of resources used. 250 Characters."
           x-faker: random.words
-          example: "Resource text." 
+          example: "Resource text."
         sourceIdentVuln:
           type: string
           description: "[Required] Include Source Identifying Vulnerability text. 2000 Characters."
           x-faker: random.words
-          example: "Source Indentifying Vulnerability text" 
+          example: "Source Indentifying Vulnerability text"
         securityChecks:
           type: string
           description: "[Optional] Security Checks that are associated with the POA&M."
           x-faker: random.words
-          example: "SV-25123r1_rule,2016-A-0279" 
+          example: "SV-25123r1_rule,2016-A-0279"
         recommendations:
           type: string
           description: "[Optional] Include recommendations. Character Limit = 2,000."
           x-faker: random.words
-          example: "Recommendations text" 
+          example: "Recommendations text"
         relevanceOfThreat:
           type: string
           description: "[Optional] Values include the following options: (Very Low,Low,Moderate,High,Very High)"
@@ -3201,9 +3484,9 @@ components:
           enum:
             - "Very Low"
             - "Low"
-            - "Moderate"       
+            - "Moderate"
             - "High"
-            - "Very High"             
+            - "Very High"
         likelihood:
           type: string
           description: "[Optional] Values include the following options: (Very Low,Low,Moderate,High,Very High)"
@@ -3212,9 +3495,9 @@ components:
           enum:
             - "Very Low"
             - "Low"
-            - "Moderate"       
+            - "Moderate"
             - "High"
-            - "Very High"             
+            - "Very High"
         impact:
           type: string
           description: "[Optional] Values include the following options: (Very Low,Low,Moderate,High,Very High)"
@@ -3223,14 +3506,14 @@ components:
           enum:
             - "Very Low"
             - "Low"
-            - "Moderate"       
+            - "Moderate"
             - "High"
-            - "Very High"             
+            - "Very High"
         impactDescription:
           type: string
           description: "[Optional] Include description of Security Control’s impact."
           x-faker: random.words
-          example: "Impact Description text" 
+          example: "Impact Description text"
         residualRiskLevel:
           type: string
           description: "[Optional] Values include the following options: (Very Low,Low,Moderate,High,Very High)"
@@ -3239,7 +3522,7 @@ components:
           enum:
             - "Very Low"
             - "Low"
-            - "Moderate"       
+            - "Moderate"
             - "High"
             - "Very High"
         milestones:
@@ -3250,37 +3533,37 @@ components:
     Milestones:
       title: Milestones
       type: object
-      additionalProperties: false       
+      additionalProperties: false
       properties:
         systemId:
           type: integer
-          format: int64          
+          format: int64
           description: "[Required] Unique eMASS system identifier."
           #x-faker: random.number
           example: 830
           minimum: 1
-          maximum: 3000          
+          maximum: 3000
         milestoneId:
           type: integer
-          format: int64          
+          format: int64
           description: "[Required] Unique item identifier"
           #x-faker: random.number
           example: 19
           minimum: 1
-          maximum: 300                      
+          maximum: 300
         poamId:
           type: integer
-          format: int64          
+          format: int64
           description: "[Required] Unique item identifier"
           #x-faker: random.number
           example: 45
           minimum: 1
-          maximum: 300          
+          maximum: 300
         description:
           type: string
           description: "[Optional] Include milestone description."
           x-faker: random.words
-          example: "Description text" 
+          example: "Description text"
         scheduledCompletionDate:
           type: integer
           format: int64
@@ -3289,25 +3572,25 @@ components:
           #x-faker: random.number
           example: 1499644800
           minimum: 1400000000
-          maximum: 1600000000            
+          maximum: 1600000000
     PostMilestones:
       title: PostMilestones
       type: object
-      additionalProperties: false      
+      additionalProperties: false
       properties:
         poamId:
           type: integer
-          format: int64          
+          format: int64
           description: "[Required] Unique item identifier"
           #x-faker: random.number
-          example: 45 
+          example: 45
           minimum: 1
-          maximum: 300                 
+          maximum: 300
         description:
           type: string
           description: "[Optional] Include milestone description."
           x-faker: random.words
-          example: "Description text" 
+          example: "Description text"
         scheduledCompletionDate:
           type: integer
           format: int64
@@ -3315,25 +3598,25 @@ components:
           #x-faker: random.numnber
           example: 1499644800
           minimum: 1400000000
-          maximum: 1600000000             
+          maximum: 1600000000
     PutMilestones:
       title: PutMilestones
       type: object
-      additionalProperties: false      
+      additionalProperties: false
       properties:
         milestoneId:
           type: integer
-          format: int64          
+          format: int64
           description: "[Required] Unique item identifier"
           #x-faker: random.number
           example: 19
           minimum: 1
-          maximum: 300            
+          maximum: 300
         description:
           type: string
           description: "[Optional] Include milestone description."
           x-faker: random.words
-          example: "Description text" 
+          example: "Description text"
         scheduledCompletionDate:
           type: integer
           format: int64
@@ -3342,21 +3625,20 @@ components:
           #x-faker: random.number
           example: 1499644800
           minimum: 1400000000
-          maximum: 1600000000            
-
+          maximum: 1600000000
     Artifacts:
       title: Artifacts
       type: object
-      additionalProperties: false      
+      additionalProperties: false
       properties:
         systemId:
           type: integer
-          format: int64          
+          format: int64
           description: "[Required] Unique eMASS system identifier."
           #x-faker: random.number
           example: 35
           minimum: 1
-          maximum: 3000          
+          maximum: 3000
         filename:
           type: string
           description: "[Required] File name should match exactly one file within the provided zip file. 1000 Characters."
@@ -3365,7 +3647,7 @@ components:
         isInherited:
           type: boolean
           description: "[Read-only] Indicates whether an artifact is inherited."
-          x-faker: random.boolean          
+          x-faker: random.boolean
           example: true
         description:
           type: string
@@ -3375,8 +3657,8 @@ components:
         isArtifactTemplate:
           type: boolean
           description: "[Read-only] Indicates whether an artifact template."
-          x-faker: random.boolean          
-          example: false        
+          x-faker: random.boolean
+          example: false
         type:
           type: string
           description: "[Required] Values include the following options: (Procedure,Diagram,Policy,Labor,Document,Image,Other,Scan Result)"
@@ -3385,7 +3667,7 @@ components:
           enum:
             - "Procedure"
             - "Diagram"
-            - "Policy"       
+            - "Policy"
             - "Labor"
             - "Document"
             - "Image"
@@ -3399,7 +3681,7 @@ components:
           enum:
             - "Implementation Guidance"
             - "Evidence"
-            - "Change Request"       
+            - "Change Request"
         refPageNumber:
           type: string
           description: "[Optional] Artifact reference page number. 50 Characters."
@@ -3407,7 +3689,7 @@ components:
           example: "Reference page number"
         controls:
           type: string
-          pattern: '^[A-Z0-9-]{3,6}'          
+          pattern: '^[A-Z0-9-]{3,6}'
           description: "[Optional] Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined."
           #x-faker: finance.bic
           example: "AC-8,AC-2(4)"
@@ -3416,26 +3698,26 @@ components:
           pattern: '^\d{5,6},\d{5,6}'
           description: "[Required] CCI associated with test result."
           #x-faker: random.word
-          example: "000001,000002" 
+          example: "000001,000002"
         mimeContentType:
           type: string
           description: "[Read-Only] Standard MIME content type derived from file extension."
           x-faker: system.mimeType
-          example: "application/zip" 
+          example: "application/zip"
         fileSize:
           type: string
           description: "[Read-Only] File size of attached artifact."
           x-faker: random.number
-          example: "4MB" 
+          example: "4MB"
         artifactExpirationDate:
           type: integer
           format: int64
           description: "[Optional] Date Artifact expires and requires review. In Unix Date format."
           #x-faker: time.recent
           #x-faker: random.number
-          example: 1549036926 
+          example: 1549036926
           minimum: 1400000000
-          maximum: 1600000000            
+          maximum: 1600000000
         lastReviewDate:
           type: integer
           format: int64
@@ -3444,11 +3726,11 @@ components:
           #x-faker: random.number
           example: 1549036928
           minimum: 1400000000
-          maximum: 1600000000            
+          maximum: 1600000000
     PutArtifacts:
       title: PutArtifacts
       type: object
-      additionalProperties: false      
+      additionalProperties: false
       properties:
         filename:
           type: string
@@ -3463,8 +3745,8 @@ components:
         isTemplate:
           type: boolean
           description: "[Read-only] Indicates it is an artifact template."
-          x-faker: random.boolean          
-          example: false        
+          x-faker: random.boolean
+          example: false
         type:
           type: string
           description: "[Required] Values include the following options: (Procedure,Diagram,Policy,Labor,Document,Image,Other,Scan Result)"
@@ -3473,12 +3755,12 @@ components:
           enum:
             - "Procedure"
             - "Diagram"
-            - "Policy"       
+            - "Policy"
             - "Labor"
             - "Document"
             - "Image"
             - "Other"
-            - "Scan Result"          
+            - "Scan Result"
         category:
           type: string
           description: "[Required] Values include the following options: (Implementation Guidance,Evidence). May also accept custom artifact category values set by system administrators."
@@ -3487,7 +3769,7 @@ components:
           enum:
             - "Implementation Guidance"
             - "Evidence"
-            - "Change Request"            
+            - "Change Request"
         refPageNumber:
           type: string
           description: "[Optional] Artifact reference page number. 50 Characters."
@@ -3495,7 +3777,7 @@ components:
           example: "Reference page number"
         controls:
           type: string
-          pattern: '^[A-Z0-9-]{3,6}'          
+          pattern: '^[A-Z0-9-]{3,6}'
           description: "[Optional] Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined."
           #x-faker: finance.bic
           example: "AC-8,AC-2(4)"
@@ -3504,7 +3786,7 @@ components:
           pattern: '^\d{5,6},\d{5,6}'
           description: "[Required] CCI associated with test result."
           #x-faker: random.word
-          example: "000001,000002" 
+          example: "000001,000002"
         artifactExpirationDate:
           type: integer
           format: int64
@@ -3513,7 +3795,7 @@ components:
           #x-faker: random.number
           example: 1549036928
           minimum: 1400000000
-          maximum: 1600000000            
+          maximum: 1600000000
         lastReviewDate:
           type: integer
           format: int64
@@ -3529,17 +3811,17 @@ components:
       maxItems: 4
       items:
         type: object
-        additionalProperties: false      
+        additionalProperties: false
         properties:
           filename:
             type: string
             description: "[Required] File name should match exactly one file within the provided zip file. 1000 Characters."
             x-faker: system.commonFileName
-            example: "AutorizationGuidance.pdf"                
+            example: "AutorizationGuidance.pdf"
     ApprovalCac:
       title: ApprovalCac
       type: object
-      additionalProperties: false      
+      additionalProperties: false
       properties:
         controlAcronyms:
           type: string
@@ -3551,7 +3833,7 @@ components:
           type: string
           description: "[Read-only] Compliance of the control."
           #x-faker: random.word
-          example: "Compliant" 
+          example: "Compliant"
           enum:
             - "Compliant"
             - "Not Compliant"
@@ -3560,23 +3842,23 @@ components:
           type: string
           description: "[Read-Only] Current role."
           x-faker: random.word
-          example: "SCA-V" 
+          example: "SCA-V"
         currentStep:
           type: integer
           description: "[Read-Only] Current step in the Control Approval Chain."
           example: 1
           minimum: 2
-          maximum: 20          
+          maximum: 20
         totalSteps:
           type: integer
           description: "[Read-Only] Total number of steps in Control Approval Chain."
           example: 2
           minimum: 20
-          maximum: 45                  
+          maximum: 45
     PostApprovalCac:
       title: PostApprovalCac
       type: object
-      additionalProperties: false      
+      additionalProperties: false
       properties:
         controlAcronyms:
           type: string
@@ -3588,7 +3870,7 @@ components:
           type: string
           description: "[Conditional] Character Limit = 2,000."
           x-faker: random.words
-          example: "Comments text." 
+          example: "Comments text."
     ApprovalPac:
       title: ApprovalPac
       type: object
@@ -3596,21 +3878,21 @@ components:
         type:
           type: string
           description: "[Required] Values include the following:(Assess and Authorize, Assess Only, Security Plan)"
-          example: "Assess and Authorize" 
+          example: "Assess and Authorize"
           enum:
             - "Assess and Authorize"
             - "Assess Only"
-            - "Security Plan"        
+            - "Security Plan"
         name:
           type: string
           description: "[Required] Package name. 100 Characters."
           x-faker: random.word
-          example: "Package name text" 
+          example: "Package name text"
         currentRole:
           type: string
           description: "[Read-Only] Current role in active package."
           x-faker: random.word
-          example: "SCA-R" 
+          example: "SCA-R"
         currentStep:
           type: integer
           description: "[Read-Only] Current step in the Package Approval Chain."
@@ -3620,13 +3902,13 @@ components:
         totalSteps:
           type: integer
           description: "[Read-Only] Total number of steps in Package Approval Chain."
-          example: 6 
+          example: 6
           minimum: 20
-          maximum: 45      
+          maximum: 45
     PostApprovalPac:
       title: PostApprovalPac
       type: object
-      additionalProperties: false      
+      additionalProperties: false
       properties:
         type:
           type: string
@@ -3635,18 +3917,18 @@ components:
           enum:
             - "Assess and Authorize"
             - "Assess Only"
-            - "Security Plan"                      
+            - "Security Plan"
         name:
           type: string
           description: "[Required] Package name. 100 Characters."
           x-faker: random.word
-          example: "Package name text" 
+          example: "Package name text"
         comments:
           type: string
           description: "[Conditional] Character Limit = 2,000."
           x-faker: random.words
-          example: "Comments text." 
-          
+          example: "Comments text."
+
     "200":
       title: OK
       type: object
@@ -3689,7 +3971,7 @@ components:
           default: 404
         errorMessage:
           type: string
-          default: "System not available"      
+          default: "System not available"
     "480":
       title: "Business Rule Failed"
       type: string
@@ -3711,4 +3993,30 @@ components:
       required:
         - code
         - message
+
+  # Security schemes
+  securitySchemes:
+    apikey:
+      type: apiKey
+      #type: https
+      #scheme: basic
+      in: header
+      name: api-key
+      description: >
+        The API key must be provided in the request header for all endpoint calls.<br>
+        See the
+    userid:
+      type: apiKey
+      in: header
+      name: user-uid
+      description: >
+        This User unique identifier key must be provided in the request header for all PUT,
+        POST, and DELETE endpoint calls.
+
+#------------------------------------------------------------------------------
+# S E C U R I T Y
+#------------------------------------------------------------------------------
+security:
+  - apikey: []
+  - userid: []
 ...

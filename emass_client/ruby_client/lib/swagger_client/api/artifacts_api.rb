@@ -67,7 +67,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'ArtifactsPutPostResponse' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -137,7 +137,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'ArtifactGetExportResponse' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -156,8 +156,8 @@ module SwaggerClient
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :filename **File Name**: The file name (to include file-extension).
-    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or common separated).
-    # @option opts [String] :ccis **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or comma separated).
+    # @option opts [String] :cci **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
     # @option opts [BOOLEAN] :system_only **Systems Only**: Indicates that only system(s) information is retrieved. (default to true)
     # @return [ArtifactsGetResponse]
     def api_systems_system_id_artifacts_get(system_id, opts = {})
@@ -170,8 +170,8 @@ module SwaggerClient
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :filename **File Name**: The file name (to include file-extension).
-    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or common separated).
-    # @option opts [String] :ccis **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or comma separated).
+    # @option opts [String] :cci **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
     # @option opts [BOOLEAN] :system_only **Systems Only**: Indicates that only system(s) information is retrieved.
     # @return [Array<(ArtifactsGetResponse, Integer, Hash)>] ArtifactsGetResponse data, response status code and response headers
     def api_systems_system_id_artifacts_get_with_http_info(system_id, opts = {})
@@ -189,7 +189,7 @@ module SwaggerClient
       query_params = opts[:query_params] || {}
       query_params[:'filename'] = opts[:'filename'] if !opts[:'filename'].nil?
       query_params[:'controlAcronyms'] = opts[:'control_acronyms'] if !opts[:'control_acronyms'].nil?
-      query_params[:'ccis'] = opts[:'ccis'] if !opts[:'ccis'].nil?
+      query_params[:'cci'] = opts[:'cci'] if !opts[:'cci'].nil?
       query_params[:'systemOnly'] = opts[:'system_only'] if !opts[:'system_only'].nil?
 
       # header parameters
@@ -205,7 +205,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'ArtifactsGetResponse' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -220,7 +220,7 @@ module SwaggerClient
       return data, status_code, headers
     end
     # Remove one or many artifacts in a system
-    # Remove the Artifact(s) matching `systemId` path parameter and request body artifact(s) file name<br><br> <b>Note:</b> The endpoint expects an array of objects containing `filename: file_to_delete`.  Multiple files can be deleted by providing multiple file objects (common delimited)
+    # Remove the Artifact(s) matching `systemId` path parameter and request body artifact(s) file name<br><br> <b>Note:</b> The endpoint expects an array of objects containing `filename: file_to_delete`.  Multiple files can be deleted by providing multiple file objects (comma delimited)
     # @param body See notes above for additional information
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
@@ -231,7 +231,7 @@ module SwaggerClient
     end
 
     # Remove one or many artifacts in a system
-    # Remove the Artifact(s) matching &#x60;systemId&#x60; path parameter and request body artifact(s) file name&lt;br&gt;&lt;br&gt; &lt;b&gt;Note:&lt;/b&gt; The endpoint expects an array of objects containing &#x60;filename: file_to_delete&#x60;.  Multiple files can be deleted by providing multiple file objects (common delimited)
+    # Remove the Artifact(s) matching &#x60;systemId&#x60; path parameter and request body artifact(s) file name&lt;br&gt;&lt;br&gt; &lt;b&gt;Note:&lt;/b&gt; The endpoint expects an array of objects containing &#x60;filename: file_to_delete&#x60;.  Multiple files can be deleted by providing multiple file objects (comma delimited)
     # @param body See notes above for additional information
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
@@ -269,7 +269,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'ArtifactsDelResponse' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -343,7 +343,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'ArtifactsPutPostResponse' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -479,7 +479,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'ArtifactsPutPostResponse' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
         :query_params => query_params,

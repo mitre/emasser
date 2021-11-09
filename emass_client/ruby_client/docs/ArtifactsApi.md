@@ -22,6 +22,18 @@ Add one or many artifacts in a system
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ArtifactsApi.new
 zipper = 'zipper_example' # String | 
@@ -50,7 +62,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -70,6 +82,18 @@ Get the file of an artifact in a system
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ArtifactsApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
@@ -100,7 +124,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -120,13 +144,25 @@ Returns selected artifacts matching parameters to include the file name containi
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ArtifactsApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
   filename: 'filename_example', # String | **File Name**: The file name (to include file-extension).
-  control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or common separated).
-  ccis: 'ccis_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+  control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or comma separated).
+  cci: 'cci_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
   system_only: true # BOOLEAN | **Systems Only**: Indicates that only system(s) information is retrieved.
 }
 
@@ -145,8 +181,8 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
  **filename** | **String**| **File Name**: The file name (to include file-extension). | [optional] 
- **control_acronyms** | **String**| **System Acronym**: Filter query by given system acronym (single or common separated). | [optional] 
- **ccis** | **String**| **CCI System**: Filter query by Control Correlation Identifiers (CCIs). | [optional] 
+ **control_acronyms** | **String**| **System Acronym**: Filter query by given system acronym (single or comma separated). | [optional] 
+ **cci** | **String**| **CCI System**: Filter query by Control Correlation Identifiers (CCIs). | [optional] 
  **system_only** | **BOOLEAN**| **Systems Only**: Indicates that only system(s) information is retrieved. | [optional] [default to true]
 
 ### Return type
@@ -155,7 +191,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -169,12 +205,24 @@ No authorization required
 
 Remove one or many artifacts in a system
 
-Remove the Artifact(s) matching `systemId` path parameter and request body artifact(s) file name<br><br> <b>Note:</b> The endpoint expects an array of objects containing `filename: file_to_delete`.  Multiple files can be deleted by providing multiple file objects (common delimited)
+Remove the Artifact(s) matching `systemId` path parameter and request body artifact(s) file name<br><br> <b>Note:</b> The endpoint expects an array of objects containing `filename: file_to_delete`.  Multiple files can be deleted by providing multiple file objects (comma delimited)
 
 ### Example
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ArtifactsApi.new
 body = [SwaggerClient::DeleteArtifactsInner.new] # Array<DeleteArtifactsInner> | See notes above for additional information
@@ -203,7 +251,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -223,6 +271,18 @@ Update one or many artifacts in a system
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ArtifactsApi.new
 body = SwaggerClient::PutArtifacts.new # PutArtifacts | See notes above for additional information
@@ -251,7 +311,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -271,6 +331,18 @@ Update one or many artifacts in a system
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::ArtifactsApi.new
 filename = 'filename_example' # String | 
@@ -317,7 +389,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 

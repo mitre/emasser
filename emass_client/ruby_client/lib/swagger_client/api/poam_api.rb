@@ -75,7 +75,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -160,7 +160,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -257,7 +257,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -578,7 +578,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -598,8 +598,8 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @option opts [String] :scheduled_completion_date_start **Date Started**: Filter query by the scheduled competion start date.
     # @option opts [String] :scheduled_completion_date_end **Date Ended**: Filter query by the scheduled competion start date.
-    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or common separated).
-    # @option opts [String] :ccis **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or comma separated).
+    # @option opts [String] :cci **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
     # @option opts [BOOLEAN] :system_only **Systems Only**: Indicates that only system(s) information is retrieved. (default to true)
     # @return [PoamResponse]
     def api_systems_system_id_poams_get(system_id, opts = {})
@@ -613,8 +613,8 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @option opts [String] :scheduled_completion_date_start **Date Started**: Filter query by the scheduled competion start date.
     # @option opts [String] :scheduled_completion_date_end **Date Ended**: Filter query by the scheduled competion start date.
-    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or common separated).
-    # @option opts [String] :ccis **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+    # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or comma separated).
+    # @option opts [String] :cci **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
     # @option opts [BOOLEAN] :system_only **Systems Only**: Indicates that only system(s) information is retrieved.
     # @return [Array<(PoamResponse, Integer, Hash)>] PoamResponse data, response status code and response headers
     def api_systems_system_id_poams_get_with_http_info(system_id, opts = {})
@@ -633,7 +633,7 @@ module SwaggerClient
       query_params[:'scheduledCompletionDateStart'] = opts[:'scheduled_completion_date_start'] if !opts[:'scheduled_completion_date_start'].nil?
       query_params[:'scheduledCompletionDateEnd'] = opts[:'scheduled_completion_date_end'] if !opts[:'scheduled_completion_date_end'].nil?
       query_params[:'controlAcronyms'] = opts[:'control_acronyms'] if !opts[:'control_acronyms'].nil?
-      query_params[:'ccis'] = opts[:'ccis'] if !opts[:'ccis'].nil?
+      query_params[:'cci'] = opts[:'cci'] if !opts[:'cci'].nil?
       query_params[:'systemOnly'] = opts[:'system_only'] if !opts[:'system_only'].nil?
 
       # header parameters
@@ -649,7 +649,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'PoamResponse' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -718,7 +718,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -781,7 +781,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -849,7 +849,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'MilestoneResponse' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -917,7 +917,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'MilestoneResponse' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -979,7 +979,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'PoamResponse' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -1052,7 +1052,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -1137,7 +1137,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -1234,7 +1234,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
         :query_params => query_params,
@@ -1555,7 +1555,7 @@ module SwaggerClient
 
       return_type = opts[:return_type] || 'Model200' 
 
-      auth_names = opts[:auth_names] || []
+      auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,
         :query_params => query_params,

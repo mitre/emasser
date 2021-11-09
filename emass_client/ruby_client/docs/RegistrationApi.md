@@ -18,6 +18,18 @@ Returns the api-key - This API key must be provided in the request header for al
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::RegistrationApi.new
 body = SwaggerClient::RegisterUser.new # RegisterUser | User certificate previously provided by eMASS.
@@ -44,7 +56,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -64,6 +76,18 @@ Returns the api-key - This API key must be provided in the request header for al
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::RegistrationApi.new
 user_uid = 'user_uid_example' # String | 
@@ -90,7 +114,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 

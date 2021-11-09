@@ -18,6 +18,18 @@ Returns the role(s) data matching parameters.<br> **Notes**<br>   <ul>     <li>I
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::SystemRolesApi.new
 role_category = 'role_category_example' # String | **Role Category**: The system role category been queried
@@ -49,7 +61,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -69,6 +81,18 @@ Returns all available roles<br>   **Notes**<br>     <ul>       <li>If a system i
 ```ruby
 # load the gem
 require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
 
 api_instance = SwaggerClient::SystemRolesApi.new
 
@@ -90,7 +114,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-No authorization required
+[apikey](../README.md#apikey), [userid](../README.md#userid)
 
 ### HTTP request headers
 
