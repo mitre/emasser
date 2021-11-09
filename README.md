@@ -7,7 +7,7 @@
 ## Documentation
 emasser provides users with the following documentation:
 
-[**OpenAPI definition**](docs/redoc) | [**Swagger UI**](docs/swagger)
+[**OpenAPI definition**](https://mitre.github.io/emasser/docs/redoc/) | [**Swagger UI**](https://mitre.github.io/emasser/docs/swagger/)
 
 
 ## Current Features
