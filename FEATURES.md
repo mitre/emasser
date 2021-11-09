@@ -1,5 +1,5 @@
-## CLI Required Enviroment Variables
-Prior of invoking any API command, the following enviroment variables need to be set:
+## CLI Required Environment Variables
+Prior of invoking any API command, the following environment variables need to be set:
 * EMASSER_API_KEY_API_KEY=`<API key>`
 * EMASSER_API_KEY_USER_UID=`<unique identifier of the eMASS user EMASSER_API_KEY_API_KEY belongs to>`
 * EMASSER_HOST=`<FQDN of the eMASS server>`

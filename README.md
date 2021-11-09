@@ -2,13 +2,19 @@
 
 ## About
 
-`emasser` is a command line interface (CLI) that aims to automate routinue business use-cases and provide utlity surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its relational state transfer (REST) application programming interface (API).
+`emasser` is a command line interface (CLI) that aims to automate routine business use-cases and provide utility surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its representational state transfer (REST) application programming interface (API).
+
+## Documentation
+emasser provides users with the following documentation:
+
+[**OpenAPI definition**](docs/redoc) | [**Swagger UI**](docs/swagger)
 
 
 ## Current Features
 
 * `GET` all eMASS resources
-* Upload artifacts to a system
+* `POST` add resources to eMASS 
+* `PUT` update eMASS resources
 
 ```
 Emasser commands:
