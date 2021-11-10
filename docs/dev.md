@@ -1,6 +1,4 @@
-# eMASS RESTful API
-eMASS REST API documentation. Ruby Swagger client generation.
-## eMASS API Instructions
+# Developers Instructions
 
 The documentation provided here is an OpenAPI Specification 3.0.3 compliant describing, producing, consuming, and visualizing the eMASS RESTful API web services (endpoints) as described in the eMASS REST API (v2.3) document, dated August 28, 2020.
 
@@ -8,7 +6,7 @@ The API is documented in YAML and can be viewed utilizing Swagger Editor or Visu
 
 ### Viewing the API via Swagger
 
-There are online tool options for viewing and editing OpenAPI compliant RESTfull APIs like the eMASS API documentations. Some of these tools are Swagger Editor or SwaggerHub. <strong>We discourage the utilization of any online capability for editing a controlled unclassified API document<strong>.
+There are online tool options for viewing and editing OpenAPI compliant RESTfull APIs like the eMASS API documentations. Some of these tools are Swagger Editor or SwaggerHub. <strong>We discourage the utilization of any online capability for editing a controlled unclassified API document</strong>.
 
 To install the Swagger Editor offline from its repository follow these [instructions](https://github.com/swagger-api/swagger-editor).
 

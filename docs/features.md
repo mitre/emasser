@@ -1,11 +1,15 @@
-## CLI Required Environment Variables
+## CLI Features
+
+### Required Environment Variables
 Prior of invoking any API command, the following environment variables need to be set:
 * EMASSER_API_KEY_API_KEY=`<API key>`
 * EMASSER_API_KEY_USER_UID=`<unique identifier of the eMASS user EMASSER_API_KEY_API_KEY belongs to>`
 * EMASSER_HOST=`<FQDN of the eMASS server>`
 * EMASSER_KEY_FILE_PATH=`<path to your emass key in PEM format>`
-* EMASSER_CERT_FILE_PATH=`<path to your emass certficate in PEM format>`
+* EMASSER_CERT_FILE_PATH=`<path to your emass certificate in PEM format>`
 * EMASSER_KEY_PASSWORD=`<password for the key given in EMASSER_KEY_FILE_PATH>`
+
+This variables can be set in the .env file (see the .env-example file)
 
 ## API Endpoints Provided
 
@@ -28,6 +32,7 @@ Prior of invoking any API command, the following environment variables need to b
 ### POST
 * [/api/systems/{systemId}/artifacts](#upload)
 
+### PUT
 
 
 ## Endpoints CLI help
@@ -38,7 +43,7 @@ Each CLI endpoint command has several layers of help.
     $ bundle exec exe/emasser get help
     ```
 
-    would list all available get endpoint Commands:
+    would list all available `GET` endpoint Commands:
 
     - emasser get approval                                                       ...
     - emasser get artifacts                                                      ...
@@ -62,7 +67,7 @@ Each CLI endpoint command has several layers of help.
     - emasser get artifacts system --systemId=N                      # Get all sy...
 <p>
 
-- Using `help` after any command lists all availible options 
+- Using `help` after any command lists all available options 
 
     ```
     $ bundle exec exe/emasser get artifacts help export
@@ -306,3 +311,4 @@ To get help on any endpoint use the `help` parameter preceding the command, for 
 
     $ bundle exec exe/emasser help get system
 
+## Usage - PUT

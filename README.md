@@ -8,19 +8,16 @@
 emasser provides users with the following documentation:
 
 [**eMASSER API Documentation**](https://mitre.github.io/emasser/docs/redoc/) | [**eMASSER Swagger UI**](https://mitre.github.io/emasser/docs/swagger/)
+
 ## Current Features
 
+The following API requests are implemented:
 * `GET` all eMASS resources
 * `POST` add resources to eMASS 
 * `PUT` update eMASS resources
 
-```
-Emasser commands:
-  emasser get [RESOURCE]                    # Gets a resource
-  emasser help [COMMAND]                    # Describe available commands or one specific command
-  emasser upload SYSTEM_ID FILE [FILE ...]  # Uploads [FILES] to the given [SYSTEM_ID] as artifacts
-```
-CLI [features examples](FEATURES.md)
+
+[**CLI Features**](docs/features.md) | [**Developers Instructions**](docs/dev.md )
 
 ## In Development
 
@@ -65,7 +62,7 @@ gem install *.gem
 ## Design
 
 **Interactions with eMASS API:**
-`emasser` leverages a MITRE dependency, `emass_client`, which provides a REST API client based on a MITRE-created [OpenAPI](https://www.openapis.org/) version 3 specification based on the official eMASS version 2.3 API documentation. This design enables REST API clients to be genereated in [any supported programming language](https://swagger.io/tools/swagger-codegen/). This design decision enables `emass_client` to generate a Ruby client for `emasser` and a TypeScript client that is included with [Heimdall Enterprise Server](https://github.com/mitre/heimdall2).
+`emasser` leverages a MITRE dependency, `emass_client`, which provides a REST API client based on a MITRE-created [OpenAPI](https://www.openapis.org/) version 3 specification based on the official eMASS version 2.3 API documentation. This design enables REST API clients to be generated in [any supported programming language](https://swagger.io/tools/swagger-codegen/). This design decision enables `emass_client` to generate a Ruby client for `emasser` and a TypeScript client that is included with [Heimdall Enterprise Server](https://github.com/mitre/heimdall2).
 
 **Business Logic:**
 Because interactions with the API are handled by a dependency, the bulk of `emasser` is business logic for accepting user input/output, reading data from eMASS or from input, transforming data, and routing data to the appropriate eMASS API endpoint. This business logic is organized into Ruby Classes and Modules based on the command or subcommand requested by the user.
