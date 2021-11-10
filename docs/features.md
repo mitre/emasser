@@ -9,7 +9,7 @@ Prior of invoking any API command, the following environment variables need to b
 * EMASSER_CERT_FILE_PATH=`<path to your emass certificate in PEM format>`
 * EMASSER_KEY_PASSWORD=`<password for the key given in EMASSER_KEY_FILE_PATH>`
 
-This variables can be set in the .env file (see the .env-example file)
+These variables can be set in the .env file (see the .env-example file)
 
 ## API Endpoints Provided
 
