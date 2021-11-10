@@ -17,7 +17,7 @@ The following API requests are implemented:
 * `PUT` update eMASS resources
 
 
-[**CLI Features**](docs/features.md) | [**Developers Instructions**](docs/developers.md )
+[**CLI Features**](docs/features.md) | [**Developers Instructions**](docs/developers.md)
 
 ## In Development
 
