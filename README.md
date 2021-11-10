@@ -7,9 +7,7 @@
 ## Documentation
 emasser provides users with the following documentation:
 
-[**OpenAPI definition**](https://mitre.github.io/emasser/docs/redoc/) | [**Swagger UI**](https://mitre.github.io/emasser/docs/swagger/)
-
-
+[**eMASSER API Documentation**](https://mitre.github.io/emasser/docs/redoc/) | [**eMASSER Swagger UI**](https://mitre.github.io/emasser/docs/swagger/)
 ## Current Features
 
 * `GET` all eMASS resources
@@ -75,7 +73,7 @@ Because interactions with the API are handled by a dependency, the bulk of `emas
 
 ### NOTICE
 
-© 2018 The MITRE Corporation.
+© 2020 The MITRE Corporation.
 
 Approved for Public Release; Distribution Unlimited. Case Number 18-3678.
 
