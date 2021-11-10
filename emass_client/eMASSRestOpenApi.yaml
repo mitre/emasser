@@ -6,7 +6,7 @@ openapi: 3.0.3
 #------------------------------------------------------------------------------
 info:
   title: Enterprise Mission Assurance Support Service (eMASS)
-  description: |-
+  description: |
       The Enterprise Mission Assurance Support Service (eMASS) REST Application
       Programming Interface (API) enables users to perform assessments and complete actions
       associated with system records. This document will provide an outline of all eMASS
@@ -22,8 +22,9 @@ info:
       certificate and API key. The API key must be provided in the request header for all
       endpoint calls (api-key). If the service receives an untrusted certificate or API key, a
       401 error response code will be returned along with an error message.
-
+      
       <strong>Available Request Headers:</strong>
+
       | Key      | Example Value                | Description
       |----------|------------------------------|------------------------------------
       |`api-key` |avalid-apikey-isrequired-here |This API key must be provided in the request header for all endpoint calls
@@ -52,7 +53,7 @@ info:
   version: '2.3.0'
 
 externalDocs:
-  description: eMASS New User Registration
+  description: eMASS New User Registration (requires CAC authentication)
   url: 'https://nisp.emass.apps.mil/Content/Help/jobaids/eMASS_OT_NewUser_Job_Aid.pdf'
 #------------------------------------------------------------------------------
 # S E R V E R S - Array of Server Objects which provide connectivity information
