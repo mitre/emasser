@@ -54,7 +54,6 @@ Each CLI endpoint command has several layers of help.
     - emasser get system [--system-name [SYSTEM_NAME]] [--system-owner [SYSTEM_OW...
     - emasser get systems [options]                                              ...
     - emasser get test_results                                                   ...
-<p>
 
 - Preceding any command with `help` provides help for the command
 
@@ -65,7 +64,6 @@ Each CLI endpoint command has several layers of help.
     - emasser get artifacts export --filename=FILENAME --systemId=N  # Get artifa...
     - emasser get artifacts help [COMMAND]                           # Describe s...
     - emasser get artifacts system --systemId=N                      # Get all sy...
-<p>
 
 - Using `help` after any command lists all available options 
 
@@ -85,7 +83,6 @@ Each CLI endpoint command has several layers of help.
 
 ## ```get system```
 ---
-<p>
 The GET system is provided for retrieving the system identification based on the SYSTEM_NAME (name) or SYSTEM_OWNER (systemOwner) fields.
 
 **NOTE** This call is based on the /api/systems endpoint
@@ -115,8 +112,6 @@ To invoke the `get systems` use the following command:
     |--includeDitprMetrics   |BOOLEAN - true or false                                                                         |
     |--includeDecommissioned |BOOLEAN - true or false                                                                         |
 
-
-<p>
 
 ## ```get roles```
 ----

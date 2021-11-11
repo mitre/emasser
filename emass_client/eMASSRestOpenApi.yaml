@@ -394,7 +394,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/ControlsRequestBody"
+              "$ref": "#/components/schemas/ControlsRequestPutBody"
         required: true
       responses:
         '200':
@@ -485,7 +485,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/TestResultsRequestBody"
+              "$ref": "#/components/schemas/TestResultsRequestPostBody"
         required: true
       responses:
         '200':
@@ -540,10 +540,9 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PoamResponse"
+                "$ref": "#/components/schemas/PoamResponseGet"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
-
         '401':
           description: "Request requires user authentication. Client may repeat the request with suitable Authorization"
           content:
@@ -584,10 +583,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/POAM"
-          application/x-www-form-urlencoded:
-            schema:
-              "$ref": "#/components/schemas/POAM"
+              "$ref": "#/components/schemas/POAMRequestPostBody"
         required: true
       responses:
         '200':
@@ -595,10 +591,9 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/200"
+                "$ref": "#/components/schemas/PoamResponsePost"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
-
         '401':
           description: "Request requires user authentication. Client may repeat the request with suitable Authorization"
           content:
@@ -639,10 +634,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/POAM"
-          application/x-www-form-urlencoded:
-            schema:
-              "$ref": "#/components/schemas/POAM"
+              "$ref": "#/components/schemas/POAMRequestPostBody"
         required: true
       responses:
         '200':
@@ -650,10 +642,9 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/200"
+                "$ref": "#/components/schemas/PoamResponsePut"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
-
         '401':
           description: "Request requires user authentication. Client may repeat the request with suitable Authorization"
           content:
@@ -726,7 +717,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PoamResponse"
+                "$ref": "#/components/schemas/PoamResponseGet"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
 
@@ -1693,7 +1684,7 @@ components:
           type: string
           example: "MY.USERUUID.KEY"
     # Request Body for (POST & PUTS)
-    ControlsRequestBody:
+    ControlsRequestPutBody:
       title: Controls Query Body
       type: object
       required:
@@ -1901,7 +1892,7 @@ components:
             - "Moderate"
             - "High"
             - "Very High"
-    TestResultsRequestBody:
+    TestResultsRequestPostBody:
       title: Test Results Query Body
       type: object
       required:
@@ -1948,6 +1939,20 @@ components:
             - "Compliant"
             - "Non-Compliant"
             - "Not Applicable"
+    POAMRequestPostBody:
+      title: POAM Query Body
+      type: object
+      required:
+        - status
+        - vulnerabilityDescription
+        - sourceIdentVuln
+        - pocOrganization
+        - pocFirstName
+        - pocLastName
+        - pocEmail
+        - pocPhoneNumber
+      additionalProperties: false
+      "$ref": "#/components/schemas/POAMRequired"
 
     # 200 responses
     Test:
@@ -2075,7 +2080,7 @@ components:
           maxItems: 5
           items:
             $ref: "#/components/schemas/TestResultsPost"
-    PoamResponse:
+    PoamResponseGet:
       type: object
       additionalProperties: false
       properties:
@@ -2085,7 +2090,29 @@ components:
           type: array
           maxItems: 5
           items:
-            $ref: "#/components/schemas/POAM"
+            $ref: "#/components/schemas/POAMGet"
+    PoamResponsePost:
+      type: object
+      additionalProperties: false
+      properties:
+        meta:
+          "$ref": "#/components/schemas/200"
+        data:
+          type: array
+          maxItems: 5
+          items:
+            $ref: "#/components/schemas/POAMPost"
+    PoamResponsePut:
+      type: object
+      additionalProperties: false
+      properties:
+        meta:
+          "$ref": "#/components/schemas/200"
+        data:
+          type: array
+          maxItems: 5
+          items:
+            $ref: "#/components/schemas/POAMPut"                
     MilestoneResponse:
       type: object
       additionalProperties: false
@@ -3283,8 +3310,8 @@ components:
           example: 803
           minimum: 10
           maximum: 3000
-    POAM:
-      title: POAM
+    POAMRequired:
+      title: POAM Required Fields
       type: object
       additionalProperties: false
       properties:
@@ -3292,15 +3319,76 @@ components:
         #   type: integer
         #   format: int64
         #   description: "[Required] Unique eMASS system identifier."
-        #   #x-faker: random.number
         #   example: 830
         #   minimum: 1
         #   maximum: 3000
+        # poamId:
+        #   type: integer
+        #   format: int64
+        #   description: "[Required] Unique item identifier"
+        #   example: 45
+        #   minimum: 1
+        #   maximum: 300
+        status:
+          type: string
+          description: "[Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable"
+          example: "Completed"
+          enum:
+            - "Ongoing"
+            - "Risk Accepted"
+            - "Completed"
+            - "Not Applicable"
+        vulnerabilityDescription:
+          type: string
+          description: "[Required] Provide a description of the POA&M Item. 2000 Characters."
+          x-faker: random.words
+          example: "Description text"
+        sourceIdentVuln:
+          type: string
+          description: "[Required] Include Source Identifying Vulnerability text. 2000 Characters."
+          x-faker: random.words
+          example: "Source Indentifying Vulnerability text"
+        pocOrganization:
+          type: string
+          description: "[Required] Organization/Office represented. 100 Characters."
+          x-faker: company.companyName
+          example: "Army"
+        pocFirstName:
+          type: string
+          description: "[Required] First name of POC. 100 Characters."
+          x-faker: name.firstName
+          example: "John"
+        pocLastName:
+          type: string
+          description: "[Required] Last name of POC. 100 Characters."
+          x-faker: name.lastName
+          example: "Smith"
+        pocEmail:
+          type: string
+          description: "[Required] Email address of POC. 100 Characters."
+          x-faker: internet.email
+          example: "smith@ah.com"
+        pocPhoneNumber:
+          type: string
+          description: "[Required] Phone number of POC (area code) ***-**** format. 100 Characters."
+          x-faker: phone.phoneNumber.email
+          example: "555-555-5555"    
+    POAMGet:
+      title: POAM
+      type: object
+      additionalProperties: false
+      properties:
+        systemId:
+          type: integer
+          format: int64
+          description: "[Required] Unique eMASS system identifier."
+          example: 830
+          minimum: 1
+          maximum: 3000
         poamId:
           type: integer
           format: int64
           description: "[Required] Unique item identifier"
-          #x-faker: random.number
           example: 45
           minimum: 1
           maximum: 300
@@ -3316,7 +3404,6 @@ components:
           example: “9834556”
         controlAcronyms:
           type: string
-          #pattern: '^[A-Z0-9-]{3,6}'
           description: "[Read-Only] System acronym name."
           x-faker: finance.bic
           example: “AC-3”
@@ -3324,99 +3411,39 @@ components:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
           description: "[Required] CCI associated with test result."
-          #x-faker: random.word
           example: "000001,000002"
-        systemOnly:
-          type: boolean
-          description: "[Read-only] Indicates whether to include systems only."
-          x-faker: random.boolean
-          example: true
-        severity:
-          type: string
-          description: "[Conditional] Required for approved items. Values include the following options (Very Low,Low,Moderate,High,Very High)"
-          #x-faker: random.word
-          example: "Low"
-          enum:
-            - "Very Low"
-            - "Low"
-            - "Moderate"
-            - "High"
-            - "Very High"
-        rawSeverity:
-          type: string
-          description: "[Optional] Values include the following options (I,II,III)"
-          #x-faker: random.word
-          example: "I"
-          enum:
-            - "I"
-            - "II"
-            - "III"
         status:
           type: string
           description: "[Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable"
-          #x-faker: random.word
           example: "Completed"
           enum:
             - "Ongoing"
             - "Risk Accepted"
             - "Completed"
-            - "Not Applicable"
+            - "Not Applicable"       
         reviewStatus:
           type: string
           description: "OPTIONAL/REQUIRED Values include the following options: (Not Approved,Under Review,Approved)"
-          #x-faker: random.word
           example: "Under Review"
           enum:
             - "Not Approved"
             - "Under Review"
-            - "Approved"
-        scheduledCompletionDate:
-          type: integer
-          format: int64
-          description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
-          #x-faker: random.number #time.recent
-          example: 1499644800
-          minimum: 1400000000
-          maximum: 1600000000
-        completionDate:
-          type: integer
-          format: int64
-          description: "[Conditional] Field is required for completed POA&M items. Unix time format."
-          #x-faker: time.recent
-          #x-faker: random.number
-          example: 1505916276
-          minimum: 1400000000
-          maximum: 1600000000
-        extensionDate:
-          type: integer
-          format: int64
-          description: >
-            [Read-Only] Value returned for a POA&M Item with review status
-            Approved” and has a milestone with a scheduled completion date
-            that extends beyond the POA&M Item’s scheduled completion date.
-          #x-faker: time.recent
-          #x-faker: random.number
-          example: 1505916298
-          minimum: 1400000000
-          maximum: 1600000000
-        scheduledCompletionDateStart:
-          type: integer
-          format: int64
-          description: "[Required] Unix time format."
-          #x-faker: time.recent
-          #x-faker: random.number
-          example: 1499644800
-          minimum: 1400000000
-          maximum: 1600000000
-        scheduledCompletionDateEnd:
-          type: integer
-          format: int64
-          description: "[Required] Unix time format."
-          #x-faker: time.recent
-          #x-faker: random.number
-          example: 1499990400
-          minimum: 1400000000
-          maximum: 1600000000
+            - "Approved"        
+        vulnerabilityDescription:
+          type: string
+          description: "[Required] Provide a description of the POA&M Item. 2000 Characters."
+          x-faker: random.words
+          example: "Description text"    
+        sourceIdentVuln:
+          type: string
+          description: "[Required] Include Source Identifying Vulnerability text. 2000 Characters."
+          x-faker: random.words
+          example: "Source Indentifying Vulnerability text"        
+        securityChecks:
+          type: string
+          description: "[Optional] Security Checks that are associated with the POA&M."
+          x-faker: random.words
+          example: "SV-25123r1_rule,2016-A-0279"
         pocOrganization:
           type: string
           description: "[Required] Organization/Office represented. 100 Characters."
@@ -3442,41 +3469,29 @@ components:
           description: "[Required] Phone number of POC (area code) ***-**** format. 100 Characters."
           x-faker: phone.phoneNumber.email
           example: "555-555-5555"
-        vulnerabilityDescription:
+        severity:
           type: string
-          description: "[Required] Provide a description of the POA&M Item. 2000 Characters."
-          x-faker: random.words
-          example: "Description text"
-        mitigation:
+          description: "[Conditional] Required for approved items. Values include the following options (Very Low,Low,Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        rawSeverity:
           type: string
-          description: "[Optional] Include mitigation explanation. 2000 Characters."
-          x-faker: random.words
-          example: "Mitigation text"
-        comments:
-          type: string
-          description: "[Conditional] Field is required for completed and risk accepted POA&M items. 2000 Characters"
-          x-faker: random.words
-          example: "Comments text."
+          description: "[Optional] Values include the following options (I,II,III)"
+          example: "I"
+          enum:
+            - "I"
+            - "II"
+            - "III"
         resources:
           type: string
           description: "[Optional] List of resources used. 250 Characters."
           x-faker: random.words
           example: "Resource text."
-        sourceIdentVuln:
-          type: string
-          description: "[Required] Include Source Identifying Vulnerability text. 2000 Characters."
-          x-faker: random.words
-          example: "Source Indentifying Vulnerability text"
-        securityChecks:
-          type: string
-          description: "[Optional] Security Checks that are associated with the POA&M."
-          x-faker: random.words
-          example: "SV-25123r1_rule,2016-A-0279"
-        recommendations:
-          type: string
-          description: "[Optional] Include recommendations. Character Limit = 2,000."
-          x-faker: random.words
-          example: "Recommendations text"
         relevanceOfThreat:
           type: string
           description: "[Optional] Values include the following options: (Very Low,Low,Moderate,High,Very High)"
@@ -3526,11 +3541,106 @@ components:
             - "Moderate"
             - "High"
             - "Very High"
+        recommendations:
+          type: string
+          description: "[Optional] Include recommendations. Character Limit = 2,000."
+          x-faker: random.words
+          example: "Recommendations text"
+        scheduledCompletionDate:
+          type: integer
+          format: int64
+          description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
+          #x-faker: random.number #time.recent
+          example: 1499644800
+          minimum: 1400000000
+          maximum: 1600000000
+        completionDate:
+          type: integer
+          format: int64
+          description: "[Conditional] Field is required for completed POA&M items. Unix time format."
+          #x-faker: time.recent
+          #x-faker: random.number
+          example: 1505916276
+          minimum: 1400000000
+          maximum: 1600000000
+        extensionDate:
+          type: integer
+          format: int64
+          description: >
+            [Read-Only] Value returned for a POA&M Item with review status
+            Approved” and has a milestone with a scheduled completion date
+            that extends beyond the POA&M Item’s scheduled completion date.
+          #x-faker: time.recent
+          #x-faker: random.number
+          example: 1505916298
+          minimum: 1400000000
+          maximum: 1600000000
+        comments:
+          type: string
+          description: "[Conditional] Field is required for completed and risk accepted POA&M items. 2000 Characters"
+          x-faker: random.words
+          example: "Comments text."
+        mitigation:
+          type: string
+          description: "[Optional] Include mitigation explanation. 2000 Characters."
+          x-faker: random.words
+          example: "Mitigation text"
+        isActive:
+          type: boolean
+          description: "[Conditional] Optionally used in PUT to delete milestones when updating a POA&M."
+          x-faker: random.boolean
+          example: true       
         milestones:
           type: array
           maxItems: 3
           items:
             $ref: "#/components/schemas/Milestones"
+    POAMPost:
+      title: Test Results - return query from the server for the POST call
+      type: object
+      additionalProperties: false
+      properties:
+        cci:
+          type: string
+          pattern: '^\d{5,6},\d{5,6}'
+          description: "CCI associated with test result."
+          example: "000001,000002"
+        success:
+          type: boolean
+          description: "Indicates if operations result (success/fail)"
+          x-faker: random.boolean
+          example: true
+        systemId:
+          type: integer
+          format: int64
+          description: "The system identifier for the system being updated."
+          example: 803
+          minimum: 10
+          maximum: 3000
+    POAMPut:
+      title: Controls - return query from the server for the PUT call
+      type: object
+      additionalProperties: false
+      properties:
+        acronym:
+          type: string
+          pattern: '^[A-Z0-9-]{3,6}'
+          description: "Acronym of the system record."
+          example: "AC-3"
+        success:
+          type: boolean
+          description: "Indicates if operations result (success/fail)"
+          x-faker: random.boolean
+          example: true
+        systemId:
+          type: integer
+          format: int64
+          description: "The system identifier for the system being updated."
+          example: 33
+          minimum: 10
+          maximum: 3000
+
+
     Milestones:
       title: Milestones
       type: object
@@ -3540,7 +3650,6 @@ components:
           type: integer
           format: int64
           description: "[Required] Unique eMASS system identifier."
-          #x-faker: random.number
           example: 830
           minimum: 1
           maximum: 3000
@@ -3548,7 +3657,6 @@ components:
           type: integer
           format: int64
           description: "[Required] Unique item identifier"
-          #x-faker: random.number
           example: 19
           minimum: 1
           maximum: 300
@@ -3556,7 +3664,6 @@ components:
           type: integer
           format: int64
           description: "[Required] Unique item identifier"
-          #x-faker: random.number
           example: 45
           minimum: 1
           maximum: 300
@@ -3569,8 +3676,6 @@ components:
           type: integer
           format: int64
           description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
-          #x-faker: time.recent
-          #x-faker: random.number
           example: 1499644800
           minimum: 1400000000
           maximum: 1600000000

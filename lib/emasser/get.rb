@@ -5,26 +5,49 @@
 # Hack class that properly formats the CLI help
 class SubCommandBase < Thor
   include OptionsParser
-  include OutputConverters
   include InputConverters
+  include OutputConverters
 
-  # We do not control the method declaration of this
+  # We do not control the method declaration for the banner
+
   # rubocop:disable Style/OptionalBooleanParameter
-  def self.banner(command, namespace = nil, subcommand = false)
+  def self.banner(command, _namespace = nil, subcommand = false)
+    # Use the $thor_runner (declared by the Thor CLI framework)
+    # to properly format the help text of sub-sub-commands.
+
+    # rubocop:disable Style/GlobalVars
     if ancestors[0].to_s.include? '::Get'
-      super
+      "exe/#{basename} #{command.formatted_usage(self, $thor_runner, subcommand)}"
     else
-      # $thor_runner is declared by the Thor CLI framework and we need to use it here for the help text of
-      # sub-sub-commands.
-      # rubocop:disable Style/GlobalVars
-      "#{basename} get #{command.formatted_usage(self, $thor_runner, subcommand)}"
-      # rubocop:enable Style/GlobalVars
+      "exe/#{basename} get #{command.formatted_usage(self, $thor_runner, subcommand)}"
     end
+    # rubocop:enable Style/GlobalVars
   end
+  # rubocop:enable Style/OptionalBooleanParameter
 end
-# rubocop:enable Style/OptionalBooleanParameter
 
 module Emasser
+  # The Test Connection endpoint is provided by eMASS to verify and troubleshoot the
+  # connection to the web service.
+  #
+  # Endpoint:
+  #    /api - Test connection to the API
+  class Test < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'connection', 'Test connection to the API'
+
+    def connection
+      result = SwaggerClient::TestApi.new.test_connection
+      puts to_output_hash(result)
+    rescue SwaggerClient::ApiError => e
+      puts 'Exception when calling TestApi->test_connection'
+      puts to_output_hash(e)
+    end
+  end
+
   # The System Roles endpoints provide the ability to access user data assigned to systems.
   # Notes:
   # * If a system is dual-policy enabled, the returned system role information default to
@@ -70,7 +93,7 @@ module Emasser
     end
   end
 
-  # The Control endpoints provide the ability to add Security Control information to a
+  # The GET Control endpoint provides the ability to retrieve Security Control information from a
   # system for both the Implementation Plan and Risk Assessment.
   #
   # Endpoint:
@@ -117,7 +140,7 @@ module Emasser
     option :systemId,        type: :numeric, required: true,
                              desc: 'A numeric value representing the system identification'
     option :controlAcronyms, type: :string,  required: false, desc: 'The system acronym(s) e.g "AC-1, AC-2"'
-    option :ccis,            type: :string,  required: false, desc: 'The system CCIS string numerical value'
+    option :cci,             type: :string,  required: false, desc: 'The system CCIS string numerical value'
     option :latestOnly,      type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
 
     def system
@@ -350,6 +373,9 @@ module Emasser
   end
 
   class Get < SubCommandBase
+    desc 'test', 'Test connection to the configured eMASS server'
+    subcommand 'test', Test
+
     desc 'roles', 'Get all system roles or by category Id'
     subcommand 'roles', Roles
 
