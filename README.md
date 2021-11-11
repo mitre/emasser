@@ -59,6 +59,15 @@ gem install *.gem
 **Requirement 1 & 2: Authentication and Authorization:**
 `emasser` requires authentication to eMASS as well as authorization to use the eMASS API. This authentication and authorization is **not** a function of `emasser` and needs to be handled directly with discussions with eMASS. `emasser` will accept credentials that are created based on those discussions.
 
+**Approve API Client for Actionable Requests**
+Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions.
+
+To establish an account with eMASS and/or acquire an api-key/user-uid, contact one of the listed POC:
+* [eMASS Tier III support - Website](https://www.dcsa.mil/is/emass/)
+* [Send email to eMASS Tier III support](disa.meade.id.mbx.emass-tier-iii-support@mail.mil)
+* [eMASS New User Registration (CAC required)](https://nisp.emass.apps.mil/Content/Help/jobaids/eMASS_OT_NewUser_Job_Aid.pdf)
+
+
 ## Design
 
 **Interactions with eMASS API:**
