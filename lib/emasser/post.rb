@@ -82,10 +82,11 @@ module Emasser
       true
     end
 
-    # POAM ------------------------------------------------------------------
+    # POAM --------------------------------------------------------------------
     #
-    # status (field)  Required Fields (besides REQUIRED)
-    # --------------------------------------------------
+    # The following fields are required based on the contents of the status field
+    # status          Required Fields (besides REQUIRED)
+    # -------------------------------------------------------------------------
     # Risk Accepted   comments, resources
     # Ongoing         scheduledCompletionDate, resources, milestones (at least 1)
     # Completed       scheduledCompletionDate, comments, resources,
