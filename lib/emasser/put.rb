@@ -56,7 +56,7 @@ module Emasser
     option :slcmTracking
     option :slcmComments
 
-    # # Optional parameters/fields
+    # Optional parameters/fields
     option :implementationStatus
     option :severity
     option :vulnerabiltySummary

@@ -7,7 +7,7 @@
 ## Documentation
 emasser provides users with the following documentation:
 
-[**eMASSER API Documentation**](https://mitre.github.io/emasser/docs/redoc/) | [**eMASSER Swagger UI**](https://mitre.github.io/emasser/docs/swagger/)
+[**eMASS API Documentation**](https://mitre.github.io/emasser/docs/redoc/) | [**eMASS Swagger UI**](https://mitre.github.io/emasser/docs/swagger/)
 
 ## Current Features
 

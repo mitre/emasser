@@ -567,11 +567,19 @@ paths:
       summary: "Add one or many poa&m items in a system"
       description: |-
         Adds POA&M for given `systemId`<br>
-        **Note**<br>
+
+        **Request Body Required Fields**
+        - `status`
+        - `vulnerabilityDescription`
+        - `sourceIdentVuln`
+        - `reviewStatus`
+
+        **Note**<br />
         If a POC email is supplied, the application will attempt to locate a user already
         registered within the application and pre-populate any information not explicitly supplied
-        in the request. If no such user is found, these fields are required within the request.<br>
-        `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`
+        in the request. If no such user is found, these fields are **required** within the request.<br>
+        `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`<br />
+
       operationId: addPoamBySystemId
       parameters:
         - $ref: '#/components/parameters/systemId'
@@ -618,11 +626,21 @@ paths:
       summary: "Update one or many poa&m items in a system"
       description: |-
         Update Adds POA&M for given `systemId`<br>
-        **Note**<br>
-        If a POC email is supplied, the application will attempt to locate a user already
-        registered within the application and pre-populate any information not explicitly supplied
-        in the request. If no such user is found, these fields are required within the request.<br>
-        `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`
+
+        **Request Body Required Fields**
+        - `poamId`
+        - `status`
+        - `vulnerabilityDescription`
+        - `sourceIdentVuln`
+        - `reviewStatus`
+
+        **Notes**
+        - If a POC email is supplied, the application will attempt to locate a user already
+          registered within the application and pre-populate any information not explicitly supplied
+          in the request. If no such user is found, these fields are **required** within the request.<br>
+          `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`<br />
+
+        - To delete a milestone through the POA&M PUT the field `isActive` must be set to `false`: `isActive=false`.
       operationId: updatePoamBySystemId
       parameters:
         - $ref: '#/components/parameters/systemId'
@@ -1892,7 +1910,7 @@ components:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
           description: "[Required] CCI associated with test result."
-          example: "000001,000002"
+          example: "000001"
         testedBy:
           type: string
           description: "[Required] Last Name, First Name. 100 Characters."
@@ -1931,27 +1949,42 @@ components:
         - status
         - vulnerabilityDescription
         - sourceIdentVuln
-        - pocOrganization
-        - pocFirstName
-        - pocLastName
-        - pocEmail
-        - pocPhoneNumber
+        - reviewStatus
       additionalProperties: false
       "$ref": "#/components/schemas/PoamRequiredPost"
     PoamRequestPutBody:
       title: POAM PUT Query Body
       type: object
       required:
+        - poamId
         - status
         - vulnerabilityDescription
         - sourceIdentVuln
-        - pocOrganization
-        - pocFirstName
-        - pocLastName
-        - pocEmail
-        - pocPhoneNumber
+        - reviewStatus
       additionalProperties: false
       "$ref": "#/components/schemas/PoamRequiredPut"
+    #   properties:
+    #     # Required fields
+    #     poamId:
+    #       type: integer
+    #       format: int64
+    #       description: "[Required] Unique item identifier"
+    #       example: 45
+    #       minimum: 1
+    #       maximum: 300
+    #   $ref: "#/components/schemas/PoamRequired"
+    # PoamRequired:
+    #   properties:
+    #     status:
+    #       type: string
+    #       description: "[Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable"
+    #       example: "Completed"
+    #       enum:
+    #         - "Ongoing"
+    #         - "Risk Accepted"
+    #         - "Completed"
+    #         - "Not Applicable"
+
     MilestonesRequestPostBody:
       title: PostMilestones
       type: object
@@ -1961,7 +1994,6 @@ components:
           type: integer
           format: int64
           description: "[Required] Unique item identifier"
-          #x-faker: random.number
           example: 45
           minimum: 1
           maximum: 300
@@ -2077,10 +2109,11 @@ components:
     # Request Body supporting fields for (POSTs & PUTs)
     #----------------------------------------------------------------------------
     PoamRequiredPost:
-      title: POAM Required Fields
+      title: POAM POST Required Fields
       type: object
       additionalProperties: false
       properties:
+        # Required fields
         status:
           type: string
           description: "[Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable"
@@ -2100,6 +2133,15 @@ components:
           description: "[Required] Include Source Identifying Vulnerability text. 2000 Characters."
           x-faker: random.words
           example: "Source Indentifying Vulnerability text"
+        reviewStatus:
+          type: string
+          description: "OPTIONAL/REQUIRED Values include the following options: (Not Approved,Under Review,Approved)"
+          example: "Under Review"
+          enum:
+            - "Not Approved"
+            - "Under Review"
+            - "Approved"           
+        # Optional/Required fields (REQ based on business rules)
         pocOrganization:
           type: string
           description: "[Required] Organization/Office represented. 100 Characters."
@@ -2125,11 +2167,106 @@ components:
           description: "[Required] Phone number of POC (area code) ***-**** format. 100 Characters."
           x-faker: phone.phoneNumber.email
           example: "555-555-5555"
+        # Optional Fields
+        externalUid:
+          type: string
+          description: "[Optional] Unique identifier external to the eMASS application for use with associating POA&Ms. 100 Characters."
+          x-faker: random.uuid
+          example: "d6d98b88-c866-4496-9bd4-de7ba48d0f52"
+        controlAcronyms:
+          type: string
+          description: "[Optional] Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined."
+          x-faker: finance.bic
+          example: “AC-3”
+        cci:
+          type: string
+          pattern: '^\d{5,6},\d{5,6}'
+          description: "CCI associated with POA&M."
+          example: "000001"        
+        securityChecks:
+          type: string
+          description: "[Optional] Security Checks that are associated with the POA&M."
+          x-faker: random.words
+          example: "SV-25123r1_rule,2016-A-0279"
+        rawSeverity:
+          type: string
+          description: "[Optional] Values include the following options (I,II,III)"
+          example: "I"
+          enum:
+            - "I"
+            - "II"
+            - "III"
         resources:
           type: string
           description: "[Optional] List of resources used. 250 Characters."
           x-faker: random.words
           example: "Resource text."
+        relevanceOfThreat:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        likelihood:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        impact:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        impactDescription:
+          type: string
+          description: "[Optional] Include description of Security Control’s impact."
+          x-faker: random.words
+          example: "Impact text"
+        residualRiskLevel:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        recommendations:
+          type: string
+          description: "[Optional] Include recommendations. Character Limit = 2,000."
+          x-faker: random.words
+          example: "Recommendations text"        
+        mitigation:
+          type: string
+          description: "[Optional] Include mitigation explanation. 2000 Characters."
+          x-faker: random.words
+          example: "Mitigation text"
+        # Conditional Fields
+        severity:
+          type: string
+          description: "[Conditional] Required for approved items. Values include the following options: (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"        
         scheduledCompletionDate:
           type: integer
           format: int64
@@ -2154,91 +2291,13 @@ components:
             minimum: 1
             maxItems: 3
             items:
-              $ref: "#/components/schemas/MilestonesRequiredPost"
+              $ref: "#/components/schemas/MilestonesRequiredPostPut"
     PoamRequiredPut:
-      title: POAM Required Fields
+      title: POAM PUT Required Fields
       type: object
       additionalProperties: false
       properties:
-        status:
-          type: string
-          description: "[Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable"
-          example: "Completed"
-          enum:
-            - "Ongoing"
-            - "Risk Accepted"
-            - "Completed"
-            - "Not Applicable"
-        vulnerabilityDescription:
-          type: string
-          description: "[Required] Provide a description of the POA&M Item. 2000 Characters."
-          x-faker: random.words
-          example: "Description text"
-        sourceIdentVuln:
-          type: string
-          description: "[Required] Include Source Identifying Vulnerability text. 2000 Characters."
-          x-faker: random.words
-          example: "Source Indentifying Vulnerability text"
-        pocOrganization:
-          type: string
-          description: "[Required] Organization/Office represented. 100 Characters."
-          x-faker: company.companyName
-          example: "Army"
-        pocFirstName:
-          type: string
-          description: "[Required] First name of POC. 100 Characters."
-          x-faker: name.firstName
-          example: "John"
-        pocLastName:
-          type: string
-          description: "[Required] Last name of POC. 100 Characters."
-          x-faker: name.lastName
-          example: "Smith"
-        pocEmail:
-          type: string
-          description: "[Required] Email address of POC. 100 Characters."
-          x-faker: internet.email
-          example: "smith@ah.com"
-        pocPhoneNumber:
-          type: string
-          description: "[Required] Phone number of POC (area code) ***-**** format. 100 Characters."
-          x-faker: phone.phoneNumber.email
-          example: "555-555-5555"
-        resources:
-          type: string
-          description: "[Optional] List of resources used. 250 Characters."
-          x-faker: random.words
-          example: "Resource text."
-        scheduledCompletionDate:
-          type: integer
-          format: int64
-          description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
-          example: 1499644800
-          minimum: 1400000000
-          maximum: 1600000000
-        comments:
-          type: string
-          description: "[Conditional] Field is required for completed and risk accepted POA&M items. 2000 Characters"
-          x-faker: random.words
-          example: "Comments text."
-        completionDate:
-          type: integer
-          format: int64
-          description: "[Conditional] Field is required for completed POA&M items. Unix time format."
-          example: 1505916276
-          minimum: 1400000000
-          maximum: 1600000000
-        milestones:
-            type: array
-            minimum: 1
-            maxItems: 3
-            items:
-              $ref: "#/components/schemas/MilestonesPut"
-    MilestonesRequiredPost:
-      title: Milestones
-      type: object
-      additionalProperties: false
-      properties:
+        # Required fields
         poamId:
           type: integer
           format: int64
@@ -2246,6 +2305,197 @@ components:
           example: 45
           minimum: 1
           maximum: 300
+        status:
+          type: string
+          description: "[Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable"
+          example: "Completed"
+          enum:
+            - "Ongoing"
+            - "Risk Accepted"
+            - "Completed"
+            - "Not Applicable"
+        vulnerabilityDescription:
+          type: string
+          description: "[Required] Provide a description of the POA&M Item. 2000 Characters."
+          x-faker: random.words
+          example: "Description text"
+        sourceIdentVuln:
+          type: string
+          description: "[Required] Include Source Identifying Vulnerability text. 2000 Characters."
+          x-faker: random.words
+          example: "Source Indentifying Vulnerability text"
+        reviewStatus:
+          type: string
+          description: "OPTIONAL/REQUIRED Values include the following options: (Not Approved,Under Review,Approved)"
+          example: "Under Review"
+          enum:
+            - "Not Approved"
+            - "Under Review"
+            - "Approved"           
+        # Optional/Required fields (REQ based on business rules)
+        pocOrganization:
+          type: string
+          description: "[Required] Organization/Office represented. 100 Characters."
+          x-faker: company.companyName
+          example: "Army"
+        pocFirstName:
+          type: string
+          description: "[Required] First name of POC. 100 Characters."
+          x-faker: name.firstName
+          example: "John"
+        pocLastName:
+          type: string
+          description: "[Required] Last name of POC. 100 Characters."
+          x-faker: name.lastName
+          example: "Smith"
+        pocEmail:
+          type: string
+          description: "[Required] Email address of POC. 100 Characters."
+          x-faker: internet.email
+          example: "smith@ah.com"
+        pocPhoneNumber:
+          type: string
+          description: "[Required] Phone number of POC (area code) ***-**** format. 100 Characters."
+          x-faker: phone.phoneNumber.email
+          example: "555-555-5555"
+        # Optional Fields
+        externalUid:
+          type: string
+          description: "[Optional] Unique identifier external to the eMASS application for use with associating POA&Ms. 100 Characters."
+          x-faker: random.uuid
+          example: "d6d98b88-c866-4496-9bd4-de7ba48d0f52"
+        controlAcronyms:
+          type: string
+          description: "[Optional] Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined."
+          x-faker: finance.bic
+          example: “AC-3”
+        cci:
+          type: string
+          pattern: '^\d{5,6},\d{5,6}'
+          description: "CCI associated with POA&M."
+          example: "000001"        
+        securityChecks:
+          type: string
+          description: "[Optional] Security Checks that are associated with the POA&M."
+          x-faker: random.words
+          example: "SV-25123r1_rule,2016-A-0279"
+        rawSeverity:
+          type: string
+          description: "[Optional] Values include the following options (I,II,III)"
+          example: "I"
+          enum:
+            - "I"
+            - "II"
+            - "III"
+        resources:
+          type: string
+          description: "[Optional] List of resources used. 250 Characters."
+          x-faker: random.words
+          example: "Resource text."
+        relevanceOfThreat:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        likelihood:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        impact:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        impactDescription:
+          type: string
+          description: "[Optional] Include description of Security Control’s impact."
+          x-faker: random.words
+          example: "Impact text"
+        residualRiskLevel:
+          type: string
+          description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"
+        recommendations:
+          type: string
+          description: "[Optional] Include recommendations. Character Limit = 2,000."
+          x-faker: random.words
+          example: "Recommendations text"        
+        mitigation:
+          type: string
+          description: "[Optional] Include mitigation explanation. 2000 Characters."
+          x-faker: random.words
+          example: "Mitigation text"
+        # Conditional Fields
+        severity:
+          type: string
+          description: "[Conditional] Required for approved items. Values include the following options: (Very Low, Low, Moderate,High,Very High)"
+          example: "Low"
+          enum:
+            - "Very Low"
+            - "Low"
+            - "Moderate"
+            - "High"
+            - "Very High"        
+        scheduledCompletionDate:
+          type: integer
+          format: int64
+          description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
+          example: 1499644800
+          minimum: 1400000000
+          maximum: 1600000000
+        comments:
+          type: string
+          description: "[Conditional] Field is required for completed and risk accepted POA&M items. 2000 Characters"
+          x-faker: random.words
+          example: "Comments text."
+        completionDate:
+          type: integer
+          format: int64
+          description: "[Conditional] Field is required for completed POA&M items. Unix time format."
+          example: 1505916276
+          minimum: 1400000000
+          maximum: 1600000000
+        isActive:
+          type: boolean
+          description: "[Conditional] Optionally used in PUT to delete milestones when updating a POA&M."
+          x-faker: random.boolean
+          example: true   
+        milestones:
+            type: array
+            minimum: 1
+            maxItems: 3
+            items:
+              $ref: "#/components/schemas/MilestonesRequiredPostPut"
+    MilestonesRequiredPostPut:
+      title: Milestones
+      type: object
+      required:
+        - description
+        - scheduledCompletionDate  
+      additionalProperties: false
+      properties:
         description:
           type: string
           description: "[Optional] Include milestone description."
@@ -3596,7 +3846,7 @@ components:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
           description: "[Required] CCI associated with test result."
-          example: "000001,000002"
+          example: "000001"
         isInherited:
           type: boolean
           description: "[Read-only] Indicates whether a test result is inherited."
@@ -3647,7 +3897,7 @@ components:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
           description: "CCI associated with test result."
-          example: "000001,000002"
+          example: "000001"
         success:
           type: boolean
           description: "Indicates if operations result (success/fail)"
@@ -3694,11 +3944,11 @@ components:
           description: "[Read-Only] System acronym name."
           x-faker: finance.bic
           example: “AC-3”
-        ccis:
+        cci:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
-          description: "[Required] CCI associated with test result."
-          example: "000001,000002"
+          description: "[Required] CCI associated with POA&M Item.."
+          example: "000001"
         status:
           type: string
           description: "[Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable"
