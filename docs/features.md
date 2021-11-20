@@ -33,7 +33,7 @@ These variables can be set in the .env file (see the .env-example file)
 * [/api/systems/{systemId}/artifacts](#upload)
 
 ### PUT
-
+* [/api/systems/{systemId}/controls](#put-controls)
 
 ## Endpoints CLI help
 Each CLI endpoint command has several layers of help. 
@@ -78,6 +78,7 @@ Each CLI endpoint command has several layers of help.
       - --filename=FILENAME   # The artifact file name
       - --compress            # BOOLEAN - true or false.
 
+**The same format is applicable to POST and PUT requests as well.**
 
 ## Usage - GET
 
@@ -131,7 +132,7 @@ There are two get endpoints for system roles:
     |--role          |Possible values: AO, Auditor, Artifact Manager, C&A Team, IAO, ISSO, PM/IAM, SCA, User Rep (View Only), Validator (IV&V)|
 
 
-  - optional parameter(s) are:
+  - optional parameter is:
     |parameter    | type or values                            |
     |-------------|:------------------------------------------|
     |--policy     |Possible values: diacap, rmf, reporting    |
@@ -256,7 +257,7 @@ There are two get endpoints that provides the ability to view existing `Artifact
     ````
     $ bundle exec exe/emasser get artifacts export --systemId=SYSTEMID
     ````
-  - required parameter is:
+  - required parameters are:
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
@@ -279,7 +280,7 @@ of a system's package in the Package Approval Chain (PAC).
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
   
-  - optional parameters are:
+  - optional parameter is:
     |parameter                      | type or values                                |
     |-------------------------------|:----------------------------------------------|
     |--controlAcronyms              |String - The system acronym(s) e.g "AC-1, AC-2"|
@@ -302,8 +303,85 @@ Posting artifacts can be accomplished by invoking the following command:
 
     $ bundle exec exe/emasser upload systemId [file1 ... filen]
 
-To get help on any endpoint use the `help` parameter preceding the command, for example the following command provides help for the get systems endpoint API call:
-
-    $ bundle exec exe/emasser help get system
 
 ## Usage - PUT
+## ``put controls``
+---
+
+The following fields are required:
+
+If Implementation Status `implementationStatus` field value is `Planned` or `Implemented`
+```
+controlDesignation, estimatedCompletionDate, responsibleEntities, slcmCriticality, slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments
+```
+If Implementation Status `implementationStatus` field value is `Manually Inherited`
+```
+commoncontrolprovider, securityControlDesignation, estimatedCompletionDate, responsibleEntities, slcmCriticality, slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments
+```
+
+If Implementation Status `implementationStatus` field value is `Not Applicable`
+```
+naJustification, controlDesignation, responsibleEntities
+```
+---
+If Implementation Status `implementationStatus` field value is `Inherited` only the following
+  fields can be updated:
+```
+commonnControlProvider, controlDesignation
+```
+---
+Implementation Plan information cannot be saved if the fields below exceed 2000 character limits:
+```
+naJustification, responsibleEntities, comments, slcmCriticality, slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments
+```
+---
+Updating (PUT) a control can be accomplished by invoking the following command:
+
+  ````
+  $ bundle exec exe/emasser put controls update [PARAMETERS]
+  ````
+  - required parameter are:
+    |parameter                 | type or values                                                           |
+    |--------------------------|:-------------------------------------------------------------------------|
+    |--systemId                |Integer - Unique system identifier                                        |
+    |--acronym                 |String - The system acronym(s) e.g "AC-1, AC-2"                           |
+    |--responsibleEntities     |String - Description of the responsible entities for the Security Control |
+    |--controlDesignation      |Possible values: Common, System-Specific, or Hybrid                       |
+    |--estimatedCompletionDate |Date - Unix time format (e.g. 1499990400)                                 |
+    |--comments                |String - Security control comments                                          |                    
+  
+  - optional parameters are:
+    |parameter              | type or values                                |
+    |-----------------------|:----------------------------------------------|
+    |--implementationStatus |Possible values: Planned, Implemented, Inherited, Not Applicable, or Manually Inherited|
+    |--severity             |Possible values: Very Low', 'Low', 'Moderate', 'High', 'Very High |
+    |--vulnerabiltySummary  |String - The security control vulnerability summary |
+    |--recommendations      |String - The security control vulnerability recommendation |
+    |--relevanceOfThreat    |Possible values: Very Low', 'Low', 'Moderate', 'High', 'Very High |
+    |--likelihood           |Possible values: Very Low', 'Low', 'Moderate', 'High', 'Very High |
+    |--impact               |Possible values: Very Low', 'Low', 'Moderate', 'High', 'Very High |
+    |--impactDescription    |String, - Description of the security control impact |
+    |--residualRiskLevel    |Possible values: Very Low', 'Low', 'Moderate', 'High', 'Very High |
+    
+    
+
+  - conditional parameters are:
+      option :commonControlProvider, type: :string, required: false,
+            enum: ['DoD', 'Component', 'Enclave'],
+            desc: 'Indicate the type of Common Control Provider for an "Inherited" Security Control'
+    option :naJustification, type: :string, required: false,
+            desc: 'Provide justification for Security Controls deemed Not Applicable to the system'
+    option :slcmCriticality, type: :string, required: false,
+            desc: 'Criticality of Security Control regarding SLCM'
+    option :slcmFrequency, type: :string, required: false,
+            enum: ['Constantly','Daily','Weekly','Monthly','Quarterly','Semi-Annually','Annually','Undetermined'],
+            desc: 'The System-Level Continuous Monitoring frequency'
+    option :slcmMethod, type: :string, required: false,
+            enum: ['Automated','Semi-Automated','Manual','Undetermined'],
+            desc: 'The System-Level Continuous Monitoring method'
+    option :slcmReporting, type: :string, required: false,
+            desc: 'The System-Level Continuous Monitoring reporting'
+    option :slcmTracking, type: :string, required: false,
+            desc: 'The System-Level Continuous Monitoring tracking'
+    option :slcmComments, type: :string, required: false,
+            desc: 'Additional comments for Security Control regarding SLCM'

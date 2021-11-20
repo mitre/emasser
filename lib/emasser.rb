@@ -2,6 +2,7 @@
 
 require 'thor'
 require 'zip'
+require 'colorize'
 require 'swagger_client'
 require 'emasser/constants'
 require 'emasser/configuration'

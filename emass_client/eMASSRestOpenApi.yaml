@@ -381,7 +381,7 @@ paths:
           |----------------------------------------------|---------------------------------------------------
           | Planned  or Implemented                      | `controlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments`
           | Not Applicable                               | `naJustification`, `controlDesignation`, `responsibleEntities`
-          | Manually Inherited                           | `commonControlProvider`, `controlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments`
+          | Manually Inherited                           | `commonControlProvider`, `securityControlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments`
           | Inherited                                    | Only the following fields can be updated: `commonnControlProvider`, `controlDesignation`
       operationId: updateControlBySystemId
       parameters:
@@ -521,7 +521,7 @@ paths:
     get:
       tags:
         - POAM
-      summary: "Get one or many poa&m items in a system"
+      summary: "Get one or many POA&M items in a system"
       description: |-
           Returns system containing POA&M items for matching parameters.
       parameters:
@@ -564,7 +564,7 @@ paths:
     post:
       tags:
         - POAM
-      summary: "Add one or many poa&m items in a system"
+      summary: "Add one or many POA&M items in a system"
       description: |-
         Adds POA&M for given `systemId`<br>
 
@@ -623,7 +623,7 @@ paths:
     put:
       tags:
         - POAM
-      summary: "Update one or many poa&m items in a system"
+      summary: "Update one or many POA&M items in a system"
       description: |-
         Update Adds POA&M for given `systemId`<br>
 
@@ -684,7 +684,7 @@ paths:
     delete:
       tags:
         - POAM
-      summary: "Remove one or many poa&m items in a system"
+      summary: "Remove one or many POA&M items in a system"
       description: |-
         Remove the POA&M matching `systemId` path parameter and `poamId` query parameter<br>
       operationId: deletePoam
@@ -718,7 +718,7 @@ paths:
     get:
       tags:
         - POAM
-      summary: "Get poa&m item by id in a system"
+      summary: "Get POA&M item by id in a system"
       description: |-
           Returns system test results information for matching parameters.<br>
       operationId: getPoamBySystemIdAndPoamId
@@ -761,7 +761,7 @@ paths:
     get:
       tags:
         - POAM
-      summary: "Get milestones in one or many poa&m items in a system"
+      summary: "Get milestones in one or many POA&M items in a system"
       description: |-
           Returns system containing milestones for matching parameters.
       operationId: getMilestonesBySystemIdAndPoamId
@@ -804,7 +804,7 @@ paths:
     post:
       tags:
         - POAM
-      summary: "Add milestones to one or many poa&m items in a system"
+      summary: "Add milestones to one or many POA&M items in a system"
       description: "Adds a milestone for given `systemId` and `poamId` path parameters"
       operationId: addMilestoneBySystemIdAndPoamId
       parameters:
@@ -850,7 +850,7 @@ paths:
     put:
       tags:
         - POAM
-      summary: "Update one or many poa&m items in a system"
+      summary: "Update one or many POA&M items in a system"
       description: "Updates a milestone for given `systemId` and `poamId` path parameters"
       operationId: updateMilestoneBySystemIdAndPoamId
       parameters:
@@ -896,7 +896,7 @@ paths:
     delete:
       tags:
         - POAM
-      summary: "Remove milestones in a system for one or many poa&m items"
+      summary: "Remove milestones in a system for one or many POA&M items"
       description: |-
         Remove the POA&M matching `systemId` path parameter<br>
         **Notes**<br>
@@ -933,7 +933,7 @@ paths:
     get:
       tags:
         - POAM
-      summary: "Get milestone by id in poa&m item in a system"
+      summary: "Get milestone by id in POA&M item in a system"
       description: |-
           Returns systems containing milestones for matching parameters.
       operationId: getMilestonesBySystemIdAndPoamIdAndfMilestoneId

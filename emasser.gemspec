@@ -23,6 +23,7 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'activesupport'
   spec.add_runtime_dependency 'dotenv'
+  spec.add_runtime_dependency 'colorize'
   spec.add_runtime_dependency 'rubyzip'
   spec.add_runtime_dependency 'swagger_client'
 
