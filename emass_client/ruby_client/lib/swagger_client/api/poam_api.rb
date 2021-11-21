@@ -1,7 +1,7 @@
 =begin
 #Enterprise Mission Assurance Support Service (eMASS)
 
-#The Enterprise Mission Assurance Support Service (eMASS) REST Application Programming Interface (API) enables users to perform assessments and complete actions associated with system records. This document will provide an outline of all eMASS objects and their associated endpoints to include Department of Defense (DoD) business rules that pertain to each.  New users will need to register an API key with the eMASS development team prior to accessing the site for the first time. The eMASS REST API requires a client certificate (SSL/TLS, DoD PKI only) where {url}/api/register (POST) is used to register the client certificate.  Every call to the eMASS REST API will require the use of the agreed upon public key certificate and API key. The API key must be provided in the request header for all endpoint calls (api-key). If the service receives an untrusted certificate or API key, a 401 error response code will be returned along with an error message.  <strong>Available Request Headers:</strong> | Key      | Example Value                | Description |----------|------------------------------|------------------------------------ |`api-key` |avalid-apikey-isrequired-here |This API key must be provided in the request header for all endpoint calls |`user-uid`|USER.UID.KEY                  |This User unique identifier key must be provided in the request header for all PUT, POST, and DELETE endpoint calls.  |          |                              |Note: For DoD users this is the DoD ID Number (EIDIPI) on their DoD CAC.  Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions.  <strong>Approve API Client for Actionable Requests</strong><br> Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions. Please note that leaving a field parameter blank (for PUT/POST requests) has the potential to clear information in the active eMASS records.  To establish an account with eMASS and/or acquire an api-key/user-uid, contact one of the listed POC:
+#The Enterprise Mission Assurance Support Service (eMASS) REST Application Programming Interface (API) enables users to perform assessments and complete actions associated with system records. This document will provide an outline of all eMASS objects and their associated endpoints to include Department of Defense (DoD) business rules that pertain to each.  New users will need to register an API key with the eMASS development team prior to accessing the site for the first time. The eMASS REST API requires a client certificate (SSL/TLS, DoD PKI only) where {url}/api/register (POST) is used to register the client certificate.  Every call to the eMASS REST API will require the use of the agreed upon public key certificate and API key. The API key must be provided in the request header for all endpoint calls (api-key). If the service receives an untrusted certificate or API key, a 401 error response code will be returned along with an error message.  <strong>Available Request Headers:</strong>  | Key      | Example Value            | Description |----------|--------------------------|------------------------------------ |`api-key` |api-key-provided-by-emass |This API key must be provided in the request header for all endpoint calls |`user-uid`|USER.UID.KEY              |This User unique identifier key must be provided in the request header for all PUT, POST, and DELETE endpoint calls. |          |                          |Note: For DoD users this is the DoD ID Number (EIDIPI) on their DoD CAC.  Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions.  <strong>Approve API Client for Actionable Requests</strong><br> Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions. Please note that leaving a field parameter blank (for PUT/POST requests) has the potential to clear information in the active eMASS records.  To establish an account with eMASS and/or acquire an api-key/user-uid, contact one of the listed POC: 
 
 OpenAPI spec version: 2.3.0
 Contact: disa.meade.id.mbx.emass-tier-iii-support@mail.mil
@@ -16,25 +16,25 @@ module SwaggerClient
     def initialize(api_client = ApiClient.default)
       @api_client = api_client
     end
-    # Add milestones to one or many poa&m items in a system
+    # Add milestones to one or many POA&M items in a system
     # Adds a milestone for given `systemId` and `poamId` path parameters
     # @param body Update an existing milestone
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Model200]
+    # @return [MilestoneResponsePost]
     def add_milestone_by_system_id_and_poam_id(body, system_id, poam_id, opts = {})
       data, _status_code, _headers = add_milestone_by_system_id_and_poam_id_with_http_info(body, system_id, poam_id, opts)
       data
     end
 
-    # Add milestones to one or many poa&amp;m items in a system
+    # Add milestones to one or many POA&amp;M items in a system
     # Adds a milestone for given &#x60;systemId&#x60; and &#x60;poamId&#x60; path parameters
     # @param body Update an existing milestone
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
+    # @return [Array<(MilestoneResponsePost, Integer, Hash)>] MilestoneResponsePost data, response status code and response headers
     def add_milestone_by_system_id_and_poam_id_with_http_info(body, system_id, poam_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.add_milestone_by_system_id_and_poam_id ...'
@@ -62,18 +62,15 @@ module SwaggerClient
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
-      form_params['poamId'] = poam_id
-      form_params['description'] = description
-      form_params['scheduledCompletionDate'] = scheduled_completion_date
 
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'Model200' 
+      return_type = opts[:return_type] || 'MilestoneResponsePost' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
@@ -89,108 +86,23 @@ module SwaggerClient
       end
       return data, status_code, headers
     end
-    # Add milestones to one or many poa&m items in a system
-    # Adds a milestone for given `systemId` and `poamId` path parameters
-    # @param poam_id2 
-    # @param description 
-    # @param scheduled_completion_date 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Model200]
-    def add_milestone_by_system_id_and_poam_id(poam_id2, description, scheduled_completion_date, system_id, poam_id, opts = {})
-      data, _status_code, _headers = add_milestone_by_system_id_and_poam_id_with_http_info(poam_id2, description, scheduled_completion_date, system_id, poam_id, opts)
-      data
-    end
-
-    # Add milestones to one or many poa&amp;m items in a system
-    # Adds a milestone for given &#x60;systemId&#x60; and &#x60;poamId&#x60; path parameters
-    # @param poam_id2 
-    # @param description 
-    # @param scheduled_completion_date 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
-    def add_milestone_by_system_id_and_poam_id_with_http_info(poam_id2, description, scheduled_completion_date, system_id, poam_id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: POAMApi.add_milestone_by_system_id_and_poam_id ...'
-      end
-      # verify the required parameter 'poam_id2' is set
-      if @api_client.config.client_side_validation && poam_id2.nil?
-        fail ArgumentError, "Missing the required parameter 'poam_id2' when calling POAMApi.add_milestone_by_system_id_and_poam_id"
-      end
-      # verify the required parameter 'description' is set
-      if @api_client.config.client_side_validation && description.nil?
-        fail ArgumentError, "Missing the required parameter 'description' when calling POAMApi.add_milestone_by_system_id_and_poam_id"
-      end
-      # verify the required parameter 'scheduled_completion_date' is set
-      if @api_client.config.client_side_validation && scheduled_completion_date.nil?
-        fail ArgumentError, "Missing the required parameter 'scheduled_completion_date' when calling POAMApi.add_milestone_by_system_id_and_poam_id"
-      end
-      # verify the required parameter 'system_id' is set
-      if @api_client.config.client_side_validation && system_id.nil?
-        fail ArgumentError, "Missing the required parameter 'system_id' when calling POAMApi.add_milestone_by_system_id_and_poam_id"
-      end
-      # verify the required parameter 'poam_id' is set
-      if @api_client.config.client_side_validation && poam_id.nil?
-        fail ArgumentError, "Missing the required parameter 'poam_id' when calling POAMApi.add_milestone_by_system_id_and_poam_id"
-      end
-      # resource path
-      local_var_path = '/api/systems/{systemId}/poams/{poamId}/milestones'.sub('{' + 'systemId' + '}', system_id.to_s).sub('{' + 'poamId' + '}', poam_id.to_s)
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-      form_params['poamId'] = poam_id
-      form_params['description'] = description
-      form_params['scheduledCompletionDate'] = scheduled_completion_date
-
-      # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(body) 
-
-      return_type = opts[:return_type] || 'Model200' 
-
-      auth_names = opts[:auth_names] || ['apikey', 'userid']
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type)
-
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: POAMApi#add_milestone_by_system_id_and_poam_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-    # Add one or many poa&m items in a system
-    # Adds POA&M for given `systemId`<br> **Note**<br> If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request.<br> `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`
+    # Add one or many POA&M items in a system
+    # Add a POA&M for given `systemId`<br>  **Request Body Required Fields** - `status` - `vulnerabilityDescription` - `sourceIdentVuln` - `reviewStatus`  **Note**<br /> If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are **required** within the request.<br> `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`<br />
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Model200]
+    # @return [PoamResponsePost]
     def add_poam_by_system_id(body, system_id, opts = {})
       data, _status_code, _headers = add_poam_by_system_id_with_http_info(body, system_id, opts)
       data
     end
 
-    # Add one or many poa&amp;m items in a system
-    # Adds POA&amp;M for given &#x60;systemId&#x60;&lt;br&gt; **Note**&lt;br&gt; If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request.&lt;br&gt; &#x60;pocOrganization&#x60;, &#x60;pocFirstName&#x60;, &#x60;pocLastName&#x60;, &#x60;pocEmail&#x60;, &#x60;pocPhoneNumber&#x60;
+    # Add one or many POA&amp;M items in a system
+    # Add a POA&amp;M for given &#x60;systemId&#x60;&lt;br&gt;  **Request Body Required Fields** - &#x60;status&#x60; - &#x60;vulnerabilityDescription&#x60; - &#x60;sourceIdentVuln&#x60; - &#x60;reviewStatus&#x60;  **Note**&lt;br /&gt; If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are **required** within the request.&lt;br&gt; &#x60;pocOrganization&#x60;, &#x60;pocFirstName&#x60;, &#x60;pocLastName&#x60;, &#x60;pocEmail&#x60;, &#x60;pocPhoneNumber&#x60;&lt;br /&gt;
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
+    # @return [Array<(PoamResponsePost, Integer, Hash)>] PoamResponsePost data, response status code and response headers
     def add_poam_by_system_id_with_http_info(body, system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.add_poam_by_system_id ...'
@@ -214,48 +126,15 @@ module SwaggerClient
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
-      form_params['poamId'] = poam_id
-      form_params['isInherited'] = is_inherited
-      form_params['externalUid'] = external_uid
-      form_params['controlAcronyms'] = control_acronyms
-      form_params['ccis'] = ccis
-      form_params['systemOnly'] = system_only
-      form_params['severity'] = severity
-      form_params['rawSeverity'] = raw_severity
-      form_params['status'] = status
-      form_params['reviewStatus'] = review_status
-      form_params['scheduledCompletionDate'] = scheduled_completion_date
-      form_params['completionDate'] = completion_date
-      form_params['extensionDate'] = extension_date
-      form_params['scheduledCompletionDateStart'] = scheduled_completion_date_start
-      form_params['scheduledCompletionDateEnd'] = scheduled_completion_date_end
-      form_params['pocOrganization'] = poc_organization
-      form_params['pocFirstName'] = poc_first_name
-      form_params['pocLastName'] = poc_last_name
-      form_params['pocEmail'] = poc_email
-      form_params['pocPhoneNumber'] = poc_phone_number
-      form_params['vulnerabilityDescription'] = vulnerability_description
-      form_params['mitigation'] = mitigation
-      form_params['comments'] = comments
-      form_params['resources'] = resources
-      form_params['sourceIdentVuln'] = source_ident_vuln
-      form_params['securityChecks'] = security_checks
-      form_params['recommendations'] = recommendations
-      form_params['relevanceOfThreat'] = relevance_of_threat
-      form_params['likelihood'] = likelihood
-      form_params['impact'] = impact
-      form_params['impactDescription'] = impact_description
-      form_params['residualRiskLevel'] = residual_risk_level
-      form_params['milestones'] = @api_client.build_collection_param(milestones, :multi)
 
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'Model200' 
+      return_type = opts[:return_type] || 'PoamResponsePost' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
@@ -271,329 +150,8 @@ module SwaggerClient
       end
       return data, status_code, headers
     end
-    # Add one or many poa&m items in a system
-    # Adds POA&M for given `systemId`<br> **Note**<br> If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request.<br> `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`
-    # @param poam_id 
-    # @param is_inherited 
-    # @param external_uid 
-    # @param control_acronyms 
-    # @param ccis 
-    # @param system_only 
-    # @param severity 
-    # @param raw_severity 
-    # @param status 
-    # @param review_status 
-    # @param scheduled_completion_date 
-    # @param completion_date 
-    # @param extension_date 
-    # @param scheduled_completion_date_start 
-    # @param scheduled_completion_date_end 
-    # @param poc_organization 
-    # @param poc_first_name 
-    # @param poc_last_name 
-    # @param poc_email 
-    # @param poc_phone_number 
-    # @param vulnerability_description 
-    # @param mitigation 
-    # @param comments 
-    # @param resources 
-    # @param source_ident_vuln 
-    # @param security_checks 
-    # @param recommendations 
-    # @param relevance_of_threat 
-    # @param likelihood 
-    # @param impact 
-    # @param impact_description 
-    # @param residual_risk_level 
-    # @param milestones 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Model200]
-    def add_poam_by_system_id(poam_id, is_inherited, external_uid, control_acronyms, ccis, system_only, severity, raw_severity, status, review_status, scheduled_completion_date, completion_date, extension_date, scheduled_completion_date_start, scheduled_completion_date_end, poc_organization, poc_first_name, poc_last_name, poc_email, poc_phone_number, vulnerability_description, mitigation, comments, resources, source_ident_vuln, security_checks, recommendations, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, milestones, system_id, opts = {})
-      data, _status_code, _headers = add_poam_by_system_id_with_http_info(poam_id, is_inherited, external_uid, control_acronyms, ccis, system_only, severity, raw_severity, status, review_status, scheduled_completion_date, completion_date, extension_date, scheduled_completion_date_start, scheduled_completion_date_end, poc_organization, poc_first_name, poc_last_name, poc_email, poc_phone_number, vulnerability_description, mitigation, comments, resources, source_ident_vuln, security_checks, recommendations, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, milestones, system_id, opts)
-      data
-    end
-
-    # Add one or many poa&amp;m items in a system
-    # Adds POA&amp;M for given &#x60;systemId&#x60;&lt;br&gt; **Note**&lt;br&gt; If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request.&lt;br&gt; &#x60;pocOrganization&#x60;, &#x60;pocFirstName&#x60;, &#x60;pocLastName&#x60;, &#x60;pocEmail&#x60;, &#x60;pocPhoneNumber&#x60;
-    # @param poam_id 
-    # @param is_inherited 
-    # @param external_uid 
-    # @param control_acronyms 
-    # @param ccis 
-    # @param system_only 
-    # @param severity 
-    # @param raw_severity 
-    # @param status 
-    # @param review_status 
-    # @param scheduled_completion_date 
-    # @param completion_date 
-    # @param extension_date 
-    # @param scheduled_completion_date_start 
-    # @param scheduled_completion_date_end 
-    # @param poc_organization 
-    # @param poc_first_name 
-    # @param poc_last_name 
-    # @param poc_email 
-    # @param poc_phone_number 
-    # @param vulnerability_description 
-    # @param mitigation 
-    # @param comments 
-    # @param resources 
-    # @param source_ident_vuln 
-    # @param security_checks 
-    # @param recommendations 
-    # @param relevance_of_threat 
-    # @param likelihood 
-    # @param impact 
-    # @param impact_description 
-    # @param residual_risk_level 
-    # @param milestones 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
-    def add_poam_by_system_id_with_http_info(poam_id, is_inherited, external_uid, control_acronyms, ccis, system_only, severity, raw_severity, status, review_status, scheduled_completion_date, completion_date, extension_date, scheduled_completion_date_start, scheduled_completion_date_end, poc_organization, poc_first_name, poc_last_name, poc_email, poc_phone_number, vulnerability_description, mitigation, comments, resources, source_ident_vuln, security_checks, recommendations, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, milestones, system_id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: POAMApi.add_poam_by_system_id ...'
-      end
-      # verify the required parameter 'poam_id' is set
-      if @api_client.config.client_side_validation && poam_id.nil?
-        fail ArgumentError, "Missing the required parameter 'poam_id' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'is_inherited' is set
-      if @api_client.config.client_side_validation && is_inherited.nil?
-        fail ArgumentError, "Missing the required parameter 'is_inherited' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'external_uid' is set
-      if @api_client.config.client_side_validation && external_uid.nil?
-        fail ArgumentError, "Missing the required parameter 'external_uid' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'control_acronyms' is set
-      if @api_client.config.client_side_validation && control_acronyms.nil?
-        fail ArgumentError, "Missing the required parameter 'control_acronyms' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'ccis' is set
-      if @api_client.config.client_side_validation && ccis.nil?
-        fail ArgumentError, "Missing the required parameter 'ccis' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'system_only' is set
-      if @api_client.config.client_side_validation && system_only.nil?
-        fail ArgumentError, "Missing the required parameter 'system_only' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'severity' is set
-      if @api_client.config.client_side_validation && severity.nil?
-        fail ArgumentError, "Missing the required parameter 'severity' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(severity)
-        fail ArgumentError, "invalid value for 'severity', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'raw_severity' is set
-      if @api_client.config.client_side_validation && raw_severity.nil?
-        fail ArgumentError, "Missing the required parameter 'raw_severity' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['I', 'II', 'III'].include?(raw_severity)
-        fail ArgumentError, "invalid value for 'raw_severity', must be one of I, II, III"
-      end
-      # verify the required parameter 'status' is set
-      if @api_client.config.client_side_validation && status.nil?
-        fail ArgumentError, "Missing the required parameter 'status' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Ongoing', 'Risk Accepted', 'Completed', 'Not Applicable'].include?(status)
-        fail ArgumentError, "invalid value for 'status', must be one of Ongoing, Risk Accepted, Completed, Not Applicable"
-      end
-      # verify the required parameter 'review_status' is set
-      if @api_client.config.client_side_validation && review_status.nil?
-        fail ArgumentError, "Missing the required parameter 'review_status' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Not Approved', 'Under Review', 'Approved'].include?(review_status)
-        fail ArgumentError, "invalid value for 'review_status', must be one of Not Approved, Under Review, Approved"
-      end
-      # verify the required parameter 'scheduled_completion_date' is set
-      if @api_client.config.client_side_validation && scheduled_completion_date.nil?
-        fail ArgumentError, "Missing the required parameter 'scheduled_completion_date' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'completion_date' is set
-      if @api_client.config.client_side_validation && completion_date.nil?
-        fail ArgumentError, "Missing the required parameter 'completion_date' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'extension_date' is set
-      if @api_client.config.client_side_validation && extension_date.nil?
-        fail ArgumentError, "Missing the required parameter 'extension_date' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'scheduled_completion_date_start' is set
-      if @api_client.config.client_side_validation && scheduled_completion_date_start.nil?
-        fail ArgumentError, "Missing the required parameter 'scheduled_completion_date_start' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'scheduled_completion_date_end' is set
-      if @api_client.config.client_side_validation && scheduled_completion_date_end.nil?
-        fail ArgumentError, "Missing the required parameter 'scheduled_completion_date_end' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'poc_organization' is set
-      if @api_client.config.client_side_validation && poc_organization.nil?
-        fail ArgumentError, "Missing the required parameter 'poc_organization' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'poc_first_name' is set
-      if @api_client.config.client_side_validation && poc_first_name.nil?
-        fail ArgumentError, "Missing the required parameter 'poc_first_name' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'poc_last_name' is set
-      if @api_client.config.client_side_validation && poc_last_name.nil?
-        fail ArgumentError, "Missing the required parameter 'poc_last_name' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'poc_email' is set
-      if @api_client.config.client_side_validation && poc_email.nil?
-        fail ArgumentError, "Missing the required parameter 'poc_email' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'poc_phone_number' is set
-      if @api_client.config.client_side_validation && poc_phone_number.nil?
-        fail ArgumentError, "Missing the required parameter 'poc_phone_number' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'vulnerability_description' is set
-      if @api_client.config.client_side_validation && vulnerability_description.nil?
-        fail ArgumentError, "Missing the required parameter 'vulnerability_description' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'mitigation' is set
-      if @api_client.config.client_side_validation && mitigation.nil?
-        fail ArgumentError, "Missing the required parameter 'mitigation' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'comments' is set
-      if @api_client.config.client_side_validation && comments.nil?
-        fail ArgumentError, "Missing the required parameter 'comments' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'resources' is set
-      if @api_client.config.client_side_validation && resources.nil?
-        fail ArgumentError, "Missing the required parameter 'resources' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'source_ident_vuln' is set
-      if @api_client.config.client_side_validation && source_ident_vuln.nil?
-        fail ArgumentError, "Missing the required parameter 'source_ident_vuln' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'security_checks' is set
-      if @api_client.config.client_side_validation && security_checks.nil?
-        fail ArgumentError, "Missing the required parameter 'security_checks' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'recommendations' is set
-      if @api_client.config.client_side_validation && recommendations.nil?
-        fail ArgumentError, "Missing the required parameter 'recommendations' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'relevance_of_threat' is set
-      if @api_client.config.client_side_validation && relevance_of_threat.nil?
-        fail ArgumentError, "Missing the required parameter 'relevance_of_threat' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(relevance_of_threat)
-        fail ArgumentError, "invalid value for 'relevance_of_threat', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'likelihood' is set
-      if @api_client.config.client_side_validation && likelihood.nil?
-        fail ArgumentError, "Missing the required parameter 'likelihood' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(likelihood)
-        fail ArgumentError, "invalid value for 'likelihood', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'impact' is set
-      if @api_client.config.client_side_validation && impact.nil?
-        fail ArgumentError, "Missing the required parameter 'impact' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(impact)
-        fail ArgumentError, "invalid value for 'impact', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'impact_description' is set
-      if @api_client.config.client_side_validation && impact_description.nil?
-        fail ArgumentError, "Missing the required parameter 'impact_description' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'residual_risk_level' is set
-      if @api_client.config.client_side_validation && residual_risk_level.nil?
-        fail ArgumentError, "Missing the required parameter 'residual_risk_level' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(residual_risk_level)
-        fail ArgumentError, "invalid value for 'residual_risk_level', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'milestones' is set
-      if @api_client.config.client_side_validation && milestones.nil?
-        fail ArgumentError, "Missing the required parameter 'milestones' when calling POAMApi.add_poam_by_system_id"
-      end
-      # verify the required parameter 'system_id' is set
-      if @api_client.config.client_side_validation && system_id.nil?
-        fail ArgumentError, "Missing the required parameter 'system_id' when calling POAMApi.add_poam_by_system_id"
-      end
-      # resource path
-      local_var_path = '/api/systems/{systemId}/poams'.sub('{' + 'systemId' + '}', system_id.to_s)
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-      form_params['poamId'] = poam_id
-      form_params['isInherited'] = is_inherited
-      form_params['externalUid'] = external_uid
-      form_params['controlAcronyms'] = control_acronyms
-      form_params['ccis'] = ccis
-      form_params['systemOnly'] = system_only
-      form_params['severity'] = severity
-      form_params['rawSeverity'] = raw_severity
-      form_params['status'] = status
-      form_params['reviewStatus'] = review_status
-      form_params['scheduledCompletionDate'] = scheduled_completion_date
-      form_params['completionDate'] = completion_date
-      form_params['extensionDate'] = extension_date
-      form_params['scheduledCompletionDateStart'] = scheduled_completion_date_start
-      form_params['scheduledCompletionDateEnd'] = scheduled_completion_date_end
-      form_params['pocOrganization'] = poc_organization
-      form_params['pocFirstName'] = poc_first_name
-      form_params['pocLastName'] = poc_last_name
-      form_params['pocEmail'] = poc_email
-      form_params['pocPhoneNumber'] = poc_phone_number
-      form_params['vulnerabilityDescription'] = vulnerability_description
-      form_params['mitigation'] = mitigation
-      form_params['comments'] = comments
-      form_params['resources'] = resources
-      form_params['sourceIdentVuln'] = source_ident_vuln
-      form_params['securityChecks'] = security_checks
-      form_params['recommendations'] = recommendations
-      form_params['relevanceOfThreat'] = relevance_of_threat
-      form_params['likelihood'] = likelihood
-      form_params['impact'] = impact
-      form_params['impactDescription'] = impact_description
-      form_params['residualRiskLevel'] = residual_risk_level
-      form_params['milestones'] = @api_client.build_collection_param(milestones, :multi)
-
-      # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(body) 
-
-      return_type = opts[:return_type] || 'Model200' 
-
-      auth_names = opts[:auth_names] || ['apikey', 'userid']
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type)
-
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: POAMApi#add_poam_by_system_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-    # Get one or many poa&m items in a system
-    # Returns system containing POA&M items for matching parameters. 
+    # Get one or many POA&M items in a system
+    # Returns system containing POA&M items for matching parameters.
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :scheduled_completion_date_start **Date Started**: Filter query by the scheduled competion start date.
@@ -601,14 +159,14 @@ module SwaggerClient
     # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or comma separated).
     # @option opts [String] :cci **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
     # @option opts [BOOLEAN] :system_only **Systems Only**: Indicates that only system(s) information is retrieved. (default to true)
-    # @return [PoamResponse]
+    # @return [PoamResponseGet]
     def api_systems_system_id_poams_get(system_id, opts = {})
       data, _status_code, _headers = api_systems_system_id_poams_get_with_http_info(system_id, opts)
       data
     end
 
-    # Get one or many poa&amp;m items in a system
-    # Returns system containing POA&amp;M items for matching parameters. 
+    # Get one or many POA&amp;M items in a system
+    # Returns system containing POA&amp;M items for matching parameters.
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :scheduled_completion_date_start **Date Started**: Filter query by the scheduled competion start date.
@@ -616,7 +174,7 @@ module SwaggerClient
     # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or comma separated).
     # @option opts [String] :cci **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
     # @option opts [BOOLEAN] :system_only **Systems Only**: Indicates that only system(s) information is retrieved.
-    # @return [Array<(PoamResponse, Integer, Hash)>] PoamResponse data, response status code and response headers
+    # @return [Array<(PoamResponseGet, Integer, Hash)>] PoamResponseGet data, response status code and response headers
     def api_systems_system_id_poams_get_with_http_info(system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.api_systems_system_id_poams_get ...'
@@ -647,7 +205,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] 
 
-      return_type = opts[:return_type] || 'PoamResponse' 
+      return_type = opts[:return_type] || 'PoamResponseGet' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
@@ -663,25 +221,25 @@ module SwaggerClient
       end
       return data, status_code, headers
     end
-    # Remove milestones in a system for one or many poa&m items
+    # Remove milestones in a system for one or many POA&M items
     # Remove the POA&M matching `systemId` path parameter<br> **Notes**<br> To delete a milestone the record must be inactive by having the field isActive set to false (`isActive=false`).
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param milestone_id **Milestone Id**: The unique milestone record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Model200]
+    # @return [MilestonesDelete]
     def delete_milestone(system_id, poam_id, milestone_id, opts = {})
       data, _status_code, _headers = delete_milestone_with_http_info(system_id, poam_id, milestone_id, opts)
       data
     end
 
-    # Remove milestones in a system for one or many poa&amp;m items
+    # Remove milestones in a system for one or many POA&amp;M items
     # Remove the POA&amp;M matching &#x60;systemId&#x60; path parameter&lt;br&gt; **Notes**&lt;br&gt; To delete a milestone the record must be inactive by having the field isActive set to false (&#x60;isActive&#x3D;false&#x60;).
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param milestone_id **Milestone Id**: The unique milestone record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
+    # @return [Array<(MilestonesDelete, Integer, Hash)>] MilestonesDelete data, response status code and response headers
     def delete_milestone_with_http_info(system_id, poam_id, milestone_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.delete_milestone ...'
@@ -716,7 +274,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] 
 
-      return_type = opts[:return_type] || 'Model200' 
+      return_type = opts[:return_type] || 'MilestonesDelete' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
@@ -732,23 +290,23 @@ module SwaggerClient
       end
       return data, status_code, headers
     end
-    # Remove one or many poa&m items in a system
+    # Remove one or many POA&M items in a system
     # Remove the POA&M matching `systemId` path parameter and `poamId` query parameter<br>
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Model200]
+    # @return [PoamResponseDelete]
     def delete_poam(system_id, poam_id, opts = {})
       data, _status_code, _headers = delete_poam_with_http_info(system_id, poam_id, opts)
       data
     end
 
-    # Remove one or many poa&amp;m items in a system
+    # Remove one or many POA&amp;M items in a system
     # Remove the POA&amp;M matching &#x60;systemId&#x60; path parameter and &#x60;poamId&#x60; query parameter&lt;br&gt;
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
+    # @return [Array<(PoamResponseDelete, Integer, Hash)>] PoamResponseDelete data, response status code and response headers
     def delete_poam_with_http_info(system_id, poam_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.delete_poam ...'
@@ -779,7 +337,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] 
 
-      return_type = opts[:return_type] || 'Model200' 
+      return_type = opts[:return_type] || 'PoamResponseDelete' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
@@ -795,27 +353,27 @@ module SwaggerClient
       end
       return data, status_code, headers
     end
-    # Get milestones in one or many poa&m items in a system
-    # Returns system containing milestones for matching parameters. 
+    # Get milestones in one or many POA&M items in a system
+    # Returns system containing milestones for matching parameters.
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :scheduled_completion_date_start **Date Started**: Filter query by the scheduled competion start date.
     # @option opts [String] :scheduled_completion_date_end **Date Ended**: Filter query by the scheduled competion start date.
-    # @return [MilestoneResponse]
+    # @return [MilestoneResponseGet]
     def get_milestones_by_system_id_and_poam_id(system_id, poam_id, opts = {})
       data, _status_code, _headers = get_milestones_by_system_id_and_poam_id_with_http_info(system_id, poam_id, opts)
       data
     end
 
-    # Get milestones in one or many poa&amp;m items in a system
-    # Returns system containing milestones for matching parameters. 
+    # Get milestones in one or many POA&amp;M items in a system
+    # Returns system containing milestones for matching parameters.
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :scheduled_completion_date_start **Date Started**: Filter query by the scheduled competion start date.
     # @option opts [String] :scheduled_completion_date_end **Date Ended**: Filter query by the scheduled competion start date.
-    # @return [Array<(MilestoneResponse, Integer, Hash)>] MilestoneResponse data, response status code and response headers
+    # @return [Array<(MilestoneResponseGet, Integer, Hash)>] MilestoneResponseGet data, response status code and response headers
     def get_milestones_by_system_id_and_poam_id_with_http_info(system_id, poam_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.get_milestones_by_system_id_and_poam_id ...'
@@ -847,7 +405,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] 
 
-      return_type = opts[:return_type] || 'MilestoneResponse' 
+      return_type = opts[:return_type] || 'MilestoneResponseGet' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
@@ -863,25 +421,25 @@ module SwaggerClient
       end
       return data, status_code, headers
     end
-    # Get milestone by id in poa&m item in a system
-    # Returns systems containing milestones for matching parameters. 
+    # Get milestone by id in POA&M item in a system
+    # Returns systems containing milestones for matching parameters.
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param milestone_id **Milestone Id**: The unique milestone record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [MilestoneResponse]
+    # @return [MilestoneResponseGet]
     def get_milestones_by_system_id_and_poam_id_andf_milestone_id(system_id, poam_id, milestone_id, opts = {})
       data, _status_code, _headers = get_milestones_by_system_id_and_poam_id_andf_milestone_id_with_http_info(system_id, poam_id, milestone_id, opts)
       data
     end
 
-    # Get milestone by id in poa&amp;m item in a system
-    # Returns systems containing milestones for matching parameters. 
+    # Get milestone by id in POA&amp;M item in a system
+    # Returns systems containing milestones for matching parameters.
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param milestone_id **Milestone Id**: The unique milestone record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(MilestoneResponse, Integer, Hash)>] MilestoneResponse data, response status code and response headers
+    # @return [Array<(MilestoneResponseGet, Integer, Hash)>] MilestoneResponseGet data, response status code and response headers
     def get_milestones_by_system_id_and_poam_id_andf_milestone_id_with_http_info(system_id, poam_id, milestone_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.get_milestones_by_system_id_and_poam_id_andf_milestone_id ...'
@@ -915,7 +473,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] 
 
-      return_type = opts[:return_type] || 'MilestoneResponse' 
+      return_type = opts[:return_type] || 'MilestoneResponseGet' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
@@ -931,23 +489,23 @@ module SwaggerClient
       end
       return data, status_code, headers
     end
-    # Get poa&m item by id in a system
+    # Get POA&M item by id in a system
     # Returns system test results information for matching parameters.<br>
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [PoamResponse]
+    # @return [PoamResponseGet]
     def get_poam_by_system_id_and_poam_id(system_id, poam_id, opts = {})
       data, _status_code, _headers = get_poam_by_system_id_and_poam_id_with_http_info(system_id, poam_id, opts)
       data
     end
 
-    # Get poa&amp;m item by id in a system
+    # Get POA&amp;M item by id in a system
     # Returns system test results information for matching parameters.&lt;br&gt;
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(PoamResponse, Integer, Hash)>] PoamResponse data, response status code and response headers
+    # @return [Array<(PoamResponseGet, Integer, Hash)>] PoamResponseGet data, response status code and response headers
     def get_poam_by_system_id_and_poam_id_with_http_info(system_id, poam_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.get_poam_by_system_id_and_poam_id ...'
@@ -977,7 +535,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] 
 
-      return_type = opts[:return_type] || 'PoamResponse' 
+      return_type = opts[:return_type] || 'PoamResponseGet' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
@@ -993,25 +551,25 @@ module SwaggerClient
       end
       return data, status_code, headers
     end
-    # Update one or many poa&m items in a system
+    # Update one or many POA&M items in a system
     # Updates a milestone for given `systemId` and `poamId` path parameters
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Model200]
+    # @return [MilestoneResponsePost]
     def update_milestone_by_system_id_and_poam_id(body, system_id, poam_id, opts = {})
       data, _status_code, _headers = update_milestone_by_system_id_and_poam_id_with_http_info(body, system_id, poam_id, opts)
       data
     end
 
-    # Update one or many poa&amp;m items in a system
+    # Update one or many POA&amp;M items in a system
     # Updates a milestone for given &#x60;systemId&#x60; and &#x60;poamId&#x60; path parameters
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
+    # @return [Array<(MilestoneResponsePost, Integer, Hash)>] MilestoneResponsePost data, response status code and response headers
     def update_milestone_by_system_id_and_poam_id_with_http_info(body, system_id, poam_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.update_milestone_by_system_id_and_poam_id ...'
@@ -1039,18 +597,15 @@ module SwaggerClient
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
-      form_params['poamId'] = poam_id
-      form_params['description'] = description
-      form_params['scheduledCompletionDate'] = scheduled_completion_date
 
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'Model200' 
+      return_type = opts[:return_type] || 'MilestoneResponsePost' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
@@ -1066,108 +621,23 @@ module SwaggerClient
       end
       return data, status_code, headers
     end
-    # Update one or many poa&m items in a system
-    # Updates a milestone for given `systemId` and `poamId` path parameters
-    # @param poam_id2 
-    # @param description 
-    # @param scheduled_completion_date 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Model200]
-    def update_milestone_by_system_id_and_poam_id(poam_id2, description, scheduled_completion_date, system_id, poam_id, opts = {})
-      data, _status_code, _headers = update_milestone_by_system_id_and_poam_id_with_http_info(poam_id2, description, scheduled_completion_date, system_id, poam_id, opts)
-      data
-    end
-
-    # Update one or many poa&amp;m items in a system
-    # Updates a milestone for given &#x60;systemId&#x60; and &#x60;poamId&#x60; path parameters
-    # @param poam_id2 
-    # @param description 
-    # @param scheduled_completion_date 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
-    def update_milestone_by_system_id_and_poam_id_with_http_info(poam_id2, description, scheduled_completion_date, system_id, poam_id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: POAMApi.update_milestone_by_system_id_and_poam_id ...'
-      end
-      # verify the required parameter 'poam_id2' is set
-      if @api_client.config.client_side_validation && poam_id2.nil?
-        fail ArgumentError, "Missing the required parameter 'poam_id2' when calling POAMApi.update_milestone_by_system_id_and_poam_id"
-      end
-      # verify the required parameter 'description' is set
-      if @api_client.config.client_side_validation && description.nil?
-        fail ArgumentError, "Missing the required parameter 'description' when calling POAMApi.update_milestone_by_system_id_and_poam_id"
-      end
-      # verify the required parameter 'scheduled_completion_date' is set
-      if @api_client.config.client_side_validation && scheduled_completion_date.nil?
-        fail ArgumentError, "Missing the required parameter 'scheduled_completion_date' when calling POAMApi.update_milestone_by_system_id_and_poam_id"
-      end
-      # verify the required parameter 'system_id' is set
-      if @api_client.config.client_side_validation && system_id.nil?
-        fail ArgumentError, "Missing the required parameter 'system_id' when calling POAMApi.update_milestone_by_system_id_and_poam_id"
-      end
-      # verify the required parameter 'poam_id' is set
-      if @api_client.config.client_side_validation && poam_id.nil?
-        fail ArgumentError, "Missing the required parameter 'poam_id' when calling POAMApi.update_milestone_by_system_id_and_poam_id"
-      end
-      # resource path
-      local_var_path = '/api/systems/{systemId}/poams/{poamId}/milestones'.sub('{' + 'systemId' + '}', system_id.to_s).sub('{' + 'poamId' + '}', poam_id.to_s)
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-      form_params['poamId'] = poam_id
-      form_params['description'] = description
-      form_params['scheduledCompletionDate'] = scheduled_completion_date
-
-      # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(body) 
-
-      return_type = opts[:return_type] || 'Model200' 
-
-      auth_names = opts[:auth_names] || ['apikey', 'userid']
-      data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type)
-
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: POAMApi#update_milestone_by_system_id_and_poam_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-    # Update one or many poa&m items in a system
-    # Update Adds POA&M for given `systemId`<br> **Note**<br> If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request.<br> `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`
+    # Update one or many POA&M items in a system
+    # Update a POA&M for given `systemId`<br>  **Request Body Required Fields** - `poamId` - `status` - `vulnerabilityDescription` - `sourceIdentVuln` - `reviewStatus`  **Notes** - If a POC email is supplied, the application will attempt to locate a user already   registered within the application and pre-populate any information not explicitly supplied   in the request. If no such user is found, these fields are **required** within the request.<br>   `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`<br />  - To delete a milestone through the POA&M PUT the field `isActive` must be set to `false`: `isActive=false`.
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Model200]
+    # @return [PoamResponsePut]
     def update_poam_by_system_id(body, system_id, opts = {})
       data, _status_code, _headers = update_poam_by_system_id_with_http_info(body, system_id, opts)
       data
     end
 
-    # Update one or many poa&amp;m items in a system
-    # Update Adds POA&amp;M for given &#x60;systemId&#x60;&lt;br&gt; **Note**&lt;br&gt; If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request.&lt;br&gt; &#x60;pocOrganization&#x60;, &#x60;pocFirstName&#x60;, &#x60;pocLastName&#x60;, &#x60;pocEmail&#x60;, &#x60;pocPhoneNumber&#x60;
+    # Update one or many POA&amp;M items in a system
+    # Update a POA&amp;M for given &#x60;systemId&#x60;&lt;br&gt;  **Request Body Required Fields** - &#x60;poamId&#x60; - &#x60;status&#x60; - &#x60;vulnerabilityDescription&#x60; - &#x60;sourceIdentVuln&#x60; - &#x60;reviewStatus&#x60;  **Notes** - If a POC email is supplied, the application will attempt to locate a user already   registered within the application and pre-populate any information not explicitly supplied   in the request. If no such user is found, these fields are **required** within the request.&lt;br&gt;   &#x60;pocOrganization&#x60;, &#x60;pocFirstName&#x60;, &#x60;pocLastName&#x60;, &#x60;pocEmail&#x60;, &#x60;pocPhoneNumber&#x60;&lt;br /&gt;  - To delete a milestone through the POA&amp;M PUT the field &#x60;isActive&#x60; must be set to &#x60;false&#x60;: &#x60;isActive&#x3D;false&#x60;.
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
+    # @return [Array<(PoamResponsePut, Integer, Hash)>] PoamResponsePut data, response status code and response headers
     def update_poam_by_system_id_with_http_info(body, system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.update_poam_by_system_id ...'
@@ -1191,369 +661,15 @@ module SwaggerClient
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
-      form_params['poamId'] = poam_id
-      form_params['isInherited'] = is_inherited
-      form_params['externalUid'] = external_uid
-      form_params['controlAcronyms'] = control_acronyms
-      form_params['ccis'] = ccis
-      form_params['systemOnly'] = system_only
-      form_params['severity'] = severity
-      form_params['rawSeverity'] = raw_severity
-      form_params['status'] = status
-      form_params['reviewStatus'] = review_status
-      form_params['scheduledCompletionDate'] = scheduled_completion_date
-      form_params['completionDate'] = completion_date
-      form_params['extensionDate'] = extension_date
-      form_params['scheduledCompletionDateStart'] = scheduled_completion_date_start
-      form_params['scheduledCompletionDateEnd'] = scheduled_completion_date_end
-      form_params['pocOrganization'] = poc_organization
-      form_params['pocFirstName'] = poc_first_name
-      form_params['pocLastName'] = poc_last_name
-      form_params['pocEmail'] = poc_email
-      form_params['pocPhoneNumber'] = poc_phone_number
-      form_params['vulnerabilityDescription'] = vulnerability_description
-      form_params['mitigation'] = mitigation
-      form_params['comments'] = comments
-      form_params['resources'] = resources
-      form_params['sourceIdentVuln'] = source_ident_vuln
-      form_params['securityChecks'] = security_checks
-      form_params['recommendations'] = recommendations
-      form_params['relevanceOfThreat'] = relevance_of_threat
-      form_params['likelihood'] = likelihood
-      form_params['impact'] = impact
-      form_params['impactDescription'] = impact_description
-      form_params['residualRiskLevel'] = residual_risk_level
-      form_params['milestones'] = @api_client.build_collection_param(milestones, :multi)
 
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'Model200' 
-
-      auth_names = opts[:auth_names] || ['apikey', 'userid']
-      data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type)
-
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: POAMApi#update_poam_by_system_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-    # Update one or many poa&m items in a system
-    # Update Adds POA&M for given `systemId`<br> **Note**<br> If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request.<br> `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`
-    # @param poam_id 
-    # @param is_inherited 
-    # @param external_uid 
-    # @param control_acronyms 
-    # @param ccis 
-    # @param system_only 
-    # @param severity 
-    # @param raw_severity 
-    # @param status 
-    # @param review_status 
-    # @param scheduled_completion_date 
-    # @param completion_date 
-    # @param extension_date 
-    # @param scheduled_completion_date_start 
-    # @param scheduled_completion_date_end 
-    # @param poc_organization 
-    # @param poc_first_name 
-    # @param poc_last_name 
-    # @param poc_email 
-    # @param poc_phone_number 
-    # @param vulnerability_description 
-    # @param mitigation 
-    # @param comments 
-    # @param resources 
-    # @param source_ident_vuln 
-    # @param security_checks 
-    # @param recommendations 
-    # @param relevance_of_threat 
-    # @param likelihood 
-    # @param impact 
-    # @param impact_description 
-    # @param residual_risk_level 
-    # @param milestones 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Model200]
-    def update_poam_by_system_id(poam_id, is_inherited, external_uid, control_acronyms, ccis, system_only, severity, raw_severity, status, review_status, scheduled_completion_date, completion_date, extension_date, scheduled_completion_date_start, scheduled_completion_date_end, poc_organization, poc_first_name, poc_last_name, poc_email, poc_phone_number, vulnerability_description, mitigation, comments, resources, source_ident_vuln, security_checks, recommendations, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, milestones, system_id, opts = {})
-      data, _status_code, _headers = update_poam_by_system_id_with_http_info(poam_id, is_inherited, external_uid, control_acronyms, ccis, system_only, severity, raw_severity, status, review_status, scheduled_completion_date, completion_date, extension_date, scheduled_completion_date_start, scheduled_completion_date_end, poc_organization, poc_first_name, poc_last_name, poc_email, poc_phone_number, vulnerability_description, mitigation, comments, resources, source_ident_vuln, security_checks, recommendations, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, milestones, system_id, opts)
-      data
-    end
-
-    # Update one or many poa&amp;m items in a system
-    # Update Adds POA&amp;M for given &#x60;systemId&#x60;&lt;br&gt; **Note**&lt;br&gt; If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request.&lt;br&gt; &#x60;pocOrganization&#x60;, &#x60;pocFirstName&#x60;, &#x60;pocLastName&#x60;, &#x60;pocEmail&#x60;, &#x60;pocPhoneNumber&#x60;
-    # @param poam_id 
-    # @param is_inherited 
-    # @param external_uid 
-    # @param control_acronyms 
-    # @param ccis 
-    # @param system_only 
-    # @param severity 
-    # @param raw_severity 
-    # @param status 
-    # @param review_status 
-    # @param scheduled_completion_date 
-    # @param completion_date 
-    # @param extension_date 
-    # @param scheduled_completion_date_start 
-    # @param scheduled_completion_date_end 
-    # @param poc_organization 
-    # @param poc_first_name 
-    # @param poc_last_name 
-    # @param poc_email 
-    # @param poc_phone_number 
-    # @param vulnerability_description 
-    # @param mitigation 
-    # @param comments 
-    # @param resources 
-    # @param source_ident_vuln 
-    # @param security_checks 
-    # @param recommendations 
-    # @param relevance_of_threat 
-    # @param likelihood 
-    # @param impact 
-    # @param impact_description 
-    # @param residual_risk_level 
-    # @param milestones 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
-    def update_poam_by_system_id_with_http_info(poam_id, is_inherited, external_uid, control_acronyms, ccis, system_only, severity, raw_severity, status, review_status, scheduled_completion_date, completion_date, extension_date, scheduled_completion_date_start, scheduled_completion_date_end, poc_organization, poc_first_name, poc_last_name, poc_email, poc_phone_number, vulnerability_description, mitigation, comments, resources, source_ident_vuln, security_checks, recommendations, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, milestones, system_id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: POAMApi.update_poam_by_system_id ...'
-      end
-      # verify the required parameter 'poam_id' is set
-      if @api_client.config.client_side_validation && poam_id.nil?
-        fail ArgumentError, "Missing the required parameter 'poam_id' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'is_inherited' is set
-      if @api_client.config.client_side_validation && is_inherited.nil?
-        fail ArgumentError, "Missing the required parameter 'is_inherited' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'external_uid' is set
-      if @api_client.config.client_side_validation && external_uid.nil?
-        fail ArgumentError, "Missing the required parameter 'external_uid' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'control_acronyms' is set
-      if @api_client.config.client_side_validation && control_acronyms.nil?
-        fail ArgumentError, "Missing the required parameter 'control_acronyms' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'ccis' is set
-      if @api_client.config.client_side_validation && ccis.nil?
-        fail ArgumentError, "Missing the required parameter 'ccis' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'system_only' is set
-      if @api_client.config.client_side_validation && system_only.nil?
-        fail ArgumentError, "Missing the required parameter 'system_only' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'severity' is set
-      if @api_client.config.client_side_validation && severity.nil?
-        fail ArgumentError, "Missing the required parameter 'severity' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(severity)
-        fail ArgumentError, "invalid value for 'severity', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'raw_severity' is set
-      if @api_client.config.client_side_validation && raw_severity.nil?
-        fail ArgumentError, "Missing the required parameter 'raw_severity' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['I', 'II', 'III'].include?(raw_severity)
-        fail ArgumentError, "invalid value for 'raw_severity', must be one of I, II, III"
-      end
-      # verify the required parameter 'status' is set
-      if @api_client.config.client_side_validation && status.nil?
-        fail ArgumentError, "Missing the required parameter 'status' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Ongoing', 'Risk Accepted', 'Completed', 'Not Applicable'].include?(status)
-        fail ArgumentError, "invalid value for 'status', must be one of Ongoing, Risk Accepted, Completed, Not Applicable"
-      end
-      # verify the required parameter 'review_status' is set
-      if @api_client.config.client_side_validation && review_status.nil?
-        fail ArgumentError, "Missing the required parameter 'review_status' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Not Approved', 'Under Review', 'Approved'].include?(review_status)
-        fail ArgumentError, "invalid value for 'review_status', must be one of Not Approved, Under Review, Approved"
-      end
-      # verify the required parameter 'scheduled_completion_date' is set
-      if @api_client.config.client_side_validation && scheduled_completion_date.nil?
-        fail ArgumentError, "Missing the required parameter 'scheduled_completion_date' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'completion_date' is set
-      if @api_client.config.client_side_validation && completion_date.nil?
-        fail ArgumentError, "Missing the required parameter 'completion_date' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'extension_date' is set
-      if @api_client.config.client_side_validation && extension_date.nil?
-        fail ArgumentError, "Missing the required parameter 'extension_date' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'scheduled_completion_date_start' is set
-      if @api_client.config.client_side_validation && scheduled_completion_date_start.nil?
-        fail ArgumentError, "Missing the required parameter 'scheduled_completion_date_start' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'scheduled_completion_date_end' is set
-      if @api_client.config.client_side_validation && scheduled_completion_date_end.nil?
-        fail ArgumentError, "Missing the required parameter 'scheduled_completion_date_end' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'poc_organization' is set
-      if @api_client.config.client_side_validation && poc_organization.nil?
-        fail ArgumentError, "Missing the required parameter 'poc_organization' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'poc_first_name' is set
-      if @api_client.config.client_side_validation && poc_first_name.nil?
-        fail ArgumentError, "Missing the required parameter 'poc_first_name' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'poc_last_name' is set
-      if @api_client.config.client_side_validation && poc_last_name.nil?
-        fail ArgumentError, "Missing the required parameter 'poc_last_name' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'poc_email' is set
-      if @api_client.config.client_side_validation && poc_email.nil?
-        fail ArgumentError, "Missing the required parameter 'poc_email' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'poc_phone_number' is set
-      if @api_client.config.client_side_validation && poc_phone_number.nil?
-        fail ArgumentError, "Missing the required parameter 'poc_phone_number' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'vulnerability_description' is set
-      if @api_client.config.client_side_validation && vulnerability_description.nil?
-        fail ArgumentError, "Missing the required parameter 'vulnerability_description' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'mitigation' is set
-      if @api_client.config.client_side_validation && mitigation.nil?
-        fail ArgumentError, "Missing the required parameter 'mitigation' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'comments' is set
-      if @api_client.config.client_side_validation && comments.nil?
-        fail ArgumentError, "Missing the required parameter 'comments' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'resources' is set
-      if @api_client.config.client_side_validation && resources.nil?
-        fail ArgumentError, "Missing the required parameter 'resources' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'source_ident_vuln' is set
-      if @api_client.config.client_side_validation && source_ident_vuln.nil?
-        fail ArgumentError, "Missing the required parameter 'source_ident_vuln' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'security_checks' is set
-      if @api_client.config.client_side_validation && security_checks.nil?
-        fail ArgumentError, "Missing the required parameter 'security_checks' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'recommendations' is set
-      if @api_client.config.client_side_validation && recommendations.nil?
-        fail ArgumentError, "Missing the required parameter 'recommendations' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'relevance_of_threat' is set
-      if @api_client.config.client_side_validation && relevance_of_threat.nil?
-        fail ArgumentError, "Missing the required parameter 'relevance_of_threat' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(relevance_of_threat)
-        fail ArgumentError, "invalid value for 'relevance_of_threat', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'likelihood' is set
-      if @api_client.config.client_side_validation && likelihood.nil?
-        fail ArgumentError, "Missing the required parameter 'likelihood' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(likelihood)
-        fail ArgumentError, "invalid value for 'likelihood', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'impact' is set
-      if @api_client.config.client_side_validation && impact.nil?
-        fail ArgumentError, "Missing the required parameter 'impact' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(impact)
-        fail ArgumentError, "invalid value for 'impact', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'impact_description' is set
-      if @api_client.config.client_side_validation && impact_description.nil?
-        fail ArgumentError, "Missing the required parameter 'impact_description' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'residual_risk_level' is set
-      if @api_client.config.client_side_validation && residual_risk_level.nil?
-        fail ArgumentError, "Missing the required parameter 'residual_risk_level' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Very Low', 'Low', 'Moderate', 'High', 'Very High'].include?(residual_risk_level)
-        fail ArgumentError, "invalid value for 'residual_risk_level', must be one of Very Low, Low, Moderate, High, Very High"
-      end
-      # verify the required parameter 'milestones' is set
-      if @api_client.config.client_side_validation && milestones.nil?
-        fail ArgumentError, "Missing the required parameter 'milestones' when calling POAMApi.update_poam_by_system_id"
-      end
-      # verify the required parameter 'system_id' is set
-      if @api_client.config.client_side_validation && system_id.nil?
-        fail ArgumentError, "Missing the required parameter 'system_id' when calling POAMApi.update_poam_by_system_id"
-      end
-      # resource path
-      local_var_path = '/api/systems/{systemId}/poams'.sub('{' + 'systemId' + '}', system_id.to_s)
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-      form_params['poamId'] = poam_id
-      form_params['isInherited'] = is_inherited
-      form_params['externalUid'] = external_uid
-      form_params['controlAcronyms'] = control_acronyms
-      form_params['ccis'] = ccis
-      form_params['systemOnly'] = system_only
-      form_params['severity'] = severity
-      form_params['rawSeverity'] = raw_severity
-      form_params['status'] = status
-      form_params['reviewStatus'] = review_status
-      form_params['scheduledCompletionDate'] = scheduled_completion_date
-      form_params['completionDate'] = completion_date
-      form_params['extensionDate'] = extension_date
-      form_params['scheduledCompletionDateStart'] = scheduled_completion_date_start
-      form_params['scheduledCompletionDateEnd'] = scheduled_completion_date_end
-      form_params['pocOrganization'] = poc_organization
-      form_params['pocFirstName'] = poc_first_name
-      form_params['pocLastName'] = poc_last_name
-      form_params['pocEmail'] = poc_email
-      form_params['pocPhoneNumber'] = poc_phone_number
-      form_params['vulnerabilityDescription'] = vulnerability_description
-      form_params['mitigation'] = mitigation
-      form_params['comments'] = comments
-      form_params['resources'] = resources
-      form_params['sourceIdentVuln'] = source_ident_vuln
-      form_params['securityChecks'] = security_checks
-      form_params['recommendations'] = recommendations
-      form_params['relevanceOfThreat'] = relevance_of_threat
-      form_params['likelihood'] = likelihood
-      form_params['impact'] = impact
-      form_params['impactDescription'] = impact_description
-      form_params['residualRiskLevel'] = residual_risk_level
-      form_params['milestones'] = @api_client.build_collection_param(milestones, :multi)
-
-      # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(body) 
-
-      return_type = opts[:return_type] || 'Model200' 
+      return_type = opts[:return_type] || 'PoamResponsePut' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,

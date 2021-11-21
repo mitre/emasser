@@ -32,7 +32,7 @@ SwaggerClient.configure do |config|
 end
 
 api_instance = SwaggerClient::TestResultsApi.new
-body = SwaggerClient::TestResultsRequestBody.new # TestResultsRequestBody | Update an existing control by Id
+body = SwaggerClient::TestResultsRequestPostBody.new # TestResultsRequestPostBody | Update an existing control by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -49,7 +49,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**TestResultsRequestBody**](TestResultsRequestBody.md)| Update an existing control by Id | 
+ **body** | [**TestResultsRequestPostBody**](TestResultsRequestPostBody.md)| Update an existing control by Id | 
  **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
 
 ### Return type

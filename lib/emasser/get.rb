@@ -44,7 +44,7 @@ module Emasser
       puts to_output_hash(result).green
     rescue SwaggerClient::ApiError => e
       puts 'Exception when calling TestApi->test_connection'.red
-      puts to_output_hash(e).red
+      puts to_output_hash(e)
     end
   end
 
@@ -68,7 +68,7 @@ module Emasser
       puts to_output_hash(result).green
     rescue SwaggerClient::ApiError => e
       puts 'Exception when calling SystemRolesApi->get_system_roles'.red
-      puts to_output_hash(e).red
+      puts to_output_hash(e)
     end
 
     desc "byCategory \[options\]", 'Retrieves system(s) - filtered by [options] params'
@@ -88,7 +88,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling SystemRolesApi->get_system_by_role_category_id'.red
-        puts to_output_hash(e).red
+        puts to_output_hash(e)
       end
     end
   end
@@ -119,7 +119,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling ControlsApi->get_system_by_system_id'.red
-        puts to_output_hash(e).red
+        puts to_output_hash(e)
       end
     end
   end
@@ -152,7 +152,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling TestResultsApi->get_test_results_by_system_id'.red
-        puts to_output_hash(e).red
+        puts to_output_hash(e)
       end
     end
   end
@@ -192,7 +192,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling POAMApi->api_systems_system_id_poams_get'.red
-        puts to_output_hash(e).red
+        puts to_output_hash(e)
       end
     end
 
@@ -207,7 +207,7 @@ module Emasser
       result = SwaggerClient::POAMApi.new.get_poam_by_system_id_and_poam_id(options[:systemId], options[:poamId])
       puts to_output_hash(result).green
     rescue SwaggerClient::ApiError => e
-      puts 'Exception when calling POAMApi->get_poam_by_system_id_and_poam_id'
+      puts 'Exception when calling POAMApi->get_poam_by_system_id_and_poam_id'.red
       puts to_output_hash(e)
     end
 
@@ -233,7 +233,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling POAMApi->get_milestones_by_system_id_and_poam_id'.red
-        puts to_output_hash(e).red
+        puts to_output_hash(e)
       end
     end
 
@@ -253,7 +253,7 @@ module Emasser
       puts to_output_hash(result).green
     rescue SwaggerClient::ApiError => e
       puts 'Exception when calling POAMApi->get_milestones_by_system_id_and_poam_id_andf_milestone_id'.red
-      puts to_output_hash(e).red
+      puts to_output_hash(e)
     end
   end
 
@@ -288,7 +288,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling ArtifactsApi->api_systems_system_id_artifacts_get'.red
-        puts to_output_hash(e).red
+        puts to_output_hash(e)
       end
     end
 
@@ -317,7 +317,7 @@ module Emasser
       end
     rescue SwaggerClient::ApiError => e
       puts 'Exception when calling ArtifactsApi->api_systems_system_id_artifacts_export_get'.red
-      puts to_output_hash(e).red
+      puts to_output_hash(e)
     end
   end
 
@@ -352,7 +352,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling ApprovalChainApi->get_cac_approval_by_system_id'.red
-        puts to_output_hash(e).red
+        puts to_output_hash(e)
       end
     end
 
@@ -368,7 +368,7 @@ module Emasser
       puts to_output_hash(result).green
     rescue SwaggerClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_pac_approval_by_system_id'.red
-      puts to_output_hash(e).red
+      puts to_output_hash(e)
     end
   end
 
@@ -412,7 +412,7 @@ module Emasser
         results.each { |result| puts "#{result[:systemId]} - #{result[:systemOwner]} - #{result[:name]}" }
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling SystemsApi->get_systems'
-        puts to_output_hash(e).red
+        puts to_output_hash(e)
       end
     end
 
@@ -452,7 +452,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling SystemsApi->get_systems'.red
-        puts to_output_hash(e).red
+        puts to_output_hash(e)
       end
     end
   end

@@ -73,7 +73,7 @@ Name | Type | Description  | Notes
 
 Update control information in a system for one or many controls
 
-Update an existing control by System Id based on the following rules:<br> | Implementation Status `implementationStatus` | Required Fields |----------------------------------------------|--------------------------------------------------- | Planned  or Implemented                      | `controlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments` | Not Applicable                               |  `naJustification`, `controlDesignation`, `responsibleEntities`   | Manually Inherited                           | `commonControlProvider`, `securityControlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments` | Inherited                                    | Only the following fields can be updated: `commonnControlProvider`, `controlDesignation`
+Update an existing control by System Id based on the following rules:<br> | Implementation Status `implementationStatus` | Required Fields |----------------------------------------------|--------------------------------------------------- | Planned  or Implemented                      | `controlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments` | Not Applicable                               | `naJustification`, `controlDesignation`, `responsibleEntities` | Manually Inherited                           | `commonControlProvider`, `securityControlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments` | Inherited                                    | Only the following fields can be updated: `commonnControlProvider`, `controlDesignation`
 
 ### Example
 ```ruby
@@ -93,7 +93,7 @@ SwaggerClient.configure do |config|
 end
 
 api_instance = SwaggerClient::ControlsApi.new
-body = SwaggerClient::ControlsRequestBody.new # ControlsRequestBody | Update an existing control by Id
+body = SwaggerClient::ControlsRequestPutBody.new # ControlsRequestPutBody | Update an existing control by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -110,7 +110,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**ControlsRequestBody**](ControlsRequestBody.md)| Update an existing control by Id | 
+ **body** | [**ControlsRequestPutBody**](ControlsRequestPutBody.md)| Update an existing control by Id | 
  **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
 
 ### Return type

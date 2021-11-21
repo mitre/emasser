@@ -566,7 +566,7 @@ paths:
         - POAM
       summary: "Add one or many POA&M items in a system"
       description: |-
-        Adds POA&M for given `systemId`<br>
+        Add a POA&M for given `systemId`<br>
 
         **Request Body Required Fields**
         - `status`
@@ -625,7 +625,7 @@ paths:
         - POAM
       summary: "Update one or many POA&M items in a system"
       description: |-
-        Update Adds POA&M for given `systemId`<br>
+        Update a POA&M for given `systemId`<br>
 
         **Request Body Required Fields**
         - `poamId`
@@ -1963,28 +1963,6 @@ components:
         - reviewStatus
       additionalProperties: false
       "$ref": "#/components/schemas/PoamRequiredPut"
-    #   properties:
-    #     # Required fields
-    #     poamId:
-    #       type: integer
-    #       format: int64
-    #       description: "[Required] Unique item identifier"
-    #       example: 45
-    #       minimum: 1
-    #       maximum: 300
-    #   $ref: "#/components/schemas/PoamRequired"
-    # PoamRequired:
-    #   properties:
-    #     status:
-    #       type: string
-    #       description: "[Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable"
-    #       example: "Completed"
-    #       enum:
-    #         - "Ongoing"
-    #         - "Risk Accepted"
-    #         - "Completed"
-    #         - "Not Applicable"
-
     MilestonesRequestPostBody:
       title: PostMilestones
       type: object
@@ -2173,7 +2151,7 @@ components:
           description: "[Optional] Unique identifier external to the eMASS application for use with associating POA&Ms. 100 Characters."
           x-faker: random.uuid
           example: "d6d98b88-c866-4496-9bd4-de7ba48d0f52"
-        controlAcronyms:
+        controlAcronym:
           type: string
           description: "[Optional] Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined."
           x-faker: finance.bic
@@ -2364,7 +2342,7 @@ components:
           description: "[Optional] Unique identifier external to the eMASS application for use with associating POA&Ms. 100 Characters."
           x-faker: random.uuid
           example: "d6d98b88-c866-4496-9bd4-de7ba48d0f52"
-        controlAcronyms:
+        controlAcronym:
           type: string
           description: "[Optional] Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined."
           x-faker: finance.bic

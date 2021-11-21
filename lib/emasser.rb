@@ -11,6 +11,7 @@ require 'emasser/errors'
 require 'emasser/options_parser'
 require 'emasser/output_converters'
 require 'emasser/input_converters'
+require 'emasser/help'
 require 'emasser/cli'
 
 module Emasser

@@ -19,7 +19,7 @@ These variables can be set in the .env file (see the .env-example file)
 * [/api/system-roles](#get-roles)
 * [/api/system-roles/{roleCategory}](#get-roles)
 * [/api/systems/{systemId}/controls](#get-controls)
-* [/api/systems/{systemId}/test-results](#testresults)
+* [/api/systems/{systemId}/test-results](#get-testresults)
 * [/api​/systems​/{systemId}​/poams](#get-poams)
 * [/api/systems/{systemId}/poams/{poamId}](#get-poams)
 * [/api/systems/{systemId}/poams/{poamId}/milestones](#get-poams)
@@ -153,7 +153,7 @@ To invoke the `get controls` use the following command:
     |-------------|:------------------------------------------|
     |--acronyms   |The system acronym(s) e.g "AC-1, AC-2" - if not provided all controls for systemId are returned |
 
-## ```test_results```
+## ```get test_results```
 ----
 To invoke the `get test_results` use the following command:
 
@@ -267,7 +267,7 @@ There are two get endpoints that provides the ability to view existing `Artifact
 
 ## ```get approval```
 ----
-Two endpoints are provided, one to view view Security Controls’ locations in
+Two endpoints are provided, one to view Security Controls’ locations in
 the Control Approval Chain (CAC) in a system, the other to view the location 
 of a system's package in the Package Approval Chain (PAC).
 
@@ -297,12 +297,29 @@ of a system's package in the Package Approval Chain (PAC).
     |--systemId   |Integer - Unique system identifier |
 
 ## Usage - POST
-## ``upload``
-----
+## ``post test_results``
+---
+
+## ``post poams``
+---
+
+## ``post milestones``
+---
+
+## ``post artifacts``
+---
 Posting artifacts can be accomplished by invoking the following command:
 
     $ bundle exec exe/emasser upload systemId [file1 ... filen]
 
+
+## ``post approval``
+----
+Two endpoints are provided, one to add Security Controls’ locations in
+the Control Approval Chain (CAC) for a system, the other to add the location 
+of a system's package in the Package Approval Chain (PAC).
+- cac
+- pac
 
 ## Usage - PUT
 ## ``put controls``
@@ -354,34 +371,37 @@ Updating (PUT) a control can be accomplished by invoking the following command:
     |parameter              | type or values                                |
     |-----------------------|:----------------------------------------------|
     |--implementationStatus |Possible values: Planned, Implemented, Inherited, Not Applicable, or Manually Inherited|
-    |--severity             |Possible values: Very Low', 'Low', 'Moderate', 'High', 'Very High |
+    |--severity             |Possible values: Very Low, Low, Moderate, High, Very High |
     |--vulnerabiltySummary  |String - The security control vulnerability summary |
     |--recommendations      |String - The security control vulnerability recommendation |
-    |--relevanceOfThreat    |Possible values: Very Low', 'Low', 'Moderate', 'High', 'Very High |
-    |--likelihood           |Possible values: Very Low', 'Low', 'Moderate', 'High', 'Very High |
-    |--impact               |Possible values: Very Low', 'Low', 'Moderate', 'High', 'Very High |
+    |--relevanceOfThreat    |Possible values: Very Low, Low, Moderate, High, Very High |
+    |--likelihood           |Possible values: Very Low, Low, Moderate, High, Very High |
+    |--impact               |Possible values: Very Low, Low, Moderate, High, Very High |
     |--impactDescription    |String, - Description of the security control impact |
-    |--residualRiskLevel    |Possible values: Very Low', 'Low', 'Moderate', 'High', 'Very High |
-    
-    
+    |--residualRiskLevel    |Possible values: Very Low, Low, Moderate, High, Very High |
 
   - conditional parameters are:
-      option :commonControlProvider, type: :string, required: false,
-            enum: ['DoD', 'Component', 'Enclave'],
-            desc: 'Indicate the type of Common Control Provider for an "Inherited" Security Control'
-    option :naJustification, type: :string, required: false,
-            desc: 'Provide justification for Security Controls deemed Not Applicable to the system'
-    option :slcmCriticality, type: :string, required: false,
-            desc: 'Criticality of Security Control regarding SLCM'
-    option :slcmFrequency, type: :string, required: false,
-            enum: ['Constantly','Daily','Weekly','Monthly','Quarterly','Semi-Annually','Annually','Undetermined'],
-            desc: 'The System-Level Continuous Monitoring frequency'
-    option :slcmMethod, type: :string, required: false,
-            enum: ['Automated','Semi-Automated','Manual','Undetermined'],
-            desc: 'The System-Level Continuous Monitoring method'
-    option :slcmReporting, type: :string, required: false,
-            desc: 'The System-Level Continuous Monitoring reporting'
-    option :slcmTracking, type: :string, required: false,
-            desc: 'The System-Level Continuous Monitoring tracking'
-    option :slcmComments, type: :string, required: false,
-            desc: 'Additional comments for Security Control regarding SLCM'
+    |parameter               | type or values                                |
+    |------------------------|:----------------------------------------------|
+    |--commonControlProvider |Possible values: DoD, Component, Enclave|
+    |--naJustification       |String - Justification for Security Controls deemed Not Applicable to the system |
+    |--slcmCriticality       |String - Criticality of Security Control regarding SLCM |
+    |--slcmFrequency         |Possible values - Constantly, Daily, Weekly, Monthly, Quarterly, Semi-Annually, Annually, or Undetermined |
+    |--slcmMethod            |Possible values: Automated, Semi-Automated, Manual, or Undetermined |
+    |--slcmReporting         |String - The System-Level Continuous Monitoring reporting |
+    |--slcmTracking          |String - The System-Level Continuous Monitoring tracking |
+    |--slcmComments          |String, - Additional comments for Security Control regarding SLCM |
+
+**Note**
+For information at the command line, issue the following command: 
+```
+$ bundle exec exe/emasser put controls help update
+```
+## ``put poams``
+---
+
+## ``put milestones``
+---
+
+## ``put artifacts``
+---

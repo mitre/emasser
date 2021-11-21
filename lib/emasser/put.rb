@@ -2,8 +2,8 @@
 
 # Hack class that properly formats the CLI help
 class SubCommandBase < Thor
-  include OptionsParser
-  include InputConverters
+  # include OptionsParser
+  # include InputConverters
   include OutputConverters
 
   # We do not control the method declaration for the banner
@@ -22,14 +22,14 @@ class SubCommandBase < Thor
     # rubocop:enable Style/GlobalVars
   end
   # rubocop:enable Style/OptionalBooleanParameter
-
 end
 
+# Override thor's long_desc identation behavior
 class Thor
   module Shell
     class Basic
       def print_wrapped(message, _options = {})
-        message = "\n#{message}" unless message[0] == "\n"
+        message = "\n#{message}\n" unless message[0] == "\n"
         stdout.puts message
       end
     end
@@ -49,86 +49,77 @@ module Emasser
     end
 
     desc 'update', 'Get control information in a system for one or many controls (acronym)'
-    long_desc <<-LONGDESC
-
-      The following fields are required:
-      
-      If Implementation Status `implementationStatus` field value is `Planned` or `Implemented`
-          controlDesignation, estimatedCompletionDate, responsibleEntities, slcmCriticality, 
-          slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments
-
-      If Implementation Status `implementationStatus` field value is `Manually Inherited`
-          commoncontrolprovider, securityControlDesignation, estimatedCompletionDate, responsibleEntities,
-          slcmCriticality, slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments
-
-      If Implementation Status `implementationStatus` field value is `Not Applicable`
-          naJustification, controlDesignation, responsibleEntities
-
-      ------------------------------------------------------------------------------------------------
-      If Implementation Status `implementationStatus` field value is `Inherited` only the following 
-      fields can be updated:
-        commonnControlProvider, controlDesignation
-
-      ------------------------------------------------------------------------------------------------  
-      Implementation Plan information cannot be saved if the fields below exceed 2000 character limits:
-          naJustification, responsibleEntities, comments, slcmCriticality, slcmFrequency
-          slcmMethod, slcmReporting, slcmTracking, slcmComments
-
-    LONGDESC
+    long_desc Help.text(:controls_put_mapper)
 
     # Required parameters/fields
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :acronym,  type: :string,  required: true, desc: 'The system acronym(s) e.g "AC-1, AC-2"'
     option :responsibleEntities, type: :string, required: true,
                                  desc: 'Description of the responsible entities for the Security Control'
-    option :controlDesignation, type: :string, required: true, 
+    option :controlDesignation, type: :string, required: true,
                                 enum: ['Common', 'System-Specific', 'Hybrid'],
-                                desc: "The Security Control Designation"
+                                desc: 'The Security Control Designation'
     option :estimatedCompletionDate, type: :numeric, required: true, desc: 'Estimated completion date, Unix time format'
     option :comments,                type: :string, required: true, desc: 'Security control comments'
+
     # Conditional parameters/fields
-    option :commonControlProvider, type: :string, required: false,
-            enum: ['DoD', 'Component', 'Enclave'],
-            desc: 'Indicate the type of Common Control Provider for an "Inherited" Security Control'
-    option :naJustification, type: :string, required: false,
-            desc: 'Provide justification for Security Controls deemed Not Applicable to the system'
-    option :slcmCriticality, type: :string, required: false,
-            desc: 'Criticality of Security Control regarding SLCM'
-    option :slcmFrequency, type: :string, required: false,
-            enum: ['Constantly','Daily','Weekly','Monthly','Quarterly','Semi-Annually','Annually','Undetermined'],
-            desc: 'The System-Level Continuous Monitoring frequency'
-    option :slcmMethod, type: :string, required: false,
-            enum: ['Automated','Semi-Automated','Manual','Undetermined'],
-            desc: 'The System-Level Continuous Monitoring method'
-    option :slcmReporting, type: :string, required: false,
-            desc: 'The System-Level Continuous Monitoring reporting'
-    option :slcmTracking, type: :string, required: false,
-            desc: 'The System-Level Continuous Monitoring tracking'
-    option :slcmComments, type: :string, required: false,
-            desc: 'Additional comments for Security Control regarding SLCM'
+    option :commonControlProvider,
+           type: :string,
+           required: false,
+           enum: ['DoD', 'Component', 'Enclave'],
+           desc: 'Indicate the type of Common Control Provider for an "Inherited" Security Control'
+    option :naJustification,
+           type: :string, required: false,
+           desc: 'Provide justification for Security Controls deemed Not Applicable to the system'
+    option :slcmCriticality,
+           type: :string, required: false,
+           desc: 'Criticality of Security Control regarding SLCM'
+    option :slcmFrequency,
+           type: :string, required: false,
+           enum: ['Constantly', 'Daily', 'Weekly', 'Monthly', 'Quarterly', 'Semi-Annually', 'Annually', 'Undetermined'],
+           desc: 'The System-Level Continuous Monitoring frequency'
+    option :slcmMethod,
+           type: :string, required: false,
+           enum: ['Automated', 'Semi-Automated', 'Manual', 'Undetermined'],
+           desc: 'The System-Level Continuous Monitoring method'
+    option :slcmReporting,
+           type: :string, required: false,
+           desc: 'The System-Level Continuous Monitoring reporting'
+    option :slcmTracking,
+           type: :string, required: false,
+           desc: 'The System-Level Continuous Monitoring tracking'
+    option :slcmComments,
+           type: :string, required: false,
+           desc: 'Additional comments for Security Control regarding SLCM'
 
     # Optional parameters/fields
-    option :implementationStatus, type: :string, required: false,
-            enum: ['Planned','Implemented','Inherited','Not Applicable','Manually Inherited'],
-            desc: 'Implementation status of the security control for the information system'
-    option :severity, type: :string, required: false, 
-            enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High'],
-            desc: 'The security control severity, required for approved items'
+    option :implementationStatus,
+           type: :string, required: false,
+           enum: ['Planned', 'Implemented', 'Inherited', 'Not Applicable', 'Manually Inherited'],
+           desc: 'Implementation status of the security control for the information system'
+    option :severity,
+           type: :string, required: false,
+           enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High'],
+           desc: 'The security control severity, required for approved items'
     option :vulnerabiltySummary, type: :string, required: false, desc: 'The security control vulnerability summary'
     option :recommendations, type: :string, required: false, desc: 'The security control vulnerability recommendation'
-    option :relevanceOfThreat, type: :string, required: false,
-            enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High'],
-            desc: 'The security control vulnerability of threat'
-    option :likelihood, type: :string, required: false,
-            enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High'],
-            desc: 'The security control likelihood of vulnerability to threats'
-    option :impact, type: :string, required: false,
-            enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High'],
-            desc: 'The security control vulnerability impact'
+    option :relevanceOfThreat,
+           type: :string, required: false,
+           enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High'],
+           desc: 'The security control vulnerability of threat'
+    option :likelihood,
+           type: :string, required: false,
+           enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High'],
+           desc: 'The security control likelihood of vulnerability to threats'
+    option :impact,
+           type: :string, required: false,
+           enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High'],
+           desc: 'The security control vulnerability impact'
     option :impactDescription, type: :string, required: false, desc: 'Description of the security control impact'
-    option :residualRiskLevel, type: :string, required: false,
-            enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High'],
-            desc: 'The security control risk level'
+    option :residualRiskLevel,
+           type: :string, required: false,
+           enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High'],
+           desc: 'The security control risk level'
 
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def update
@@ -236,7 +227,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling ControlsApi->update_control_by_system_id'.red
-        puts to_output_hash(e).red
+        puts to_output_hash(e)
       end
     end
     # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
@@ -274,7 +265,7 @@ module Emasser
         result = SwaggerClient::POAMApi.new.api_systems_system_id_poams_get(options[:systemId], optional_options)
         puts to_output_hash(result)
       rescue SwaggerClient::ApiError => e
-        puts 'Exception when calling POAMApi->api_systems_system_id_poams_get'
+        puts 'Exception when calling POAMApi->api_systems_system_id_poams_get'.red
         puts to_output_hash(e)
       end
     end
