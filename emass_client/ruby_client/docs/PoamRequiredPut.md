@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **poc_email** | **String** | [Required] Email address of POC. 100 Characters. | [optional] 
 **poc_phone_number** | **String** | [Required] Phone number of POC (area code) ***-**** format. 100 Characters. | [optional] 
 **external_uid** | **String** | [Optional] Unique identifier external to the eMASS application for use with associating POA&amp;Ms. 100 Characters. | [optional] 
-**control_acronyms** | **String** | [Optional] Control acronym associated with the POA&amp;M Item. NIST SP 800-53 Revision 4 defined. | [optional] 
+**control_acronym** | **String** | [Optional] Control acronym associated with the POA&amp;M Item. NIST SP 800-53 Revision 4 defined. | [optional] 
 **cci** | **String** | CCI associated with POA&amp;M. | [optional] 
 **security_checks** | **String** | [Optional] Security Checks that are associated with the POA&amp;M. | [optional] 
 **raw_severity** | **String** | [Optional] Values include the following options (I,II,III) | [optional] 
@@ -31,5 +31,5 @@ Name | Type | Description | Notes
 **comments** | **String** | [Conditional] Field is required for completed and risk accepted POA&amp;M items. 2000 Characters | [optional] 
 **completion_date** | **Integer** | [Conditional] Field is required for completed POA&amp;M items. Unix time format. | [optional] 
 **is_active** | **BOOLEAN** | [Conditional] Optionally used in PUT to delete milestones when updating a POA&amp;M. | [optional] 
-**milestones** | [**Array&lt;MilestonesRequiredPostPut&gt;**](MilestonesRequiredPostPut.md) |  | [optional] 
+**milestones** | [**Array&lt;MilestonesRequiredPut&gt;**](MilestonesRequiredPut.md) |  | [optional] 
 

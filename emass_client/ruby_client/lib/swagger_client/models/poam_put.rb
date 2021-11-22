@@ -13,30 +13,15 @@ require 'date'
 
 module SwaggerClient
   class PoamPut
-    # Acronym of the system record.
-    attr_accessor :acronym
-
-    # Indicates if operations result (success/fail)
-    attr_accessor :success
-
-    # The system identifier for the system being updated.
-    attr_accessor :system_id
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'acronym' => :'acronym',
-        :'success' => :'success',
-        :'system_id' => :'systemId'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'acronym' => :'Object',
-        :'success' => :'Object',
-        :'system_id' => :'Object'
       }
     end
 
@@ -60,18 +45,6 @@ module SwaggerClient
         end
         h[k.to_sym] = v
       }
-
-      if attributes.key?(:'acronym')
-        self.acronym = attributes[:'acronym']
-      end
-
-      if attributes.key?(:'success')
-        self.success = attributes[:'success']
-      end
-
-      if attributes.key?(:'system_id')
-        self.system_id = attributes[:'system_id']
-      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -91,10 +64,7 @@ module SwaggerClient
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class &&
-          acronym == o.acronym &&
-          success == o.success &&
-          system_id == o.system_id
+      self.class == o.class
     end
 
     # @see the `==` method
@@ -106,7 +76,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [acronym, success, system_id].hash
+      [].hash
     end
 
     # Builds the object from hash

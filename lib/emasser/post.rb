@@ -3,8 +3,8 @@
 # Hack class that properly formats the CLI help
 class SubCommandBase < Thor
   include OptionsParser
-  include InputConverters
-  include OutputConverters
+  # include InputConverters
+  # include OutputConverters
 
   # We do not control the method declaration for the banner
 
@@ -153,8 +153,7 @@ module Emasser
            type: :string, required: false, enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High']
     option :likelihood, type: :string, required: false, enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High']
     option :impact, type: :string, required: false, desc: 'Description of Security Control’s impact'
-    option :impactDescription,
-           type: :string, required: false, enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High']
+    option :impactDescription, type: :string, required: false, desc: 'Description of the security control impact'
     option :residualRiskLevel,
            type: :string, required: false, enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High']
     option :recommendations, type: :string, required: false, desc: 'Recomendations'
@@ -196,7 +195,7 @@ module Emasser
           body.scheduled_completion_date = options[:scheduledCompletionDate]
           body.resources = options[:resources]
 
-          milestone = SwaggerClient::MilestonesRequiredPostPut.new
+          milestone = SwaggerClient::MilestonesRequiredPost.new
           milestone.description = options[:milestone]["description"]
           milestone.scheduled_completion_date = options[:milestone]["scheduledCompletionDate"]
           milestone_array = Array.new(1, milestone)
@@ -215,7 +214,7 @@ module Emasser
           body.resources = options[:resources]
           body.completion_date = options[:completionDate]
 
-          milestone = SwaggerClient::MilestonesRequiredPostPut.new
+          milestone = SwaggerClient::MilestonesRequiredPost.new
           milestone.description = options[:milestone]["description"]
           milestone.scheduled_completion_date = options[:milestone]["scheduledCompletionDate"]
           milestone_array = Array.new(1, milestone)
@@ -228,7 +227,7 @@ module Emasser
       # rubocop:disable Style/IfUnlessModifier
       if !options[:pocOrganization].nil? then body.poc_organization = options[:pocOrganization] end
       if !options[:pocFirstName].nil? then body.poc_first_name = options[:pocFirstName] end
-      if !options[:pocLastName].nil? then body.poc_first_name = options[:pocLastName] end
+      if !options[:pocLastName].nil? then body.poc_last_name = options[:pocLastName] end
       if !options[:pocEmail].nil? then body.poc_email = options[:pocEmail] end
       if !options[:pocPhoneNumber].nil? then body.poc_phone_number = options[:pocPhoneNumber] end
       if !options[:severity].nil? then body.severity = options[:severity] end
@@ -262,26 +261,27 @@ module Emasser
 
     # MILSTONES by SYSTEM and POAM ID -----------------------------------------
     desc 'add_milestones', 'Add milestone(s) for given specified system and poam'
-    option :systemId, type: :numeric, required: true,
-                      desc: 'A numeric value representing the system identification'
-    option :poamId,   type: :numeric, required: true,
-                      desc: 'A numeric value representing the poam identification'
-    option :scheduledCompletionDateStart, type: :numeric,  required: false,
-                                          desc: 'The schedule completion start date - Unix time format.'
-    option :scheduledCompletionDateEnd,   type: :numeric,  required: false,
-                                          desc: 'The scheduled completion end date - Unix time format.'
+    long_desc Help.text(:milestone_put_mapper)
+
+    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :poamId, type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
+    option :description, type: :string,  required: true, desc: 'The milestone description'
+    option :scheduledCompletionDate,
+           type: :numeric, required: false, desc: 'The scheduled completion date - Unix time format'
 
     def add_milestones
-      optional_options_keys = optional_options(@_initializer).keys
-      optional_options = to_input_hash(optional_options_keys, options)
+      body = SwaggerClient::MilestonesRequestPostBody.new
+      body.poam_id = options[:poamId]
+      body.description = options[:description]
+      body.scheduled_completion_date = options[:scheduledCompletionDate]
+      body_array = Array.new(1, body)
 
       begin
-        # Get milestones in one or many poa&m items in a system
-        result = SwaggerClient::POAMApi.new.get_milestones_by_system_id_and_poam_id(options[:systemId],
-                                                                                    options[:poamId], optional_options)
+        result = SwaggerClient::POAMApi.new
+            .add_milestone_by_system_id_and_poam_id(body_array, options[:systemId], options[:poamId])
         puts to_output_hash(result)
       rescue SwaggerClient::ApiError => e
-        puts 'Exception when calling POAMApi->get_milestones_by_system_id_and_poam_id'
+        puts 'Exception when calling POAMApi->add_milestone_by_system_id_and_poam_id'
         puts to_output_hash(e)
       end
     end

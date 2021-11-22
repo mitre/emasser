@@ -2,19 +2,7 @@
 
 SwaggerClient - the Ruby gem for the Enterprise Mission Assurance Support Service (eMASS)
 
-The Enterprise Mission Assurance Support Service (eMASS) REST Application Programming Interface (API) enables users to perform assessments and complete actions associated with system records. This document will provide an outline of all eMASS objects and their associated endpoints to include Department of Defense (DoD) business rules that pertain to each.  New users will need to register an API key with the eMASS development team prior to accessing the site for the first time. The eMASS REST API requires a client certificate (SSL/TLS, DoD PKI only) where {url}/api/register (POST) is used to register the client certificate.  Every call to the eMASS REST API will require the use of the agreed upon public key certificate and API key. The API key must be provided in the request header for all endpoint calls (api-key). If the service receives an untrusted certificate or API key, a 401 error response code will be returned along with an error message.
-
-<strong>Available Request Headers:</strong>
-
-| Key      | Example Value            | Description 
-|----------|--------------------------|------------------------------------
-|`api-key` |api-key-provided-by-emass |This API key must be provided in the request header for all endpoint calls 
-|`user-uid`|USER.UID.KEY              |This User unique identifier key must be provided in the request header for all PUT, POST, and DELETE endpoint calls. |          |          |                          |Note: For DoD users this is the DoD ID Number (EIDIPI) on their DoD CAC. 
-
-Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions.  
-
-<strong>Approve API Client for Actionable Requests</strong><br> 
-Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions. Please note that leaving a field parameter blank (for PUT/POST requests) has the potential to clear information in the active eMASS records.  To establish an account with eMASS and/or acquire an api-key/user-uid, contact one of the listed POC: 
+The Enterprise Mission Assurance Support Service (eMASS) REST Application Programming Interface (API) enables users to perform assessments and complete actions associated with system records. This document will provide an outline of all eMASS objects and their associated endpoints to include Department of Defense (DoD) business rules that pertain to each.  New users will need to register an API key with the eMASS development team prior to accessing the site for the first time. The eMASS REST API requires a client certificate (SSL/TLS, DoD PKI only) where {url}/api/register (POST) is used to register the client certificate.  Every call to the eMASS REST API will require the use of the agreed upon public key certificate and API key. The API key must be provided in the request header for all endpoint calls (api-key). If the service receives an untrusted certificate or API key, a 401 error response code will be returned along with an error message.  <strong>Available Request Headers:</strong>  | Key      | Example Value            | Description |----------|--------------------------|------------------------------------ |`api-key` |api-key-provided-by-emass |This API key must be provided in the request header for all endpoint calls |`user-uid`|USER.UID.KEY              |This User unique identifier key must be provided in the request header for all PUT, POST, and DELETE endpoint calls. |          |                          |Note: For DoD users this is the DoD ID Number (EIDIPI) on their DoD CAC.  Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions.  <strong>Approve API Client for Actionable Requests</strong><br> Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions. Please note that leaving a field parameter blank (for PUT/POST requests) has the potential to clear information in the active eMASS records.  To establish an account with eMASS and/or acquire an api-key/user-uid, contact one of the listed POC: 
 
 This SDK is automatically generated by the [Swagger Codegen](https://github.com/swagger-api/swagger-codegen) project:
 
@@ -450,14 +438,14 @@ SwaggerClient.configure do |config|
 end
 
 api_instance = SwaggerClient::POAMApi.new
+body = SwaggerClient::DeleteMilestone.new # DeleteMilestone | Delete the given Milestone Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 poam_id = 56 # Integer | **POA&M Id**: The unique POA&M record identifier.
-milestone_id = 56 # Integer | **Milestone Id**: The unique milestone record identifier.
 
 
 begin
   #Remove milestones in a system for one or many POA&M items
-  result = api_instance.delete_milestone(system_id, poam_id, milestone_id)
+  result = api_instance.delete_milestone(body, system_id, poam_id)
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->delete_milestone: #{e}"
@@ -476,13 +464,13 @@ SwaggerClient.configure do |config|
 end
 
 api_instance = SwaggerClient::POAMApi.new
+body = SwaggerClient::DeletePoam.new # DeletePoam | Delete the given POA&M Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
-poam_id = 56 # Integer | **POA&M Id**: The unique POA&M record identifier.
 
 
 begin
   #Remove one or many POA&M items in a system
-  result = api_instance.delete_poam(system_id, poam_id)
+  result = api_instance.delete_poam(body, system_id)
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->delete_poam: #{e}"
@@ -854,6 +842,8 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::ControlsRequestPutBody](docs/ControlsRequestPutBody.md)
  - [SwaggerClient::ControlsResponseGet](docs/ControlsResponseGet.md)
  - [SwaggerClient::ControlsResponsePut](docs/ControlsResponsePut.md)
+ - [SwaggerClient::DeleteMilestone](docs/DeleteMilestone.md)
+ - [SwaggerClient::DeletePoam](docs/DeletePoam.md)
  - [SwaggerClient::Error](docs/Error.md)
  - [SwaggerClient::InlineResponse200](docs/InlineResponse200.md)
  - [SwaggerClient::InlineResponse2001](docs/InlineResponse2001.md)
@@ -867,7 +857,8 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::MilestonesPut](docs/MilestonesPut.md)
  - [SwaggerClient::MilestonesRequestPostBody](docs/MilestonesRequestPostBody.md)
  - [SwaggerClient::MilestonesRequestPutBody](docs/MilestonesRequestPutBody.md)
- - [SwaggerClient::MilestonesRequiredPostPut](docs/MilestonesRequiredPostPut.md)
+ - [SwaggerClient::MilestonesRequiredPost](docs/MilestonesRequiredPost.md)
+ - [SwaggerClient::MilestonesRequiredPut](docs/MilestonesRequiredPut.md)
  - [SwaggerClient::Model200](docs/Model200.md)
  - [SwaggerClient::Model400](docs/Model400.md)
  - [SwaggerClient::Model400Response](docs/Model400Response.md)
@@ -881,6 +872,7 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::PoamDelete](docs/PoamDelete.md)
  - [SwaggerClient::PoamGet](docs/PoamGet.md)
  - [SwaggerClient::PoamPost](docs/PoamPost.md)
+ - [SwaggerClient::PoamPostPutDel](docs/PoamPostPutDel.md)
  - [SwaggerClient::PoamPut](docs/PoamPut.md)
  - [SwaggerClient::PoamRequestPostBody](docs/PoamRequestPostBody.md)
  - [SwaggerClient::PoamRequestPutBody](docs/PoamRequestPutBody.md)

@@ -47,7 +47,7 @@ module SwaggerClient
     attr_accessor :external_uid
 
     # [Optional] Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined.
-    attr_accessor :control_acronyms
+    attr_accessor :control_acronym
 
     # CCI associated with POA&M.
     attr_accessor :cci
@@ -135,7 +135,7 @@ module SwaggerClient
         :'poc_email' => :'pocEmail',
         :'poc_phone_number' => :'pocPhoneNumber',
         :'external_uid' => :'externalUid',
-        :'control_acronyms' => :'controlAcronyms',
+        :'control_acronym' => :'controlAcronym',
         :'cci' => :'cci',
         :'security_checks' => :'securityChecks',
         :'raw_severity' => :'rawSeverity',
@@ -170,7 +170,7 @@ module SwaggerClient
         :'poc_email' => :'Object',
         :'poc_phone_number' => :'Object',
         :'external_uid' => :'Object',
-        :'control_acronyms' => :'Object',
+        :'control_acronym' => :'Object',
         :'cci' => :'Object',
         :'security_checks' => :'Object',
         :'raw_severity' => :'Object',
@@ -256,8 +256,8 @@ module SwaggerClient
         self.external_uid = attributes[:'external_uid']
       end
 
-      if attributes.key?(:'control_acronyms')
-        self.control_acronyms = attributes[:'control_acronyms']
+      if attributes.key?(:'control_acronym')
+        self.control_acronym = attributes[:'control_acronym']
       end
 
       if attributes.key?(:'cci')
@@ -456,7 +456,7 @@ module SwaggerClient
           poc_email == o.poc_email &&
           poc_phone_number == o.poc_phone_number &&
           external_uid == o.external_uid &&
-          control_acronyms == o.control_acronyms &&
+          control_acronym == o.control_acronym &&
           cci == o.cci &&
           security_checks == o.security_checks &&
           raw_severity == o.raw_severity &&
@@ -485,7 +485,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [poam_id, status, vulnerability_description, source_ident_vuln, review_status, poc_organization, poc_first_name, poc_last_name, poc_email, poc_phone_number, external_uid, control_acronyms, cci, security_checks, raw_severity, resources, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, recommendations, mitigation, severity, scheduled_completion_date, comments, completion_date, is_active, milestones].hash
+      [poam_id, status, vulnerability_description, source_ident_vuln, review_status, poc_organization, poc_first_name, poc_last_name, poc_email, poc_phone_number, external_uid, control_acronym, cci, security_checks, raw_severity, resources, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, recommendations, mitigation, severity, scheduled_completion_date, comments, completion_date, is_active, milestones].hash
     end
 
     # Builds the object from hash

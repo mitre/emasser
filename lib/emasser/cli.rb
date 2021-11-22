@@ -9,10 +9,13 @@ module Emasser
       register(Emasser::Get, 'get', 'get [RESOURCE]', 'Gets a resource')
     elsif ARGV[0].to_s.include? 'post'
       require 'emasser/post'
-      register(Emasser::Post, 'post', 'post [RESOURCE]', 'Post resources')
+      register(Emasser::Post, 'post', 'post [RESOURCE]', 'Posts resources')
     elsif ARGV[0].to_s.include? 'put'
       require 'emasser/put'
-      register(Emasser::Put, 'put', 'put [RESOURCE]', 'PUt resources')
+      register(Emasser::Put, 'put', 'put [RESOURCE]', 'Puts resources')
+    elsif ARGV[0].to_s.include? 'del'
+      require 'emasser/del'
+      register(Emasser::Del, 'del', 'del [RESOURCE]', 'Deletes resources')
     end
 
     def self.exit_on_failure?

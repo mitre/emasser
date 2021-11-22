@@ -13,35 +13,15 @@ require 'date'
 
 module SwaggerClient
   class PoamPost
-    # The system identifier that the POAM was added.
-    attr_accessor :system_id
-
-    # The newly created POAM identifier
-    attr_accessor :poam_id
-
-    # The unique identifier external to the eMASS application for use with associating POA&Ms. 100 Characters.
-    attr_accessor :external_uid
-
-    # Indicates if operations result (success/fail)
-    attr_accessor :success
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'system_id' => :'systemId',
-        :'poam_id' => :'poamId',
-        :'external_uid' => :'externalUid',
-        :'success' => :'success'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'system_id' => :'Object',
-        :'poam_id' => :'Object',
-        :'external_uid' => :'Object',
-        :'success' => :'Object'
       }
     end
 
@@ -65,22 +45,6 @@ module SwaggerClient
         end
         h[k.to_sym] = v
       }
-
-      if attributes.key?(:'system_id')
-        self.system_id = attributes[:'system_id']
-      end
-
-      if attributes.key?(:'poam_id')
-        self.poam_id = attributes[:'poam_id']
-      end
-
-      if attributes.key?(:'external_uid')
-        self.external_uid = attributes[:'external_uid']
-      end
-
-      if attributes.key?(:'success')
-        self.success = attributes[:'success']
-      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -100,11 +64,7 @@ module SwaggerClient
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class &&
-          system_id == o.system_id &&
-          poam_id == o.poam_id &&
-          external_uid == o.external_uid &&
-          success == o.success
+      self.class == o.class
     end
 
     # @see the `==` method
@@ -116,7 +76,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [system_id, poam_id, external_uid, success].hash
+      [].hash
     end
 
     # Builds the object from hash

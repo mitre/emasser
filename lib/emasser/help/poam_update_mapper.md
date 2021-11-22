@@ -1,3 +1,7 @@
+To delete a milestone through the POA&M PUT you must include it as inactive by setting isActive=false.
+
+If a milestone Id is not provided a new milestone is created. 
+
 The following fields are required based on the contents of the status field
   |status          |Required Fields
   |----------------|--------------------------------------------------------
@@ -47,10 +51,10 @@ The following parameters/fields have the following character limitations:
 
 Example:
 
-bundle exec exe/emasser post poams add --systemId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --reviewStatus [value]
+bundle exec exe/emasser put poams update --systemId [value] --poamId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --reviewStatus [value]
 
 Notes:
 1 - The format for milestones is:
-    --milestone description:[value] scheduledCompletionDate:[value]
+    --milestone milestoneId:[value] description:[value] scheduledCompletionDate:[value]
 
 2 - The example is only showing the required fields. Refer to instructions listed above for conditional and optional fields requirements.

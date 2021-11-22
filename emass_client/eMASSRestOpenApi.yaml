@@ -690,14 +690,25 @@ paths:
       operationId: deletePoam
       parameters:
         - $ref: '#/components/parameters/systemId'
-        - name: poamId
-          in: query
-          description: "**POA&M Id**: The unique POA&M record identifier."
-          required: true
-          schema:
-             type: integer
-             x-faker: random.number
-             example: 45
+      requestBody:
+        description: "Delete the given POA&M Id"
+        content:
+          application/json:
+            schema:
+              title: DeletePoam
+              type: object
+              required:
+                - poamId
+              additionalProperties: false
+              properties:
+                poamId:
+                  type: integer
+                  format: int64
+                  description: "[Required] Unique item identifier"
+                  example: 45
+                  minimum: 1
+                  maximum: 300
+        required: true             
       responses:
         '200':
           description: Successful operation
@@ -705,6 +716,7 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/PoamResponseDelete"
+                #"$ref": "#/components/schemas/Empty200Response"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
         '401':
@@ -905,21 +917,33 @@ paths:
       parameters:
         - $ref: '#/components/parameters/systemId'
         - $ref: '#/components/parameters/poamId'
-        - name: milestoneId
-          in: query
-          description: "**Milestone Id**: The unique milestone record identifier."
-          required: true
-          schema:
-             type: integer
-             x-faker: random.number
-             example: 77
+      requestBody:
+        description: "Delete the given Milestone Id"
+        content:
+          application/json:
+            schema:
+              title: DeleteMilestone
+              type: object
+              required:
+                - milestoneId
+              additionalProperties: false
+              properties:
+                milestoneId:
+                  type: integer
+                  format: int64
+                  description: "[Required] Unique item identifier"
+                  example: 19
+                  minimum: 1
+                  maximum: 300
+        required: true 
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/MilestonesDelete"
+                #"$ref": "#/components/schemas/MilestonesDelete"
+                "$ref": "#/components/schemas/Empty200Response"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
         '401':
@@ -2269,7 +2293,7 @@ components:
             minimum: 1
             maxItems: 3
             items:
-              $ref: "#/components/schemas/MilestonesRequiredPostPut"
+              $ref: "#/components/schemas/MilestonesRequiredPost"
     PoamRequiredPut:
       title: POAM PUT Required Fields
       type: object
@@ -2465,8 +2489,8 @@ components:
             minimum: 1
             maxItems: 3
             items:
-              $ref: "#/components/schemas/MilestonesRequiredPostPut"
-    MilestonesRequiredPostPut:
+              $ref: "#/components/schemas/MilestonesRequiredPut"
+    MilestonesRequiredPost:
       title: Milestones
       type: object
       required:
@@ -2486,6 +2510,35 @@ components:
           example: 1499644800
           minimum: 1400000000
           maximum: 1600000000
+    MilestonesRequiredPut:
+      title: Milestones
+      type: object
+      required:
+        - milestoneId
+        - description
+        - scheduledCompletionDate  
+      additionalProperties: false
+      properties:
+        milestoneId:
+          type: integer
+          format: int64
+          description: "[Required] Unique item identifier"
+          example: 19
+          minimum: 1
+          maximum: 300
+        description:
+          type: string
+          description: "[Optional] Include milestone description."
+          x-faker: random.words
+          example: "Description text"
+        scheduledCompletionDate:
+          type: integer
+          format: int64
+          description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
+          example: 1499644800
+          minimum: 1400000000
+          maximum: 1600000000
+
     MilestonesPut:
       title: Milestones
       type: object
@@ -2820,6 +2873,9 @@ components:
           default: null
           enum:
            - null
+    Empty200Response:
+      type: object
+
     #----------------------------------------------------------------------------
     # Supporting 200 Responses - Endpoint response - returned values
     #----------------------------------------------------------------------------
@@ -4105,14 +4161,28 @@ components:
       title: POAM - return query from the server for the POST call
       type: object
       additionalProperties: false
+      "$ref": "#/components/schemas/PoamPostPutDel"
+    PoamPut:
+      title: POAM - return query from the server for the PUT call
+      type: object
+      additionalProperties: false
+      "$ref": "#/components/schemas/PoamPostPutDel"
+    PoamDelete:
+      title: POAM - return query from the server for the DELETE call
+      type: object
+      additionalProperties: false
+      "$ref": "#/components/schemas/PoamPostPutDel"
+    PoamPostPutDel:
+      type: object
+      additionalProperties: false
       properties:
         systemId:
           type: integer
           format: int64
-          description: "The system identifier that the POAM was added."
-          example: 35
+          description: "The system identifier for the system being updated."
+          example: 33
           minimum: 10
-          maximum: 3000
+          maximum: 3000        
         poamId:
           type: integer
           format: int64
@@ -4129,53 +4199,8 @@ components:
           type: boolean
           description: "Indicates if operations result (success/fail)"
           x-faker: random.boolean
-          example: true
-    PoamPut:
-      title: POAM - return query from the server for the PUT call
-      type: object
-      additionalProperties: false
-      properties:
-        acronym:
-          type: string
-          pattern: '^[A-Z0-9-]{3,6}'
-          description: "Acronym of the system record."
-          example: "AC-3"
-        success:
-          type: boolean
-          description: "Indicates if operations result (success/fail)"
-          x-faker: random.boolean
-          example: true
-        systemId:
-          type: integer
-          format: int64
-          description: "The system identifier for the system being updated."
-          example: 33
-          minimum: 10
-          maximum: 3000
-    PoamDelete:
-      title: POAM - return query from the server for the DELETE call
-      type: object
-      additionalProperties: false
-      properties:
-        systemId:
-          type: integer
-          format: int64
-          description: "The system identifier that the POAM was added."
-          example: 35
-          minimum: 10
-          maximum: 3000
-        poamId:
-          type: integer
-          format: int64
-          description: "The newly created POAM identifier"
-          example: 45
-          minimum: 1
-          maximum: 300              
-        success:
-          type: boolean
-          description: "Indicates if operations result (success/fail)"
-          x-faker: random.boolean
-          example: true
+          example: true      
+
     MilestonesGet:
       title: Milestones
       type: object
@@ -4561,7 +4586,7 @@ components:
           type: string
       required:
         - code
-        - message
+        - message      
 
   # Security schemes
   securitySchemes:

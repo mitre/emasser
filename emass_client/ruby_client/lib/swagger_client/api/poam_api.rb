@@ -223,26 +223,30 @@ module SwaggerClient
     end
     # Remove milestones in a system for one or many POA&M items
     # Remove the POA&M matching `systemId` path parameter<br> **Notes**<br> To delete a milestone the record must be inactive by having the field isActive set to false (`isActive=false`).
+    # @param body Delete the given Milestone Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
-    # @param milestone_id **Milestone Id**: The unique milestone record identifier.
     # @param [Hash] opts the optional parameters
     # @return [MilestonesDelete]
-    def delete_milestone(system_id, poam_id, milestone_id, opts = {})
-      data, _status_code, _headers = delete_milestone_with_http_info(system_id, poam_id, milestone_id, opts)
+    def delete_milestone(body, system_id, poam_id, opts = {})
+      data, _status_code, _headers = delete_milestone_with_http_info(body, system_id, poam_id, opts)
       data
     end
 
     # Remove milestones in a system for one or many POA&amp;M items
     # Remove the POA&amp;M matching &#x60;systemId&#x60; path parameter&lt;br&gt; **Notes**&lt;br&gt; To delete a milestone the record must be inactive by having the field isActive set to false (&#x60;isActive&#x3D;false&#x60;).
+    # @param body Delete the given Milestone Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
-    # @param milestone_id **Milestone Id**: The unique milestone record identifier.
     # @param [Hash] opts the optional parameters
     # @return [Array<(MilestonesDelete, Integer, Hash)>] MilestonesDelete data, response status code and response headers
-    def delete_milestone_with_http_info(system_id, poam_id, milestone_id, opts = {})
+    def delete_milestone_with_http_info(body, system_id, poam_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.delete_milestone ...'
+      end
+      # verify the required parameter 'body' is set
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling POAMApi.delete_milestone"
       end
       # verify the required parameter 'system_id' is set
       if @api_client.config.client_side_validation && system_id.nil?
@@ -252,27 +256,24 @@ module SwaggerClient
       if @api_client.config.client_side_validation && poam_id.nil?
         fail ArgumentError, "Missing the required parameter 'poam_id' when calling POAMApi.delete_milestone"
       end
-      # verify the required parameter 'milestone_id' is set
-      if @api_client.config.client_side_validation && milestone_id.nil?
-        fail ArgumentError, "Missing the required parameter 'milestone_id' when calling POAMApi.delete_milestone"
-      end
       # resource path
       local_var_path = '/api/systems/{systemId}/poams/{poamId}/milestones'.sub('{' + 'systemId' + '}', system_id.to_s).sub('{' + 'poamId' + '}', poam_id.to_s)
 
       # query parameters
       query_params = opts[:query_params] || {}
-      query_params[:'milestoneId'] = milestone_id
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
       return_type = opts[:return_type] || 'MilestonesDelete' 
 
@@ -292,50 +293,51 @@ module SwaggerClient
     end
     # Remove one or many POA&M items in a system
     # Remove the POA&M matching `systemId` path parameter and `poamId` query parameter<br>
+    # @param body Delete the given POA&amp;M Id
     # @param system_id **System Id**: The unique system record identifier.
-    # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
     # @return [PoamResponseDelete]
-    def delete_poam(system_id, poam_id, opts = {})
-      data, _status_code, _headers = delete_poam_with_http_info(system_id, poam_id, opts)
+    def delete_poam(body, system_id, opts = {})
+      data, _status_code, _headers = delete_poam_with_http_info(body, system_id, opts)
       data
     end
 
     # Remove one or many POA&amp;M items in a system
     # Remove the POA&amp;M matching &#x60;systemId&#x60; path parameter and &#x60;poamId&#x60; query parameter&lt;br&gt;
+    # @param body Delete the given POA&amp;M Id
     # @param system_id **System Id**: The unique system record identifier.
-    # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
     # @return [Array<(PoamResponseDelete, Integer, Hash)>] PoamResponseDelete data, response status code and response headers
-    def delete_poam_with_http_info(system_id, poam_id, opts = {})
+    def delete_poam_with_http_info(body, system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.delete_poam ...'
+      end
+      # verify the required parameter 'body' is set
+      if @api_client.config.client_side_validation && body.nil?
+        fail ArgumentError, "Missing the required parameter 'body' when calling POAMApi.delete_poam"
       end
       # verify the required parameter 'system_id' is set
       if @api_client.config.client_side_validation && system_id.nil?
         fail ArgumentError, "Missing the required parameter 'system_id' when calling POAMApi.delete_poam"
-      end
-      # verify the required parameter 'poam_id' is set
-      if @api_client.config.client_side_validation && poam_id.nil?
-        fail ArgumentError, "Missing the required parameter 'poam_id' when calling POAMApi.delete_poam"
       end
       # resource path
       local_var_path = '/api/systems/{systemId}/poams'.sub('{' + 'systemId' + '}', system_id.to_s)
 
       # query parameters
       query_params = opts[:query_params] || {}
-      query_params[:'poamId'] = poam_id
 
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
 
       # http body (model)
-      post_body = opts[:body] 
+      post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
       return_type = opts[:return_type] || 'PoamResponseDelete' 
 

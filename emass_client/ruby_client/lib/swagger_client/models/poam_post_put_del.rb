@@ -12,16 +12,36 @@ Swagger Codegen version: 3.0.26
 require 'date'
 
 module SwaggerClient
-  class PoamDelete
+  class PoamPostPutDel
+    # The system identifier for the system being updated.
+    attr_accessor :system_id
+
+    # The newly created POAM identifier
+    attr_accessor :poam_id
+
+    # The unique identifier external to the eMASS application for use with associating POA&Ms. 100 Characters.
+    attr_accessor :external_uid
+
+    # Indicates if operations result (success/fail)
+    attr_accessor :success
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'system_id' => :'systemId',
+        :'poam_id' => :'poamId',
+        :'external_uid' => :'externalUid',
+        :'success' => :'success'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'system_id' => :'Object',
+        :'poam_id' => :'Object',
+        :'external_uid' => :'Object',
+        :'success' => :'Object'
       }
     end
 
@@ -35,16 +55,32 @@ module SwaggerClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::PoamDelete` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::PoamPostPutDel` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::PoamDelete`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::PoamPostPutDel`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
+
+      if attributes.key?(:'system_id')
+        self.system_id = attributes[:'system_id']
+      end
+
+      if attributes.key?(:'poam_id')
+        self.poam_id = attributes[:'poam_id']
+      end
+
+      if attributes.key?(:'external_uid')
+        self.external_uid = attributes[:'external_uid']
+      end
+
+      if attributes.key?(:'success')
+        self.success = attributes[:'success']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -64,7 +100,11 @@ module SwaggerClient
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class
+      self.class == o.class &&
+          system_id == o.system_id &&
+          poam_id == o.poam_id &&
+          external_uid == o.external_uid &&
+          success == o.success
     end
 
     # @see the `==` method
@@ -76,7 +116,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [].hash
+      [system_id, poam_id, external_uid, success].hash
     end
 
     # Builds the object from hash

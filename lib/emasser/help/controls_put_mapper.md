@@ -25,4 +25,4 @@ Example:
 
 bundle exec exe/emasser put controls update --systemId [value] --acronym [value] --responsibleEntities [value] --controlDesignation [value] --estimatedCompletionDate [value]
 
-The example is only showing the required fields. Refer to instructions listed above for conditional and optional fields
+Note: The example is only showing the required fields. Refer to instructions listed above for conditional and optional fields requirements.

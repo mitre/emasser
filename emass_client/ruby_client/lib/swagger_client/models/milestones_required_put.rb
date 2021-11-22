@@ -12,16 +12,31 @@ Swagger Codegen version: 3.0.26
 require 'date'
 
 module SwaggerClient
-  class PoamDelete
+  class MilestonesRequiredPut
+    # [Required] Unique item identifier
+    attr_accessor :milestone_id
+
+    # [Optional] Include milestone description.
+    attr_accessor :description
+
+    # [Conditional] Required for ongoing and completed POA&M items. Unix time format.
+    attr_accessor :scheduled_completion_date
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'milestone_id' => :'milestoneId',
+        :'description' => :'description',
+        :'scheduled_completion_date' => :'scheduledCompletionDate'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'milestone_id' => :'Object',
+        :'description' => :'Object',
+        :'scheduled_completion_date' => :'Object'
       }
     end
 
@@ -35,28 +50,55 @@ module SwaggerClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::PoamDelete` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::MilestonesRequiredPut` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::PoamDelete`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::MilestonesRequiredPut`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
+
+      if attributes.key?(:'milestone_id')
+        self.milestone_id = attributes[:'milestone_id']
+      end
+
+      if attributes.key?(:'description')
+        self.description = attributes[:'description']
+      end
+
+      if attributes.key?(:'scheduled_completion_date')
+        self.scheduled_completion_date = attributes[:'scheduled_completion_date']
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if @milestone_id.nil?
+        invalid_properties.push('invalid value for "milestone_id", milestone_id cannot be nil.')
+      end
+
+      if @description.nil?
+        invalid_properties.push('invalid value for "description", description cannot be nil.')
+      end
+
+      if @scheduled_completion_date.nil?
+        invalid_properties.push('invalid value for "scheduled_completion_date", scheduled_completion_date cannot be nil.')
+      end
+
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return false if @milestone_id.nil?
+      return false if @description.nil?
+      return false if @scheduled_completion_date.nil?
       true
     end
 
@@ -64,7 +106,10 @@ module SwaggerClient
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class
+      self.class == o.class &&
+          milestone_id == o.milestone_id &&
+          description == o.description &&
+          scheduled_completion_date == o.scheduled_completion_date
     end
 
     # @see the `==` method
@@ -76,7 +121,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [].hash
+      [milestone_id, description, scheduled_completion_date].hash
     end
 
     # Builds the object from hash

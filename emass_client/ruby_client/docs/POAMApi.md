@@ -207,7 +207,7 @@ Name | Type | Description  | Notes
 
 
 # **delete_milestone**
-> MilestonesDelete delete_milestone(system_id, poam_id, milestone_id)
+> MilestonesDelete delete_milestone(bodysystem_idpoam_id)
 
 Remove milestones in a system for one or many POA&M items
 
@@ -231,14 +231,14 @@ SwaggerClient.configure do |config|
 end
 
 api_instance = SwaggerClient::POAMApi.new
+body = SwaggerClient::DeleteMilestone.new # DeleteMilestone | Delete the given Milestone Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 poam_id = 56 # Integer | **POA&M Id**: The unique POA&M record identifier.
-milestone_id = 56 # Integer | **Milestone Id**: The unique milestone record identifier.
 
 
 begin
   #Remove milestones in a system for one or many POA&M items
-  result = api_instance.delete_milestone(system_id, poam_id, milestone_id)
+  result = api_instance.delete_milestone(bodysystem_idpoam_id)
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->delete_milestone: #{e}"
@@ -249,9 +249,9 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **body** | [**DeleteMilestone**](DeleteMilestone.md)| Delete the given Milestone Id | 
  **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
  **poam_id** | **Integer**| **POA&amp;M Id**: The unique POA&amp;M record identifier. | 
- **milestone_id** | **Integer**| **Milestone Id**: The unique milestone record identifier. | 
 
 ### Return type
 
@@ -263,13 +263,13 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json, text/plain
 
 
 
 # **delete_poam**
-> PoamResponseDelete delete_poam(system_id, poam_id)
+> PoamResponseDelete delete_poam(bodysystem_id)
 
 Remove one or many POA&M items in a system
 
@@ -293,13 +293,13 @@ SwaggerClient.configure do |config|
 end
 
 api_instance = SwaggerClient::POAMApi.new
+body = SwaggerClient::DeletePoam.new # DeletePoam | Delete the given POA&M Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
-poam_id = 56 # Integer | **POA&M Id**: The unique POA&M record identifier.
 
 
 begin
   #Remove one or many POA&M items in a system
-  result = api_instance.delete_poam(system_id, poam_id)
+  result = api_instance.delete_poam(bodysystem_id)
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling POAMApi->delete_poam: #{e}"
@@ -310,8 +310,8 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
+ **body** | [**DeletePoam**](DeletePoam.md)| Delete the given POA&amp;M Id | 
  **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
- **poam_id** | **Integer**| **POA&amp;M Id**: The unique POA&amp;M record identifier. | 
 
 ### Return type
 
@@ -323,7 +323,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: application/json
  - **Accept**: application/json, text/plain
 
 
