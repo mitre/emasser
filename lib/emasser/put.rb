@@ -2,8 +2,6 @@
 
 # Hack class that properly formats the CLI help
 class SubCommandBase < Thor
-  # include OptionsParser
-  # include InputConverters
   include OutputConverters
 
   # We do not control the method declaration for the banner
@@ -124,7 +122,7 @@ module Emasser
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def update
       # Required fields
-      body = SwaggerClient::ControlsRequestBody.new
+      body = SwaggerClient::ControlsRequestPutBody.new
       body.acronym = options[:acronym]
       body.responsible_entities = options[:responsibleEntities]
       body.control_designation = options[:controlDesignation]
@@ -132,25 +130,23 @@ module Emasser
       body.comments = options[:comments]
 
       # Conditional fields based on implementationStatus content
-      # rubocop:disable Style/CaseLikeIf, Style/NegatedIf, Style/StringLiterals
+      # rubocop:disable Style/CaseLikeIf, Style/StringLiterals, Style/NegatedIf
       if !options[:implementationStatus].nil?
         body.implementation_status = options[:implementationStatus]
 
         if options[:implementationStatus] == "Planned" || options[:implementationStatus] == "Implemented"
-          if options[:controlDesignation].nil? || options[:estimatedCompletionDate].nil? ||
-             options[:responsibleEntities].nil? || options[:slcmCriticality].nil? ||
-             options[:slcmFrequency].nil? || options[:slcmMethod].nil? ||
-             options[:slcmReporting].nil? || options[:slcmTracking].nil? ||
-             options[:slcmComments].nil?
+          if options[:controlDesignation].nil? || options[:responsibleEntities].nil? ||
+             options[:slcmCriticality].nil? || options[:slcmFrequency].nil? ||
+             options[:slcmMethod].nil? || options[:slcmReporting].nil? ||
+             options[:slcmTracking].nil? || options[:slcmComments].nil?
 
             puts 'Missing one of these parameters/fields:'.red
-            puts 'controlDesignation, estimatedCompletionDate, responsibleEntities,
-                  slcmCriticality, slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments'.red
+            puts 'controlDesignation, responsibleEntities, slcmCriticality,
+                  slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments'.red
             puts 'Invoke "bundle exec exe/emasser put controls help update" for additional help'.yellow
             exit
           else
             body.control_designation = option[:controlDesignation]
-            body.estimated_completion_date = options[:estimatedCompletionDate]
             body.responsible_entities = options[:responsibleEntities]
             body.slcm_criticality = options[:slcmCriticality]
             body.slcm_frequency = options[:slcmFrequency]
@@ -172,20 +168,17 @@ module Emasser
           end
         elsif options[:implementationStatus] == 'Manually Inherited'
           if options[:commonControlProvider].nil? || options[:controlDesignation].nil? ||
-             options[:estimatedCompletionDate].nil? || options[:responsibleEntities].nil? ||
-             options[:slcmCriticality].nil? || options[:slcmFrequency].nil? ||
-             options[:slcmMethod].nil? || options[:slcmReporting].nil? ||
-             options[:slcmTracking].nil? || options[:slcmComments].nil?
-
+             options[:responsibleEntities].nil? || options[:slcmCriticality].nil? ||
+             options[:slcmFrequency].nil? || options[:slcmMethod].nil? ||
+             options[:slcmReporting].nil? || options[:slcmTracking].nil? || options[:slcmComments].nil?
             puts 'Missing one of these parameters/fields:'.red
-            puts 'commonControlProvider, controlDesignation, estimatedCompletionDate, responsibleEntities,
-                  slcmCriticality, slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments'.red
+            puts 'commonControlProvider, controlDesignation, responsibleEntities, slcmCriticality,
+                  slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments'.red
             puts 'Invoke "bundle exec exe/emasser put controls help update" for additional help'.yellow
             exit
           else
             body.common_control_provider = options[:commonControlProvider]
             body.control_designation = options[:controlDesignation]
-            body.estimated_completion_date = options[:estimatedCompletionDate]
             body.responsible_entities = options[:responsibleEntities]
             body.slcm_criticality = options[:slcmCriticality]
             body.slcm_frequency = options[:slcmFrequency]
@@ -206,19 +199,17 @@ module Emasser
           end
         end
       end
-      # rubocop:enable Style/CaseLikeIf, Style/StringLiterals
+      # rubocop:enable Style/CaseLikeIf, Style/StringLiterals, Style/NegatedIf
 
       # Add optional fields
-      # rubocop:disable Style/IfUnlessModifier
-      if !options[:severity].nil? then body.severity = options[:severity] end
-      if !options[:vulnerabiltySummary].nil? then body.vulnerabilty_summary = options[:vulnerabiltySummary] end
-      if !options[:recommendations].nil? then body.recommendations = options[:recommendations] end
-      if !options[:relevanceOfThreat].nil? then body.relevance_of_threat = options[:relevanceOfThreat] end
-      if !options[:likelihood].nil? then body.likelihood = options[:likelihood] end
-      if !options[:impact].nil? then body.impact = options[:impact] end
-      if !options[:impactDescription].nil? then body.impact_description = options[:impactDescription] end
-      if !options[:residualRiskLevel].nil? then body.residual_risk_level = options[:residualRiskLevel] end
-      # rubocop:enable Style/IfUnlessModifier, Style/NegatedIf
+      body.severity = options[:severity] if options[:severity]
+      body.vulnerabilty_summary = options[:vulnerabiltySummary] if options[:vulnerabiltySummary]
+      body.recommendations = options[:recommendations] if options[:recommendations]
+      body.relevance_of_threat = options[:relevanceOfThreat] if options[:relevanceOfThreat]
+      body.likelihood = options[:likelihood] if options[:likelihood]
+      body.impact = options[:impact] if options[:impact]
+      body.impact_description = options[:impactDescription] if options[:impactDescription]
+      body.residual_risk_level = options[:residualRiskLevel] if options[:residualRiskLevel]
 
       body_array = Array.new(1, body)
 
@@ -240,6 +231,7 @@ module Emasser
   # Endpoint:
   #   /api/systems/{systemId}/poams                     - Update one or many poa&m items in a system
   #   /api/systems/{systemId}/poams/{poamId}/milestones - Update milestones in one or many poa&m items in a system
+  # rubocop:disable Metrics/ClassLength
   class Poams < SubCommandBase
     def self.exit_on_failure?
       true
@@ -264,7 +256,7 @@ module Emasser
     # pocOrganization, pocFirstName, pocLastName, pocEmail, pocPhoneNumber
 
     desc 'update', 'Update one or many POA&M items in a system'
-    long_desc Help.text(:poam_update_mapper)
+    long_desc Help.text(:poam_put_mapper)
 
     # Required parameters/fields
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
@@ -324,7 +316,7 @@ module Emasser
       # Completed       scheduledCompletionDate, comments, resources,
       #                 completionDate, milestones (at least 1)
       # Not Applicable  POAM can not be created
-      # rubocop:disable Style/CaseLikeIf, Style/NegatedIf, Style/StringLiterals
+      # rubocop:disable Style/CaseLikeIf, Style/StringLiterals
       if options[:status] == "Risk Accepted"
         if options[:comments].nil? || options[:resources].nil?
           puts 'Missing one of these parameters/fields:'.red
@@ -390,30 +382,26 @@ module Emasser
       # rubocop:enable Style/CaseLikeIf, Style/StringLiterals
 
       # Add conditional fields
-      # rubocop:disable Style/IfUnlessModifier
       body.poc_organization = options[:pocOrganization] if options[:pocOrganization]
       body.poc_first_name = options[:pocFirstName] if options[:pocFirstName]
-      # if !options[:pocOrganization].nil? then body.poc_organization = options[:pocOrganization] end
-      # if !options[:pocFirstName].nil? then body.poc_first_name = options[:pocFirstName] end
-      if !options[:pocLastName].nil? then body.poc_last_name = options[:pocLastName] end
-      if !options[:pocEmail].nil? then body.poc_email = options[:pocEmail] end
-      if !options[:pocPhoneNumber].nil? then body.poc_phone_number = options[:pocPhoneNumber] end
-      if !options[:severity].nil? then body.severity = options[:severity] end
+      body.poc_last_name = options[:pocLastName] if options[:pocLastName]
+      body.poc_email = options[:pocEmail] if options[:pocEmail]
+      body.poc_phone_number = options[:pocPhoneNumber] if options[:pocPhoneNumber]
+      body.severity = options[:severity] if options[:severity]
 
       # Add optional fields
-      if !options[:externalUid].nil? then body.external_uid = options[:externalUid] end
-      if !options[:controlAcronym].nil? then body.control_acronyms = options[:controlAcronym] end
-      if !options[:cci].nil? then body.cci = options[:cci] end
-      if !options[:securityChecks].nil? then body.security_checks = options[:securityChecks] end
-      if !options[:rawSeverity].nil? then body.raw_severity = options[:rawSeverity] end
-      if !options[:relevanceOfThreat].nil? then body.relevance_of_threat = options[:relevanceOfThreat] end
-      if !options[:likelihood].nil? then body.likelihood = options[:likelihood] end
-      if !options[:impact].nil? then body.impact = options[:impact] end
-      if !options[:impactDescription].nil? then body.impact_description = options[:impactDescription] end
-      if !options[:residualRiskLevel].nil? then body.residual_risk_level = options[:residualRiskLevel] end
-      if !options[:recommendations].nil? then body.recommendations = options[:recommendations] end
-      if !options[:mitigation].nil? then body.mitigation = options[:mitigation] end
-      # rubocop:enable Style/IfUnlessModifier, Style/NegatedIf
+      body.external_uid = options[:externalUid] if options[:externalUid]
+      body.control_acronym = options[:controlAcronym] if options[:controlAcronym]
+      body.cci = options[:cci] if options[:cci]
+      body.security_checks = options[:securityChecks] if options[:securityChecks]
+      body.raw_severity = options[:rawSeverity] if options[:rawSeverity]
+      body.relevance_of_threat = options[:relevanceOfThreat] if options[:relevanceOfThreat]
+      body.likelihood = options[:likelihood] if options[:likelihood]
+      body.impact = options[:impact] if options[:impact]
+      body.impact_description = options[:impactDescription] if options[:impactDescription]
+      body.residual_risk_level = options[:residualRiskLevel] if options[:residualRiskLevel]
+      body.recommendations = options[:recommendations] if options[:recommendations]
+      body.mitigation = options[:mitigation] if options[:mitigation]
 
       body_array = Array.new(1, body)
 
@@ -435,7 +423,7 @@ module Emasser
     option :poamId, type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
     option :milestoneId,
            type: :numeric, required: true, desc: 'A numeric value representing the milestone identification'
-    option :description, type: :string,  required: true, desc: 'The milestone description'
+    option :description, type: :string, required: true, desc: 'The milestone description'
     option :scheduledCompletionDate,
            type: :numeric, required: false, desc: 'The scheduled completion date - Unix time format'
     # Optional
@@ -450,21 +438,23 @@ module Emasser
 
       begin
         # Get milestones in one or many poa&m items in a system
-        result = SwaggerClient::POAMApi.new
-            .update_milestone_by_system_id_and_poam_id(body_array, options[:systemId], options[:poamId])
-        puts to_output_hash(result)
+        result = SwaggerClient::POAMApi
+                 .new
+                 .update_milestone_by_system_id_and_poam_id(body_array, options[:systemId], options[:poamId])
+        puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
-        puts 'Exception when calling POAMApi->update_milestone_by_system_id_and_poam_id'
+        puts 'Exception when calling POAMApi->update_milestone_by_system_id_and_poam_id'.red
         puts to_output_hash(e)
       end
     end
   end
+  # rubocop:enable Metrics/ClassLength
 
   # The Artifact endpoints provide the ability to add new Artifacts
   # (supporting documentation/evidence for Security Control Assessments
   # and system Authorization activities) to a system.
   #
-  # Endpoints:
+  # Endpoint:
   #    /api/systems/{systemId}/artifacts - Post one or many artifacts to a system
   class Artifacts < SubCommandBase
     def self.exit_on_failure?
@@ -489,9 +479,9 @@ module Emasser
 
       begin
         result = SwaggerClient::ArtifactsApi.new.add_artifacts_by_system_id(tempfile, options[:systemId])
-        puts to_output_hash(result)
+        puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
-        puts 'Exception when calling ArtifactsApi->add_artifacts_by_system_id'
+        puts 'Exception when calling ArtifactsApi->add_artifacts_by_system_id'.red
         puts to_output_hash(e)
       ensure
         # Delete the temp file

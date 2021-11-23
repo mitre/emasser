@@ -881,7 +881,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/MilestoneResponsePost"
+                "$ref": "#/components/schemas/MilestoneResponsePut"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
         '401':
@@ -2539,30 +2539,30 @@ components:
           minimum: 1400000000
           maximum: 1600000000
 
-    MilestonesPut:
-      title: Milestones
-      type: object
-      additionalProperties: false
-      properties:
-        milestoneId:
-          type: integer
-          format: int64
-          description: "[Required] Unique item identifier"
-          example: 19
-          minimum: 1
-          maximum: 300
-        description:
-          type: string
-          description: "[Optional] Include milestone description."
-          x-faker: random.words
-          example: "Description text"
-        scheduledCompletionDate:
-          type: integer
-          format: int64
-          description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
-          example: 1499644800
-          minimum: 1400000000
-          maximum: 1600000000    
+    # MilestonesPut:
+    #   title: Milestones
+    #   type: object
+    #   additionalProperties: false
+    #   properties:
+    #     milestoneId:
+    #       type: integer
+    #       format: int64
+    #       description: "[Required] Unique item identifier"
+    #       example: 19
+    #       minimum: 1
+    #       maximum: 300
+    #     description:
+    #       type: string
+    #       description: "[Optional] Include milestone description."
+    #       x-faker: random.words
+    #       example: "Description text"
+    #     scheduledCompletionDate:
+    #       type: integer
+    #       format: int64
+    #       description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
+    #       example: 1499644800
+    #       minimum: 1400000000
+    #       maximum: 1600000000    
 
     #----------------------------------------------------------------------------
     # 200 Responses
@@ -2768,18 +2768,18 @@ components:
           type: array
           maxItems: 10
           items:
-            $ref: "#/components/schemas/MilestonesPost"
-    MilestonResponseDelete:
-      type: object
-      additionalProperties: false
-      properties:
-        meta:
-          "$ref": "#/components/schemas/200"
-        data:
-          type: array
-          maxItems: 1
-          items:
-            $ref: "#/components/schemas/MilestonesDelete"    
+            $ref: "#/components/schemas/MilestonesPut"
+    # MilestonResponseDelete:
+    #   type: object
+    #   additionalProperties: false
+    #   properties:
+    #     meta:
+    #       "$ref": "#/components/schemas/200"
+    #     data:
+    #       type: array
+    #       maxItems: 1
+    #       items:
+    #         $ref: "#/components/schemas/MilestonesDelete"    
     ArtifactsResponseGet:
       type: object
       additionalProperties: false
@@ -2808,6 +2808,23 @@ components:
           type: array
           items:
             additionalProperties: false
+            properties:
+              filename:
+                type: string
+                description: "[Required] File name should match exactly one file within the provided zip file. 1000 Characters."
+                x-faker: system.commonFileName
+                example: "AutorizationGuidance.pdf"
+              success:
+                type: boolean
+                x-faker: random.boolean
+                example: true
+              systemId:
+                type: integer
+                format: int64
+                example: 35
+                minimum: 1
+                maximum: 3000
+
     ArtifactsPutPostResponse:
       type: object
       additionalProperties: false
@@ -4200,7 +4217,6 @@ components:
           description: "Indicates if operations result (success/fail)"
           x-faker: random.boolean
           example: true      
-
     MilestonesGet:
       title: Milestones
       type: object
@@ -4243,21 +4259,18 @@ components:
       title: Milestones - return query from the server for the POST call
       type: object
       additionalProperties: false
-      properties:
-        milestoneId:
-          type: integer
-          format: int64
-          description: "The Milestone unique item identifier"
-          example: 19
-          minimum: 1
-          maximum: 300
-        success:
-          type: boolean
-          description: "Indicates if operations result (success/fail)"
-          x-faker: random.boolean
-          example: true
+      "$ref": "#/components/schemas/MilestonesPutPostDelete"
+    MilestonesPut:
+      title: Milestones - return query from the server for the PUT call
+      type: object
+      additionalProperties: false
+      "$ref": "#/components/schemas/MilestonesPutPostDelete"
     MilestonesDelete:
       title:  Milestones - return query from the server for the DELETE call
+      type: object
+      additionalProperties: false
+      "$ref": "#/components/schemas/MilestonesPutPostDelete"
+    MilestonesPutPostDelete:
       type: object
       additionalProperties: false
       properties:
@@ -4281,12 +4294,18 @@ components:
           description: "The Milestone unique item identifier"
           example: 77
           minimum: 1
-          maximum: 300               
+          maximum: 300         
+        externalUid:
+          type: string
+          description: "The unique identifier external to the eMASS application for use with associating POA&Ms. 100 Characters."
+          x-faker: random.uuid
+          example: "d6d98b88-c866-4496-9bd4-de7ba48d0f52"
         success:
           type: boolean
           description: "Indicates if operations result (success/fail)"
           x-faker: random.boolean
-          example: true
+          example: true    
+    
     ArtifactsGet:
       title: Artifacts
       type: object
@@ -4314,7 +4333,7 @@ components:
           description: "[Optional] Artifact description. 2000 Characters."
           x-faker: random.words
           example: "Artifact description text"
-        isArtifactTemplate:
+        isTemplate:
           type: boolean
           description: "[Read-only] Indicates whether an artifact template."
           x-faker: random.boolean
@@ -4392,8 +4411,6 @@ components:
             description: "[Required] File name should match exactly one file within the provided zip file. 1000 Characters."
             x-faker: system.commonFileName
             example: "AutorizationGuidance.pdf"
-
-
 
     ApprovalCac:
       title: ApprovalCac

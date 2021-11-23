@@ -86,9 +86,42 @@ module Emasser
       body_array = Array.new(1, body)
 
       result = SwaggerClient::POAMApi.new.delete_milestone(body_array, options[:systemId], options[:poamId])
+      # The server returns an empty object upon successfully deleting a milestone.
       puts to_output_hash(result).green
     rescue SwaggerClient::ApiError => e
       puts 'Exception when calling POAMApi->delete_milestone'.red
+      puts to_output_hash(e)
+    end
+  end
+
+  # Remove one or many artifacts in a system
+  #
+  # Endpoint:
+  #    /api/systems/{systemId}/artifacts - Delete one or more artifacts (files) from a system
+  class Artifacts < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'remove', 'Remove one or many artifacts in a system'
+    long_desc Help.text(:artifact_del_mapper)
+
+    # Required parameters/fields
+    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :files, type: :array, required: true, desc: 'Artifact file(s) to remove from the given system'
+
+    def remove
+      body_array = Array.new
+      options[:files].each do |file|
+        obj = {}
+        obj[:filename] = file
+        body_array << obj
+      end
+
+      result = SwaggerClient::ArtifactsApi.new.delete_artifact(body_array, options[:systemId])
+      puts to_output_hash(result).green
+    rescue SwaggerClient::ApiError => e
+      puts 'Exception when calling ArtifactsApi->delete_artifact'.red
       puts to_output_hash(e)
     end
   end
@@ -97,7 +130,7 @@ module Emasser
     desc 'poams', 'Delete Plan of Action and Milestones (POA&M) items for a system'
     subcommand 'poams', Poams
 
-    # desc 'artifacts', 'Delete system Artifacts'
-    # subcommand 'artifacts', Artifacts
+    desc 'artifacts', 'Delete system Artifacts'
+    subcommand 'artifacts', Artifacts
   end
 end

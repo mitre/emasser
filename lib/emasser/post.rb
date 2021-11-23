@@ -3,8 +3,8 @@
 # Hack class that properly formats the CLI help
 class SubCommandBase < Thor
   include OptionsParser
-  # include InputConverters
-  # include OutputConverters
+  include InputConverters
+  include OutputConverters
 
   # We do not control the method declaration for the banner
 
@@ -62,10 +62,7 @@ module Emasser
     option :complianceStatus, type: :string, required: true, enum: ['Compliant', 'Non-Compliant', 'Not Applicable']
 
     def add
-      optional_options_keys = optional_options(@_initializer).keys
-      optional_options = to_input_hash(optional_options_keys, options)
-
-      body = SwaggerClient::TestResultsRequestBody.new
+      body = SwaggerClient::TestResultsRequestPostBody.new
       body.cci = options[:cci]
       body.tested_by = options[:testedBy]
       body.test_date = options[:testDate]
@@ -77,8 +74,8 @@ module Emasser
 
       begin
         result = SwaggerClient::TestResultsApi
-                 .new.add_test_results_by_system_id(body_array, options[:systemId], optional_options)
-        puts to_output_hash(result)
+                 .new.add_test_results_by_system_id(body_array, options[:systemId])
+        puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling TestResultsApi->add_test_results_by_system_id'.red
         puts to_output_hash(e)
@@ -174,7 +171,7 @@ module Emasser
       # Completed       scheduledCompletionDate, comments, resources,
       #                 completionDate, milestones (at least 1)
       # Not Applicable  POAM can not be created
-      # rubocop:disable Style/CaseLikeIf, Style/NegatedIf, Style/StringLiterals
+      # rubocop:disable Style/CaseLikeIf, Style/StringLiterals
       if options[:status] == "Risk Accepted"
         if options[:comments].nil? || options[:resources].nil?
           puts 'Missing one of these parameters/fields:'.red
@@ -221,31 +218,60 @@ module Emasser
           body.milestones = milestone_array
         end
       end
+
+      # POC checks: If any poc information is provided all POC fields are required
+      if options[:pocFirstName]
+        if options[:pocLastName].nil? || options[:pocEmail].nil? || options[:pocPhoneNumber].nil?
+          puts 'If a POC first name is given, then all POC information must be entered:'.red
+          puts '    pocLastName, pocEmail, pocPhoneNumber'.red
+          puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+          exit
+        end
+      elsif options[:pocLastName]
+        if options[:pocFirstName].nil? || options[:pocEmail].nil? || options[:pocPhoneNumber].nil?
+          puts 'If a POC last name is given, then all POC information must be entered:'.red
+          puts '    pocFirstName, pocEmail, pocPhoneNumber'.red
+          puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+          exit
+        end
+      elsif options[:pocEmail]
+        if options[:pocFirstName].nil? || options[:pocLastName].nil? || options[:pocPhoneNumber].nil?
+          puts 'If a POC email is given, then all POC information must be entered:'.red
+          puts '    pocFirstName, pocLastName, pocPhoneNumber'.red
+          puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+          exit
+        end
+      elsif options[:pocPhoneNumber]
+        if options[:pocFirstName].nil? || options[:pocLastName].nil? || options[:pocEmail].nil?
+          puts 'If a POC phone number is given, then all POC information must be entered:'.red
+          puts '    pocFirstName, pocLastName, pocEmail'.red
+          puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+          exit
+        end
+      end
       # rubocop:enable Style/CaseLikeIf, Style/StringLiterals
 
       # Add conditional fields
-      # rubocop:disable Style/IfUnlessModifier
-      if !options[:pocOrganization].nil? then body.poc_organization = options[:pocOrganization] end
-      if !options[:pocFirstName].nil? then body.poc_first_name = options[:pocFirstName] end
-      if !options[:pocLastName].nil? then body.poc_last_name = options[:pocLastName] end
-      if !options[:pocEmail].nil? then body.poc_email = options[:pocEmail] end
-      if !options[:pocPhoneNumber].nil? then body.poc_phone_number = options[:pocPhoneNumber] end
-      if !options[:severity].nil? then body.severity = options[:severity] end
+      body.poc_organization = options[:pocOrganization] if options[:pocOrganization]
+      body.poc_first_name = options[:pocFirstName] if options[:pocFirstName]
+      body.poc_last_name = options[:pocLastName] if options[:pocLastName]
+      body.poc_email = options[:pocEmail] if options[:pocEmail]
+      body.poc_phone_number = options[:pocPhoneNumber] if options[:pocPhoneNumber]
+      body.severity = options[:severity] if options[:severity]
 
       # Add optional fields
-      if !options[:externalUid].nil? then body.external_uid = options[:externalUid] end
-      if !options[:controlAcronym].nil? then body.control_acronyms = options[:controlAcronym] end
-      if !options[:cci].nil? then body.cci = options[:cci] end
-      if !options[:securityChecks].nil? then body.security_checks = options[:securityChecks] end
-      if !options[:rawSeverity].nil? then body.raw_severity = options[:rawSeverity] end
-      if !options[:relevanceOfThreat].nil? then body.relevance_of_threat = options[:relevanceOfThreat] end
-      if !options[:likelihood].nil? then body.likelihood = options[:likelihood] end
-      if !options[:impact].nil? then body.impact = options[:impact] end
-      if !options[:impactDescription].nil? then body.impact_description = options[:impactDescription] end
-      if !options[:residualRiskLevel].nil? then body.residual_risk_level = options[:residualRiskLevel] end
-      if !options[:recommendations].nil? then body.recommendations = options[:recommendations] end
-      if !options[:mitigation].nil? then body.mitigation = options[:mitigation] end
-      # rubocop:enable Style/IfUnlessModifier, Style/NegatedIf
+      body.external_uid = options[:externalUid] if options[:externalUid]
+      body.control_acronyms = options[:controlAcronym] if options[:controlAcronym]
+      body.cci = options[:cci] if options[:cci]
+      body.security_checks = options[:securityChecks] if options[:securityChecks]
+      body.raw_severity = options[:rawSeverity] if options[:rawSeverity]
+      body.relevance_of_threat = options[:relevanceOfThreat] if options[:relevanceOfThreat]
+      body.likelihood = options[:likelihood] if options[:likelihood]
+      body.impact = options[:impact] if options[:impact]
+      body.impact_description = options[:impactDescription] if options[:impactDescription]
+      body.residual_risk_level = options[:residualRiskLevel] if options[:residualRiskLevel]
+      body.recommendations = options[:recommendations] if options[:recommendations]
+      body.mitigation = options[:mitigation] if options[:mitigation]
 
       body_array = Array.new(1, body)
 
@@ -276,12 +302,19 @@ module Emasser
       body.scheduled_completion_date = options[:scheduledCompletionDate]
       body_array = Array.new(1, body)
 
+      # return values
+      # "systemId": 34,
+      # "poamId": 191,
+      # "milestoneId": 264,
+      # "externalUid": null,
+      # "success": true
+
       begin
-        result = SwaggerClient::POAMApi.new
-            .add_milestone_by_system_id_and_poam_id(body_array, options[:systemId], options[:poamId])
-        puts to_output_hash(result)
+        result = SwaggerClient::POAMApi
+                 .new.add_milestone_by_system_id_and_poam_id(body_array, options[:systemId], options[:poamId])
+        puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
-        puts 'Exception when calling POAMApi->add_milestone_by_system_id_and_poam_id'
+        puts 'Exception when calling POAMApi->add_milestone_by_system_id_and_poam_id'.red
         puts to_output_hash(e)
       end
     end
@@ -300,10 +333,42 @@ module Emasser
     end
 
     desc 'upload SYSTEM_ID FILE [FILE ...]', 'Uploads [FILES] to the given [SYSTEM_ID] as artifacts'
+    long_desc Help.text(:artifacts_post_mapper)
+
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :files, type: :array, required: true, desc: 'Artifact file(s) to post to the given system'
+    option :type, type: :string, required: true,
+           enum: ['Procedure', 'Diagram', 'Policy', 'Labor', 'Document', 'Image', 'Other', 'Scan Result', 'Auditor Report']
+    option :category, type: :string, required: true, enum: ['Implementation Guidance', 'Evidence']
+    option :isTemplate, type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
+    # NOTE: compress is a required parameter, however Thor does not allow a boolean type to be required because it
+    # automatically creates a --no-compress option
 
+    # Optional fields
+    option :description, type: :string, required: false, desc: 'Artifact description'
+    option :refPageNumber, type: :string, required: false, desc: 'Artifact reference page number'
+    option :ccis, type: :string, require: false, desc: 'The system CCIs string numerical value'
+    option :controls, 
+           type: :string, required: false,
+           desc: 'Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined'
+    option :artifactExpirationDate,
+           type: :numeric, required: false, desc: 'Date Artifact expires and requires review - Unix time format'
+    option :lastReviewDate,
+           type: :numeric, required: false, desc: 'Date Artifact was last reviewed - Unix time format'           
+
+    # 
     def upload
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+      puts optional_options
+      opts = {}
+      opts[:'form_params'] = optional_options
+      puts opts[:form_params]
+
+      # puts options[:systemId]
+      # puts options[:files]
+      #exit
+
       tempfile = Tempfile.create(['artifacts', '.zip'])
 
       Zip::OutputStream.open(tempfile.path) do |z|
@@ -314,12 +379,17 @@ module Emasser
           z.print File.read(file)
         end
       end
+      puts tempfile
 
       begin
-        result = SwaggerClient::ArtifactsApi.new.add_artifacts_by_system_id(tempfile, options[:systemId])
-        puts to_output_hash(result)
+        #result = SwaggerClient::ArtifactsApi.new.add_artifacts_by_system_id(tempfile, options[:systemId])
+        result = SwaggerClient::ArtifactsApi
+                 .new
+                 .add_artifacts_by_system_id(options[:isTemplate], options[:type], 
+                                             options[:category], tempfile, options[:systemId], {})
+        puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
-        puts 'Exception when calling ArtifactsApi->add_artifacts_by_system_id'
+        puts 'Exception when calling ArtifactsApi->add_artifacts_by_system_id'.red
         puts to_output_hash(e)
       ensure
         # Delete the temp file

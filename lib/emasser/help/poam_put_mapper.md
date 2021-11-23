@@ -2,6 +2,9 @@ To delete a milestone through the POA&M PUT you must include it as inactive by s
 
 If a milestone Id is not provided a new milestone is created. 
 
+If a field is misrepresented (wrong value)the following response may be provided by the server:
+Response body: {"meta":{"code":500,"errorMessage":"Sorry! Something went wrong on our end. Please contact emass_support@bah.com for assistance."}}
+
 The following fields are required based on the contents of the status field
   |status          |Required Fields
   |----------------|--------------------------------------------------------
