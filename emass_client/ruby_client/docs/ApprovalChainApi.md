@@ -5,14 +5,13 @@ All URIs are relative to *http://localhost:4010*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**add_c_ac_approval_chain_by_system_id**](ApprovalChainApi.md#add_c_ac_approval_chain_by_system_id) | **POST** /api/systems/{systemId}/approval/cac | Submit control to second role of CAC
-[**add_c_ac_approval_chain_by_system_id**](ApprovalChainApi.md#add_c_ac_approval_chain_by_system_id) | **POST** /api/systems/{systemId}/approval/cac | Submit control to second role of CAC
 [**add_pac_approval_chain_by_system_id**](ApprovalChainApi.md#add_pac_approval_chain_by_system_id) | **POST** /api/systems/{systemId}/approval/pac | Submit system package for review
 [**add_pac_approval_chain_by_system_id**](ApprovalChainApi.md#add_pac_approval_chain_by_system_id) | **POST** /api/systems/{systemId}/approval/pac | Submit system package for review
 [**get_cac_approval_by_system_id**](ApprovalChainApi.md#get_cac_approval_by_system_id) | **GET** /api/systems/{systemId}/approval/cac | Get location of one or many controls in CAC
 [**get_pac_approval_by_system_id**](ApprovalChainApi.md#get_pac_approval_by_system_id) | **GET** /api/systems/{systemId}/approval/pac | Get location of system package in PAC
 
 # **add_c_ac_approval_chain_by_system_id**
-> Model200 add_c_ac_approval_chain_by_system_id(bodysystem_id)
+> ApprovalCacResponsePost add_c_ac_approval_chain_by_system_id(bodysystem_id)
 
 Submit control to second role of CAC
 
@@ -36,7 +35,7 @@ SwaggerClient.configure do |config|
 end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
-body = SwaggerClient::PostApprovalCac.new # PostApprovalCac | Update an existing Artifact by Id
+body = SwaggerClient::ApprovalCacRequestPostBody.new # ApprovalCacRequestPostBody | Update an existing Artifact by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -53,12 +52,12 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PostApprovalCac**](PostApprovalCac.md)| Update an existing Artifact by Id | 
+ **body** | [**ApprovalCacRequestPostBody**](ApprovalCacRequestPostBody.md)| Update an existing Artifact by Id | 
  **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
 
 ### Return type
 
-[**Model200**](Model200.md)
+[**ApprovalCacResponsePost**](ApprovalCacResponsePost.md)
 
 ### Authorization
 
@@ -66,69 +65,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/x-www-form-urlencoded
- - **Accept**: application/json, text/plain
-
-
-
-# **add_c_ac_approval_chain_by_system_id**
-> Model200 add_c_ac_approval_chain_by_system_id(control_acronymscommentssystem_id)
-
-Submit control to second role of CAC
-
-Adds an Approval for given `systemId` path parameter<br><br> POST requests will only yield successful results if the control is currently sitting at the first role of the CAC. If the control is not currently sitting at the first role, then an error will be returned.
-
-### Example
-```ruby
-# load the gem
-require 'swagger_client'
-# setup authorization
-SwaggerClient.configure do |config|
-  # Configure API key authorization: apikey
-  config.api_key['api-key'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  #config.api_key_prefix['api-key'] = 'Bearer'
-
-  # Configure API key authorization: userid
-  config.api_key['user-uid'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  #config.api_key_prefix['user-uid'] = 'Bearer'
-end
-
-api_instance = SwaggerClient::ApprovalChainApi.new
-control_acronyms = 'control_acronyms_example' # String | 
-comments = 'comments_example' # String | 
-system_id = 56 # Integer | **System Id**: The unique system record identifier.
-
-
-begin
-  #Submit control to second role of CAC
-  result = api_instance.add_c_ac_approval_chain_by_system_id(control_acronymscommentssystem_id)
-  p result
-rescue SwaggerClient::ApiError => e
-  puts "Exception when calling ApprovalChainApi->add_c_ac_approval_chain_by_system_id: #{e}"
-end
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **control_acronyms** | **String**|  | 
- **comments** | **String**|  | 
- **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
-
-### Return type
-
-[**Model200**](Model200.md)
-
-### Authorization
-
-[apikey](../README.md#apikey), [userid](../README.md#userid)
-
-### HTTP request headers
-
- - **Content-Type**: application/json, application/x-www-form-urlencoded
+ - **Content-Type**: application/json
  - **Accept**: application/json, text/plain
 
 
@@ -258,7 +195,7 @@ Name | Type | Description  | Notes
 
 
 # **get_cac_approval_by_system_id**
-> ApprovalCacResponse get_cac_approval_by_system_id(system_id, opts)
+> ApprovalCacResponseGet get_cac_approval_by_system_id(system_id, opts)
 
 Get location of one or many controls in CAC
 
@@ -305,7 +242,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ApprovalCacResponse**](ApprovalCacResponse.md)
+[**ApprovalCacResponseGet**](ApprovalCacResponseGet.md)
 
 ### Authorization
 

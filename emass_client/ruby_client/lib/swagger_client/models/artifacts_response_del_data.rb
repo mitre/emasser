@@ -12,24 +12,29 @@ Swagger Codegen version: 3.0.26
 require 'date'
 
 module SwaggerClient
-  class ArtifactsPutPostResponse
-    attr_accessor :meta
+  class ArtifactsResponseDelData
+    # [Required] File name should match exactly one file within the provided zip file. 1000 Characters.
+    attr_accessor :filename
 
-    attr_accessor :data
+    attr_accessor :success
+
+    attr_accessor :system_id
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'meta' => :'meta',
-        :'data' => :'data'
+        :'filename' => :'filename',
+        :'success' => :'success',
+        :'system_id' => :'systemId'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'meta' => :'Object',
-        :'data' => :'Object'
+        :'filename' => :'Object',
+        :'success' => :'Object',
+        :'system_id' => :'Object'
       }
     end
 
@@ -43,25 +48,27 @@ module SwaggerClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::ArtifactsPutPostResponse` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::ArtifactsResponseDelData` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::ArtifactsPutPostResponse`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::ArtifactsResponseDelData`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'meta')
-        self.meta = attributes[:'meta']
+      if attributes.key?(:'filename')
+        self.filename = attributes[:'filename']
       end
 
-      if attributes.key?(:'data')
-        if (value = attributes[:'data']).is_a?(Array)
-          self.data = value
-        end
+      if attributes.key?(:'success')
+        self.success = attributes[:'success']
+      end
+
+      if attributes.key?(:'system_id')
+        self.system_id = attributes[:'system_id']
       end
     end
 
@@ -83,8 +90,9 @@ module SwaggerClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          meta == o.meta &&
-          data == o.data
+          filename == o.filename &&
+          success == o.success &&
+          system_id == o.system_id
     end
 
     # @see the `==` method
@@ -96,7 +104,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [meta, data].hash
+      [filename, success, system_id].hash
     end
 
     # Builds the object from hash

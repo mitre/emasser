@@ -12,63 +12,24 @@ Swagger Codegen version: 3.0.26
 require 'date'
 
 module SwaggerClient
-  class ApprovalCac
-    # [Read-Only] System acronym name.
-    attr_accessor :control_acronyms
+  class ArtifactsResponseDel
+    attr_accessor :meta
 
-    # [Read-only] Compliance of the control.
-    attr_accessor :compliance_status
-
-    # [Read-Only] Current role.
-    attr_accessor :current_role
-
-    # [Read-Only] Current step in the Control Approval Chain.
-    attr_accessor :current_step
-
-    # [Read-Only] Total number of steps in Control Approval Chain.
-    attr_accessor :total_steps
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
+    attr_accessor :data
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'control_acronyms' => :'controlAcronyms',
-        :'compliance_status' => :'complianceStatus',
-        :'current_role' => :'currentRole',
-        :'current_step' => :'currentStep',
-        :'total_steps' => :'totalSteps'
+        :'meta' => :'meta',
+        :'data' => :'data'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'control_acronyms' => :'Object',
-        :'compliance_status' => :'Object',
-        :'current_role' => :'Object',
-        :'current_step' => :'Object',
-        :'total_steps' => :'Object'
+        :'meta' => :'Object',
+        :'data' => :'Object'
       }
     end
 
@@ -82,35 +43,25 @@ module SwaggerClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::ApprovalCac` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::ArtifactsResponseDel` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::ApprovalCac`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::ArtifactsResponseDel`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'control_acronyms')
-        self.control_acronyms = attributes[:'control_acronyms']
+      if attributes.key?(:'meta')
+        self.meta = attributes[:'meta']
       end
 
-      if attributes.key?(:'compliance_status')
-        self.compliance_status = attributes[:'compliance_status']
-      end
-
-      if attributes.key?(:'current_role')
-        self.current_role = attributes[:'current_role']
-      end
-
-      if attributes.key?(:'current_step')
-        self.current_step = attributes[:'current_step']
-      end
-
-      if attributes.key?(:'total_steps')
-        self.total_steps = attributes[:'total_steps']
+      if attributes.key?(:'data')
+        if (value = attributes[:'data']).is_a?(Array)
+          self.data = value
+        end
       end
     end
 
@@ -124,19 +75,7 @@ module SwaggerClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      compliance_status_validator = EnumAttributeValidator.new('Object', ['Compliant', 'Not Compliant', 'No Status'])
-      return false unless compliance_status_validator.valid?(@compliance_status)
       true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] compliance_status Object to be assigned
-    def compliance_status=(compliance_status)
-      validator = EnumAttributeValidator.new('Object', ['Compliant', 'Not Compliant', 'No Status'])
-      unless validator.valid?(compliance_status)
-        fail ArgumentError, "invalid value for \"compliance_status\", must be one of #{validator.allowable_values}."
-      end
-      @compliance_status = compliance_status
     end
 
     # Checks equality by comparing each attribute.
@@ -144,11 +83,8 @@ module SwaggerClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          control_acronyms == o.control_acronyms &&
-          compliance_status == o.compliance_status &&
-          current_role == o.current_role &&
-          current_step == o.current_step &&
-          total_steps == o.total_steps
+          meta == o.meta &&
+          data == o.data
     end
 
     # @see the `==` method
@@ -160,7 +96,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [control_acronyms, compliance_status, current_role, current_step, total_steps].hash
+      [meta, data].hash
     end
 
     # Builds the object from hash

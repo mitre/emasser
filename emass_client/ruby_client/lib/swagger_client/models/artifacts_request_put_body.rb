@@ -41,7 +41,7 @@ module SwaggerClient
     attr_accessor :artifact_expiration_date
 
     # [Conditional] Date Artifact was last reviewed.. Unix time format.
-    attr_accessor :last_review_date
+    attr_accessor :last_reviewed_date
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -77,7 +77,7 @@ module SwaggerClient
         :'controls' => :'controls',
         :'ccis' => :'ccis',
         :'artifact_expiration_date' => :'artifactExpirationDate',
-        :'last_review_date' => :'lastReviewDate'
+        :'last_reviewed_date' => :'lastReviewedDate'
       }
     end
 
@@ -93,7 +93,7 @@ module SwaggerClient
         :'controls' => :'Object',
         :'ccis' => :'Object',
         :'artifact_expiration_date' => :'Object',
-        :'last_review_date' => :'Object'
+        :'last_reviewed_date' => :'Object'
       }
     end
 
@@ -154,8 +154,8 @@ module SwaggerClient
         self.artifact_expiration_date = attributes[:'artifact_expiration_date']
       end
 
-      if attributes.key?(:'last_review_date')
-        self.last_review_date = attributes[:'last_review_date']
+      if attributes.key?(:'last_reviewed_date')
+        self.last_reviewed_date = attributes[:'last_reviewed_date']
       end
     end
 
@@ -210,7 +210,7 @@ module SwaggerClient
           controls == o.controls &&
           ccis == o.ccis &&
           artifact_expiration_date == o.artifact_expiration_date &&
-          last_review_date == o.last_review_date
+          last_reviewed_date == o.last_reviewed_date
     end
 
     # @see the `==` method
@@ -222,7 +222,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [filename, description, is_template, type, category, ref_page_number, controls, ccis, artifact_expiration_date, last_review_date].hash
+      [filename, description, is_template, type, category, ref_page_number, controls, ccis, artifact_expiration_date, last_reviewed_date].hash
     end
 
     # Builds the object from hash

@@ -207,7 +207,7 @@ Name | Type | Description  | Notes
 
 
 # **delete_milestone**
-> MilestonesDelete delete_milestone(bodysystem_idpoam_id)
+> Empty200Response delete_milestone(bodysystem_idpoam_id)
 
 Remove milestones in a system for one or many POA&M items
 
@@ -255,7 +255,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MilestonesDelete**](MilestonesDelete.md)
+[**Empty200Response**](Empty200Response.md)
 
 ### Authorization
 
@@ -516,7 +516,7 @@ Name | Type | Description  | Notes
 
 
 # **update_milestone_by_system_id_and_poam_id**
-> MilestoneResponsePost update_milestone_by_system_id_and_poam_id(bodysystem_idpoam_id)
+> MilestoneResponsePut update_milestone_by_system_id_and_poam_id(bodysystem_idpoam_id)
 
 Update one or many POA&M items in a system
 
@@ -564,7 +564,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**MilestoneResponsePost**](MilestoneResponsePost.md)
+[**MilestoneResponsePut**](MilestoneResponsePut.md)
 
 ### Authorization
 

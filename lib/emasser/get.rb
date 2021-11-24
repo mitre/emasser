@@ -391,7 +391,7 @@ module Emasser
     desc 'artifacts', 'Get system Artifacts'
     subcommand 'artifacts', Artifacts
 
-    desc 'approval', 'Get Contorls or Packages (CAC/PAC) security content'
+    desc 'approval', 'Get Controls or Packages (CAC/PAC) security content'
     subcommand 'approval', Approval
 
     desc 'system [--system-name [SYSTEM_NAME]] [--system-owner [SYSTEM_OWNER]]',

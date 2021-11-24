@@ -1,6 +1,6 @@
 Remove one or many artifacts in a system
 
-Provide single file or a comma delimited list of file names to be removed from the system (systemId)
+Provide single file or a space delimited list of file names to be removed from the system (systemId)
 
 Example:
 

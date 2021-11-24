@@ -12,26 +12,16 @@ Swagger Codegen version: 3.0.26
 require 'date'
 
 module SwaggerClient
-  class PostApprovalCac
-    # [Read-Only] System acronym name.
-    attr_accessor :control_acronyms
-
-    # [Conditional] Character Limit = 2,000.
-    attr_accessor :comments
-
+  class Empty200Response
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'control_acronyms' => :'controlAcronyms',
-        :'comments' => :'comments'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'control_acronyms' => :'Object',
-        :'comments' => :'Object'
       }
     end
 
@@ -45,24 +35,16 @@ module SwaggerClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::PostApprovalCac` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::Empty200Response` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::PostApprovalCac`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::Empty200Response`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
-
-      if attributes.key?(:'control_acronyms')
-        self.control_acronyms = attributes[:'control_acronyms']
-      end
-
-      if attributes.key?(:'comments')
-        self.comments = attributes[:'comments']
-      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -82,9 +64,7 @@ module SwaggerClient
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class &&
-          control_acronyms == o.control_acronyms &&
-          comments == o.comments
+      self.class == o.class
     end
 
     # @see the `==` method
@@ -96,7 +76,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [control_acronyms, comments].hash
+      [].hash
     end
 
     # Builds the object from hash

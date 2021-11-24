@@ -1,3 +1,46 @@
+Endpoint request parameters/fields
+
+Field                   Data Type  Details
+-------------------------------------------------------------------------------------------------
+systemId                 Integer   [Required] Unique eMASS identifier. Will need to provide correct number.
+status                   String    [Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable.
+vulnerabilityDescription String    [Required] Provide a description of the POA&M Item. 2000 Characters.
+sourceIdentVuln          String    [Required] Include Source Identifying Vulnerability text. 2000 Characters.
+pocOrganization**        String    [Required] Organization/Office represented. 100 Characters.
+pocFirstName**           String    [Required] First name of POC. 100 Characters.
+pocLastName**            String    [Required] Last name of POC. 100 Characters.
+pocEmail**               String    [Required] Email address of POC. 100 Characters.
+pocPhoneNumber**         String    [Required] Phone number of POC (area code) ***-**** format. 100 Characters.
+reviewStatus             string    [Required/Optional] Values include the following options: (Not Approved, Under Review, Approved]
+
+milestones               JSON      [Conditional] Please see Notes 1 for more details.
+severity                 String    [Conditional] Values include the following: (Very Low, Low, Moderate, High, Very High)
+scheduledCompletionDate  Date      [Conditional] Required for ongoing and completed POA&M items. Unix time format.
+completionDate           Date      [Conditional] Field is required for completed POA&M items. Unix time format.
+comments                 String    [Conditional] Field is required for completed and risk accepted POA&M items. 2000 Characters.
+isActive                 Boolean   [Conditional] Optionally used in PUT to delete milestones when updating a POA&M
+
+externalUid              String    [Optional] Unique identifier external to the eMASS application for use with associating POA&M Items. 100 Characters.
+controlAcronym           String    [Optional] Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined.
+cci                      String    [Optional] CCI associated with the test result.
+securityChecks           String    [Optional] Security Checks that are associated with the POA&M.
+rawSeverity              String    [Optional] Values include the following: (I, II, III)
+resources                String    [Optional] List of resources used. 250 Characters.
+relevanceOfThreat        String    [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
+likelihood               String    [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
+impact                   String    [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
+impactDescription        String    [Optional] Include description of Security Control’s impact.
+residualRiskLevel        String    [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
+recommendations          String    [Optional] Include recommendations. Character Limit 2,000.
+mitigation               String    [Optional] Include mitigation explanation. 2000 Characters.
+
+isInherited              String    [Read-Only] Indicates whether a POA&M Item is inherited.
+extensionDate            Date      [Read-Only] Value returned for a POA&M Item with review status “Approved” and has a milestone
+                                               with a scheduled completion date that extends beyond the POA&M Item’s scheduled completion date.
+
+** If any poc information is provided all POC fields are required. See additional details for POC fields below.
+
+
 The following fields are required based on the contents of the status field
   |status          |Required Fields
   |----------------|--------------------------------------------------------
@@ -15,13 +58,13 @@ fields are required within the request.
 
 Business logic, the following rules apply when adding POA&Ms
 
-- POA&M Item cannot be saved if associated Security Control or AP is inherited.
-- POA&M Item cannot be created manually if a Security Control or AP is Not Applicable.
+- POA&M Items cannot be saved if associated Security Control or AP is inherited.
+- POA&M Items cannot be created manually if a Security Control or AP is Not Applicable.
 - Completed POA&M Item cannot be saved if Completion Date is in the future.
 - Completed POA&M Item cannot be saved if Completion Date (completionDate) is in the future.
 - Risk Accepted POA&M Item cannot be saved with a Scheduled Completion Date or Milestones
-- POA&M Item with a review status of “Not Approved” cannot be saved if Milestone Scheduled Completion Date exceeds POA&M Item  Scheduled Completion Date.
-- POA&M Item with a review status of “Approved” can be saved if Milestone Scheduled Completion Date exceeds POA&M Item Scheduled Completion Date.
+- POA&M Items with a review status of “Not Approved” cannot be saved if Milestone Scheduled Completion Date exceeds POA&M Item  Scheduled Completion Date.
+- POA&M Items with a review status of “Approved” can be saved if Milestone Scheduled Completion Date exceeds POA&M Item Scheduled Completion Date.
 - POA&M Items that have a status of “Completed” and a status of “Ongoing” cannot be saved without Milestones.
 - POA&M Items that have a status of “Risk Accepted” cannot have milestones.
 - POA&M Items with a review status of “Approved” that have a status of “Completed” and “Ongoing” cannot update Scheduled Completion Date.
@@ -39,10 +82,10 @@ The following parameters/fields have the following character limitations:
   - Last Name             (pocLastName)
   - Email                 (email)
   - Phone Number          (pocPhoneNumber)
-- POA&M Item cannot be saved if Mitigation field (mitigation) exceeds 2000 characters.
-- POA&M Item cannot be saved if Source Identifying Vulnerability field exceeds 2000 characters.
-- POA&M Item cannot be saved if Comments (comments) field exceeds 2000 characters 
-- POA&M Item cannot be saved if Resource (resource) field exceeds 250 characters.
+- POA&M Items cannot be saved if Mitigation field (mitigation) exceeds 2000 characters.
+- POA&M Items cannot be saved if Source Identifying Vulnerability field exceeds 2000 characters.
+- POA&M Items cannot be saved if Comments (comments) field exceeds 2000 characters 
+- POA&M Items cannot be saved if Resource (resource) field exceeds 250 characters.
 - POA&M Items cannot be saved if Milestone Description exceeds 2000 characters.
 
 Example:

@@ -13,25 +13,15 @@ require 'date'
 
 module SwaggerClient
   class MilestonesPost
-    # The Milestone unique item identifier
-    attr_accessor :milestone_id
-
-    # Indicates if operations result (success/fail)
-    attr_accessor :success
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'milestone_id' => :'milestoneId',
-        :'success' => :'success'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'milestone_id' => :'Object',
-        :'success' => :'Object'
       }
     end
 
@@ -55,14 +45,6 @@ module SwaggerClient
         end
         h[k.to_sym] = v
       }
-
-      if attributes.key?(:'milestone_id')
-        self.milestone_id = attributes[:'milestone_id']
-      end
-
-      if attributes.key?(:'success')
-        self.success = attributes[:'success']
-      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -82,9 +64,7 @@ module SwaggerClient
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class &&
-          milestone_id == o.milestone_id &&
-          success == o.success
+      self.class == o.class
     end
 
     # @see the `==` method
@@ -96,7 +76,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [milestone_id, success].hash
+      [].hash
     end
 
     # Builds the object from hash

@@ -12,108 +12,26 @@ Swagger Codegen version: 3.0.26
 require 'date'
 
 module SwaggerClient
-  class ArtifactsGet
-    # [Required] Unique eMASS system identifier.
-    attr_accessor :system_id
+  class ApprovalCacRequestPostBody
+    # [Required] System acronym name.
+    attr_accessor :control_acronym
 
-    # [Required] File name should match exactly one file within the provided zip file. 1000 Characters.
-    attr_accessor :filename
-
-    # [Read-only] Indicates whether an artifact is inherited.
-    attr_accessor :is_inherited
-
-    # [Optional] Artifact description. 2000 Characters.
-    attr_accessor :description
-
-    # [Read-only] Indicates whether an artifact template.
-    attr_accessor :is_template
-
-    # [Required] Values include the following options: (Procedure,Diagram,Policy,Labor,Document,Image,Other,Scan Result)
-    attr_accessor :type
-
-    # [Required] Values include the following options: (Implementation Guidance,Evidence). May also accept custom artifact category values set by system administrators.
-    attr_accessor :category
-
-    # [Optional] Artifact reference page number. 50 Characters.
-    attr_accessor :ref_page_number
-
-    # [Optional] Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined.
-    attr_accessor :controls
-
-    # [Required] CCI associated with test result.
-    attr_accessor :ccis
-
-    # [Read-Only] Standard MIME content type derived from file extension.
-    attr_accessor :mime_content_type
-
-    # [Read-Only] File size of attached artifact.
-    attr_accessor :file_size
-
-    # [Optional] Date Artifact expires and requires review. In Unix Date format.
-    attr_accessor :artifact_expiration_date
-
-    # [Conditional] Date Artifact was last reviewed.. Unix time format.
-    attr_accessor :last_reviewed_date
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
+    # [Conditional] Control Approval Chain comments - 2000 Characters.
+    attr_accessor :comments
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'system_id' => :'systemId',
-        :'filename' => :'filename',
-        :'is_inherited' => :'isInherited',
-        :'description' => :'description',
-        :'is_template' => :'isTemplate',
-        :'type' => :'type',
-        :'category' => :'category',
-        :'ref_page_number' => :'refPageNumber',
-        :'controls' => :'controls',
-        :'ccis' => :'ccis',
-        :'mime_content_type' => :'mimeContentType',
-        :'file_size' => :'fileSize',
-        :'artifact_expiration_date' => :'artifactExpirationDate',
-        :'last_reviewed_date' => :'lastReviewedDate'
+        :'control_acronym' => :'controlAcronym',
+        :'comments' => :'comments'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'system_id' => :'Object',
-        :'filename' => :'Object',
-        :'is_inherited' => :'Object',
-        :'description' => :'Object',
-        :'is_template' => :'Object',
-        :'type' => :'Object',
-        :'category' => :'Object',
-        :'ref_page_number' => :'Object',
-        :'controls' => :'Object',
-        :'ccis' => :'Object',
-        :'mime_content_type' => :'Object',
-        :'file_size' => :'Object',
-        :'artifact_expiration_date' => :'Object',
-        :'last_reviewed_date' => :'Object'
+        :'control_acronym' => :'Object',
+        :'comments' => :'Object'
       }
     end
 
@@ -127,71 +45,23 @@ module SwaggerClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::ArtifactsGet` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::ApprovalCacRequestPostBody` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::ArtifactsGet`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::ApprovalCacRequestPostBody`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'system_id')
-        self.system_id = attributes[:'system_id']
+      if attributes.key?(:'control_acronym')
+        self.control_acronym = attributes[:'control_acronym']
       end
 
-      if attributes.key?(:'filename')
-        self.filename = attributes[:'filename']
-      end
-
-      if attributes.key?(:'is_inherited')
-        self.is_inherited = attributes[:'is_inherited']
-      end
-
-      if attributes.key?(:'description')
-        self.description = attributes[:'description']
-      end
-
-      if attributes.key?(:'is_template')
-        self.is_template = attributes[:'is_template']
-      end
-
-      if attributes.key?(:'type')
-        self.type = attributes[:'type']
-      end
-
-      if attributes.key?(:'category')
-        self.category = attributes[:'category']
-      end
-
-      if attributes.key?(:'ref_page_number')
-        self.ref_page_number = attributes[:'ref_page_number']
-      end
-
-      if attributes.key?(:'controls')
-        self.controls = attributes[:'controls']
-      end
-
-      if attributes.key?(:'ccis')
-        self.ccis = attributes[:'ccis']
-      end
-
-      if attributes.key?(:'mime_content_type')
-        self.mime_content_type = attributes[:'mime_content_type']
-      end
-
-      if attributes.key?(:'file_size')
-        self.file_size = attributes[:'file_size']
-      end
-
-      if attributes.key?(:'artifact_expiration_date')
-        self.artifact_expiration_date = attributes[:'artifact_expiration_date']
-      end
-
-      if attributes.key?(:'last_reviewed_date')
-        self.last_reviewed_date = attributes[:'last_reviewed_date']
+      if attributes.key?(:'comments')
+        self.comments = attributes[:'comments']
       end
     end
 
@@ -205,31 +75,7 @@ module SwaggerClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      type_validator = EnumAttributeValidator.new('Object', ['Procedure', 'Diagram', 'Policy', 'Labor', 'Document', 'Image', 'Other', 'Scan Result'])
-      return false unless type_validator.valid?(@type)
-      category_validator = EnumAttributeValidator.new('Object', ['Implementation Guidance', 'Evidence', 'Change Request'])
-      return false unless category_validator.valid?(@category)
       true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] type Object to be assigned
-    def type=(type)
-      validator = EnumAttributeValidator.new('Object', ['Procedure', 'Diagram', 'Policy', 'Labor', 'Document', 'Image', 'Other', 'Scan Result'])
-      unless validator.valid?(type)
-        fail ArgumentError, "invalid value for \"type\", must be one of #{validator.allowable_values}."
-      end
-      @type = type
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] category Object to be assigned
-    def category=(category)
-      validator = EnumAttributeValidator.new('Object', ['Implementation Guidance', 'Evidence', 'Change Request'])
-      unless validator.valid?(category)
-        fail ArgumentError, "invalid value for \"category\", must be one of #{validator.allowable_values}."
-      end
-      @category = category
     end
 
     # Checks equality by comparing each attribute.
@@ -237,20 +83,8 @@ module SwaggerClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          system_id == o.system_id &&
-          filename == o.filename &&
-          is_inherited == o.is_inherited &&
-          description == o.description &&
-          is_template == o.is_template &&
-          type == o.type &&
-          category == o.category &&
-          ref_page_number == o.ref_page_number &&
-          controls == o.controls &&
-          ccis == o.ccis &&
-          mime_content_type == o.mime_content_type &&
-          file_size == o.file_size &&
-          artifact_expiration_date == o.artifact_expiration_date &&
-          last_reviewed_date == o.last_reviewed_date
+          control_acronym == o.control_acronym &&
+          comments == o.comments
     end
 
     # @see the `==` method
@@ -262,7 +96,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [system_id, filename, is_inherited, description, is_template, type, category, ref_page_number, controls, ccis, mime_content_type, file_size, artifact_expiration_date, last_reviewed_date].hash
+      [control_acronym, comments].hash
     end
 
     # Builds the object from hash

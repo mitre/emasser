@@ -1128,7 +1128,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ArtifactsPutPostResponse"
+                "$ref": "#/components/schemas/ArtifactsResponsePutPost"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
           content:
@@ -1174,7 +1174,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ArtifactsPutPostResponse"
+                "$ref": "#/components/schemas/ArtifactsResponsePutPost"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
         '401':
@@ -1223,14 +1223,13 @@ paths:
             schema:
               "$ref": "#/components/schemas/ArtifactsDelete"
         required: true
-
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ArtifactsDelResponse"
+                "$ref": "#/components/schemas/ArtifactsResponseDel"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
         '401':
@@ -1264,15 +1263,19 @@ paths:
         '200':
           description: "Successful retrieved Artifacts file"
           content:
-            application/json:
+            text/plain:
               schema:
-                "$ref": "#/components/schemas/ArtifactGetExportResponse"
-            application/octet-stream:
-              schema:
-                description: "Artifacts file ready for download"
                 type: string
-                format: binary
-                example: "Binary file associated with given filename"
+                example: "The requested file contents"
+            # application/json:
+            #   schema:
+            #     "$ref": "#/components/schemas/ArtifactGetExportResponse"
+            # application/octet-stream:
+            #   schema:
+            #     description: "Artifacts file ready for download"
+            #     type: string
+            #     format: binary
+            #     example: "Binary file content for given filename"
         '404':
           description: "Server could not find what was requested."
           content:
@@ -1306,7 +1309,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/ApprovalCacResponse"
+                "$ref": "#/components/schemas/ApprovalCacResponseGet"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
         '401':
@@ -1347,10 +1350,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PostApprovalCac"
-          application/x-www-form-urlencoded:
-            schema:
-              "$ref": "#/components/schemas/PostApprovalCac"
+              "$ref": "#/components/schemas/ApprovalCacRequestPostBody"
         required: true
       responses:
         '200':
@@ -1358,10 +1358,9 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/200"
+                "$ref": "#/components/schemas/ApprovalCacResponsePost"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
-
         '401':
           description: "Request requires user authentication. Client may repeat the request with suitable Authorization"
           content:
@@ -1402,12 +1401,12 @@ paths:
           content:
             application/json:
               schema:
-                oneOf:
-                  - "$ref": "#/components/schemas/ApprovalPacResponse1"
-                  - "$ref": "#/components/schemas/ApprovalPacResponse2"
+                "$ref": "#/components/schemas/ApprovalPacResponseGet"
+                # oneOf:
+                #   - "$ref": "#/components/schemas/ApprovalPacResponse1"
+                #   - "$ref": "#/components/schemas/ApprovalPacResponse2"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
-
         '401':
           description: "Request requires user authentication. Client may repeat the request with suitable Authorization"
           content:
@@ -1443,10 +1442,10 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PostApprovalPac"
-          application/x-www-form-urlencoded:
-            schema:
-              "$ref": "#/components/schemas/PostApprovalPac"
+              "$ref": "#/components/schemas/ApprovalPacRequestBodyPost"
+          # application/x-www-form-urlencoded:
+          #   schema:
+          #     "$ref": "#/components/schemas/PostApprovalPac"
         required: true
       responses:
         '200':
@@ -1454,10 +1453,9 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/200"
+                "$ref": "#/components/schemas/ApprovalPacResponsePost"
         '400':
           description: "Request could not be understood by the server due to malformed syntax."
-
         '401':
           description: "Request requires user authentication. Client may repeat the request with suitable Authorization"
           content:
@@ -2099,14 +2097,51 @@ components:
           example: 1549036928
           minimum: 1400000000
           maximum: 1600000000
-        lastReviewDate:
+        lastReviewedDate:
           type: integer
           format: int64
           description: "[Conditional] Date Artifact was last reviewed.. Unix time format."
           example: 1549036928
           minimum: 1400000000
           maximum: 1600000000
-    
+    ApprovalCacRequestPostBody:
+      title: PostApprovalCac
+      type: object
+      additionalProperties: false
+      properties:
+        controlAcronym:
+          type: string
+          description: "[Required] System acronym name."
+          x-faker: finance.bic
+          example: "AC-3"
+        comments:
+          type: string
+          description: "[Conditional] Control Approval Chain comments - 2000 Characters."
+          x-faker: random.words
+          example: "Control Approval Chain comments text."
+    ApprovalPacRequestBodyPost:
+      title: PostApprovalPac
+      type: object
+      properties:
+        type:
+          type: string
+          description: "[Required] Values include the following:(Assess and Authorize, Assess Only, Security Plan)"
+          example: "Assess and Authorize"
+          enum:
+            - "Assess and Authorize"
+            - "Assess Only"
+            - "Security Plan"
+        name:
+          type: string
+          description: "[Required] Package name. 100 Characters."
+          x-faker: random.word
+          example: "Package name text"
+        comments:
+          type: string
+          description: "[Required] Character Limit = 2,000."
+          x-faker: random.words
+          example: "Comments text."      
+
     #----------------------------------------------------------------------------
     # Request Body supporting fields for (POSTs & PUTs)
     #----------------------------------------------------------------------------
@@ -2183,7 +2218,7 @@ components:
         cci:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
-          description: "CCI associated with POA&M."
+          description: "[Optional] CCI associated with POA&M."
           example: "000001"        
         securityChecks:
           type: string
@@ -2539,30 +2574,6 @@ components:
           minimum: 1400000000
           maximum: 1600000000
 
-    # MilestonesPut:
-    #   title: Milestones
-    #   type: object
-    #   additionalProperties: false
-    #   properties:
-    #     milestoneId:
-    #       type: integer
-    #       format: int64
-    #       description: "[Required] Unique item identifier"
-    #       example: 19
-    #       minimum: 1
-    #       maximum: 300
-    #     description:
-    #       type: string
-    #       description: "[Optional] Include milestone description."
-    #       x-faker: random.words
-    #       example: "Description text"
-    #     scheduledCompletionDate:
-    #       type: integer
-    #       format: int64
-    #       description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
-    #       example: 1499644800
-    #       minimum: 1400000000
-    #       maximum: 1600000000    
 
     #----------------------------------------------------------------------------
     # 200 Responses
@@ -2769,17 +2780,6 @@ components:
           maxItems: 10
           items:
             $ref: "#/components/schemas/MilestonesPut"
-    # MilestonResponseDelete:
-    #   type: object
-    #   additionalProperties: false
-    #   properties:
-    #     meta:
-    #       "$ref": "#/components/schemas/200"
-    #     data:
-    #       type: array
-    #       maxItems: 1
-    #       items:
-    #         $ref: "#/components/schemas/MilestonesDelete"    
     ArtifactsResponseGet:
       type: object
       additionalProperties: false
@@ -2791,12 +2791,13 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ArtifactsGet'
-    ArtifactGetExportResponse:
-      type: object
-      additionalProperties: true
-      maxItems: 15
-      minItems: 5
-    ArtifactsDelResponse:
+    # ArtifactGetExportResponse:
+    #   type: object
+    #   additionalProperties: true
+    #   description: 'Merda'
+    #   maxItems: 15
+    #   minItems: 5
+    ArtifactsResponseDel:
       type: object
       additionalProperties: false
       properties:
@@ -2824,8 +2825,7 @@ components:
                 example: 35
                 minimum: 1
                 maximum: 3000
-
-    ArtifactsPutPostResponse:
+    ArtifactsResponsePutPost:
       type: object
       additionalProperties: false
       properties:
@@ -2855,9 +2855,7 @@ components:
                 minimum: 1
                 maximum: 3000
 
-
-
-    ApprovalCacResponse:
+    ApprovalCacResponseGet:
       type: object
       additionalProperties: false
       properties:
@@ -2867,8 +2865,37 @@ components:
           maxItems: 10
           type: array
           items:
-            $ref: '#/components/schemas/ApprovalCac'
-    ApprovalPacResponse1:
+            $ref: '#/components/schemas/ApprovalCacGet'
+    ApprovalCacResponsePost:
+      type: object
+      additionalProperties: false
+      properties:
+        meta:
+          "$ref": "#/components/schemas/200"
+        data:
+          maxItems: 1
+          minItems: 1
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+              controlAcronym:
+                type: string
+                pattern: '^[A-Z0-9-]{3,6}'
+                description: "[Required] System acronym name."
+                example: "AC-3"
+              success:
+                type: boolean
+                x-faker: random.boolean
+                example: true
+              systemId:
+                type: integer
+                format: int64
+                example: 35
+                minimum: 1
+                maximum: 3000
+    ApprovalPacResponseGet:
       type: object
       additionalProperties: false
       properties:
@@ -2878,18 +2905,30 @@ components:
           maxItems: 10
           type: array
           items:
-            $ref: '#/components/schemas/ApprovalPac'
-    ApprovalPacResponse2:
+            $ref: '#/components/schemas/ApprovalPacGet'
+    ApprovalPacResponsePost:
       type: object
       additionalProperties: false
       properties:
         meta:
           "$ref": "#/components/schemas/200"
         data:
-          type: string
-          default: null
-          enum:
-           - null
+          maxItems: 10
+          type: array
+          items:
+            $ref: '#/components/schemas/ApprovalPacPost'
+    # ApprovalPacResponse2:
+    #   type: object
+    #   additionalProperties: false
+    #   properties:
+    #     meta:
+    #       "$ref": "#/components/schemas/200"
+    #     data:
+    #       type: string
+    #       default: null
+    #       enum:
+    #        - null
+    
     Empty200Response:
       type: object
 
@@ -4305,7 +4344,6 @@ components:
           description: "Indicates if operations result (success/fail)"
           x-faker: random.boolean
           example: true    
-    
     ArtifactsGet:
       title: Artifacts
       type: object
@@ -4391,7 +4429,7 @@ components:
           example: 1549036926
           minimum: 1400000000
           maximum: 1600000000
-        lastReviewDate:
+        lastReviewedDate:
           type: integer
           format: int64
           description: "[Conditional] Date Artifact was last reviewed.. Unix time format."
@@ -4412,21 +4450,19 @@ components:
             x-faker: system.commonFileName
             example: "AutorizationGuidance.pdf"
 
-    ApprovalCac:
+    ApprovalCacGet:
       title: ApprovalCac
       type: object
       additionalProperties: false
       properties:
-        controlAcronyms:
+        controlAcronym:
           type: string
           pattern: '^[A-Z0-9-]{3,6}'
-          description: "[Read-Only] System acronym name."
-          #x-faker: finance.bic
+          description: "[Required] System acronym name."
           example: "AC-3"
         complianceStatus:
           type: string
-          description: "[Read-only] Compliance of the control."
-          #x-faker: random.word
+          description: "[Read-only] Compliance status of the control."
           example: "Compliant"
           enum:
             - "Compliant"
@@ -4449,23 +4485,12 @@ components:
           example: 2
           minimum: 20
           maximum: 45
-    PostApprovalCac:
-      title: PostApprovalCac
-      type: object
-      additionalProperties: false
-      properties:
-        controlAcronyms:
-          type: string
-          #pattern: '^[A-Z0-9-]{3,6}'
-          description: "[Read-Only] System acronym name."
-          x-faker: finance.bic
-          example: "AC-3"
         comments:
           type: string
-          description: "[Conditional] Character Limit = 2,000."
+          description: "[Conditional] Control Approval Chain comments - 2000 Characters."
           x-faker: random.words
-          example: "Comments text."
-    ApprovalPac:
+          example: "Control Approval Chain comments text."
+    ApprovalPacGet:
       title: ApprovalPac
       type: object
       properties:
@@ -4499,10 +4524,14 @@ components:
           example: 6
           minimum: 20
           maximum: 45
-    PostApprovalPac:
-      title: PostApprovalPac
+        comments:
+          type: string
+          description: "[Required] Character Limit = 2,000."
+          x-faker: random.words
+          example: "Comments text."
+    ApprovalPacPost:
+      title: ApprovalPac
       type: object
-      additionalProperties: false
       properties:
         type:
           type: string
@@ -4519,9 +4548,34 @@ components:
           example: "Package name text"
         comments:
           type: string
-          description: "[Conditional] Character Limit = 2,000."
+          description: "[Required] Character Limit = 2,000."
           x-faker: random.words
           example: "Comments text."
+    
+    
+    # PostApprovalPac:
+    #   title: PostApprovalPac
+    #   type: object
+    #   additionalProperties: false
+    #   properties:
+    #     type:
+    #       type: string
+    #       description: "[Required] Values include the following:(Assess and Authorize, Assess Only, Security Plan)"
+    #       example: "Assess and Authorize"
+    #       enum:
+    #         - "Assess and Authorize"
+    #         - "Assess Only"
+    #         - "Security Plan"
+    #     name:
+    #       type: string
+    #       description: "[Required] Package name. 100 Characters."
+    #       x-faker: random.word
+    #       example: "Package name text"
+    #     comments:
+    #       type: string
+    #       description: "[Conditional] Character Limit = 2,000."
+    #       x-faker: random.words
+    #       example: "Comments text."
     #----------------------------------------------------------------------------
     # 400 Responses
     #----------------------------------------------------------------------------

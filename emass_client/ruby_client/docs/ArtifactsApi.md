@@ -11,7 +11,7 @@ Method | HTTP request | Description
 [**update_artifact_by_system_id**](ArtifactsApi.md#update_artifact_by_system_id) | **PUT** /api/systems/{systemId}/artifacts | Update one or many artifacts in a system
 
 # **add_artifacts_by_system_id**
-> ArtifactsPutPostResponse add_artifacts_by_system_id(is_templatetypecategoryzippersystem_id)
+> ArtifactsResponsePutPost add_artifacts_by_system_id(is_templatetypecategoryzippersystem_id)
 
 Add one or many artifacts in a system
 
@@ -63,7 +63,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ArtifactsPutPostResponse**](ArtifactsPutPostResponse.md)
+[**ArtifactsResponsePutPost**](ArtifactsResponsePutPost.md)
 
 ### Authorization
 
@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 
 
 # **api_systems_system_id_artifacts_export_get**
-> ArtifactGetExportResponse api_systems_system_id_artifacts_export_get(system_id, filename, compress)
+> String api_systems_system_id_artifacts_export_get(system_id, filename, compress)
 
 Get the file of an artifact in a system
 
@@ -125,7 +125,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ArtifactGetExportResponse**](ArtifactGetExportResponse.md)
+**String**
 
 ### Authorization
 
@@ -134,7 +134,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, application/octet-stream
+ - **Accept**: text/plain, application/json
 
 
 
@@ -206,7 +206,7 @@ Name | Type | Description  | Notes
 
 
 # **delete_artifact**
-> ArtifactsDelResponse delete_artifact(bodysystem_id)
+> ArtifactsResponseDel delete_artifact(bodysystem_id)
 
 Remove one or many artifacts in a system
 
@@ -252,7 +252,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ArtifactsDelResponse**](ArtifactsDelResponse.md)
+[**ArtifactsResponseDel**](ArtifactsResponseDel.md)
 
 ### Authorization
 
@@ -266,7 +266,7 @@ Name | Type | Description  | Notes
 
 
 # **update_artifact_by_system_id**
-> ArtifactsPutPostResponse update_artifact_by_system_id(bodysystem_id)
+> ArtifactsResponsePutPost update_artifact_by_system_id(bodysystem_id)
 
 Update one or many artifacts in a system
 
@@ -312,7 +312,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ArtifactsPutPostResponse**](ArtifactsPutPostResponse.md)
+[**ArtifactsResponsePutPost**](ArtifactsResponsePutPost.md)
 
 ### Authorization
 

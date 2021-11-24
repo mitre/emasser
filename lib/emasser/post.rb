@@ -321,9 +321,7 @@ module Emasser
   end
   # rubocop:enable Metrics/ClassLength
 
-  # The Artifact endpoints provide the ability to add new Artifacts
-  # (supporting documentation/evidence for Security Control Assessments
-  # and system Authorization activities) to a system.
+  # Add one or many artifacts for a system (delivery method must be a zip file)
   #
   # Endpoints:
   #    /api/systems/{systemId}/artifacts - Post one or many artifacts to a system
@@ -337,37 +335,35 @@ module Emasser
 
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :files, type: :array, required: true, desc: 'Artifact file(s) to post to the given system'
-    option :type, type: :string, required: true,
-           enum: ['Procedure', 'Diagram', 'Policy', 'Labor', 'Document', 'Image', 'Other', 'Scan Result', 'Auditor Report']
+    option :type,
+           type: :string, required: true,
+           enum: ['Procedure', 'Diagram', 'Policy', 'Labor', 'Document',
+                  'Image', 'Other', 'Scan Result', 'Auditor Report']
     option :category, type: :string, required: true, enum: ['Implementation Guidance', 'Evidence']
     option :isTemplate, type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
     # NOTE: compress is a required parameter, however Thor does not allow a boolean type to be required because it
-    # automatically creates a --no-compress option
+    # automatically creates a --no-isTemplate option for isTemplate=false
 
     # Optional fields
     option :description, type: :string, required: false, desc: 'Artifact description'
     option :refPageNumber, type: :string, required: false, desc: 'Artifact reference page number'
     option :ccis, type: :string, require: false, desc: 'The system CCIs string numerical value'
-    option :controls, 
+    option :controls,
            type: :string, required: false,
            desc: 'Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined'
     option :artifactExpirationDate,
            type: :numeric, required: false, desc: 'Date Artifact expires and requires review - Unix time format'
-    option :lastReviewDate,
-           type: :numeric, required: false, desc: 'Date Artifact was last reviewed - Unix time format'           
+    option :lastReviewedDate,
+           type: :numeric, required: false, desc: 'Date Artifact was last reviewed - Unix time format'
 
-    # 
     def upload
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
-      puts optional_options
+      # Remove the isTemplate as we can't use the required = true.
+      optional_options.delete(:is_template)
+      
       opts = {}
-      opts[:'form_params'] = optional_options
-      puts opts[:form_params]
-
-      # puts options[:systemId]
-      # puts options[:files]
-      #exit
+      opts[:form_params] = optional_options
 
       tempfile = Tempfile.create(['artifacts', '.zip'])
 
@@ -379,14 +375,12 @@ module Emasser
           z.print File.read(file)
         end
       end
-      puts tempfile
 
       begin
-        #result = SwaggerClient::ArtifactsApi.new.add_artifacts_by_system_id(tempfile, options[:systemId])
         result = SwaggerClient::ArtifactsApi
                  .new
-                 .add_artifacts_by_system_id(options[:isTemplate], options[:type], 
-                                             options[:category], tempfile, options[:systemId], {})
+                 .add_artifacts_by_system_id(options[:isTemplate], options[:type],
+                                             options[:category], tempfile, options[:systemId], opts)
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling ArtifactsApi->add_artifacts_by_system_id'.red
@@ -401,6 +395,54 @@ module Emasser
     end
   end
 
+  # Add a Control Approval Chain (CAC) or a Package Approval Chain (PAC)
+  #
+  # Endpoints:
+  #    /api/systems/{systemId}/approval/cac - Add location of one or many controls in CAC
+  #    /api/systems/{systemId}/approval/pac - Add location of system package in PAC
+  class Approval < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'cac', 'Get all system CAC for a system Id'
+    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :controlAcronym, type: :string, required: true, desc: 'The system acronym "AC-1, AC-2"'
+    option :comments, type: :string, require: false, desc: 'The control apporval chain comments'
+
+    def cac
+      body = SwaggerClient::ApprovalCacRequestPostBody.new
+      body.control_acronym = options[:controlAcronym]
+      body.comments = options[:comments]
+
+      body_array = Array.new(1, body)
+
+      begin
+        # Get location of one or many controls in CAC
+        result = SwaggerClient::ApprovalChainApi.new.add_c_ac_approval_chain_by_system_id(body_array, options[:systemId])
+        puts to_output_hash(result).green
+      rescue SwaggerClient::ApiError => e
+        puts 'Exception when calling ApprovalChainApi->add_c_ac_approval_chain_by_system_id'.red
+        puts to_output_hash(e)
+      end
+    end
+
+    desc 'pac', 'Get all system PAC for a system Id'
+    option :systemId, type: :numeric, required: true,
+                      desc: 'A numeric value representing the system identification'
+
+    def pac
+      # Get location of system package in PAC
+      result = SwaggerClient::ApprovalChainApi.new.get_pac_approval_by_system_id(
+        options[:systemId], Emasser::GET_SYSTEM_RETURN_TYPE
+      )
+      puts to_output_hash(result).green
+    rescue SwaggerClient::ApiError => e
+      puts 'Exception when calling ApprovalChainApi->get_pac_approval_by_system_id'.red
+      puts to_output_hash(e)
+    end
+  end
+
   class Post < SubCommandBase
     desc 'test_results', 'Add system Test Results'
     subcommand 'test_results', TestResults
@@ -410,5 +452,8 @@ module Emasser
 
     desc 'artifacts', 'Add system Artifacts'
     subcommand 'artifacts', Artifacts
+
+    desc 'approval', 'Add Controls or Packages (CAC/PAC) security content'
+    subcommand 'approval', Approval    
   end
 end

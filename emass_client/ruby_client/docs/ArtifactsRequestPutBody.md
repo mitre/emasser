@@ -12,5 +12,5 @@ Name | Type | Description | Notes
 **controls** | **String** | [Optional] Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined. | [optional] 
 **ccis** | **String** | [Required] CCI associated with test result. | [optional] 
 **artifact_expiration_date** | **Integer** | [Optional] Date Artifact expires and requires review. In Unix Date format. | [optional] 
-**last_review_date** | **Integer** | [Conditional] Date Artifact was last reviewed.. Unix time format. | [optional] 
+**last_reviewed_date** | **Integer** | [Conditional] Date Artifact was last reviewed.. Unix time format. | [optional] 
 

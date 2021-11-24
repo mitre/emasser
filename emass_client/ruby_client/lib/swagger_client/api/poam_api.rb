@@ -227,7 +227,7 @@ module SwaggerClient
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [MilestonesDelete]
+    # @return [Empty200Response]
     def delete_milestone(body, system_id, poam_id, opts = {})
       data, _status_code, _headers = delete_milestone_with_http_info(body, system_id, poam_id, opts)
       data
@@ -239,7 +239,7 @@ module SwaggerClient
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(MilestonesDelete, Integer, Hash)>] MilestonesDelete data, response status code and response headers
+    # @return [Array<(Empty200Response, Integer, Hash)>] Empty200Response data, response status code and response headers
     def delete_milestone_with_http_info(body, system_id, poam_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.delete_milestone ...'
@@ -275,7 +275,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'MilestonesDelete' 
+      return_type = opts[:return_type] || 'Empty200Response' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
@@ -559,7 +559,7 @@ module SwaggerClient
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [MilestoneResponsePost]
+    # @return [MilestoneResponsePut]
     def update_milestone_by_system_id_and_poam_id(body, system_id, poam_id, opts = {})
       data, _status_code, _headers = update_milestone_by_system_id_and_poam_id_with_http_info(body, system_id, poam_id, opts)
       data
@@ -571,7 +571,7 @@ module SwaggerClient
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(MilestoneResponsePost, Integer, Hash)>] MilestoneResponsePost data, response status code and response headers
+    # @return [Array<(MilestoneResponsePut, Integer, Hash)>] MilestoneResponsePut data, response status code and response headers
     def update_milestone_by_system_id_and_poam_id_with_http_info(body, system_id, poam_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: POAMApi.update_milestone_by_system_id_and_poam_id ...'
@@ -607,7 +607,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'MilestoneResponsePost' 
+      return_type = opts[:return_type] || 'MilestoneResponsePut' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,

@@ -24,7 +24,7 @@ module SwaggerClient
     # @param zipper 
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [ArtifactsPutPostResponse]
+    # @return [ArtifactsResponsePutPost]
     def add_artifacts_by_system_id(is_template, type, category, zipper, system_id, opts = {})
       data, _status_code, _headers = add_artifacts_by_system_id_with_http_info(is_template, type, category, zipper, system_id, opts)
       data
@@ -38,7 +38,7 @@ module SwaggerClient
     # @param zipper 
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(ArtifactsPutPostResponse, Integer, Hash)>] ArtifactsPutPostResponse data, response status code and response headers
+    # @return [Array<(ArtifactsResponsePutPost, Integer, Hash)>] ArtifactsResponsePutPost data, response status code and response headers
     def add_artifacts_by_system_id_with_http_info(is_template, type, category, zipper, system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ArtifactsApi.add_artifacts_by_system_id ...'
@@ -94,7 +94,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] 
 
-      return_type = opts[:return_type] || 'ArtifactsPutPostResponse' 
+      return_type = opts[:return_type] || 'ArtifactsResponsePutPost' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
@@ -116,7 +116,7 @@ module SwaggerClient
     # @param filename **File Name**: The file name (to include file-extension).
     # @param compress **Compress File**: Determines if returned file is compressed.
     # @param [Hash] opts the optional parameters
-    # @return [ArtifactGetExportResponse]
+    # @return [String]
     def api_systems_system_id_artifacts_export_get(system_id, filename, compress, opts = {})
       data, _status_code, _headers = api_systems_system_id_artifacts_export_get_with_http_info(system_id, filename, compress, opts)
       data
@@ -128,7 +128,7 @@ module SwaggerClient
     # @param filename **File Name**: The file name (to include file-extension).
     # @param compress **Compress File**: Determines if returned file is compressed.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(ArtifactGetExportResponse, Integer, Hash)>] ArtifactGetExportResponse data, response status code and response headers
+    # @return [Array<(String, Integer, Hash)>] String data, response status code and response headers
     def api_systems_system_id_artifacts_export_get_with_http_info(system_id, filename, compress, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ArtifactsApi.api_systems_system_id_artifacts_export_get ...'
@@ -156,7 +156,7 @@ module SwaggerClient
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'application/octet-stream'])
+      header_params['Accept'] = @api_client.select_header_accept(['text/plain', 'application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -164,7 +164,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] 
 
-      return_type = opts[:return_type] || 'ArtifactGetExportResponse' 
+      return_type = opts[:return_type] || 'String' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,
@@ -253,7 +253,7 @@ module SwaggerClient
     # @param body See notes above for additional information
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [ArtifactsDelResponse]
+    # @return [ArtifactsResponseDel]
     def delete_artifact(body, system_id, opts = {})
       data, _status_code, _headers = delete_artifact_with_http_info(body, system_id, opts)
       data
@@ -264,7 +264,7 @@ module SwaggerClient
     # @param body See notes above for additional information
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(ArtifactsDelResponse, Integer, Hash)>] ArtifactsDelResponse data, response status code and response headers
+    # @return [Array<(ArtifactsResponseDel, Integer, Hash)>] ArtifactsResponseDel data, response status code and response headers
     def delete_artifact_with_http_info(body, system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ArtifactsApi.delete_artifact ...'
@@ -296,7 +296,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'ArtifactsDelResponse' 
+      return_type = opts[:return_type] || 'ArtifactsResponseDel' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:DELETE, local_var_path,
@@ -317,7 +317,7 @@ module SwaggerClient
     # @param body See &#x60;information&#x60; above for additional instructions
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [ArtifactsPutPostResponse]
+    # @return [ArtifactsResponsePutPost]
     def update_artifact_by_system_id(body, system_id, opts = {})
       data, _status_code, _headers = update_artifact_by_system_id_with_http_info(body, system_id, opts)
       data
@@ -328,7 +328,7 @@ module SwaggerClient
     # @param body See &#x60;information&#x60; above for additional instructions
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(ArtifactsPutPostResponse, Integer, Hash)>] ArtifactsPutPostResponse data, response status code and response headers
+    # @return [Array<(ArtifactsResponsePutPost, Integer, Hash)>] ArtifactsResponsePutPost data, response status code and response headers
     def update_artifact_by_system_id_with_http_info(body, system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ArtifactsApi.update_artifact_by_system_id ...'
@@ -360,7 +360,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'ArtifactsPutPostResponse' 
+      return_type = opts[:return_type] || 'ArtifactsResponsePutPost' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,

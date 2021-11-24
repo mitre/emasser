@@ -46,7 +46,7 @@ module SwaggerClient
     # [Optional] Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined.
     attr_accessor :control_acronym
 
-    # CCI associated with POA&M.
+    # [Optional] CCI associated with POA&M.
     attr_accessor :cci
 
     # [Optional] Security Checks that are associated with the POA&M.

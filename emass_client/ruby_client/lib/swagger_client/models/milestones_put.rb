@@ -13,30 +13,15 @@ require 'date'
 
 module SwaggerClient
   class MilestonesPut
-    # [Required] Unique item identifier
-    attr_accessor :milestone_id
-
-    # [Optional] Include milestone description.
-    attr_accessor :description
-
-    # [Conditional] Required for ongoing and completed POA&M items. Unix time format.
-    attr_accessor :scheduled_completion_date
-
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'milestone_id' => :'milestoneId',
-        :'description' => :'description',
-        :'scheduled_completion_date' => :'scheduledCompletionDate'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'milestone_id' => :'Object',
-        :'description' => :'Object',
-        :'scheduled_completion_date' => :'Object'
       }
     end
 
@@ -60,18 +45,6 @@ module SwaggerClient
         end
         h[k.to_sym] = v
       }
-
-      if attributes.key?(:'milestone_id')
-        self.milestone_id = attributes[:'milestone_id']
-      end
-
-      if attributes.key?(:'description')
-        self.description = attributes[:'description']
-      end
-
-      if attributes.key?(:'scheduled_completion_date')
-        self.scheduled_completion_date = attributes[:'scheduled_completion_date']
-      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -91,10 +64,7 @@ module SwaggerClient
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class &&
-          milestone_id == o.milestone_id &&
-          description == o.description &&
-          scheduled_completion_date == o.scheduled_completion_date
+      self.class == o.class
     end
 
     # @see the `==` method
@@ -106,7 +76,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [milestone_id, description, scheduled_completion_date].hash
+      [].hash
     end
 
     # Builds the object from hash

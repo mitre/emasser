@@ -12,9 +12,9 @@ Swagger Codegen version: 3.0.26
 require 'date'
 
 module SwaggerClient
-  class ArtifactsPutPostResponseData
-    # [Required] File name should match exactly one file within the provided zip file. 1000 Characters.
-    attr_accessor :filename
+  class ApprovalCacResponsePostData
+    # [Required] System acronym name.
+    attr_accessor :control_acronym
 
     attr_accessor :success
 
@@ -23,7 +23,7 @@ module SwaggerClient
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'filename' => :'filename',
+        :'control_acronym' => :'controlAcronym',
         :'success' => :'success',
         :'system_id' => :'systemId'
       }
@@ -32,7 +32,7 @@ module SwaggerClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'filename' => :'Object',
+        :'control_acronym' => :'Object',
         :'success' => :'Object',
         :'system_id' => :'Object'
       }
@@ -48,19 +48,19 @@ module SwaggerClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::ArtifactsPutPostResponseData` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::ApprovalCacResponsePostData` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::ArtifactsPutPostResponseData`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::ApprovalCacResponsePostData`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'filename')
-        self.filename = attributes[:'filename']
+      if attributes.key?(:'control_acronym')
+        self.control_acronym = attributes[:'control_acronym']
       end
 
       if attributes.key?(:'success')
@@ -90,7 +90,7 @@ module SwaggerClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          filename == o.filename &&
+          control_acronym == o.control_acronym &&
           success == o.success &&
           system_id == o.system_id
     end
@@ -104,7 +104,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [filename, success, system_id].hash
+      [control_acronym, success, system_id].hash
     end
 
     # Builds the object from hash

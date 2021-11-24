@@ -35,8 +35,7 @@ class Thor
 end
 
 module Emasser
-  # The PUT Controls endpoint provides the ability to update Security Control information of a
-  # system for both the Implementation Plan and Risk Assessment.
+  # Update Security Control information of a system for both the Implementation Plan and Risk Assessment.
   #
   # Endpoint:
   #    /api/systems/{systemId}/controls - Update control information in a system for one or many controls
@@ -225,8 +224,7 @@ module Emasser
   end
   # rubocop:enable Metrics/ClassLength, Style/WordArray
 
-  # The POA&M endpoints provide the ability to update Plan of Action and Milestones (POA&M)
-  # items to a system.
+  # Update Plan of Action and Milestones (POA&M) items to a system.
   #
   # Endpoint:
   #   /api/systems/{systemId}/poams                     - Update one or many poa&m items in a system
@@ -417,7 +415,7 @@ module Emasser
 
     # Update MILSTONES by SYSTEM and POAM ID ----------------------------------
     desc 'update_milestones', 'Update milestone(s) for given specified system and poam'
-    long_desc Help.text(:milestone_update_mapper)
+    long_desc Help.text(:milestone_put_mapper)
 
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :poamId, type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
@@ -450,45 +448,63 @@ module Emasser
   end
   # rubocop:enable Metrics/ClassLength
 
-  # The Artifact endpoints provide the ability to add new Artifacts
-  # (supporting documentation/evidence for Security Control Assessments
-  # and system Authorization activities) to a system.
+  # Update one or many artifacts for a system (this implementation only updates one artifact per each execution)
   #
   # Endpoint:
-  #    /api/systems/{systemId}/artifacts - Post one or many artifacts to a system
+  #    /api/systems/{systemId}/artifacts - Put (update) one or many artifacts for a system
   class Artifacts < SubCommandBase
     def self.exit_on_failure?
       true
     end
 
-    desc 'upload SYSTEM_ID FILE [FILE ...]', 'Uploads [FILES] to the given [SYSTEM_ID] as artifacts'
+    desc 'update', 'Updates artifacts for a system with provided entries'
+    long_desc Help.text(:artifacts_put_mapper)
+
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
-    option :files, type: :array, required: true, desc: 'Artifact file(s) to post to the given system'
+    option :filename, type: :string, required: true, desc: 'Artifact file name to be updated'
+    option :type,
+           type: :string, required: true,
+           enum: ['Procedure', 'Diagram', 'Policy', 'Labor', 'Document',
+                  'Image', 'Other', 'Scan Result', 'Auditor Report']
+    option :category, type: :string, required: true, enum: ['Implementation Guidance', 'Evidence']
+    option :isTemplate, type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
+    # NOTE: compress is a required parameter, however Thor does not allow a boolean type to be required because it
+    # automatically creates a --no-isTemplate option for isTemplate=false
 
-    def upload
-      tempfile = Tempfile.create(['artifacts', '.zip'])
+    # Optional fields
+    option :description, type: :string, required: false, desc: 'Artifact description'
+    option :refPageNumber, type: :string, required: false, desc: 'Artifact reference page number'
+    option :ccis, type: :string, require: false, desc: 'The system CCIs string numerical value'
+    option :controls,
+           type: :string, required: false,
+           desc: 'Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined'
+    option :artifactExpirationDate,
+           type: :numeric, required: false, desc: 'Date Artifact expires and requires review - Unix time format'
+    option :lastReviewedDate,
+           type: :numeric, required: false, desc: 'Date Artifact was last reviewed - Unix time format'
 
-      Zip::OutputStream.open(tempfile.path) do |z|
-        options[:files].each do |file|
-          # Add file name to the archive: Don't use the full path
-          z.put_next_entry(File.basename(file))
-          # Add the file to the archive
-          z.print File.read(file)
-        end
-      end
+    def update
+      body = SwaggerClient::ArtifactsRequestPutBody.new
+      body.filename = options[:filename]
+      body.type = options[:type]
+      body.category = options[:category]
+      body.is_template = options[:isTemplate]
+      # Optional fields
+      body.description = options[:description] if options[:description]
+      body.ref_page_number = options[:refPageNumber] if options[:refPageNumber]
+      body.ccis = options[:ccis] if options[:ccis]
+      body.controls = options[:controls] if options[:controls]
+      body.artifact_expiration_date = options[:artifactExpirationDate] if options[:artifactExpirationDate]
+      body.last_reviewed_date = options[:lastReviewedDate] if options[:lastReviewedDate]      
+
+      body_array = Array.new(1, body)
 
       begin
-        result = SwaggerClient::ArtifactsApi.new.add_artifacts_by_system_id(tempfile, options[:systemId])
+        result = SwaggerClient::ArtifactsApi.new.update_artifact_by_system_id(body_array, options[:systemId])
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
-        puts 'Exception when calling ArtifactsApi->add_artifacts_by_system_id'.red
+        puts 'Exception when calling ArtifactsApi->update_artifact_by_system_id'.red
         puts to_output_hash(e)
-      ensure
-        # Delete the temp file
-        unless File.exist? tempfile
-          tempfile.close
-          FileUtils.remove_file(tempfile, true)
-        end
       end
     end
   end

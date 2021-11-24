@@ -21,7 +21,7 @@ module SwaggerClient
     # @param body Update an existing Artifact by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Model200]
+    # @return [ApprovalCacResponsePost]
     def add_c_ac_approval_chain_by_system_id(body, system_id, opts = {})
       data, _status_code, _headers = add_c_ac_approval_chain_by_system_id_with_http_info(body, system_id, opts)
       data
@@ -32,7 +32,7 @@ module SwaggerClient
     # @param body Update an existing Artifact by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
+    # @return [Array<(ApprovalCacResponsePost, Integer, Hash)>] ApprovalCacResponsePost data, response status code and response headers
     def add_c_ac_approval_chain_by_system_id_with_http_info(body, system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApprovalChainApi.add_c_ac_approval_chain_by_system_id ...'
@@ -56,89 +56,15 @@ module SwaggerClient
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
-      form_params['controlAcronyms'] = control_acronyms
-      form_params['comments'] = comments
 
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'Model200' 
-
-      auth_names = opts[:auth_names] || ['apikey', 'userid']
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type)
-
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: ApprovalChainApi#add_c_ac_approval_chain_by_system_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-    # Submit control to second role of CAC
-    # Adds an Approval for given `systemId` path parameter<br><br> POST requests will only yield successful results if the control is currently sitting at the first role of the CAC. If the control is not currently sitting at the first role, then an error will be returned.
-    # @param control_acronyms 
-    # @param comments 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Model200]
-    def add_c_ac_approval_chain_by_system_id(control_acronyms, comments, system_id, opts = {})
-      data, _status_code, _headers = add_c_ac_approval_chain_by_system_id_with_http_info(control_acronyms, comments, system_id, opts)
-      data
-    end
-
-    # Submit control to second role of CAC
-    # Adds an Approval for given &#x60;systemId&#x60; path parameter&lt;br&gt;&lt;br&gt; POST requests will only yield successful results if the control is currently sitting at the first role of the CAC. If the control is not currently sitting at the first role, then an error will be returned.
-    # @param control_acronyms 
-    # @param comments 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
-    def add_c_ac_approval_chain_by_system_id_with_http_info(control_acronyms, comments, system_id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: ApprovalChainApi.add_c_ac_approval_chain_by_system_id ...'
-      end
-      # verify the required parameter 'control_acronyms' is set
-      if @api_client.config.client_side_validation && control_acronyms.nil?
-        fail ArgumentError, "Missing the required parameter 'control_acronyms' when calling ApprovalChainApi.add_c_ac_approval_chain_by_system_id"
-      end
-      # verify the required parameter 'comments' is set
-      if @api_client.config.client_side_validation && comments.nil?
-        fail ArgumentError, "Missing the required parameter 'comments' when calling ApprovalChainApi.add_c_ac_approval_chain_by_system_id"
-      end
-      # verify the required parameter 'system_id' is set
-      if @api_client.config.client_side_validation && system_id.nil?
-        fail ArgumentError, "Missing the required parameter 'system_id' when calling ApprovalChainApi.add_c_ac_approval_chain_by_system_id"
-      end
-      # resource path
-      local_var_path = '/api/systems/{systemId}/approval/cac'.sub('{' + 'systemId' + '}', system_id.to_s)
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-      form_params['controlAcronyms'] = control_acronyms
-      form_params['comments'] = comments
-
-      # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(body) 
-
-      return_type = opts[:return_type] || 'Model200' 
+      return_type = opts[:return_type] || 'ApprovalCacResponsePost' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
@@ -309,7 +235,7 @@ module SwaggerClient
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or comma separated).
-    # @return [ApprovalCacResponse]
+    # @return [ApprovalCacResponseGet]
     def get_cac_approval_by_system_id(system_id, opts = {})
       data, _status_code, _headers = get_cac_approval_by_system_id_with_http_info(system_id, opts)
       data
@@ -320,7 +246,7 @@ module SwaggerClient
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :control_acronyms **System Acronym**: Filter query by given system acronym (single or comma separated).
-    # @return [Array<(ApprovalCacResponse, Integer, Hash)>] ApprovalCacResponse data, response status code and response headers
+    # @return [Array<(ApprovalCacResponseGet, Integer, Hash)>] ApprovalCacResponseGet data, response status code and response headers
     def get_cac_approval_by_system_id_with_http_info(system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApprovalChainApi.get_cac_approval_by_system_id ...'
@@ -347,7 +273,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] 
 
-      return_type = opts[:return_type] || 'ApprovalCacResponse' 
+      return_type = opts[:return_type] || 'ApprovalCacResponseGet' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,

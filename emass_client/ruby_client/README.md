@@ -68,15 +68,13 @@ SwaggerClient.configure do |config|
 end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
-body = SwaggerClient::PostApprovalCac.new # PostApprovalCac | Update an existing Artifact by Id
-control_acronyms = 'control_acronyms_example' # String | 
-comments = 'comments_example' # String | 
+body = SwaggerClient::ApprovalCacRequestPostBody.new # ApprovalCacRequestPostBody | Update an existing Artifact by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
 begin
   #Submit control to second role of CAC
-  result = api_instance.add_c_ac_approval_chain_by_system_id(body, control_acronyms, comments, system_id)
+  result = api_instance.add_c_ac_approval_chain_by_system_id(body, system_id)
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ApprovalChainApi->add_c_ac_approval_chain_by_system_id: #{e}"
@@ -823,20 +821,22 @@ Class | Method | HTTP request | Description
 
 ## Documentation for Models
 
- - [SwaggerClient::ApprovalCac](docs/ApprovalCac.md)
- - [SwaggerClient::ApprovalCacResponse](docs/ApprovalCacResponse.md)
+ - [SwaggerClient::ApprovalCacGet](docs/ApprovalCacGet.md)
+ - [SwaggerClient::ApprovalCacRequestPostBody](docs/ApprovalCacRequestPostBody.md)
+ - [SwaggerClient::ApprovalCacResponseGet](docs/ApprovalCacResponseGet.md)
+ - [SwaggerClient::ApprovalCacResponsePost](docs/ApprovalCacResponsePost.md)
+ - [SwaggerClient::ApprovalCacResponsePostData](docs/ApprovalCacResponsePostData.md)
  - [SwaggerClient::ApprovalPac](docs/ApprovalPac.md)
  - [SwaggerClient::ApprovalPacResponse1](docs/ApprovalPacResponse1.md)
  - [SwaggerClient::ApprovalPacResponse2](docs/ApprovalPacResponse2.md)
- - [SwaggerClient::ArtifactGetExportResponse](docs/ArtifactGetExportResponse.md)
- - [SwaggerClient::ArtifactsDelResponse](docs/ArtifactsDelResponse.md)
  - [SwaggerClient::ArtifactsDelete](docs/ArtifactsDelete.md)
  - [SwaggerClient::ArtifactsDeleteInner](docs/ArtifactsDeleteInner.md)
  - [SwaggerClient::ArtifactsGet](docs/ArtifactsGet.md)
- - [SwaggerClient::ArtifactsPutPostResponse](docs/ArtifactsPutPostResponse.md)
- - [SwaggerClient::ArtifactsPutPostResponseData](docs/ArtifactsPutPostResponseData.md)
  - [SwaggerClient::ArtifactsRequestPutBody](docs/ArtifactsRequestPutBody.md)
+ - [SwaggerClient::ArtifactsResponseDel](docs/ArtifactsResponseDel.md)
+ - [SwaggerClient::ArtifactsResponseDelData](docs/ArtifactsResponseDelData.md)
  - [SwaggerClient::ArtifactsResponseGet](docs/ArtifactsResponseGet.md)
+ - [SwaggerClient::ArtifactsResponsePutPost](docs/ArtifactsResponsePutPost.md)
  - [SwaggerClient::ControlsGet](docs/ControlsGet.md)
  - [SwaggerClient::ControlsPut](docs/ControlsPut.md)
  - [SwaggerClient::ControlsRequestPutBody](docs/ControlsRequestPutBody.md)
@@ -844,10 +844,10 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::ControlsResponsePut](docs/ControlsResponsePut.md)
  - [SwaggerClient::DeleteMilestone](docs/DeleteMilestone.md)
  - [SwaggerClient::DeletePoam](docs/DeletePoam.md)
+ - [SwaggerClient::Empty200Response](docs/Empty200Response.md)
  - [SwaggerClient::Error](docs/Error.md)
  - [SwaggerClient::InlineResponse200](docs/InlineResponse200.md)
  - [SwaggerClient::InlineResponse2001](docs/InlineResponse2001.md)
- - [SwaggerClient::MilestonResponseDelete](docs/MilestonResponseDelete.md)
  - [SwaggerClient::MilestoneResponseGet](docs/MilestoneResponseGet.md)
  - [SwaggerClient::MilestoneResponsePost](docs/MilestoneResponsePost.md)
  - [SwaggerClient::MilestoneResponsePut](docs/MilestoneResponsePut.md)
@@ -855,6 +855,7 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::MilestonesGet](docs/MilestonesGet.md)
  - [SwaggerClient::MilestonesPost](docs/MilestonesPost.md)
  - [SwaggerClient::MilestonesPut](docs/MilestonesPut.md)
+ - [SwaggerClient::MilestonesPutPostDelete](docs/MilestonesPutPostDelete.md)
  - [SwaggerClient::MilestonesRequestPostBody](docs/MilestonesRequestPostBody.md)
  - [SwaggerClient::MilestonesRequestPutBody](docs/MilestonesRequestPutBody.md)
  - [SwaggerClient::MilestonesRequiredPost](docs/MilestonesRequiredPost.md)
@@ -882,7 +883,6 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::PoamResponseGet](docs/PoamResponseGet.md)
  - [SwaggerClient::PoamResponsePost](docs/PoamResponsePost.md)
  - [SwaggerClient::PoamResponsePut](docs/PoamResponsePut.md)
- - [SwaggerClient::PostApprovalCac](docs/PostApprovalCac.md)
  - [SwaggerClient::PostApprovalPac](docs/PostApprovalPac.md)
  - [SwaggerClient::Register](docs/Register.md)
  - [SwaggerClient::RegisterData](docs/RegisterData.md)

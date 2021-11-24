@@ -14,7 +14,7 @@ Name | Type | Description | Notes
 **poc_phone_number** | **String** | [Required] Phone number of POC (area code) ***-**** format. 100 Characters. | [optional] 
 **external_uid** | **String** | [Optional] Unique identifier external to the eMASS application for use with associating POA&amp;Ms. 100 Characters. | [optional] 
 **control_acronym** | **String** | [Optional] Control acronym associated with the POA&amp;M Item. NIST SP 800-53 Revision 4 defined. | [optional] 
-**cci** | **String** | CCI associated with POA&amp;M. | [optional] 
+**cci** | **String** | [Optional] CCI associated with POA&amp;M. | [optional] 
 **security_checks** | **String** | [Optional] Security Checks that are associated with the POA&amp;M. | [optional] 
 **raw_severity** | **String** | [Optional] Values include the following options (I,II,III) | [optional] 
 **resources** | **String** | [Optional] List of resources used. 250 Characters. | [optional] 

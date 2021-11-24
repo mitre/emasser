@@ -111,7 +111,7 @@ module Emasser
     option :files, type: :array, required: true, desc: 'Artifact file(s) to remove from the given system'
 
     def remove
-      body_array = Array.new
+      body_array = []
       options[:files].each do |file|
         obj = {}
         obj[:filename] = file
