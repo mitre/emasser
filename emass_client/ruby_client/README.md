@@ -93,16 +93,13 @@ SwaggerClient.configure do |config|
 end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
-body = SwaggerClient::PostApprovalPac.new # PostApprovalPac | Update an existing Artifact by Id
-type = 'type_example' # String | 
-name = 'name_example' # String | 
-comments = 'comments_example' # String | 
+body = SwaggerClient::ApprovalPacRequestBodyPost.new # ApprovalPacRequestBodyPost | Update an existing Artifact by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
 begin
   #Submit system package for review
-  result = api_instance.add_pac_approval_chain_by_system_id(body, type, name, comments, system_id)
+  result = api_instance.add_pac_approval_chain_by_system_id(body, system_id)
   p result
 rescue SwaggerClient::ApiError => e
   puts "Exception when calling ApprovalChainApi->add_pac_approval_chain_by_system_id: #{e}"
@@ -826,9 +823,11 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::ApprovalCacResponseGet](docs/ApprovalCacResponseGet.md)
  - [SwaggerClient::ApprovalCacResponsePost](docs/ApprovalCacResponsePost.md)
  - [SwaggerClient::ApprovalCacResponsePostData](docs/ApprovalCacResponsePostData.md)
- - [SwaggerClient::ApprovalPac](docs/ApprovalPac.md)
- - [SwaggerClient::ApprovalPacResponse1](docs/ApprovalPacResponse1.md)
- - [SwaggerClient::ApprovalPacResponse2](docs/ApprovalPacResponse2.md)
+ - [SwaggerClient::ApprovalPacGet](docs/ApprovalPacGet.md)
+ - [SwaggerClient::ApprovalPacPost](docs/ApprovalPacPost.md)
+ - [SwaggerClient::ApprovalPacRequestBodyPost](docs/ApprovalPacRequestBodyPost.md)
+ - [SwaggerClient::ApprovalPacResponseGet](docs/ApprovalPacResponseGet.md)
+ - [SwaggerClient::ApprovalPacResponsePost](docs/ApprovalPacResponsePost.md)
  - [SwaggerClient::ArtifactsDelete](docs/ArtifactsDelete.md)
  - [SwaggerClient::ArtifactsDeleteInner](docs/ArtifactsDeleteInner.md)
  - [SwaggerClient::ArtifactsGet](docs/ArtifactsGet.md)
@@ -847,7 +846,6 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::Empty200Response](docs/Empty200Response.md)
  - [SwaggerClient::Error](docs/Error.md)
  - [SwaggerClient::InlineResponse200](docs/InlineResponse200.md)
- - [SwaggerClient::InlineResponse2001](docs/InlineResponse2001.md)
  - [SwaggerClient::MilestoneResponseGet](docs/MilestoneResponseGet.md)
  - [SwaggerClient::MilestoneResponsePost](docs/MilestoneResponsePost.md)
  - [SwaggerClient::MilestoneResponsePut](docs/MilestoneResponsePut.md)
@@ -869,7 +867,6 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::Model480](docs/Model480.md)
  - [SwaggerClient::Model490](docs/Model490.md)
  - [SwaggerClient::OneOfinlineResponse200](docs/OneOfinlineResponse200.md)
- - [SwaggerClient::OneOfinlineResponse2001](docs/OneOfinlineResponse2001.md)
  - [SwaggerClient::PoamDelete](docs/PoamDelete.md)
  - [SwaggerClient::PoamGet](docs/PoamGet.md)
  - [SwaggerClient::PoamPost](docs/PoamPost.md)
@@ -883,7 +880,6 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::PoamResponseGet](docs/PoamResponseGet.md)
  - [SwaggerClient::PoamResponsePost](docs/PoamResponsePost.md)
  - [SwaggerClient::PoamResponsePut](docs/PoamResponsePut.md)
- - [SwaggerClient::PostApprovalPac](docs/PostApprovalPac.md)
  - [SwaggerClient::Register](docs/Register.md)
  - [SwaggerClient::RegisterData](docs/RegisterData.md)
  - [SwaggerClient::RegisterUserRequestPostBody](docs/RegisterUserRequestPostBody.md)

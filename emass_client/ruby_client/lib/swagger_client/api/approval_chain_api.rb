@@ -85,7 +85,7 @@ module SwaggerClient
     # @param body Update an existing Artifact by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Model200]
+    # @return [ApprovalPacResponsePost]
     def add_pac_approval_chain_by_system_id(body, system_id, opts = {})
       data, _status_code, _headers = add_pac_approval_chain_by_system_id_with_http_info(body, system_id, opts)
       data
@@ -96,7 +96,7 @@ module SwaggerClient
     # @param body Update an existing Artifact by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
+    # @return [Array<(ApprovalPacResponsePost, Integer, Hash)>] ApprovalPacResponsePost data, response status code and response headers
     def add_pac_approval_chain_by_system_id_with_http_info(body, system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApprovalChainApi.add_pac_approval_chain_by_system_id ...'
@@ -120,101 +120,15 @@ module SwaggerClient
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
       # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
+      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
-      form_params['type'] = type
-      form_params['name'] = name
-      form_params['comments'] = comments
 
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'Model200' 
-
-      auth_names = opts[:auth_names] || ['apikey', 'userid']
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => return_type)
-
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: ApprovalChainApi#add_pac_approval_chain_by_system_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-    # Submit system package for review
-    # Adds a Package Approval Chain (PAC) for given `systemId` path parameter
-    # @param type 
-    # @param name 
-    # @param comments 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Model200]
-    def add_pac_approval_chain_by_system_id(type, name, comments, system_id, opts = {})
-      data, _status_code, _headers = add_pac_approval_chain_by_system_id_with_http_info(type, name, comments, system_id, opts)
-      data
-    end
-
-    # Submit system package for review
-    # Adds a Package Approval Chain (PAC) for given &#x60;systemId&#x60; path parameter
-    # @param type 
-    # @param name 
-    # @param comments 
-    # @param system_id **System Id**: The unique system record identifier.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(Model200, Integer, Hash)>] Model200 data, response status code and response headers
-    def add_pac_approval_chain_by_system_id_with_http_info(type, name, comments, system_id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: ApprovalChainApi.add_pac_approval_chain_by_system_id ...'
-      end
-      # verify the required parameter 'type' is set
-      if @api_client.config.client_side_validation && type.nil?
-        fail ArgumentError, "Missing the required parameter 'type' when calling ApprovalChainApi.add_pac_approval_chain_by_system_id"
-      end
-      # verify enum value
-      if @api_client.config.client_side_validation && !['Assess and Authorize', 'Assess Only', 'Security Plan'].include?(type)
-        fail ArgumentError, "invalid value for 'type', must be one of Assess and Authorize, Assess Only, Security Plan"
-      end
-      # verify the required parameter 'name' is set
-      if @api_client.config.client_side_validation && name.nil?
-        fail ArgumentError, "Missing the required parameter 'name' when calling ApprovalChainApi.add_pac_approval_chain_by_system_id"
-      end
-      # verify the required parameter 'comments' is set
-      if @api_client.config.client_side_validation && comments.nil?
-        fail ArgumentError, "Missing the required parameter 'comments' when calling ApprovalChainApi.add_pac_approval_chain_by_system_id"
-      end
-      # verify the required parameter 'system_id' is set
-      if @api_client.config.client_side_validation && system_id.nil?
-        fail ArgumentError, "Missing the required parameter 'system_id' when calling ApprovalChainApi.add_pac_approval_chain_by_system_id"
-      end
-      # resource path
-      local_var_path = '/api/systems/{systemId}/approval/pac'.sub('{' + 'systemId' + '}', system_id.to_s)
-
-      # query parameters
-      query_params = opts[:query_params] || {}
-
-      # header parameters
-      header_params = opts[:header_params] || {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
-      # HTTP header 'Content-Type'
-      header_params['Content-Type'] = @api_client.select_header_content_type(['application/json', 'application/x-www-form-urlencoded'])
-
-      # form parameters
-      form_params = opts[:form_params] || {}
-      form_params['type'] = type
-      form_params['name'] = name
-      form_params['comments'] = comments
-
-      # http body (model)
-      post_body = opts[:body] || @api_client.object_to_http_body(body) 
-
-      return_type = opts[:return_type] || 'Model200' 
+      return_type = opts[:return_type] || 'ApprovalPacResponsePost' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
@@ -293,7 +207,7 @@ module SwaggerClient
     # Returns the location of a system's package in the Package Approval Chain (PAC) for matching `systemId` path parameter<br><br> If the indicated system has an active package, the response will include the package type and the current role the package is sitting at. If there is no active package, then a null data member will be returned.
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [InlineResponse2001]
+    # @return [ApprovalPacResponseGet]
     def get_pac_approval_by_system_id(system_id, opts = {})
       data, _status_code, _headers = get_pac_approval_by_system_id_with_http_info(system_id, opts)
       data
@@ -303,7 +217,7 @@ module SwaggerClient
     # Returns the location of a system&#x27;s package in the Package Approval Chain (PAC) for matching &#x60;systemId&#x60; path parameter&lt;br&gt;&lt;br&gt; If the indicated system has an active package, the response will include the package type and the current role the package is sitting at. If there is no active package, then a null data member will be returned.
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(InlineResponse2001, Integer, Hash)>] InlineResponse2001 data, response status code and response headers
+    # @return [Array<(ApprovalPacResponseGet, Integer, Hash)>] ApprovalPacResponseGet data, response status code and response headers
     def get_pac_approval_by_system_id_with_http_info(system_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: ApprovalChainApi.get_pac_approval_by_system_id ...'
@@ -329,7 +243,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] 
 
-      return_type = opts[:return_type] || 'InlineResponse2001' 
+      return_type = opts[:return_type] || 'ApprovalPacResponseGet' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:GET, local_var_path,

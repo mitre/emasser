@@ -16,7 +16,7 @@ module Emasser
       config.cert_file = raise_unless_present('EMASSER_CERT_FILE_PATH')
       config.key_password = raise_unless_present('EMASSER_KEY_PASSWORD')
       config.client_side_validation = true
-      config.verify_ssl = false
+      config.verify_ssl = true
       config.verify_ssl_host = true
       config.debugging = ENV.fetch('EMASSER_DEBUGGING', false)
     end

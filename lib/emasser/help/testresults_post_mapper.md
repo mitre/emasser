@@ -1,13 +1,15 @@
-Field       Data Type   Details
+Field            Data Type   Details
 -------------------------------------------------------------------------------------------------
-systemId    Integer     [Required] Unique eMASS identifier. Will need to provide correct number
-control     String      [Read-Only] Control acronym associated with the test result. NIST SP 800-53 Revision 4 defined.
-cci         String      [Required] CCI associated with the test result.
-isInherited Boolean     [Read-Only] Indicates whether a test result is inherited.
-testedBy    String      [Required] Last Name, First Name. 100 Characters. 
-testDate    Date        [Required] Unix time format.
-description String      [Required] Include description of test result. 4000 Characters.
-type        String      [Read-Only] Indicates the location in the Control Approval Chain when the test result is submitted.
+systemId         Integer     [Required] Unique eMASS identifier. Will need to provide correct number
+control          String      [Read-Only] Control acronym associated with the test result. NIST SP 800-53 Revision 4 defined.
+cci              String      [Required] CCI associated with the test result.
+isInherited      Boolean     [Read-Only] Indicates whether a test result is inherited.
+testedBy         String      [Required] Last Name, First Name. 100 Characters. 
+testDate         Date        [Required] Unix time format.
+description      String      [Required] Include description of test result. 4000 Characters.
+type             String      [Read-Only] Indicates the location in the Control Approval Chain when the test result is submitted.
+complianceStatus String      [Required] Values include the following: (Compliant, Non-Compliant, Not Applicable)
+
 
 Example:
 

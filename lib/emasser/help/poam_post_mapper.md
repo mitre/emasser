@@ -3,7 +3,7 @@ Endpoint request parameters/fields
 Field                   Data Type  Details
 -------------------------------------------------------------------------------------------------
 systemId                 Integer   [Required] Unique eMASS identifier. Will need to provide correct number.
-status                   String    [Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable.
+status                   String    [Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable).
 vulnerabilityDescription String    [Required] Provide a description of the POA&M Item. 2000 Characters.
 sourceIdentVuln          String    [Required] Include Source Identifying Vulnerability text. 2000 Characters.
 pocOrganization**        String    [Required] Organization/Office represented. 100 Characters.
@@ -11,7 +11,7 @@ pocFirstName**           String    [Required] First name of POC. 100 Characters.
 pocLastName**            String    [Required] Last name of POC. 100 Characters.
 pocEmail**               String    [Required] Email address of POC. 100 Characters.
 pocPhoneNumber**         String    [Required] Phone number of POC (area code) ***-**** format. 100 Characters.
-reviewStatus             string    [Required/Optional] Values include the following options: (Not Approved, Under Review, Approved]
+reviewStatus             string    [Required/Optional] Values include the following options: (Not Approved, Under Review, Approved)
 
 milestones               JSON      [Conditional] Please see Notes 1 for more details.
 severity                 String    [Conditional] Values include the following: (Very Low, Low, Moderate, High, Very High)
@@ -95,5 +95,4 @@ bundle exec exe/emasser post poams add --systemId [value] --status [value] --vul
 Notes:
 1 - The format for milestones is:
     --milestone description:[value] scheduledCompletionDate:[value]
-
 2 - The example is only showing the required fields. Refer to instructions listed above for conditional and optional fields requirements.

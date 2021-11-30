@@ -483,6 +483,7 @@ module Emasser
     option :lastReviewedDate,
            type: :numeric, required: false, desc: 'Date Artifact was last reviewed - Unix time format'
 
+    # rubocop:disable Metrics/CyclomaticComplexity
     def update
       body = SwaggerClient::ArtifactsRequestPutBody.new
       body.filename = options[:filename]
@@ -495,7 +496,7 @@ module Emasser
       body.ccis = options[:ccis] if options[:ccis]
       body.controls = options[:controls] if options[:controls]
       body.artifact_expiration_date = options[:artifactExpirationDate] if options[:artifactExpirationDate]
-      body.last_reviewed_date = options[:lastReviewedDate] if options[:lastReviewedDate]      
+      body.last_reviewed_date = options[:lastReviewedDate] if options[:lastReviewedDate]
 
       body_array = Array.new(1, body)
 
@@ -507,6 +508,7 @@ module Emasser
         puts to_output_hash(e)
       end
     end
+    # rubocop:enable Metrics/CyclomaticComplexity
   end
 
   class Put < SubCommandBase

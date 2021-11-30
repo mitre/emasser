@@ -302,13 +302,6 @@ module Emasser
       body.scheduled_completion_date = options[:scheduledCompletionDate]
       body_array = Array.new(1, body)
 
-      # return values
-      # "systemId": 34,
-      # "poamId": 191,
-      # "milestoneId": 264,
-      # "externalUid": null,
-      # "success": true
-
       begin
         result = SwaggerClient::POAMApi
                  .new.add_milestone_by_system_id_and_poam_id(body_array, options[:systemId], options[:poamId])
@@ -361,7 +354,7 @@ module Emasser
       optional_options = to_input_hash(optional_options_keys, options)
       # Remove the isTemplate as we can't use the required = true.
       optional_options.delete(:is_template)
-      
+
       opts = {}
       opts[:form_params] = optional_options
 
@@ -406,9 +399,11 @@ module Emasser
     end
 
     desc 'cac', 'Get all system CAC for a system Id'
+    long_desc Help.text(:approvalCac_post_mapper)
+
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :controlAcronym, type: :string, required: true, desc: 'The system acronym "AC-1, AC-2"'
-    option :comments, type: :string, require: false, desc: 'The control apporval chain comments'
+    option :comments, type: :string, require: false, desc: 'The control approval chain comments'
 
     def cac
       body = SwaggerClient::ApprovalCacRequestPostBody.new
@@ -419,7 +414,8 @@ module Emasser
 
       begin
         # Get location of one or many controls in CAC
-        result = SwaggerClient::ApprovalChainApi.new.add_c_ac_approval_chain_by_system_id(body_array, options[:systemId])
+        result = SwaggerClient::ApprovalChainApi.new.add_c_ac_approval_chain_by_system_id(body_array,
+                                                                                          options[:systemId])
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
         puts 'Exception when calling ApprovalChainApi->add_c_ac_approval_chain_by_system_id'.red
@@ -428,17 +424,27 @@ module Emasser
     end
 
     desc 'pac', 'Get all system PAC for a system Id'
+    long_desc Help.text(:approvalPac_post_mapper)
+
     option :systemId, type: :numeric, required: true,
                       desc: 'A numeric value representing the system identification'
+    option :name, type: :string, require: false, desc: 'The control package name'
+    option :type, type: :string, required: true,
+                  enum: ['Assess and Authorize', 'Assess Only', 'Security Plan Approval']
+    option :comments, type: :string, require: false, desc: 'The control package approval chain comments'
 
     def pac
-      # Get location of system package in PAC
-      result = SwaggerClient::ApprovalChainApi.new.get_pac_approval_by_system_id(
-        options[:systemId], Emasser::GET_SYSTEM_RETURN_TYPE
-      )
+      body = SwaggerClient::ApprovalPacRequestBodyPost.new
+      body.name = options[:name]
+      body.type = options[:type]
+      body.comments = options[:comments]
+
+      body_array = Array.new(1, body)
+
+      result = SwaggerClient::ApprovalChainApi.new.add_pac_approval_chain_by_system_id(body_array, options[:systemId])
       puts to_output_hash(result).green
     rescue SwaggerClient::ApiError => e
-      puts 'Exception when calling ApprovalChainApi->get_pac_approval_by_system_id'.red
+      puts 'Exception when calling ApprovalChainApi->add_pac_approval_chain_by_system_id'.red
       puts to_output_hash(e)
     end
   end
@@ -454,6 +460,6 @@ module Emasser
     subcommand 'artifacts', Artifacts
 
     desc 'approval', 'Add Controls or Packages (CAC/PAC) security content'
-    subcommand 'approval', Approval    
+    subcommand 'approval', Approval
   end
 end

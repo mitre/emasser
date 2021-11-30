@@ -1,8 +1,8 @@
-# SwaggerClient::ApprovalPacResponse1
+# SwaggerClient::ApprovalPacResponseGet
 
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **meta** | [**Model200**](Model200.md) |  | [optional] 
-**data** | [**Array&lt;ApprovalPac&gt;**](ApprovalPac.md) |  | [optional] 
+**data** | [**Array&lt;ApprovalPacGet&gt;**](ApprovalPacGet.md) |  | [optional] 
 

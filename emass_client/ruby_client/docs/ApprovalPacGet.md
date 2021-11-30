@@ -1,4 +1,4 @@
-# SwaggerClient::ApprovalPac
+# SwaggerClient::ApprovalPacGet
 
 ## Properties
 Name | Type | Description | Notes
@@ -8,4 +8,5 @@ Name | Type | Description | Notes
 **current_role** | **String** | [Read-Only] Current role in active package. | [optional] 
 **current_step** | **Integer** | [Read-Only] Current step in the Package Approval Chain. | [optional] 
 **total_steps** | **Integer** | [Read-Only] Total number of steps in Package Approval Chain. | [optional] 
+**comments** | **String** | [Required] Character Limit &#x3D; 2,000. | [optional] 
 

@@ -19,7 +19,7 @@ These variables can be set in the .env file (see the .env-example file)
 * [/api/system-roles](#get-roles)
 * [/api/system-roles/{roleCategory}](#get-roles)
 * [/api/systems/{systemId}/controls](#get-controls)
-* [/api/systems/{systemId}/test-results](#get-testresults)
+* [/api/systems/{systemId}/test-results](#get-test_results)
 * [/api​/systems​/{systemId}​/poams](#get-poams)
 * [/api/systems/{systemId}/poams/{poamId}](#get-poams)
 * [/api/systems/{systemId}/poams/{poamId}/milestones](#get-poams)
@@ -30,8 +30,13 @@ These variables can be set in the .env file (see the .env-example file)
 * [/api/systems/{systemId}/approval/pac](#get-approval)
 
 ### POST
-* [/api/systems/{systemId}/artifacts](#upload)
-
+* [/api/systems/{systemId}/test-results](#post-test_results)
+* [/api/systems/{systemId}/poam](#post-poams)
+* [/api/systems/{systemId}/poam/{poamId}/milestones](#post-milestones)
+* [/api/systems/{systemId}/artifacts](#post-artifacts)
+* [/api/systems/{systemId}/approval/cac](#post-approval)
+* [/api/systems/{systemId}/approval/pac](#post-approval)
+  
 ### PUT
 * [/api/systems/{systemId}/controls](#put-controls)
 
@@ -78,11 +83,13 @@ Each CLI endpoint command has several layers of help.
       - --filename=FILENAME   # The artifact file name
       - --compress            # BOOLEAN - true or false.
 
-**The same format is applicable to POST and PUT requests as well.**
+**The same format is applicable to POST and PUT requests as well, however there may be additional help content**
 
 ## Usage - GET
 
 ## ```get system```
+[top](#api-endpoints-provided)
+
 ---
 The GET system is provided for retrieving the system identification based on the SYSTEM_NAME (name) or SYSTEM_OWNER (systemOwner) fields.
 
@@ -98,6 +105,8 @@ If using a platform that has `awk` installed the following command can be used t
 
 
 ## ```get systems```
+[top](#api-endpoints-provided)
+
 ----
 To invoke the `get systems` use the following command:
 
@@ -115,6 +124,8 @@ To invoke the `get systems` use the following command:
 
 
 ## ```get roles```
+[top](#api-endpoints-provided)
+
 ----
 There are two get endpoints for system roles:
 - all - Retrieves all available roles
@@ -138,6 +149,8 @@ There are two get endpoints for system roles:
     |--policy     |Possible values: diacap, rmf, reporting    |
     
 ## ```get controls```
+[top](#api-endpoints-provided)
+
 ----
 To invoke the `get controls` use the following command:
 
@@ -154,6 +167,8 @@ To invoke the `get controls` use the following command:
     |--acronyms   |The system acronym(s) e.g "AC-1, AC-2" - if not provided all controls for systemId are returned |
 
 ## ```get test_results```
+[top](#api-endpoints-provided)
+
 ----
 To invoke the `get test_results` use the following command:
 
@@ -173,6 +188,8 @@ To invoke the `get test_results` use the following command:
 
 
 ## ```get poams```
+[top](#api-endpoints-provided)
+
 ----
 There are four get endpoints for system poams:
 - system - Retrieves all poams for specified system ID
@@ -233,6 +250,8 @@ There are four get endpoints for system poams:
 
 
 ## ```get artifacts```
+[top](#api-endpoints-provided)
+
 ----
 There are two get endpoints that provides the ability to view existing `Artifacts` in a system:
 
@@ -266,6 +285,8 @@ There are two get endpoints that provides the ability to view existing `Artifact
 
 
 ## ```get approval```
+[top](#api-endpoints-provided)
+
 ----
 Two endpoints are provided, one to view Security Controls’ locations in
 the Control Approval Chain (CAC) in a system, the other to view the location 
@@ -298,19 +319,251 @@ of a system's package in the Package Approval Chain (PAC).
 
 ## Usage - POST
 ## ``post test_results``
+[top](#api-endpoints-provided)
+
 ---
+Test Result add (POST) endpoint API business rules.
+
+  |Business Rule                                                        | Parameter/Field  |
+  |---------------------------------------------------------------------|:-----------------|
+  | Tests Results cannot be saved if the “Test Date” is in the future.  | `testDate` |
+  | Test Results cannot be saved if a Security Control is “Inherited” in the system record. | `testResultDesc` |
+  | Test Results cannot be saved if an Assessment Procedure is “Inherited” in the system record. | `testResultDesc` |
+  | Test Results cannot be saved if the AP does not exist in the system. | `testResultDesc` |
+  | Test Results cannot be saved if the control is marked “Not Applicable” by an Overlay. | `testResultDesc` |
+  | Test Results cannot be saved if the control is required to be assessed as “Applicable” by an Overlay.| `testResultDesc` |
+  | Test Results cannot be saved if the Tests Results entered is greater than 4000 characters.|`testResultDesc`|
+  | Test Results cannot be saved if the following fields are missing data: | `complianceStatus`, `testDate`, `testedBy`, `testResultDesc`|
+  | Test results cannot be saved if there is more than one test result per CCI |`cci`|
+
+---
+To add (POST) test results use the following command:
+
+  ````
+  $ bundle exec exe/emasser post test_results add --systemId [value] --cci [value] --testedBy [value] --testDate [value] --description [value] --complianceStatus [value]
+  ````
+Note: If no POA&Ms or AP exist for the control (system), you will get this response:
+"You have entered a Non-Compliant Test Result. You must create a POA&M Item for this Control and/or AP if one does not already exist."
+
+  - required parameter are:
+    |parameter          | type or values                                              |
+    |-------------------|:------------------------------------------------------------|
+    |--systemId         |Integer - Unique system identifier                           |
+    |--cci              |String - CCI associated with the test result. e.g "00221"    |
+    |--testedBy         |String - Last Name, First Name. 100 Characters.              |
+    |--testDate         |Date - Unix time format (e.g. 1499990400)                    |
+    |--description      |String - Include description of test result. 4000 Characters |
+    |--complianceStatus |Possible values: Compliant, Non-Compliant, Not Applicable    |
+
+**Note**
+For information at the command line use: 
+```
+$ bundle exec exe/emasser post test_results help add
+```
+
 
 ## ``post poams``
+[top](#api-endpoints-provided)
+
 ---
+Plan of Action and Milestones (POA&M) add (POST) endpoint API business rules.
+
+The following fields are required based on the contents of the status field
+  |status          |Required Fields
+  |----------------|--------------------------------------------------------
+  |Risk Accepted   |comments, resources
+  |Ongoing         |scheduledCompletionDate, resources, milestones (at least 1)
+  |Completed       |scheduledCompletionDate, comments, resources,
+  |                |completionDate, milestones (at least 1)
+  |Not Applicable  |POAM can not be created
+
+If a POC email is supplied, the application will attempt to locate a user
+already registered within the application and pre-populate any information
+not explicitly supplied in the request. If no such user is found, these
+fields are required within the request.
+  - pocOrganization, pocFirstName, pocLastName, pocEmail, pocPhoneNumber
+
+Business logic, the following rules apply when adding POA&Ms
+
+- POA&M Items cannot be saved if associated Security Control or AP is inherited.
+- POA&M Items cannot be created manually if a Security Control or AP is Not Applicable.
+- Completed POA&M Item cannot be saved if Completion Date is in the future.
+- Completed POA&M Item cannot be saved if Completion Date (completionDate) is in the future.
+- Risk Accepted POA&M Item cannot be saved with a Scheduled Completion Date or Milestones
+- POA&M Items with a review status of “Not Approved” cannot be saved if Milestone Scheduled Completion Date exceeds POA&M Item  Scheduled Completion Date.
+- POA&M Items with a review status of “Approved” can be saved if Milestone Scheduled Completion Date exceeds POA&M Item Scheduled Completion Date.
+- POA&M Items that have a status of “Completed” and a status of “Ongoing” cannot be saved without Milestones.
+- POA&M Items that have a status of “Risk Accepted” cannot have milestones.
+- POA&M Items with a review status of “Approved” that have a status of “Completed” and “Ongoing” cannot update Scheduled Completion Date.
+- POA&M Items that have a review status of “Approved” are required to have a Severity Value assigned.
+- POA&M Items cannot be updated if they are included in an active package.
+- Archived POA&M Items cannot be updated.
+- POA&M Items with a status of “Not Applicable” will be updated through test result creation.
+- If the Security Control or Assessment Procedure does not exist in the system we may have to just import POA&M Item at the System Level.
+
+
+The following parameters/fields have the following character limitations:
+- POA&M Item cannot be saved if the Point of Contact fields exceed 100 characters:
+  - Office / Organization (pocOrganization)
+  - First Name            (pocFirstName)
+  - Last Name             (pocLastName)
+  - Email                 (email)
+  - Phone Number          (pocPhoneNumber)
+- POA&M Items cannot be saved if Mitigation field (mitigation) exceeds 2000 characters.
+- POA&M Items cannot be saved if Source Identifying Vulnerability field exceeds 2000 characters.
+- POA&M Items cannot be saved if Comments (comments) field exceeds 2000 characters 
+- POA&M Items cannot be saved if Resource (resource) field exceeds 250 characters.
+- POA&M Items cannot be saved if Milestone Description exceeds 2000 characters.
+
+
+To add (POST) POA&Ms use the following command:
+```
+$ bundle exec exe/emasser post poams add --systemId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --reviewStatus [value]
+```
+**Note:** The example is only showing the required fields. Refer to instructions listed above for conditional and optional fields requirements.
+
+  - required parameter are:
+    |parameter                  | type or values                                                         |
+    |---------------------------|:-----------------------------------------------------------------------|
+    |--systemId                 |Integer - Unique system identifier                                      |
+    |--status                   |Possible Values: Ongoing,Risk Accepted,Completed,Not Applicable         |
+    |--vulnerabilityDescription |String - Vulnerability description for the POA&M Item. 2000 Characters  |
+    |--sourceIdentVuln          |String - Include Source Identifying Vulnerability text. 2000 Characters |
+    |--pocOrganization**        |String - Organization/Office represented. 100 Characters                |
+    |--pocFirstName**           |String - First name of POC. 100 Characters                              |
+    |--pocLastName**            |String - Last name of POC. 100 Characters                               |
+    |--pocEmail**               |String - Email address of POC. 100 Characters                           | 
+    |--pocPhoneNumber**         |String - Phone number of POC (area code) ***-**** format. 100 Characters| 
+    |--reviewStatus             |Possible Values: Not Approved, Under Review, Approved                   |
+
+    ** If any poc information is provided all POC fields are required. See additional details for POC fields below.
+
+  - conditional parameters are:
+    |parameter                 | type or values                                                                        |
+    |--------------------------|:--------------------------------------------------------------------------------------|
+    |--milestones              |JSON -  see milestone format                                                           |
+    |--severity                |Possible values - Very Low, Low, Moderate, High, Very High                             |
+    |--scheduledCompletionDate |Date - Required for ongoing and completed POA&M items. Unix time format                |
+    |--completionDate          |Date - Field is required for completed POA&M items. Unix time format                   |
+    |--comments                |String - Field is required for completed and risk accepted POA&M items. 2000 Characters|
+    |--isActive                |Boolean - Optionally used in PUT to delete milestones when updating a POA&M            |
+
+    Milestone Format:
+      - --milestone description:[value] scheduledCompletionDate:[value]
+
+  - optional parameters are:
+    |parameter           | type or values                                                                           |
+    |--------------------|:-----------------------------------------------------------------------------------------|
+    |--externalUid       |String - External unique identifier for use with associating POA&M Items. 100 Characters  |
+    |--controlAcronym    |String - Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined|
+    |--cci               |String - CCI associated with the test result                                              |
+    |--securityChecks    |String - Security Checks that are associated with the POA&M                               |
+    |--rawSeverity       |Possible values: I, II, III                                                               |
+    |--resources         |String - List of resources used. 250 Characters                                           |
+    |--relevanceOfThreat |Possible values: Very Low, Low, Moderate, High, Very High                                 |
+    |--likelihood        |Possible values: Very Low, Low, Moderate, High, Very High                                 |
+    |--impact            |Possible values: Very Low, Low, Moderate, High, Very High                                 |
+    |--impactDescription |String - Include description of Security Control’s impact                                 |
+    |--residualRiskLevel |Possible values: Very Low, Low, Moderate, High, Very High                                 |
+    |--recommendations   |String - Include recommendations. Character Limit 2,000                                   |
+    |--mitigation        |String - Include mitigation explanation. 2000 Characters                                  |
+
+
+**Note**
+For information at the command line use: 
+```
+$ bundle exec exe/emasser post poams help add
+```
 
 ## ``post milestones``
+[top](#api-endpoints-provided)
+
 ---
+To add (POST) milestones in a system for one or more POA&M items use the following command:
+
+````
+  $ bundle exec exe/emasser post poams add_milestones --systemId [value] --poamId [value] --description [value] --scheduledCompletionDate [value]
+````
+  - required parameter are:
+    |parameter                  | type or values                                      |
+    |---------------------------|:----------------------------------------------------|
+    |--systemId                 |Integer - Unique system identifier                   |
+    |--poamId                   |Integer - Unique item identifier                     |
+    |--description              |String - Milestone item description. 2000 Characters |
+    |--scheduledCompletionDate  |Date - Schedule completion date. Unix date format    |
+
+  - optional parameter are:
+    |parameter     | type or values                                      |
+    |--------------|:----------------------------------------------------| 
+    |--isActive    |Boolean - Set to false only in the case where POA&M PUT would delete specified milestone. Not available for other requests|
+
+**Note**
+For information at the command line use: 
+```
+$ bundle exec exe/emasser post poams help add_milestones
+```
+
 
 ## ``post artifacts``
+[top](#api-endpoints-provided)
+
 ---
+The add (POST) artifacts endpoint accepts a single binary file with file extension.zip only. The command line (CI) reads zips the files provided into a zip file.
+
+Business Rules:
+```
+Filename uniqueness throughout eMASS will be enforced by the API.
+```
+
+```
+Upon successful receipt of a file, if a file within the .zip is matched via filename to an artifact existing within the application, the file associated with the artifact will be updated.
+```
+
+```
+If no artifact is matched via filename to the application, a new artifact will be created with the following default values. Any values not specified below will be blank.
+  - isTemplate: false
+  - type: other
+  - category: evidence
+```
+
+```
+Artifact cannot be saved if the file does not have the following file extensions:
+  - .docx,.doc,.txt,.rtf,.xfdl,.xml,.mht,.mhtml,.html,.htm,.pdf
+  - .mdb,.accdb,.ppt,.pptx,.xls,.xlsx,.csv,.log
+  - .jpeg,.jpg,.tiff,.bmp,.tif,.png,.gif
+  - .zip,.rar,.msg,.vsd,.vsw,.vdx, .z{#}, .ckl,.avi,.vsdx
+```
+
 Posting artifacts can be accomplished by invoking the following command:
 
-    $ bundle exec exe/emasser upload systemId [file1 ... filen]
+```
+$ bundle exec exe/emasser post artifacts upload --systemId [value] [--isTemplate or --no-isTemplate] --type [value] --category [value] --files[value...value]
+```
+
+  - required parameter are:
+    |parameter       | type or values                                      |
+    |----------------|:----------------------------------------------------|
+    |--systemId      |Integer - Unique system identifier                   |
+    |--isTemplate    |Boolean - Indicates whether an artifact is a template|
+    |--type          |Possible Values: Procedure, Diagram, Policy, Labor, Document, Image, Other, Scan Result, Auditor Report|
+    |--category      |Possible Values: Implementation Guidance, Evidence    |
+
+  - optional parameter are:
+    |parameter                | type or values                                        |
+    |-------------------------|:------------------------------------------------------| 
+    |--description            |String - Artifact description. 2000 Characters         |
+    |--refPageNumber          |String - Artifact reference page number. 50 Characters |
+    |--ccis                   |String -  CCIs associated with artifact                |
+    |--controls               |String - Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined|
+    |--artifactExpirationDate |Date - Date Artifact expires and requires review. In Unix Date Format|
+    |--lastReviewedDate       |Date - Date Artifact was last reviewed. In Unix Date Format          |
+
+
+**Note**
+For information at the command line use: 
+```
+$ bundle exec exe/emasser post artifacts help upload
+```
 
 
 ## ``post approval``
@@ -324,8 +577,7 @@ of a system's package in the Package Approval Chain (PAC).
 ## Usage - PUT
 ## ``put controls``
 ---
-
-The following fields are required:
+The following Business Rules apply when adding (POST) Controls:
 
 If Implementation Status `implementationStatus` field value is `Planned` or `Implemented`
 ```
@@ -365,7 +617,7 @@ Updating (PUT) a control can be accomplished by invoking the following command:
     |--responsibleEntities     |String - Description of the responsible entities for the Security Control |
     |--controlDesignation      |Possible values: Common, System-Specific, or Hybrid                       |
     |--estimatedCompletionDate |Date - Unix time format (e.g. 1499990400)                                 |
-    |--comments                |String - Security control comments                                          |                    
+    |--comments                |String - Security control comments                                        |            
   
   - optional parameters are:
     |parameter              | type or values                                |
@@ -393,10 +645,11 @@ Updating (PUT) a control can be accomplished by invoking the following command:
     |--slcmComments          |String, - Additional comments for Security Control regarding SLCM |
 
 **Note**
-For information at the command line, issue the following command: 
+For information at the command line use: 
 ```
 $ bundle exec exe/emasser put controls help update
 ```
+
 ## ``put poams``
 ---
 
@@ -405,3 +658,4 @@ $ bundle exec exe/emasser put controls help update
 
 ## ``put artifacts``
 ---
+To update values other than the file itself, please submit a PUT request.

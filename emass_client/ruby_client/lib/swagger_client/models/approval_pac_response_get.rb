@@ -12,16 +12,24 @@ Swagger Codegen version: 3.0.26
 require 'date'
 
 module SwaggerClient
-  class OneOfinlineResponse2001
+  class ApprovalPacResponseGet
+    attr_accessor :meta
+
+    attr_accessor :data
+
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'meta' => :'meta',
+        :'data' => :'data'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'meta' => :'Object',
+        :'data' => :'Object'
       }
     end
 
@@ -35,16 +43,26 @@ module SwaggerClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::OneOfinlineResponse2001` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::ApprovalPacResponseGet` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::OneOfinlineResponse2001`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::ApprovalPacResponseGet`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
+
+      if attributes.key?(:'meta')
+        self.meta = attributes[:'meta']
+      end
+
+      if attributes.key?(:'data')
+        if (value = attributes[:'data']).is_a?(Array)
+          self.data = value
+        end
+      end
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -64,7 +82,9 @@ module SwaggerClient
     # @param [Object] Object to be compared
     def ==(o)
       return true if self.equal?(o)
-      self.class == o.class
+      self.class == o.class &&
+          meta == o.meta &&
+          data == o.data
     end
 
     # @see the `==` method
@@ -76,7 +96,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [].hash
+      [meta, data].hash
     end
 
     # Builds the object from hash

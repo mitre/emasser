@@ -12,14 +12,14 @@ Swagger Codegen version: 3.0.26
 require 'date'
 
 module SwaggerClient
-  class PostApprovalPac
+  class ApprovalPacRequestBodyPost
     # [Required] Values include the following:(Assess and Authorize, Assess Only, Security Plan)
     attr_accessor :type
 
     # [Required] Package name. 100 Characters.
     attr_accessor :name
 
-    # [Conditional] Character Limit = 2,000.
+    # [Required] Character Limit = 2,000.
     attr_accessor :comments
 
     class EnumAttributeValidator
@@ -72,13 +72,13 @@ module SwaggerClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::PostApprovalPac` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::ApprovalPacRequestBodyPost` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::PostApprovalPac`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::ApprovalPacRequestBodyPost`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }

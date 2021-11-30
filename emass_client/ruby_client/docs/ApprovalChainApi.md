@@ -6,7 +6,6 @@ Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**add_c_ac_approval_chain_by_system_id**](ApprovalChainApi.md#add_c_ac_approval_chain_by_system_id) | **POST** /api/systems/{systemId}/approval/cac | Submit control to second role of CAC
 [**add_pac_approval_chain_by_system_id**](ApprovalChainApi.md#add_pac_approval_chain_by_system_id) | **POST** /api/systems/{systemId}/approval/pac | Submit system package for review
-[**add_pac_approval_chain_by_system_id**](ApprovalChainApi.md#add_pac_approval_chain_by_system_id) | **POST** /api/systems/{systemId}/approval/pac | Submit system package for review
 [**get_cac_approval_by_system_id**](ApprovalChainApi.md#get_cac_approval_by_system_id) | **GET** /api/systems/{systemId}/approval/cac | Get location of one or many controls in CAC
 [**get_pac_approval_by_system_id**](ApprovalChainApi.md#get_pac_approval_by_system_id) | **GET** /api/systems/{systemId}/approval/pac | Get location of system package in PAC
 
@@ -71,7 +70,7 @@ Name | Type | Description  | Notes
 
 
 # **add_pac_approval_chain_by_system_id**
-> Model200 add_pac_approval_chain_by_system_id(bodysystem_id)
+> ApprovalPacResponsePost add_pac_approval_chain_by_system_id(bodysystem_id)
 
 Submit system package for review
 
@@ -95,7 +94,7 @@ SwaggerClient.configure do |config|
 end
 
 api_instance = SwaggerClient::ApprovalChainApi.new
-body = SwaggerClient::PostApprovalPac.new # PostApprovalPac | Update an existing Artifact by Id
+body = SwaggerClient::ApprovalPacRequestBodyPost.new # ApprovalPacRequestBodyPost | Update an existing Artifact by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -112,12 +111,12 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PostApprovalPac**](PostApprovalPac.md)| Update an existing Artifact by Id | 
+ **body** | [**ApprovalPacRequestBodyPost**](ApprovalPacRequestBodyPost.md)| Update an existing Artifact by Id | 
  **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
 
 ### Return type
 
-[**Model200**](Model200.md)
+[**ApprovalPacResponsePost**](ApprovalPacResponsePost.md)
 
 ### Authorization
 
@@ -125,71 +124,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: application/json, application/x-www-form-urlencoded
- - **Accept**: application/json, text/plain
-
-
-
-# **add_pac_approval_chain_by_system_id**
-> Model200 add_pac_approval_chain_by_system_id(typenamecommentssystem_id)
-
-Submit system package for review
-
-Adds a Package Approval Chain (PAC) for given `systemId` path parameter
-
-### Example
-```ruby
-# load the gem
-require 'swagger_client'
-# setup authorization
-SwaggerClient.configure do |config|
-  # Configure API key authorization: apikey
-  config.api_key['api-key'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  #config.api_key_prefix['api-key'] = 'Bearer'
-
-  # Configure API key authorization: userid
-  config.api_key['user-uid'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  #config.api_key_prefix['user-uid'] = 'Bearer'
-end
-
-api_instance = SwaggerClient::ApprovalChainApi.new
-type = 'type_example' # String | 
-name = 'name_example' # String | 
-comments = 'comments_example' # String | 
-system_id = 56 # Integer | **System Id**: The unique system record identifier.
-
-
-begin
-  #Submit system package for review
-  result = api_instance.add_pac_approval_chain_by_system_id(typenamecommentssystem_id)
-  p result
-rescue SwaggerClient::ApiError => e
-  puts "Exception when calling ApprovalChainApi->add_pac_approval_chain_by_system_id: #{e}"
-end
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **type** | **String**|  | 
- **name** | **String**|  | 
- **comments** | **String**|  | 
- **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
-
-### Return type
-
-[**Model200**](Model200.md)
-
-### Authorization
-
-[apikey](../README.md#apikey), [userid](../README.md#userid)
-
-### HTTP request headers
-
- - **Content-Type**: application/json, application/x-www-form-urlencoded
+ - **Content-Type**: application/json
  - **Accept**: application/json, text/plain
 
 
@@ -256,7 +191,7 @@ Name | Type | Description  | Notes
 
 
 # **get_pac_approval_by_system_id**
-> InlineResponse2001 get_pac_approval_by_system_id(system_id)
+> ApprovalPacResponseGet get_pac_approval_by_system_id(system_id)
 
 Get location of system package in PAC
 
@@ -300,7 +235,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**InlineResponse2001**](InlineResponse2001.md)
+[**ApprovalPacResponseGet**](ApprovalPacResponseGet.md)
 
 ### Authorization
 

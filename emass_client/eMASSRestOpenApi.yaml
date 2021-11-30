@@ -1443,9 +1443,6 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/ApprovalPacRequestBodyPost"
-          # application/x-www-form-urlencoded:
-          #   schema:
-          #     "$ref": "#/components/schemas/PostApprovalPac"
         required: true
       responses:
         '200':
@@ -2791,12 +2788,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ArtifactsGet'
-    # ArtifactGetExportResponse:
-    #   type: object
-    #   additionalProperties: true
-    #   description: 'Merda'
-    #   maxItems: 15
-    #   minItems: 5
     ArtifactsResponseDel:
       type: object
       additionalProperties: false
@@ -2854,7 +2845,6 @@ components:
                 example: 35
                 minimum: 1
                 maximum: 3000
-
     ApprovalCacResponseGet:
       type: object
       additionalProperties: false
@@ -2917,18 +2907,6 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/ApprovalPacPost'
-    # ApprovalPacResponse2:
-    #   type: object
-    #   additionalProperties: false
-    #   properties:
-    #     meta:
-    #       "$ref": "#/components/schemas/200"
-    #     data:
-    #       type: string
-    #       default: null
-    #       enum:
-    #        - null
-    
     Empty200Response:
       type: object
 
@@ -4449,7 +4427,6 @@ components:
             description: "[Required] File name should match exactly one file within the provided zip file. 1000 Characters."
             x-faker: system.commonFileName
             example: "AutorizationGuidance.pdf"
-
     ApprovalCacGet:
       title: ApprovalCac
       type: object
@@ -4541,41 +4518,17 @@ components:
             - "Assess and Authorize"
             - "Assess Only"
             - "Security Plan"
-        name:
-          type: string
-          description: "[Required] Package name. 100 Characters."
-          x-faker: random.word
-          example: "Package name text"
-        comments:
-          type: string
-          description: "[Required] Character Limit = 2,000."
-          x-faker: random.words
-          example: "Comments text."
+        success:
+          type: boolean
+          x-faker: random.boolean
+          example: true
+        systemId:
+          type: integer
+          format: int64
+          example: 35
+          minimum: 1
+          maximum: 3000    
     
-    
-    # PostApprovalPac:
-    #   title: PostApprovalPac
-    #   type: object
-    #   additionalProperties: false
-    #   properties:
-    #     type:
-    #       type: string
-    #       description: "[Required] Values include the following:(Assess and Authorize, Assess Only, Security Plan)"
-    #       example: "Assess and Authorize"
-    #       enum:
-    #         - "Assess and Authorize"
-    #         - "Assess Only"
-    #         - "Security Plan"
-    #     name:
-    #       type: string
-    #       description: "[Required] Package name. 100 Characters."
-    #       x-faker: random.word
-    #       example: "Package name text"
-    #     comments:
-    #       type: string
-    #       description: "[Conditional] Character Limit = 2,000."
-    #       x-faker: random.words
-    #       example: "Comments text."
     #----------------------------------------------------------------------------
     # 400 Responses
     #----------------------------------------------------------------------------
@@ -4590,7 +4543,8 @@ components:
       additionalProperties: false
       properties:
         meta:
-          "$ref": "#/components/schemas/404"    
+          "$ref": "#/components/schemas/404"
+  
     #----------------------------------------------------------------------------
     # HTTP response status code values 
     #----------------------------------------------------------------------------
