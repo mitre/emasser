@@ -5,7 +5,7 @@ All URIs are relative to *http://localhost:4010*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**add_test_results_by_system_id**](TestResultsApi.md#add_test_results_by_system_id) | **POST** /api/systems/{systemId}/test-results | Add one or many test results in a system
-[**get_test_results_by_system_id**](TestResultsApi.md#get_test_results_by_system_id) | **GET** /api/systems/{systemId}/test-results | Get one or many test results in a system
+[**get_system_test_results**](TestResultsApi.md#get_system_test_results) | **GET** /api/systems/{systemId}/test-results | Get one or many test results in a system
 
 # **add_test_results_by_system_id**
 > TestResultsResponsePost add_test_results_by_system_id(bodysystem_id)
@@ -63,12 +63,12 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, text/plain
+ - **Accept**: application/json
 
 
 
-# **get_test_results_by_system_id**
-> TestResultsResponseGet get_test_results_by_system_id(system_id, opts)
+# **get_system_test_results**
+> TestResultsResponseGet get_system_test_results(system_id, opts)
 
 Get one or many test results in a system
 
@@ -95,16 +95,16 @@ api_instance = SwaggerClient::TestResultsApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
   control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or comma separated).
-  cci: 'cci_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+  ccis: 'ccis_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
   latest_only: true # BOOLEAN | **Latest Results Only**: Indicates that only the latest test resultes are retrieved (single or comma separated).
 }
 
 begin
   #Get one or many test results in a system
-  result = api_instance.get_test_results_by_system_id(system_id, opts)
+  result = api_instance.get_system_test_results(system_id, opts)
   p result
 rescue SwaggerClient::ApiError => e
-  puts "Exception when calling TestResultsApi->get_test_results_by_system_id: #{e}"
+  puts "Exception when calling TestResultsApi->get_system_test_results: #{e}"
 end
 ```
 
@@ -114,7 +114,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
  **control_acronyms** | **String**| **System Acronym**: Filter query by given system acronym (single or comma separated). | [optional] 
- **cci** | **String**| **CCI System**: Filter query by Control Correlation Identifiers (CCIs). | [optional] 
+ **ccis** | **String**| **CCI System**: Filter query by Control Correlation Identifiers (CCIs). | [optional] 
  **latest_only** | **BOOLEAN**| **Latest Results Only**: Indicates that only the latest test resultes are retrieved (single or comma separated). | [optional] [default to true]
 
 ### Return type
@@ -128,7 +128,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, text/plain
+ - **Accept**: application/json
 
 
 

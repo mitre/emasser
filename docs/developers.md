@@ -1,6 +1,6 @@
 # Developers Instructions
 
-The documentation provided here is an OpenAPI Specification 3.0.3 compliant describing, producing, consuming, and visualizing the eMASS RESTful API web services (endpoints) as described in the eMASS REST API (v2.3) document, dated August 28, 2020.
+The documentation provided here is an OpenAPI (v3.0.3) Specification  compliant describing, producing, consuming, and visualizing the eMASS RESTful API web services (endpoints) as described in the eMASS REST API (v3.2) document, dated October 21, 2021.
 
 The API is documented in YAML and can be viewed utilizing Swagger Editor or Visual Studio Code (VSC) with swagger and yaml extensions.
 
@@ -43,7 +43,7 @@ npm install -g @stoplight/prism-cli
 
 Run the prism server on the localhost, use the -p parameter to set the port (using 4010)
 ``` node
-prism mock -p 4010 eMASSRestAPI.yaml
+prism mock -p 4010 eMASSRestOpenApi.yaml
 ```
 
 To invoke the mock server interactive use the -d parameter (provides fake responses using x-faker)

@@ -5,15 +5,16 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **acronym** | **String** | [Required] Acronym of the system record. | 
 **responsible_entities** | **String** | [Required] Include written description of Responsible Entities that are responsible for the Security Control. Character Limit &#x3D; 2,000. | 
-**implementation_status** | **String** | [Optional] Implementation Status of the Security Control for the information system.&lt;br&gt; Values include the following options: &lt;ul&gt;   &lt;li&gt;Planned&lt;/li&gt;   &lt;li&gt;Implemented&lt;/li&gt;   &lt;li&gt;Inherited&lt;/li&gt;   &lt;li&gt;Not Applicable&lt;/li&gt;   &lt;li&gt;Manually Inherited&lt;/li&gt; &lt;/ul&gt; | [optional] 
-**common_control_provider** | **String** | [Conditional] Indicate the type of Common Control Provider for an “Inherited” Security Control.&lt;br&gt; Values include the following options: &lt;ul&gt;   &lt;li&gt;DoD&lt;/li&gt;   &lt;li&gt;Component&lt;/li&gt;   &lt;li&gt;Enclave&lt;/li&gt; &lt;/ul&gt; | [optional] 
+**implementation_status** | **String** | [Optional] Implementation Status of the Security Control for the information system. | [optional] 
+**common_control_provider** | **String** | [Conditional] Indicate the type of Common Control Provider for an “Inherited” Security Control. | [optional] 
 **na_justification** | **String** | [Conditional] Provide justification for Security Controls deemed Not Applicable to the system. | [optional] 
-**control_designation** | **String** | [Required] Values include the following options:&lt;br&gt; &lt;ul&gt;   &lt;li&gt;Common&lt;/li&gt;   &lt;li&gt;System-Specific&lt;/li&gt;   &lt;li&gt;Hybrid&lt;/li&gt; &lt;/ul&gt; | 
+**control_designation** | **String** | [Required] Control designations | 
+**test_method** | **String** | [Optional] Identifies the assessment method / combination that will determine if the security requirements are implemented correctly. | [optional] 
 **estimated_completion_date** | **Integer** | [Required] Field is required for Implementation Plan. | 
-**comments** | **String** | [Required] Includes security control comments. Character Limit &#x3D; 2,000. | 
+**implementation_narrative** | **String** | [Required] Includes security control comments. Character Limit &#x3D; 2,000. | 
 **slcm_criticality** | **String** | [Conditional] Criticality of Security Control regarding SLCM. Character Limit &#x3D; 2,000. | [optional] 
-**slcm_frequency** | **String** | [Conditional] Values include the following options:&lt;br&gt; &lt;ul&gt;   &lt;li&gt;Constantly&lt;/li&gt;   &lt;li&gt;Daily&lt;/li&gt;   &lt;li&gt;Weekly&lt;/li&gt;   &lt;li&gt;Monthly&lt;/li&gt;   &lt;li&gt;Quarterly&lt;/li&gt;   &lt;li&gt;Semi-Annually&lt;/li&gt;   &lt;li&gt;Annually&lt;/li&gt;   &lt;li&gt;Undetermined&lt;/li&gt; &lt;/ul&gt; | [optional] 
-**slcm_method** | **String** | [Conditional] Values include the following options:&lt;br&gt; &lt;ul&gt;   &lt;li&gt;Automated&lt;/li&gt;   &lt;li&gt;Semi-Automated&lt;/li&gt;   &lt;li&gt;Manual&lt;/li&gt;   &lt;li&gt;Undetermined&lt;/li&gt; &lt;/ul&gt; | [optional] 
+**slcm_frequency** | **String** | [Conditional] SLCM frequency | [optional] 
+**slcm_method** | **String** | [Conditional] SLCM method utilized | [optional] 
 **slcm_reporting** | **String** | [Conditional] Method for reporting Security Control for SLCM. Character Limit &#x3D; 2,000. | [optional] 
 **slcm_tracking** | **String** | [Conditional] How Non-Compliant Security Controls will be tracked for SLCM. Character Limit &#x3D; 2,000. | [optional] 
 **slcm_comments** | **String** | [Conditional] Additional comments for Security Control regarding SLCM. Character Limit &#x3D; 4,000. | [optional] 

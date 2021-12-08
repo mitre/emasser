@@ -14,6 +14,7 @@ These variables can be set in the .env file (see the .env-example file)
 ## API Endpoints Provided
 
 ### GET
+* [/api](#get-test-connection)
 * [/api/system](#get-system)
 * [/api/systems](#get-systems)
 * [/api/system-roles](#get-roles)
@@ -22,8 +23,8 @@ These variables can be set in the .env file (see the .env-example file)
 * [/api/systems/{systemId}/test-results](#get-test_results)
 * [/api​/systems​/{systemId}​/poams](#get-poams)
 * [/api/systems/{systemId}/poams/{poamId}](#get-poams)
-* [/api/systems/{systemId}/poams/{poamId}/milestones](#get-poams)
-* [/api/systems/{systemId}/poams/{poamId}/milestones/{milestoneId})](#get-poams)
+* [/api/systems/{systemId}/poams/{poamId}/milestones](#get-milestones)
+* [/api/systems/{systemId}/poams/{poamId}/milestones/{milestoneId})](#get-milestones)
 * [/api/systems/{systemId}/artifacts](#get-artifacts)
 * [/api/systems/{systemId}/artifacts-export](#get-artifacts)
 * [/api/systems/{systemId}/approval/cac](#get-approval)
@@ -42,7 +43,7 @@ These variables can be set in the .env file (see the .env-example file)
 
 ## Endpoints CLI help
 Each CLI endpoint command has several layers of help. 
-- Using `help` after the `get` command lists all available endpoint calls
+- Using `help` after a `get, put, post, or delete` command lists all available endpoint calls
 
     ```
     $ bundle exec exe/emasser get help
@@ -85,23 +86,58 @@ Each CLI endpoint command has several layers of help.
 
 **The same format is applicable to POST and PUT requests as well, however there may be additional help content**
 
+
+## Common Endpoint Requests Information
+  - To invoke any boolean parameters use --fieldName for TRUE and --no-fieldName for FALSE
+
 ## Usage - GET
+
+## ```get test connection```
+[top](#api-endpoints-provided)
+
+---
+The Test Connection endpoint provides the ability to verify connection to the web service.
+
+    $ bundle exec exe/emasser get test connection
+
+A return of success from the call indicates that the CLI can reach the configure server URL.
+References [Required Environment Variables](#required-environment-variables) list above.
 
 ## ```get system```
 [top](#api-endpoints-provided)
 
 ---
-The GET system is provided for retrieving the system identification based on the SYSTEM_NAME (name) or SYSTEM_OWNER (systemOwner) fields.
+The `get system id` is a notified call by the CLI to find a system ID based on the system `name` or `owner`
+
+The `get system byId is an eMASS GET request
+
+### get system id
+Retrieves a system identification based on the SYSTEM_NAME (name) or SYSTEM_OWNER (systemOwner) fields.
 
 **NOTE** This call is based on the /api/systems endpoint
 
 To invoke the `get system` use the following command:
 
-    $ bundle exec exe/emasser get system --system_name "system name" --system_owner "system owner"
+    $ bundle exec exe/emasser get system id --system_name "system name" --system_owner "system owner"
 
 If using a platform that has `awk` installed the following command can be used to return only the system Id:
 
     $ bundle exec exe/emasser get system --system_name "system name" --system_owner "system owner" | awk "{ print $1 }" 
+
+
+### get system byId
+To invoke the `get system  byId` use the following command:
+
+    $ bundle exec exe/emasser get system byId
+  - required parameter is:
+    |parameter    | type or values                    |
+    |-------------|:----------------------------------|
+    |--systemId   |Integer - Unique system identifier |
+- Optional parameters are:
+    |parameter               | type or values                                                                                 |
+    |------------------------|:-----------------------------------------------------------------------------------------------|
+    |--includePackage        |BOOLEAN - true or false                                                                         |
+    |--policy                |Possible values: diacap, rmf, reporting                                                         |
 
 
 ## ```get systems```
@@ -110,17 +146,19 @@ If using a platform that has `awk` installed the following command can be used t
 ----
 To invoke the `get systems` use the following command:
 
-    $ bundle exec exe/emasser get systems
+    $ bundle exec exe/emasser get systems all
 - Optional parameters are:
     |parameter               | type or values                                                                                 |
     |------------------------|:-----------------------------------------------------------------------------------------------|
-    |--includePackage        |BOOLEAN - true or false                                                                         |
-    |--registrationType      |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional,loudServiceProvider |
-    |--ditprId               |DoD Information Technology (IT) Portfolio Repository (DITPR) string id                          |
-    |--coamsId               |Cyber Operational Attributes Management System (COAMS) string Id                                |
-    |--policy                |Possible values: diacap, rmf, reporting                                                         |
+    |--coamsId               |Cyber Operational Attributes Management System (COAMS) string Id                                |   
+    |--ditprId               |DoD Information Technology (IT) Portfolio Repository (DITPR) string id                          |     
+    |--includeDecommissioned |BOOLEAN - true or false                                                                         |    
     |--includeDitprMetrics   |BOOLEAN - true or false                                                                         |
-    |--includeDecommissioned |BOOLEAN - true or false                                                                         |
+    |--includePackage        |BOOLEAN - true or false                                                                         |
+    |--policy                |Possible values: diacap, rmf, reporting                                                         |
+    |--registrationType      |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional,loudServiceProvider |
+    |--reportsForScorecard   |BOOLEAN - true or false                                                                         |
+  
 
 
 ## ```get roles```
@@ -142,11 +180,11 @@ There are two get endpoints for system roles:
     |--roleCategory  |Possible values: PAC, CAC, Other           |
     |--role          |Possible values: AO, Auditor, Artifact Manager, C&A Team, IAO, ISSO, PM/IAM, SCA, User Rep (View Only), Validator (IV&V)|
 
-
-  - optional parameter is:
-    |parameter    | type or values                            |
-    |-------------|:------------------------------------------|
-    |--policy     |Possible values: diacap, rmf, reporting    |
+  - optional parameter are:
+    |parameter               | type or values                          |
+    |------------------------|:----------------------------------------|
+    |--policy                |Possible values: diacap, rmf, reporting  |
+    |--includeDecommissioned |BOOLEAN - true or false                  |
     
 ## ```get controls```
 [top](#api-endpoints-provided)
@@ -154,7 +192,7 @@ There are two get endpoints for system roles:
 ----
 To invoke the `get controls` use the following command:
 
-    $ bundle exec exe/emasser get controls system --systemId=SYSTEMID
+    $ bundle exec exe/emasser get controls forSystem --systemId=SYSTEMID
 
   - required parameter is:
     |parameter    | type or values                    |
@@ -172,7 +210,7 @@ To invoke the `get controls` use the following command:
 ----
 To invoke the `get test_results` use the following command:
 
-    $ bundle exec exe/emasser get test_results system --systemId=SYSTEMID
+    $ bundle exec exe/emasser get test_results forSystem --systemId=SYSTEMID
 
   - required parameter is:
     |parameter    | type or values                    |
@@ -191,10 +229,10 @@ To invoke the `get test_results` use the following command:
 [top](#api-endpoints-provided)
 
 ----
-There are four get endpoints for system poams:
-- system - Retrieves all poams for specified system ID
+There are two get endpoints for system poams:
+- forSystem - Retrieves all poams for specified system ID
     ````
-    $ bundle exec exe/emasser get poams system --systemId=SYSTEMID
+    $ bundle exec exe/emasser get poams forSystem --systemId=SYSTEMID
     ````
   - required parameter is:
     |parameter    | type or values                    |
@@ -220,6 +258,11 @@ There are four get endpoints for system poams:
     |--systemId   |Integer - Unique system identifier |
     |--poamId     |Integer - Unique poam identifier   |
 
+## ```get milestones```
+[top](#api-endpoints-provided)
+
+----
+There are two get endpoints for system poams:
 - milestones - Retrieves milestone(s) for specified system and poam ID
     ````
     $ bundle exec exe/emasser get poams milestones --systemId=SYSTEMID --poamId=POAMID

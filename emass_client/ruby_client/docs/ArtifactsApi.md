@@ -5,9 +5,8 @@ All URIs are relative to *http://localhost:4010*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**add_artifacts_by_system_id**](ArtifactsApi.md#add_artifacts_by_system_id) | **POST** /api/systems/{systemId}/artifacts | Add one or many artifacts in a system
-[**api_systems_system_id_artifacts_export_get**](ArtifactsApi.md#api_systems_system_id_artifacts_export_get) | **GET** /api/systems/{systemId}/artifacts-export | Get the file of an artifact in a system
-[**api_systems_system_id_artifacts_get**](ArtifactsApi.md#api_systems_system_id_artifacts_get) | **GET** /api/systems/{systemId}/artifacts | Get one or many artifacts in a system
 [**delete_artifact**](ArtifactsApi.md#delete_artifact) | **DELETE** /api/systems/{systemId}/artifacts | Remove one or many artifacts in a system
+[**get_system_artifacts**](ArtifactsApi.md#get_system_artifacts) | **GET** /api/systems/{systemId}/artifacts | Get one or many artifacts in a system
 [**update_artifact_by_system_id**](ArtifactsApi.md#update_artifact_by_system_id) | **PUT** /api/systems/{systemId}/artifacts | Update one or many artifacts in a system
 
 # **add_artifacts_by_system_id**
@@ -72,136 +71,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: multipart/form-data
- - **Accept**: application/json, text/plain
-
-
-
-# **api_systems_system_id_artifacts_export_get**
-> String api_systems_system_id_artifacts_export_get(system_id, filename, compress)
-
-Get the file of an artifact in a system
-
-<strong>Sample Responce</strong><br>  Binary file associated with given filename.<br>  If `compress` parameter is specified and set to `true`, the zip archive of binary file associated with given filename is returned.<br>  If `compress` parameter is specified and set to `false`, the zip archive contents associated with given filename is returned.<br>
-
-### Example
-```ruby
-# load the gem
-require 'swagger_client'
-# setup authorization
-SwaggerClient.configure do |config|
-  # Configure API key authorization: apikey
-  config.api_key['api-key'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  #config.api_key_prefix['api-key'] = 'Bearer'
-
-  # Configure API key authorization: userid
-  config.api_key['user-uid'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  #config.api_key_prefix['user-uid'] = 'Bearer'
-end
-
-api_instance = SwaggerClient::ArtifactsApi.new
-system_id = 56 # Integer | **System Id**: The unique system record identifier.
-filename = 'filename_example' # String | **File Name**: The file name (to include file-extension).
-compress = true # BOOLEAN | **Compress File**: Determines if returned file is compressed.
-
-
-begin
-  #Get the file of an artifact in a system
-  result = api_instance.api_systems_system_id_artifacts_export_get(system_id, filename, compress)
-  p result
-rescue SwaggerClient::ApiError => e
-  puts "Exception when calling ArtifactsApi->api_systems_system_id_artifacts_export_get: #{e}"
-end
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
- **filename** | **String**| **File Name**: The file name (to include file-extension). | 
- **compress** | **BOOLEAN**| **Compress File**: Determines if returned file is compressed. | [default to true]
-
-### Return type
-
-**String**
-
-### Authorization
-
-[apikey](../README.md#apikey), [userid](../README.md#userid)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: text/plain, application/json
-
-
-
-# **api_systems_system_id_artifacts_get**
-> ArtifactsResponseGet api_systems_system_id_artifacts_get(system_id, opts)
-
-Get one or many artifacts in a system
-
-Returns selected artifacts matching parameters to include the file name containing the artifacts.
-
-### Example
-```ruby
-# load the gem
-require 'swagger_client'
-# setup authorization
-SwaggerClient.configure do |config|
-  # Configure API key authorization: apikey
-  config.api_key['api-key'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  #config.api_key_prefix['api-key'] = 'Bearer'
-
-  # Configure API key authorization: userid
-  config.api_key['user-uid'] = 'YOUR API KEY'
-  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
-  #config.api_key_prefix['user-uid'] = 'Bearer'
-end
-
-api_instance = SwaggerClient::ArtifactsApi.new
-system_id = 56 # Integer | **System Id**: The unique system record identifier.
-opts = { 
-  filename: 'filename_example', # String | **File Name**: The file name (to include file-extension).
-  control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or comma separated).
-  cci: 'cci_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
-  system_only: true # BOOLEAN | **Systems Only**: Indicates that only system(s) information is retrieved.
-}
-
-begin
-  #Get one or many artifacts in a system
-  result = api_instance.api_systems_system_id_artifacts_get(system_id, opts)
-  p result
-rescue SwaggerClient::ApiError => e
-  puts "Exception when calling ArtifactsApi->api_systems_system_id_artifacts_get: #{e}"
-end
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
- **filename** | **String**| **File Name**: The file name (to include file-extension). | [optional] 
- **control_acronyms** | **String**| **System Acronym**: Filter query by given system acronym (single or comma separated). | [optional] 
- **cci** | **String**| **CCI System**: Filter query by Control Correlation Identifiers (CCIs). | [optional] 
- **system_only** | **BOOLEAN**| **Systems Only**: Indicates that only system(s) information is retrieved. | [optional] [default to true]
-
-### Return type
-
-[**ArtifactsResponseGet**](ArtifactsResponseGet.md)
-
-### Authorization
-
-[apikey](../README.md#apikey), [userid](../README.md#userid)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json, text/plain
+ - **Accept**: application/json
 
 
 
@@ -261,7 +131,74 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, text/plain
+ - **Accept**: application/json
+
+
+
+# **get_system_artifacts**
+> ArtifactsResponseGet get_system_artifacts(system_id, opts)
+
+Get one or many artifacts in a system
+
+Returns selected artifacts matching parameters to include the file name containing the artifacts.
+
+### Example
+```ruby
+# load the gem
+require 'swagger_client'
+# setup authorization
+SwaggerClient.configure do |config|
+  # Configure API key authorization: apikey
+  config.api_key['api-key'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: userid
+  config.api_key['user-uid'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['user-uid'] = 'Bearer'
+end
+
+api_instance = SwaggerClient::ArtifactsApi.new
+system_id = 56 # Integer | **System Id**: The unique system record identifier.
+opts = { 
+  filename: 'filename_example', # String | **File Name**: The file name (to include file-extension).
+  control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or comma separated).
+  ccis: 'ccis_example', # String | **CCI System**: Filter query by Control Correlation Identifiers (CCIs).
+  system_only: true # BOOLEAN | **Systems Only**: Indicates that only system(s) information is retrieved.
+}
+
+begin
+  #Get one or many artifacts in a system
+  result = api_instance.get_system_artifacts(system_id, opts)
+  p result
+rescue SwaggerClient::ApiError => e
+  puts "Exception when calling ArtifactsApi->get_system_artifacts: #{e}"
+end
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
+ **filename** | **String**| **File Name**: The file name (to include file-extension). | [optional] 
+ **control_acronyms** | **String**| **System Acronym**: Filter query by given system acronym (single or comma separated). | [optional] 
+ **ccis** | **String**| **CCI System**: Filter query by Control Correlation Identifiers (CCIs). | [optional] 
+ **system_only** | **BOOLEAN**| **Systems Only**: Indicates that only system(s) information is retrieved. | [optional] [default to true]
+
+### Return type
+
+[**ArtifactsResponseGet**](ArtifactsResponseGet.md)
+
+### Authorization
+
+[apikey](../README.md#apikey), [userid](../README.md#userid)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 
 
@@ -321,7 +258,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, text/plain
+ - **Accept**: application/json
 
 
 

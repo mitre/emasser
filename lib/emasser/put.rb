@@ -57,7 +57,7 @@ module Emasser
                                 enum: ['Common', 'System-Specific', 'Hybrid'],
                                 desc: 'The Security Control Designation'
     option :estimatedCompletionDate, type: :numeric, required: true, desc: 'Estimated completion date, Unix time format'
-    option :comments,                type: :string, required: true, desc: 'Security control comments'
+    option :implementationNarrative, type: :string, required: true, desc: 'Security control comments'
 
     # Conditional parameters/fields
     option :commonControlProvider,
@@ -73,7 +73,8 @@ module Emasser
            desc: 'Criticality of Security Control regarding SLCM'
     option :slcmFrequency,
            type: :string, required: false,
-           enum: ['Constantly', 'Daily', 'Weekly', 'Monthly', 'Quarterly', 'Semi-Annually', 'Annually', 'Undetermined'],
+           enum: ['Constantly', 'Daily', 'Weekly', 'Monthly', 'Quarterly', 'Semi-Annually',
+                  'Annually', 'Every Two Years', 'Every Three Years', 'Undetermined'],
            desc: 'The System-Level Continuous Monitoring frequency'
     option :slcmMethod,
            type: :string, required: false,
@@ -117,6 +118,11 @@ module Emasser
            type: :string, required: false,
            enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High'],
            desc: 'The security control risk level'
+    option :testMethod,
+           type: :string, required: false,
+           enum: ['Test', 'Interview', 'Examine', 'Test, Interview', 'Test, Examine',
+                  'Interview, Examine', 'Test, Interview, Examine'],
+           desc: 'Assessment method/combination that determines if the security requirements are implemented correctly'
 
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def update
@@ -126,7 +132,7 @@ module Emasser
       body.responsible_entities = options[:responsibleEntities]
       body.control_designation = options[:controlDesignation]
       body.estimated_completion_date = options[:estimatedCompletionDate]
-      body.comments = options[:comments]
+      body.implementation_narrative = options[:implementationNarrative]
 
       # Conditional fields based on implementationStatus content
       # rubocop:disable Style/CaseLikeIf, Style/StringLiterals, Style/NegatedIf
@@ -263,12 +269,11 @@ module Emasser
     option :vulnerabilityDescription, type: :string, require: true, desc: 'POA&M vulnerability description'
     option :sourceIdentVuln,
            type: :string, require: true, desc: 'Source that identifies the vulnerability'
-    option :reviewStatus, type: :string, required: false, enum: ['Not Approved', 'Under Review', 'Approved']
+    option :pocOrganization, type: :string, require: true, desc: 'Organization/Office represented'
 
     # Conditional parameters/fields
     option :milestone,
            type: :hash, required: false, desc: 'key:values are: milestoneId, description and scheduledCompletionDate'
-    option :pocOrganization, type: :string, require: false, desc: 'Organization/Office represented'
     option :pocFirstName, type: :string, require: false, desc: 'First name of POC'
     option :pocLastName, type: :string, require: false, desc: 'Last name of POC.'
     option :pocEmail, type: :string, require: false, desc: 'Email address of POC'
@@ -306,15 +311,17 @@ module Emasser
       body.status = options[:status]
       body.vulnerability_description = options[:vulnerabilityDescription]
       body.source_ident_vuln = options[:sourceIdentVuln]
-      body.review_status = options[:reviewStatus]
+      body.poc_organization = options[:pocOrganization]
 
+      #-----------------------------------------------------------------------------
       # Conditional fields based on the status field values
-      # Risk Accepted   comments, resources
-      # Ongoing         scheduledCompletionDate, resources, milestones (at least 1)
-      # Completed       scheduledCompletionDate, comments, resources,
-      #                 completionDate, milestones (at least 1)
-      # Not Applicable  POAM can not be created
-      # rubocop:disable Style/CaseLikeIf, Style/StringLiterals
+      # "Risk Accepted"   comments, resources
+      # "Ongoing"         scheduledCompletionDate, resources, milestones (at least 1)
+      # "Completed"       scheduledCompletionDate, comments, resources,
+      #                   completionDate, milestones (at least 1)
+      # "Not Applicable"  POAM can not be created
+      #-----------------------------------------------------------------------------
+      # rubocop:disable Style/CaseLikeIf, Style/StringLiterals, Style/SoleNestedConditional
       if options[:status] == "Risk Accepted"
         if options[:comments].nil? || options[:resources].nil?
           puts 'Missing one of these parameters/fields:'.red
@@ -372,15 +379,11 @@ module Emasser
           puts 'pocOrganization, pocFirstName, pocLastName, or pocPhoneNumber'.red
           puts 'Invoke "bundle exec exe/emasser put poams help update" for additional help'.yellow
           exit
-        else
-          body.comments = options[:comments]
-          body.resources = options[:resources]
         end
       end
-      # rubocop:enable Style/CaseLikeIf, Style/StringLiterals
+      # rubocop:enable Style/CaseLikeIf, Style/StringLiterals, Style/SoleNestedConditional
 
       # Add conditional fields
-      body.poc_organization = options[:pocOrganization] if options[:pocOrganization]
       body.poc_first_name = options[:pocFirstName] if options[:pocFirstName]
       body.poc_last_name = options[:pocLastName] if options[:pocLastName]
       body.poc_email = options[:pocEmail] if options[:pocEmail]

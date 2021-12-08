@@ -37,10 +37,8 @@ class Thor
 end
 
 module Emasser
-  # The Test Result endpoints provide the ability to add test results for a system's DoD
-  # Assessment Procedures (CCIs) which determines NIST SP 80-53 Revision 4 Security
-  # Control Compliance (Compliant, Non-Compliant, Not Applicable). The endpoints also
-  # provide the ability to retrieve test results.
+  # The Test Results endpoints provide the ability to add test results for a
+  # system's Assessment Procedures (CCIs) which determine Security Control compliance.
   #
   # Endpoint:
   #    /api/systems/{systemId}/test-results - Add one or many test results for a system
@@ -69,7 +67,6 @@ module Emasser
       body.description = options[:description]
       body.compliance_status = options[:complianceStatus]
 
-      # puts "body is: #{body}"
       body_array = Array.new(1, body)
 
       begin
@@ -122,11 +119,10 @@ module Emasser
     option :vulnerabilityDescription, type: :string, require: true, desc: 'POA&M vulnerability description'
     option :sourceIdentVuln,
            type: :string, require: true, desc: 'Source that identifies the vulnerability'
-    option :reviewStatus, type: :string, required: false, enum: ['Not Approved', 'Under Review', 'Approved']
+    option :pocOrganization, type: :string, require: true, desc: 'Organization/Office represented'
 
     # Conditional parameters/fields
     option :milestone, type: :hash, required: false, desc: 'key:values are: description and scheduledCompletionDate'
-    option :pocOrganization, type: :string, require: false, desc: 'Organization/Office represented'
     option :pocFirstName, type: :string, require: false, desc: 'First name of POC'
     option :pocLastName, type: :string, require: false, desc: 'Last name of POC.'
     option :pocEmail, type: :string, require: false, desc: 'Email address of POC'
@@ -137,7 +133,6 @@ module Emasser
     option :completionDate,
            type: :numeric, required: false, desc: 'The schedule completion date - Unix time format'
     option :comments, type: :string, require: false, desc: 'Comments for completed and risk accepted POA&M items'
-    option :isActive, type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
 
     # Optional parameters/fields
     option :externalUid, type: :string, require: false, desc: 'External ID associated with the POA&M'
@@ -164,13 +159,16 @@ module Emasser
       body.vulnerability_description = options[:vulnerabilityDescription]
       body.source_ident_vuln = options[:sourceIdentVuln]
       body.review_status = options[:reviewStatus]
+      body.poc_organization = options[:pocOrganization]
 
+      #-----------------------------------------------------------------------------
       # Conditional fields based on the status field values
-      # Risk Accepted   comments, resources
-      # Ongoing         scheduledCompletionDate, resources, milestones (at least 1)
-      # Completed       scheduledCompletionDate, comments, resources,
-      #                 completionDate, milestones (at least 1)
-      # Not Applicable  POAM can not be created
+      # "Risk Accepted"   comments, resources
+      # "Ongoing"         scheduledCompletionDate, resources, milestones (at least 1)
+      # "Completed"       scheduledCompletionDate, comments, resources,
+      #                   completionDate, milestones (at least 1)
+      # "Not Applicable"  POAM can not be created
+      #-----------------------------------------------------------------------------
       # rubocop:disable Style/CaseLikeIf, Style/StringLiterals
       if options[:status] == "Risk Accepted"
         if options[:comments].nil? || options[:resources].nil?
@@ -185,9 +183,13 @@ module Emasser
       elsif options[:status] == "Ongoing"
         if options[:scheduledCompletionDate].nil? || options[:resources].nil? || options[:milestone].nil?
           puts 'Missing one of these parameters/fields:'.red
-          puts 'milstoneScheduledCompletionDate, resources, or milestones'.red
+          puts 'milstoneScheduledCompletionDate, resources, or milestone'.red
+          print_milestone_help
           puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
           exit
+        elsif options[:milestone]["description"].nil? || options[:milestone]["scheduledCompletionDate"].nil?
+          puts 'Missing milstone parameters/fields'.red
+          print_milestone_help
         else
           body.scheduled_completion_date = options[:scheduledCompletionDate]
           body.resources = options[:resources]
@@ -203,6 +205,7 @@ module Emasser
            options[:resources].nil? || options[:completionDate].nil? || options[:milestone].nil?
           puts 'Missing one of these parameters/fields:'.red
           puts 'scheduledCompletionDate, comments, resources, completionDate, or milestone'.red
+          print_milestone_help
           puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
           exit
         else
@@ -252,7 +255,6 @@ module Emasser
       # rubocop:enable Style/CaseLikeIf, Style/StringLiterals
 
       # Add conditional fields
-      body.poc_organization = options[:pocOrganization] if options[:pocOrganization]
       body.poc_first_name = options[:pocFirstName] if options[:pocFirstName]
       body.poc_last_name = options[:pocLastName] if options[:pocLastName]
       body.poc_email = options[:pocEmail] if options[:pocEmail]
@@ -284,6 +286,13 @@ module Emasser
       end
     end
     # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+
+    no_commands do
+      def print_milestone_help
+        puts 'Milestone format is:'.yellow
+        puts '    --milestone description:"[value]" scheduledCompletionDate:"[value]"'.yellow
+      end
+    end
 
     # MILSTONES by SYSTEM and POAM ID -----------------------------------------
     desc 'add_milestones', 'Add milestone(s) for given specified system and poam'
@@ -326,6 +335,7 @@ module Emasser
     desc 'upload SYSTEM_ID FILE [FILE ...]', 'Uploads [FILES] to the given [SYSTEM_ID] as artifacts'
     long_desc Help.text(:artifacts_post_mapper)
 
+    # Required parameters/fields
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :files, type: :array, required: true, desc: 'Artifact file(s) to post to the given system'
     option :type,
@@ -337,7 +347,7 @@ module Emasser
     # NOTE: compress is a required parameter, however Thor does not allow a boolean type to be required because it
     # automatically creates a --no-isTemplate option for isTemplate=false
 
-    # Optional fields
+    # Optional parameters/fields
     option :description, type: :string, required: false, desc: 'Artifact description'
     option :refPageNumber, type: :string, required: false, desc: 'Artifact reference page number'
     option :ccis, type: :string, require: false, desc: 'The system CCIs string numerical value'
@@ -401,12 +411,15 @@ module Emasser
     desc 'cac', 'Get all system CAC for a system Id'
     long_desc Help.text(:approvalCac_post_mapper)
 
+    # Required parameters/fields
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :controlAcronym, type: :string, required: true, desc: 'The system acronym "AC-1, AC-2"'
+
+    # Conditional parameters/fields
     option :comments, type: :string, require: false, desc: 'The control approval chain comments'
 
     def cac
-      body = SwaggerClient::ApprovalCacRequestPostBody.new
+      body = SwaggerClient::CacRequestPostBody.new
       body.control_acronym = options[:controlAcronym]
       body.comments = options[:comments]
 
@@ -414,11 +427,10 @@ module Emasser
 
       begin
         # Get location of one or many controls in CAC
-        result = SwaggerClient::ApprovalChainApi.new.add_c_ac_approval_chain_by_system_id(body_array,
-                                                                                          options[:systemId])
+        result = SwaggerClient::CacApi.new.add_s_ystem_c_ac(body_array, options[:systemId])
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
-        puts 'Exception when calling ApprovalChainApi->add_c_ac_approval_chain_by_system_id'.red
+        puts 'Exception when calling ApprovalChainApi->add_s_ystem_c_ac'.red
         puts to_output_hash(e)
       end
     end
@@ -426,25 +438,26 @@ module Emasser
     desc 'pac', 'Get all system PAC for a system Id'
     long_desc Help.text(:approvalPac_post_mapper)
 
+    # Required parameters/fields
     option :systemId, type: :numeric, required: true,
                       desc: 'A numeric value representing the system identification'
-    option :name, type: :string, require: false, desc: 'The control package name'
-    option :type, type: :string, required: true,
-                  enum: ['Assess and Authorize', 'Assess Only', 'Security Plan Approval']
-    option :comments, type: :string, require: false, desc: 'The control package approval chain comments'
+    option :workflow, type: :string, required: true,
+                      enum: ['Assess and Authorize', 'Assess Only', 'Security Plan Approval']
+    option :name, type: :string, require: true, desc: 'The control package name'
+    option :comments, type: :string, require: true, desc: 'The control package approval chain comments'
 
     def pac
-      body = SwaggerClient::ApprovalPacRequestBodyPost.new
+      body = SwaggerClient::PacRequestBodyPost.new
       body.name = options[:name]
       body.type = options[:type]
       body.comments = options[:comments]
 
       body_array = Array.new(1, body)
 
-      result = SwaggerClient::ApprovalChainApi.new.add_pac_approval_chain_by_system_id(body_array, options[:systemId])
+      result = SwaggerClient::PacApi.new.add_s_ystem_p_ac(body_array, options[:systemId])
       puts to_output_hash(result).green
     rescue SwaggerClient::ApiError => e
-      puts 'Exception when calling ApprovalChainApi->add_pac_approval_chain_by_system_id'.red
+      puts 'Exception when calling ApprovalChainApi->add_s_ystem_c_ac'.red
       puts to_output_hash(e)
     end
   end

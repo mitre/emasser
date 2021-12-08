@@ -4,11 +4,11 @@ All URIs are relative to *http://localhost:4010*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**get_system_by_system_id**](ControlsApi.md#get_system_by_system_id) | **GET** /api/systems/{systemId}/controls | Get control information in a system for one or many controls
+[**get_system_controls**](ControlsApi.md#get_system_controls) | **GET** /api/systems/{systemId}/controls | Get control information in a system for one or many controls
 [**update_control_by_system_id**](ControlsApi.md#update_control_by_system_id) | **PUT** /api/systems/{systemId}/controls | Update control information in a system for one or many controls
 
-# **get_system_by_system_id**
-> ControlsResponseGet get_system_by_system_id(system_id, opts)
+# **get_system_controls**
+> ControlsResponseGet get_system_controls(system_id, opts)
 
 Get control information in a system for one or many controls
 
@@ -39,10 +39,10 @@ opts = {
 
 begin
   #Get control information in a system for one or many controls
-  result = api_instance.get_system_by_system_id(system_id, opts)
+  result = api_instance.get_system_controls(system_id, opts)
   p result
 rescue SwaggerClient::ApiError => e
-  puts "Exception when calling ControlsApi->get_system_by_system_id: #{e}"
+  puts "Exception when calling ControlsApi->get_system_controls: #{e}"
 end
 ```
 
@@ -64,7 +64,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: Not defined
- - **Accept**: application/json, text/plain
+ - **Accept**: application/json
 
 
 
@@ -124,7 +124,7 @@ Name | Type | Description  | Notes
 ### HTTP request headers
 
  - **Content-Type**: application/json
- - **Accept**: application/json, text/plain
+ - **Accept**: application/json
 
 
 
