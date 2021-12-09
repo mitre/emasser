@@ -29,6 +29,9 @@ These variables can be set in the .env file (see the .env-example file)
 * [/api/systems/{systemId}/artifacts-export](#get-artifacts)
 * [/api/systems/{systemId}/approval/cac](#get-approval)
 * [/api/systems/{systemId}/approval/pac](#get-approval)
+* [/api/cmmc-assessments](#get-cmmc)
+* [/api/workflow-definitions](#get-workflow_definitions)
+* [/api/systems/{systemId}/workflow-instances](#get-workflow_instances)
 
 ### POST
 * [/api/systems/{systemId}/test-results](#post-test_results)
@@ -109,7 +112,7 @@ References [Required Environment Variables](#required-environment-variables) lis
 ---
 The `get system id` is a notified call by the CLI to find a system ID based on the system `name` or `owner`
 
-The `get system byId is an eMASS GET request
+The `get system byId` is an eMASS GET request
 
 ### get system id
 Retrieves a system identification based on the SYSTEM_NAME (name) or SYSTEM_OWNER (systemOwner) fields.
@@ -126,38 +129,40 @@ If using a platform that has `awk` installed the following command can be used t
 
 
 ### get system byId
-To invoke the `get system  byId` use the following command:
+To view a system  by its identification (Id) use the following command:
 
     $ bundle exec exe/emasser get system byId
+
   - required parameter is:
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
 - Optional parameters are:
-    |parameter               | type or values                                                                                 |
-    |------------------------|:-----------------------------------------------------------------------------------------------|
-    |--includePackage        |BOOLEAN - true or false                                                                         |
-    |--policy                |Possible values: diacap, rmf, reporting                                                         |
+    |parameter               | type or values                          |
+    |------------------------|:----------------------------------------|
+    |--includePackage        |BOOLEAN - true or false                  |
+    |--policy                |Possible values: diacap, rmf, reporting  |
 
 
 ## ```get systems```
 [top](#api-endpoints-provided)
 
 ----
-To invoke the `get systems` use the following command:
+To view systems use the following command:
 
     $ bundle exec exe/emasser get systems all
 - Optional parameters are:
-    |parameter               | type or values                                                                                 |
-    |------------------------|:-----------------------------------------------------------------------------------------------|
-    |--coamsId               |Cyber Operational Attributes Management System (COAMS) string Id                                |   
-    |--ditprId               |DoD Information Technology (IT) Portfolio Repository (DITPR) string id                          |     
-    |--includeDecommissioned |BOOLEAN - true or false                                                                         |    
-    |--includeDitprMetrics   |BOOLEAN - true or false                                                                         |
-    |--includePackage        |BOOLEAN - true or false                                                                         |
-    |--policy                |Possible values: diacap, rmf, reporting                                                         |
-    |--registrationType      |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional,loudServiceProvider |
-    |--reportsForScorecard   |BOOLEAN - true or false                                                                         |
+    |parameter               | type or values                                                              |
+    |------------------------|:----------------------------------------------------------------------------|
+    |--coamsId               |Cyber Operational Attributes Management System (COAMS) string Id             |   
+    |--ditprId               |DoD Information Technology (IT) Portfolio Repository (DITPR) string id       |     
+    |--includeDecommissioned |BOOLEAN - true or false                                                      |    
+    |--includeDitprMetrics   |BOOLEAN - true or false                                                      |
+    |--includePackage        |BOOLEAN - true or false                                                      |
+    |--policy                |Possible values: diacap, rmf, reporting                                      |
+    |--registrationType      |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional, |
+    |                        |                 loudServiceProvider, commonControlProvider                  |
+    |--reportsForScorecard   |BOOLEAN - true or false                                                      |
   
 
 
@@ -190,7 +195,7 @@ There are two get endpoints for system roles:
 [top](#api-endpoints-provided)
 
 ----
-To invoke the `get controls` use the following command:
+To view controls use the following command:
 
     $ bundle exec exe/emasser get controls forSystem --systemId=SYSTEMID
 
@@ -208,7 +213,7 @@ To invoke the `get controls` use the following command:
 [top](#api-endpoints-provided)
 
 ----
-To invoke the `get test_results` use the following command:
+To view test results use the following command:
 
     $ bundle exec exe/emasser get test_results forSystem --systemId=SYSTEMID
 
@@ -262,10 +267,10 @@ There are two get endpoints for system poams:
 [top](#api-endpoints-provided)
 
 ----
-There are two get endpoints for system poams:
-- milestones - Retrieves milestone(s) for specified system and poam ID
+There are two get endpoints for system milestones:
+- byPoamId - Retrieves milestone(s) for specified system and poam ID
     ````
-    $ bundle exec exe/emasser get poams milestones --systemId=SYSTEMID --poamId=POAMID
+    $ bundle exec exe/emasser get milestones byPoamId --systemId=SYSTEMID --poamId=POAMID
     ````
   - required parameters are:
     |parameter    | type or values                    |
@@ -298,9 +303,9 @@ There are two get endpoints for system poams:
 ----
 There are two get endpoints that provides the ability to view existing `Artifacts` in a system:
 
-- system - Retrieves one or many artifacts in a system specified system ID
+- forSystem - Retrieves one or many artifacts in a system specified system ID
     ````
-    $ bundle exec exe/emasser get artifacts system --systemId=SYSTEMID
+    $ bundle exec exe/emasser get artifacts forSystem --systemId=SYSTEMID
     ````
   - required parameter is:
     |parameter    | type or values                    |
@@ -337,7 +342,7 @@ of a system's package in the Package Approval Chain (PAC).
 
 - cac - Retrieves one or many Control Approval Chain (CAC) in a system specified system ID
     ````
-    $ bundle exec exe/emasser get approval cac --systemId=SYSTEMID
+    $ bundle exec exe/emasser get cac controls --systemId=SYSTEMID
     ````
   - required parameter is:
     |parameter    | type or values                    |
@@ -353,12 +358,73 @@ of a system's package in the Package Approval Chain (PAC).
 
 - pac - Retrieves one or more Package Approval Chain (PAC) in a system specified system ID
     ````
-    $ bundle exec exe/emasser get approval pac --systemId=SYSTEMID
+    $ bundle exec exe/emasser get pac package --systemId=SYSTEMID
     ````
   - required parameter is:
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
+
+
+
+
+## ```get cmmc```
+[top](#api-endpoints-provided)
+
+----
+To view Cybersecurity Maturity Model Certification (CMMC) Assessments use the following command:
+
+    $ bundle exec exe/emasser get workflow_definitions forSite --sinceDate=SINCEDATE 
+
+  - Required parameters are:
+    |parameter       | type or values                        |
+    |----------------|:--------------------------------------|
+    |--sinceDate     |Date - The CMMC date. Unix date format |
+
+## ```get workflow_definitions```
+[top](#api-endpoints-provided)
+
+----
+To view Workflow Definitions use the following command:
+
+    $ bundle exec exe/emasser get workflow_definitions forSite
+
+  - Optional parameters are:
+    |parameter            | type or values                                                              |
+    |---------------------|:----------------------------------------------------------------------------|
+    |--includeInactive    |BOOLEAN - true or false                                                      |    
+    |--registrationType   |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional, |
+    |                     |                 loudServiceProvider, commonControlProvider                  |
+
+## ```get workflow_instances```
+[top](#api-endpoints-provided)
+
+----
+There are two get endpoints to view workflow instances:
+  - forSystem
+    $ bundle exec exe/emasser get workflow_instances forSystem --systemId=SYSTEMID
+
+    - required parameter is:
+      |parameter    | type or values                    |
+      |-------------|:----------------------------------|
+      |--systemId   |Integer - Unique system identifier |
+
+    - Optional parameters are:
+      |parameter          | type or values                                     |
+      |-------------------|:---------------------------------------------------|
+      |--includeComments  |BOOLEAN - true or false                             |    
+      |--pageIndex        |Integer - The page number to query                  |
+      |--sinceDate        |Date - The Workflow Instance date. Unix date format |
+      |--status           |Possible values: active, inactive, all              | 
+
+  - byWorkflowInstanceId
+    $ bundle exec exe/emasser get workflow_instances byWorkflowInstanceId --systemId=SYSTEMID --workflowInstanceId=--WORKFLOWID
+
+    - required parameter is:
+      |parameter            | type or values                               |
+      |---------------------|:---------------------------------------------|
+      |--systemId           |Integer - Unique system identifier            |
+      |--workflowInstanceId |Integer - Unique workflow instance identifier |
 
 ## Usage - POST
 ## ``post test_results``
@@ -370,13 +436,13 @@ Test Result add (POST) endpoint API business rules.
   |Business Rule                                                        | Parameter/Field  |
   |---------------------------------------------------------------------|:-----------------|
   | Tests Results cannot be saved if the “Test Date” is in the future.  | `testDate` |
-  | Test Results cannot be saved if a Security Control is “Inherited” in the system record. | `testResultDesc` |
-  | Test Results cannot be saved if an Assessment Procedure is “Inherited” in the system record. | `testResultDesc` |
-  | Test Results cannot be saved if the AP does not exist in the system. | `testResultDesc` |
-  | Test Results cannot be saved if the control is marked “Not Applicable” by an Overlay. | `testResultDesc` |
-  | Test Results cannot be saved if the control is required to be assessed as “Applicable” by an Overlay.| `testResultDesc` |
-  | Test Results cannot be saved if the Tests Results entered is greater than 4000 characters.|`testResultDesc`|
-  | Test Results cannot be saved if the following fields are missing data: | `complianceStatus`, `testDate`, `testedBy`, `testResultDesc`|
+  | Test Results cannot be saved if a Security Control is “Inherited” in the system record. | `description` |
+  | Test Results cannot be saved if an Assessment Procedure is “Inherited” in the system record. | `description` |
+  | Test Results cannot be saved if the AP does not exist in the system. | `description` |
+  | Test Results cannot be saved if the control is marked “Not Applicable” by an Overlay. | `description` |
+  | Test Results cannot be saved if the control is required to be assessed as “Applicable” by an Overlay.| `description` |
+  | Test Results cannot be saved if the Tests Results entered is greater than 4000 characters.|`description`|
+  | Test Results cannot be saved if the following fields are missing data: | `complianceStatus`, `testDate`, `testedBy`, `description`|
   | Test results cannot be saved if there is more than one test result per CCI |`cci`|
 
 ---
@@ -414,10 +480,9 @@ Plan of Action and Milestones (POA&M) add (POST) endpoint API business rules.
 The following fields are required based on the contents of the status field
   |status          |Required Fields
   |----------------|--------------------------------------------------------
-  |Risk Accepted   |comments, resources
-  |Ongoing         |scheduledCompletionDate, resources, milestones (at least 1)
-  |Completed       |scheduledCompletionDate, comments, resources,
-  |                |completionDate, milestones (at least 1)
+  |Risk Accepted   |comments 
+  |Ongoing         |scheduledCompletionDate, milestones (at least 1)
+  |Completed       |scheduledCompletionDate, comments, completionDate, milestones (at least 1)
   |Not Applicable  |POAM can not be created
 
 If a POC email is supplied, the application will attempt to locate a user
@@ -461,7 +526,7 @@ The following parameters/fields have the following character limitations:
 
 To add (POST) POA&Ms use the following command:
 ```
-$ bundle exec exe/emasser post poams add --systemId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --reviewStatus [value]
+$ bundle exec exe/emasser post poams add --systemId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --pocOrganization [value] --resources [value]
 ```
 **Note:** The example is only showing the required fields. Refer to instructions listed above for conditional and optional fields requirements.
 
@@ -472,12 +537,8 @@ $ bundle exec exe/emasser post poams add --systemId [value] --status [value] --v
     |--status                   |Possible Values: Ongoing,Risk Accepted,Completed,Not Applicable         |
     |--vulnerabilityDescription |String - Vulnerability description for the POA&M Item. 2000 Characters  |
     |--sourceIdentVuln          |String - Include Source Identifying Vulnerability text. 2000 Characters |
-    |--pocOrganization**        |String - Organization/Office represented. 100 Characters                |
-    |--pocFirstName**           |String - First name of POC. 100 Characters                              |
-    |--pocLastName**            |String - Last name of POC. 100 Characters                               |
-    |--pocEmail**               |String - Email address of POC. 100 Characters                           | 
-    |--pocPhoneNumber**         |String - Phone number of POC (area code) ***-**** format. 100 Characters| 
-    |--reviewStatus             |Possible Values: Not Approved, Under Review, Approved                   |
+    |--pocOrganization          |String - Organization/Office represented. 100 Characters                |
+    |--resources                |String - List of resources used. Character Limit = 250                  |
 
     ** If any poc information is provided all POC fields are required. See additional details for POC fields below.
 
@@ -485,11 +546,17 @@ $ bundle exec exe/emasser post poams add --systemId [value] --status [value] --v
     |parameter                 | type or values                                                                        |
     |--------------------------|:--------------------------------------------------------------------------------------|
     |--milestones              |JSON -  see milestone format                                                           |
+    |--pocFirstName            |String - First name of POC. 100 Characters                                             |
+    |--pocLastName             |String - Last name of POC. 100 Characters                                              |
+    |--pocEmail                |String - Email address of POC. 100 Characters                                          | 
+    |--pocPhoneNumber          |String - Phone number of POC (area code) ***-**** format. 100 Characters               |     
     |--severity                |Possible values - Very Low, Low, Moderate, High, Very High                             |
     |--scheduledCompletionDate |Date - Required for ongoing and completed POA&M items. Unix time format                |
     |--completionDate          |Date - Field is required for completed POA&M items. Unix time format                   |
     |--comments                |String - Field is required for completed and risk accepted POA&M items. 2000 Characters|
-    |--isActive                |Boolean - Optionally used in PUT to delete milestones when updating a POA&M            |
+
+    ** If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request:
+      pocFirstName, pocLastName, pocPhoneNumber
 
     Milestone Format:
       - --milestone description:[value] scheduledCompletionDate:[value]

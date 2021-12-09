@@ -85,7 +85,7 @@ module SwaggerClient
     # Returns all system(s) that match the query parameters
     # @param [Hash] opts the optional parameters
     # @option opts [BOOLEAN] :include_package **Include Package**:  Indicates if additional packages information is retrieved for queried system. (default to true)
-    # @option opts [Array<String>] :registration_type **Registration Type**: Filter record by selected registration type, accepts multiple comma separated values
+    # @option opts [String] :registration_type **Registration Type**: Filter record by selected registration type (single value or comma delimited values).  *Available values:* assessAndAuthorize, assessOnly, guest, regular, functional, cloudServiceProvider, commonControlProvider   (default to regular)
     # @option opts [String] :ditpr_id **DITPR ID**: Filter query by DoD Information Technology (IT) Portfolio Repository (DITPR).
     # @option opts [String] :coams_id **COAMS ID**: Filter query by Cyber Operational Attributes Management System (COAMS).
     # @option opts [String] :policy **System Policy**: Filter query by system policy. If no value is specified and more than one policy is available, the default return is the RMF policy information. (default to rmf)
@@ -102,7 +102,7 @@ module SwaggerClient
     # Returns all system(s) that match the query parameters
     # @param [Hash] opts the optional parameters
     # @option opts [BOOLEAN] :include_package **Include Package**:  Indicates if additional packages information is retrieved for queried system.
-    # @option opts [Array<String>] :registration_type **Registration Type**: Filter record by selected registration type, accepts multiple comma separated values
+    # @option opts [String] :registration_type **Registration Type**: Filter record by selected registration type (single value or comma delimited values).  *Available values:* assessAndAuthorize, assessOnly, guest, regular, functional, cloudServiceProvider, commonControlProvider  
     # @option opts [String] :ditpr_id **DITPR ID**: Filter query by DoD Information Technology (IT) Portfolio Repository (DITPR).
     # @option opts [String] :coams_id **COAMS ID**: Filter query by Cyber Operational Attributes Management System (COAMS).
     # @option opts [String] :policy **System Policy**: Filter query by system policy. If no value is specified and more than one policy is available, the default return is the RMF policy information.
@@ -114,9 +114,6 @@ module SwaggerClient
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: SystemsApi.get_systems ...'
       end
-      if @api_client.config.client_side_validation && opts[:'registration_type'] && !opts[:'registration_type'].all? { |item| ['assessAndAuthorize', 'assessOnly', 'guest', 'regular', 'functional', 'cloudServiceProvider', 'commonControlProvider'].include?(item) }
-        fail ArgumentError, 'invalid value for "registration_type", must include one of assessAndAuthorize, assessOnly, guest, regular, functional, cloudServiceProvider, commonControlProvider'
-      end
       if @api_client.config.client_side_validation && opts[:'policy'] && !['diacap', 'rmf', 'reporting'].include?(opts[:'policy'])
         fail ArgumentError, 'invalid value for "policy", must be one of diacap, rmf, reporting'
       end
@@ -126,7 +123,7 @@ module SwaggerClient
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'includePackage'] = opts[:'include_package'] if !opts[:'include_package'].nil?
-      query_params[:'registrationType'] = @api_client.build_collection_param(opts[:'registration_type'], :csv) if !opts[:'registration_type'].nil?
+      query_params[:'registrationType'] = opts[:'registration_type'] if !opts[:'registration_type'].nil?
       query_params[:'ditprId'] = opts[:'ditpr_id'] if !opts[:'ditpr_id'].nil?
       query_params[:'coamsId'] = opts[:'coams_id'] if !opts[:'coams_id'].nil?
       query_params[:'policy'] = opts[:'policy'] if !opts[:'policy'].nil?

@@ -107,8 +107,8 @@ module Emasser
     # If a POC email is supplied, the application will attempt to locate a user
     # already registered within the application and pre-populate any information
     # not explicitly supplied in the request. If no such user is found, these
-    # fields are required within the request.
-    # pocOrganization, pocFirstName, pocLastName, pocEmail, pocPhoneNumber
+    # fields are required within the request:
+    #     pocFirstName, pocLastName, pocPhoneNumber
 
     desc 'add', 'Add one or many POA&M items in a system'
     long_desc Help.text(:poam_post_mapper)
@@ -116,31 +116,31 @@ module Emasser
     # Required parameters/fields
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :status, type: :string, required: true, enum: ['Ongoing', 'Risk Accepted', 'Completed', 'Not Applicable']
-    option :vulnerabilityDescription, type: :string, require: true, desc: 'POA&M vulnerability description'
+    option :vulnerabilityDescription, type: :string, required: true, desc: 'POA&M vulnerability description'
     option :sourceIdentVuln,
-           type: :string, require: true, desc: 'Source that identifies the vulnerability'
-    option :pocOrganization, type: :string, require: true, desc: 'Organization/Office represented'
+           type: :string, required: true, desc: 'Source that identifies the vulnerability'
+    option :pocOrganization, type: :string, required: true, desc: 'Organization/Office represented'
+    option :resources, type: :string, required: true, desc: 'List of resources used'
 
     # Conditional parameters/fields
     option :milestone, type: :hash, required: false, desc: 'key:values are: description and scheduledCompletionDate'
-    option :pocFirstName, type: :string, require: false, desc: 'First name of POC'
-    option :pocLastName, type: :string, require: false, desc: 'Last name of POC.'
-    option :pocEmail, type: :string, require: false, desc: 'Email address of POC'
-    option :pocPhoneNumber, type: :string, require: false, desc: 'Phone number of POC (area code) ***-**** format'
+    option :pocFirstName, type: :string, required: false, desc: 'First name of POC'
+    option :pocLastName, type: :string, required: false, desc: 'Last name of POC.'
+    option :pocEmail, type: :string, required: false, desc: 'Email address of POC'
+    option :pocPhoneNumber, type: :string, required: false, desc: 'Phone number of POC (area code) ***-**** format'
     option :severity, type: :string, required: false, enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High']
     option :scheduledCompletionDate,
            type: :numeric, required: false, desc: 'The scheduled completion date - Unix time format'
     option :completionDate,
            type: :numeric, required: false, desc: 'The schedule completion date - Unix time format'
-    option :comments, type: :string, require: false, desc: 'Comments for completed and risk accepted POA&M items'
+    option :comments, type: :string, required: false, desc: 'Comments for completed and risk accepted POA&M items'
 
     # Optional parameters/fields
-    option :externalUid, type: :string, require: false, desc: 'External ID associated with the POA&M'
-    option :controlAcronym, type: :string, require: false, desc: 'The system acronym(s) e.g "AC-1, AC-2"'
-    option :cci, type: :string, require: false, desc: 'The system CCIS string numerical value'
-    option :securityChecks, type: :string, require: false, desc: 'Security Checks that are associated with the POA&M'
+    option :externalUid, type: :string, required: false, desc: 'External ID associated with the POA&M'
+    option :controlAcronym, type: :string, required: false, desc: 'The system acronym(s) e.g "AC-1, AC-2"'
+    option :cci, type: :string, required: false, desc: 'The system CCIS string numerical value'
+    option :securityChecks, type: :string, required: false, desc: 'Security Checks that are associated with the POA&M'
     option :rawSeverity, type: :string, required: false, enum: %w[I II III]
-    option :resources, type: :string, require: false, desc: 'List of resources used'
     option :relevanceOfThreat,
            type: :string, required: false, enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High']
     option :likelihood, type: :string, required: false, enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High']
@@ -158,8 +158,8 @@ module Emasser
       body.status = options[:status]
       body.vulnerability_description = options[:vulnerabilityDescription]
       body.source_ident_vuln = options[:sourceIdentVuln]
-      body.review_status = options[:reviewStatus]
       body.poc_organization = options[:pocOrganization]
+      body.resources = options[:resources]
 
       #-----------------------------------------------------------------------------
       # Conditional fields based on the status field values
@@ -171,19 +171,17 @@ module Emasser
       #-----------------------------------------------------------------------------
       # rubocop:disable Style/CaseLikeIf, Style/StringLiterals
       if options[:status] == "Risk Accepted"
-        if options[:comments].nil? || options[:resources].nil?
-          puts 'Missing one of these parameters/fields:'.red
-          puts 'comments, or resources'.red
+        if options[:comments].nil?
+          puts 'Missing the "cooment" parameters/fields:'.red
           puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
           exit
         else
           body.comments = options[:comments]
-          body.resources = options[:resources]
         end
       elsif options[:status] == "Ongoing"
-        if options[:scheduledCompletionDate].nil? || options[:resources].nil? || options[:milestone].nil?
+        if options[:scheduledCompletionDate].nil? || options[:milestone].nil?
           puts 'Missing one of these parameters/fields:'.red
-          puts 'milstoneScheduledCompletionDate, resources, or milestone'.red
+          puts 'milstoneScheduledCompletionDate, or milestone'.red
           print_milestone_help
           puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
           exit
@@ -192,7 +190,6 @@ module Emasser
           print_milestone_help
         else
           body.scheduled_completion_date = options[:scheduledCompletionDate]
-          body.resources = options[:resources]
 
           milestone = SwaggerClient::MilestonesRequiredPost.new
           milestone.description = options[:milestone]["description"]
@@ -202,16 +199,15 @@ module Emasser
         end
       elsif options[:status] == "Completed"
         if options[:scheduledCompletionDate].nil? || options[:comments].nil? ||
-           options[:resources].nil? || options[:completionDate].nil? || options[:milestone].nil?
+           options[:completionDate].nil? || options[:milestone].nil?
           puts 'Missing one of these parameters/fields:'.red
-          puts 'scheduledCompletionDate, comments, resources, completionDate, or milestone'.red
+          puts 'scheduledCompletionDate, comments, completionDate, or milestone'.red
           print_milestone_help
           puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
           exit
         else
           body.scheduled_completion_date = options[:scheduledCompletionDate]
           body.comments = options[:comments]
-          body.resources = options[:resources]
           body.completion_date = options[:completionDate]
 
           milestone = SwaggerClient::MilestonesRequiredPost.new
@@ -350,7 +346,7 @@ module Emasser
     # Optional parameters/fields
     option :description, type: :string, required: false, desc: 'Artifact description'
     option :refPageNumber, type: :string, required: false, desc: 'Artifact reference page number'
-    option :ccis, type: :string, require: false, desc: 'The system CCIs string numerical value'
+    option :ccis, type: :string, required: false, desc: 'The system CCIs string numerical value'
     option :controls,
            type: :string, required: false,
            desc: 'Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined'
@@ -398,17 +394,16 @@ module Emasser
     end
   end
 
-  # Add a Control Approval Chain (CAC) or a Package Approval Chain (PAC)
+  # Add a Control Approval Chain (CAC)
   #
   # Endpoints:
-  #    /api/systems/{systemId}/approval/cac - Add location of one or many controls in CAC
-  #    /api/systems/{systemId}/approval/pac - Add location of system package in PAC
-  class Approval < SubCommandBase
+  #    /api/systems/{systemId}/approval/cac - Submit control to second stage of CAC
+  class CAC < SubCommandBase
     def self.exit_on_failure?
       true
     end
 
-    desc 'cac', 'Get all system CAC for a system Id'
+    desc 'add', 'Submit control to second stage of CAC'
     long_desc Help.text(:approvalCac_post_mapper)
 
     # Required parameters/fields
@@ -416,9 +411,9 @@ module Emasser
     option :controlAcronym, type: :string, required: true, desc: 'The system acronym "AC-1, AC-2"'
 
     # Conditional parameters/fields
-    option :comments, type: :string, require: false, desc: 'The control approval chain comments'
+    option :comments, type: :string, required: false, desc: 'The control approval chain comments'
 
-    def cac
+    def add
       body = SwaggerClient::CacRequestPostBody.new
       body.control_acronym = options[:controlAcronym]
       body.comments = options[:comments]
@@ -434,8 +429,18 @@ module Emasser
         puts to_output_hash(e)
       end
     end
+  end
+  
+  # Add a Package Approval Chain (PAC)
+  #
+  # Endpoints:
+  #    /api/systems/{systemId}/approval/pac - Initiate system workflow for review
+  class PAC < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
 
-    desc 'pac', 'Get all system PAC for a system Id'
+    desc 'add', 'Initiate system workflow for review'
     long_desc Help.text(:approvalPac_post_mapper)
 
     # Required parameters/fields
@@ -443,10 +448,10 @@ module Emasser
                       desc: 'A numeric value representing the system identification'
     option :workflow, type: :string, required: true,
                       enum: ['Assess and Authorize', 'Assess Only', 'Security Plan Approval']
-    option :name, type: :string, require: true, desc: 'The control package name'
-    option :comments, type: :string, require: true, desc: 'The control package approval chain comments'
+    option :name, type: :string, required: true, desc: 'The control package name'
+    option :comments, type: :string, required: true, desc: 'The control package approval chain comments'
 
-    def pac
+    def add
       body = SwaggerClient::PacRequestBodyPost.new
       body.name = options[:name]
       body.type = options[:type]
@@ -472,7 +477,10 @@ module Emasser
     desc 'artifacts', 'Add system Artifacts'
     subcommand 'artifacts', Artifacts
 
-    desc 'approval', 'Add Controls or Packages (CAC/PAC) security content'
-    subcommand 'approval', Approval
+    desc 'cac', 'Add Control Approval Chain (CAC) security content'
+    subcommand 'cac', CAC
+
+    desc 'pac', 'Add Package Approval Chain (PAC) security content'
+    subcommand 'pac', PAC
   end
 end

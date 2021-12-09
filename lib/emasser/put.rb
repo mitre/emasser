@@ -266,33 +266,33 @@ module Emasser
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :poamId,   type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
     option :status,   type: :string, required: true, enum: ['Ongoing', 'Risk Accepted', 'Completed', 'Not Applicable']
-    option :vulnerabilityDescription, type: :string, require: true, desc: 'POA&M vulnerability description'
+    option :vulnerabilityDescription, type: :string, required: true, desc: 'POA&M vulnerability description'
     option :sourceIdentVuln,
-           type: :string, require: true, desc: 'Source that identifies the vulnerability'
-    option :pocOrganization, type: :string, require: true, desc: 'Organization/Office represented'
+           type: :string, required: true, desc: 'Source that identifies the vulnerability'
+    option :pocOrganization, type: :string, required: true, desc: 'Organization/Office represented'
 
     # Conditional parameters/fields
     option :milestone,
            type: :hash, required: false, desc: 'key:values are: milestoneId, description and scheduledCompletionDate'
-    option :pocFirstName, type: :string, require: false, desc: 'First name of POC'
-    option :pocLastName, type: :string, require: false, desc: 'Last name of POC.'
-    option :pocEmail, type: :string, require: false, desc: 'Email address of POC'
-    option :pocPhoneNumber, type: :string, require: false, desc: 'Phone number of POC (area code) ***-**** format'
+    option :pocFirstName, type: :string, required: false, desc: 'First name of POC'
+    option :pocLastName, type: :string, required: false, desc: 'Last name of POC.'
+    option :pocEmail, type: :string, required: false, desc: 'Email address of POC'
+    option :pocPhoneNumber, type: :string, required: false, desc: 'Phone number of POC (area code) ***-**** format'
     option :severity, type: :string, required: false, enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High']
     option :scheduledCompletionDate,
            type: :numeric, required: false, desc: 'The scheduled completion date - Unix time format'
     option :completionDate,
            type: :numeric, required: false, desc: 'The schedule completion date - Unix time format'
-    option :comments, type: :string, require: false, desc: 'Comments for completed and risk accepted POA&M items'
+    option :comments, type: :string, required: false, desc: 'Comments for completed and risk accepted POA&M items'
     option :isActive, type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
 
     # Optional parameters/fields
-    option :externalUid, type: :string, require: false, desc: 'External ID associated with the POA&M'
-    option :controlAcronym, type: :string, require: false, desc: 'The system acronym(s) e.g "AC-1, AC-2"'
-    option :cci, type: :string, require: false, desc: 'The system CCIS string numerical value'
-    option :securityChecks, type: :string, require: false, desc: 'Security Checks that are associated with the POA&M'
+    option :externalUid, type: :string, required: false, desc: 'External ID associated with the POA&M'
+    option :controlAcronym, type: :string, required: false, desc: 'The system acronym(s) e.g "AC-1, AC-2"'
+    option :cci, type: :string, required: false, desc: 'The system CCIS string numerical value'
+    option :securityChecks, type: :string, required: false, desc: 'Security Checks that are associated with the POA&M'
     option :rawSeverity, type: :string, required: false, enum: %w[I II III]
-    option :resources, type: :string, require: false, desc: 'List of resources used'
+    option :resources, type: :string, required: false, desc: 'List of resources used'
     option :relevanceOfThreat,
            type: :string, required: false, enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High']
     option :likelihood, type: :string, required: false, enum: ['Very Low', 'Low', 'Moderate', 'High', 'Very High']
@@ -477,7 +477,7 @@ module Emasser
     # Optional fields
     option :description, type: :string, required: false, desc: 'Artifact description'
     option :refPageNumber, type: :string, required: false, desc: 'Artifact reference page number'
-    option :ccis, type: :string, require: false, desc: 'The system CCIs string numerical value'
+    option :ccis, type: :string, required: false, desc: 'The system CCIs string numerical value'
     option :controls,
            type: :string, required: false,
            desc: 'Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined'

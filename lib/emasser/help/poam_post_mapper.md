@@ -1,4 +1,4 @@
-Endpoint request parameters/fields
+Endpoint request body parameters/fields
 
 Field                   Data Type  Details
 -------------------------------------------------------------------------------------------------
@@ -6,14 +6,14 @@ systemId                 Integer   [Required] Unique eMASS identifier. Will need
 status                   String    [Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable).
 vulnerabilityDescription String    [Required] Provide a description of the POA&M Item. 2000 Characters.
 sourceIdentVuln          String    [Required] Include Source Identifying Vulnerability text. 2000 Characters.
-pocOrganization**        String    [Required] Organization/Office represented. 100 Characters.
-pocFirstName**           String    [Required] First name of POC. 100 Characters.
-pocLastName**            String    [Required] Last name of POC. 100 Characters.
-pocEmail**               String    [Required] Email address of POC. 100 Characters.
-pocPhoneNumber**         String    [Required] Phone number of POC (area code) ***-**** format. 100 Characters.
-reviewStatus             string    [Required/Optional] Values include the following options: (Not Approved, Under Review, Approved)
+pocOrganization          String    [Required] Organization/Office represented. 100 Characters.
+resources                String    [Required] List of resources used. 250 Characters.
 
 milestones               JSON      [Conditional] Please see Notes 1 for more details.
+pocFirstName             String    [Conditional] First name of POC. 100 Characters.
+pocLastName              String    [Conditional] Last name of POC. 100 Characters.
+pocEmail                 String    [Conditional] Email address of POC. 100 Characters.
+pocPhoneNumber           String    [Conditional] Phone number of POC (area code) ***-**** format. 100 Characters.
 severity                 String    [Conditional] Values include the following: (Very Low, Low, Moderate, High, Very High)
 scheduledCompletionDate  Date      [Conditional] Required for ongoing and completed POA&M items. Unix time format.
 completionDate           Date      [Conditional] Field is required for completed POA&M items. Unix time format.
@@ -25,7 +25,6 @@ controlAcronym           String    [Optional] Control acronym associated with th
 cci                      String    [Optional] CCI associated with the test result.
 securityChecks           String    [Optional] Security Checks that are associated with the POA&M.
 rawSeverity              String    [Optional] Values include the following: (I, II, III)
-resources                String    [Optional] List of resources used. 250 Characters.
 relevanceOfThreat        String    [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
 likelihood               String    [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
 impact                   String    [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
@@ -35,26 +34,24 @@ recommendations          String    [Optional] Include recommendations. Character
 mitigation               String    [Optional] Include mitigation explanation. 2000 Characters.
 
 isInherited              String    [Read-Only] Indicates whether a POA&M Item is inherited.
+reviewStatus             string    [Read-Only] Values include the following options: (Not Approved, Under Review, Approved)
 extensionDate            Date      [Read-Only] Value returned for a POA&M Item with review status “Approved” and has a milestone
                                                with a scheduled completion date that extends beyond the POA&M Item’s scheduled completion date.
 
-** If any poc information is provided all POC fields are required. See additional details for POC fields below.
 
-
-The following fields are required based on the contents of the status field
+The following fields are required based on the contents of the "status" field
   |status          |Required Fields
   |----------------|--------------------------------------------------------
-  |Risk Accepted   |comments, resources
-  |Ongoing         |scheduledCompletionDate, resources, milestones (at least 1)
-  |Completed       |scheduledCompletionDate, comments, resources,
-  |                |completionDate, milestones (at least 1)
+  |Risk Accepted   |comments 
+  |Ongoing         |scheduledCompletionDate, milestones (at least 1)
+  |Completed       |scheduledCompletionDate, comments, completionDate, milestones (at least 1)
   |Not Applicable  |POAM can not be created
 
 If a POC email is supplied, the application will attempt to locate a user
 already registered within the application and pre-populate any information
 not explicitly supplied in the request. If no such user is found, these
 fields are required within the request.
-  - pocOrganization, pocFirstName, pocLastName, pocEmail, pocPhoneNumber
+  - pocFirstName, pocLastName, pocPhoneNumber
 
 Business logic, the following rules apply when adding POA&Ms
 
@@ -90,7 +87,7 @@ The following parameters/fields have the following character limitations:
 
 Example:
 
-bundle exec exe/emasser post poams add --systemId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --reviewStatus [value]
+bundle exec exe/emasser post poams add --systemId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --pocOrganization [value] --resources [value]
 
 Notes:
 1 - The format for milestones is:

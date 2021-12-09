@@ -20,7 +20,7 @@ module SwaggerClient
     # View all workflow schemas available on the eMASS instance filtered by  status `includeInactive` and registration type `registrationType`.
     # @param [Hash] opts the optional parameters
     # @option opts [BOOLEAN] :include_inactive **Include Inactive**: If no value is specified, the default returns false to not include outdated workflow definitions. (default to true)
-    # @option opts [Array<String>] :registration_type **Registration Type**: Filter record by selected registration type, accepts multiple comma separated values
+    # @option opts [String] :registration_type **Registration Type**: Filter record by selected registration type (single value or comma delimited values).  *Available values:* assessAndAuthorize, assessOnly, guest, regular, functional, cloudServiceProvider, commonControlProvider   (default to regular)
     # @return [WorkflowDefinitionResponseGet]
     def get_workflow_definitions(opts = {})
       data, _status_code, _headers = get_workflow_definitions_with_http_info(opts)
@@ -31,14 +31,11 @@ module SwaggerClient
     # View all workflow schemas available on the eMASS instance filtered by  status &#x60;includeInactive&#x60; and registration type &#x60;registrationType&#x60;.
     # @param [Hash] opts the optional parameters
     # @option opts [BOOLEAN] :include_inactive **Include Inactive**: If no value is specified, the default returns false to not include outdated workflow definitions.
-    # @option opts [Array<String>] :registration_type **Registration Type**: Filter record by selected registration type, accepts multiple comma separated values
+    # @option opts [String] :registration_type **Registration Type**: Filter record by selected registration type (single value or comma delimited values).  *Available values:* assessAndAuthorize, assessOnly, guest, regular, functional, cloudServiceProvider, commonControlProvider  
     # @return [Array<(WorkflowDefinitionResponseGet, Integer, Hash)>] WorkflowDefinitionResponseGet data, response status code and response headers
     def get_workflow_definitions_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug 'Calling API: WorkflowDefinitionsApi.get_workflow_definitions ...'
-      end
-      if @api_client.config.client_side_validation && opts[:'registration_type'] && !opts[:'registration_type'].all? { |item| ['assessAndAuthorize', 'assessOnly', 'guest', 'regular', 'functional', 'cloudServiceProvider', 'commonControlProvider'].include?(item) }
-        fail ArgumentError, 'invalid value for "registration_type", must include one of assessAndAuthorize, assessOnly, guest, regular, functional, cloudServiceProvider, commonControlProvider'
       end
       # resource path
       local_var_path = '/api/workflow-definitions'
@@ -46,7 +43,7 @@ module SwaggerClient
       # query parameters
       query_params = opts[:query_params] || {}
       query_params[:'includeInactive'] = opts[:'include_inactive'] if !opts[:'include_inactive'].nil?
-      query_params[:'registrationType'] = @api_client.build_collection_param(opts[:'registration_type'], :csv) if !opts[:'registration_type'].nil?
+      query_params[:'registrationType'] = opts[:'registration_type'] if !opts[:'registration_type'].nil?
 
       # header parameters
       header_params = opts[:header_params] || {}

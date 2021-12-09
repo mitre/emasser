@@ -33,7 +33,7 @@ end
 api_instance = SwaggerClient::WorkflowDefinitionsApi.new
 opts = { 
   include_inactive: true, # BOOLEAN | **Include Inactive**: If no value is specified, the default returns false to not include outdated workflow definitions.
-  registration_type: ['registration_type_example'] # Array<String> | **Registration Type**: Filter record by selected registration type, accepts multiple comma separated values
+  registration_type: 'regular' # String | **Registration Type**: Filter record by selected registration type (single value or comma delimited values).  *Available values:* assessAndAuthorize, assessOnly, guest, regular, functional, cloudServiceProvider, commonControlProvider  
 }
 
 begin
@@ -50,7 +50,7 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **include_inactive** | **BOOLEAN**| **Include Inactive**: If no value is specified, the default returns false to not include outdated workflow definitions. | [optional] [default to true]
- **registration_type** | [**Array&lt;String&gt;**](String.md)| **Registration Type**: Filter record by selected registration type, accepts multiple comma separated values | [optional] 
+ **registration_type** | **String**| **Registration Type**: Filter record by selected registration type (single value or comma delimited values).  *Available values:* assessAndAuthorize, assessOnly, guest, regular, functional, cloudServiceProvider, commonControlProvider   | [optional] [default to regular]
 
 ### Return type
 

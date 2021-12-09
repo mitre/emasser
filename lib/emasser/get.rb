@@ -123,18 +123,19 @@ module Emasser
 
     desc "all \[options\]", 'Retrieves all available system(s) - filtered by [options] params'
     # Optional parameters/fields
-    option :includePackage, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
     option :registrationType,
            type: :string, required: false,
            enum: %w[assessAndAuthorize assessOnly guest regular functional cloudServiceProvider commonControlProvider]
-    option :ditprId,              type: :string,  required: false,
-                                  desc: 'DoD Information Technology (IT) Portfolio Repository (DITPR) string Id'
-    option :coamsId,              type: :string,  required: false,
-                                  desc: 'Cyber Operational Attributes Management System (COAMS) string Id'
-    option :policy,               type: :string,  required: false, enum: %w[diacap rmf reporting]
-    option :includeDitprMetrics,  type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
+    option :ditprId, type: :string,  required: false,
+                     desc: 'DoD Information Technology (IT) Portfolio Repository (DITPR) string Id'
+    option :coamsId, type: :string,  required: false,
+                     desc: 'Cyber Operational Attributes Management System (COAMS) string Id'
+    option :policy, type: :string,  required: false, enum: %w[diacap rmf reporting]
+
+    option :includePackage, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'    
+    option :includeDitprMetrics, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
     option :includeDecommissioned, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
-    option :reportsForScorecard,   type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
+    option :reportsForScorecard, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
 
     def all
       optional_options_keys = optional_options(@_initializer).keys
@@ -402,7 +403,7 @@ module Emasser
     option :ccis,            type: :string,  required: false, desc: 'The system CCIS string numerical value'
     option :systemOnly,      type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
 
-    def system
+    def forSystem
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
@@ -527,20 +528,14 @@ module Emasser
       true
     end
 
-    desc 'assessments', 'Get location of system package in PAC'
+    desc 'assessments', 'Get CMMC assessment information'
     long_desc Help.text(:cmmc_get_mapper)
 
     # Required parameters/fields
-    option :systemId, type: :numeric, required: true,
-                      desc: 'A numeric value representing the system identification'
-    # Optional parameters/fields
-    option :sinceDate, type: :string, required: false, desc: 'The CMMC date. Unix date format'
+    option :sinceDate, type: :string, required: true, desc: 'The CMMC date. Unix date format'
 
     def assessments
-      optional_options_keys = optional_options(@_initializer).keys
-      optional_options = to_input_hash(optional_options_keys, options)
-
-      result = SwaggerClient::CMMCAssessmentsApi.new.get_cmmc_assessments(options[:systemId], optional_options)
+      result = SwaggerClient::CMMCAssessmentsApi.new.get_cmmc_assessments(options[:sinceDate])
       puts to_output_hash(result).green
     rescue SwaggerClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_cmmc_assessments'.red
@@ -596,7 +591,7 @@ module Emasser
 
     # Optional parameters/fields
     option :includeComments, type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
-    option :pageIndex, type: :numeric, require: false, desc: 'The page number to be returned'
+    option :pageIndex, type: :numeric, required: false, desc: 'The page number to be returned'
     option :sinceDate, type: :string, required: false, desc: 'The workflow instance date. Unix date format'
     option :status, type: :string, required: false, enum: %w[active inactive all]
 

@@ -11,7 +11,10 @@ There are online tool options for viewing and editing OpenAPI compliant RESTfull
 To install the Swagger Editor offline from its repository follow these [instructions](https://github.com/swagger-api/swagger-editor).
 
 ### Generate the API documentation (to view in a web browser-html)
+eMASS API documentation can be found [here](/docs/redoc/index.html)
+
 To generate the API documentation that can be viewable in a totally dependency-free (and nice looking) HTML use the `redoc-cli` command line tool.
+
 
 Install the tool via `npm`:
 ```bash

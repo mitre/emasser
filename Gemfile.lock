@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    emasser (0.2.0)
+    emasser (1.0.0)
       activesupport
       colorize
       dotenv

@@ -861,13 +861,14 @@ paths:
         - `status`
         - `vulnerabilityDescription`
         - `sourceIdentVuln`
-        - `reviewStatus`
+        - `pocOrganization`
+        - `resources`
 
         **Note**<br />
         If a POC email is supplied, the application will attempt to locate a user already
         registered within the application and pre-populate any information not explicitly supplied
         in the request. If no such user is found, these fields are **required** within the request.<br>
-        `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`<br />
+        `pocFirstName`, `pocLastName`, `pocPhoneNumber`<br />
       operationId: addPoamBySystemId
       parameters:
         - $ref: '#/components/parameters/systemId'
@@ -2506,7 +2507,7 @@ components:
       schema:
         type: integer
         x-faker: random.number
-        example: 1234    
+        example: 123
     #--------------------------------------------------------------------------
     # Query - Required --------------------------------------------------------
     role:
@@ -2547,16 +2548,14 @@ components:
     registrationType:
       name: registrationType
       in: query
-      style: form
-      allowReserved: true
-      explode: false
-      description: "**Registration Type**: Filter record by selected registration type, accepts multiple comma separated values"
+      description: |
+        **Registration Type**: Filter record by selected registration type (single value or comma delimited values).
+
+        *Available values:* assessAndAuthorize, assessOnly, guest, regular,
+        functional, cloudServiceProvider, commonControlProvider 
       schema:
-        type: array
-        items:
-          type: string
-          enum: [assessAndAuthorize,assessOnly,guest,regular,functional,cloudServiceProvider,commonControlProvider]
-          default: "guest"
+        type: string
+        default: "regular"
     ditprId:
       name: ditprId
       in: query
@@ -2918,10 +2917,12 @@ components:
       title: POAM POST Query Body
       type: object
       required:
+        - displayPoamId
         - status
         - vulnerabilityDescription
         - sourceIdentVuln
-        - reviewStatus
+        - pocOrganization
+        - resources
       additionalProperties: false
       "$ref": "#/components/schemas/PoamRequiredPost"
     PoamRequestPutBody:
@@ -3089,6 +3090,13 @@ components:
       additionalProperties: false
       properties:
         # Required fields
+        displayPoamId:
+          type: integer
+          format: int64
+          description: "[Required] Globally unique identifier for individual POA&M Items, seen on the front-end as “ID”."
+          example: 450000000
+          minimum: 100000000
+          maximum: 101003239        
         status:
           type: string
           description: "[Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable"
@@ -3108,20 +3116,22 @@ components:
           description: "[Required] Include Source Identifying Vulnerability text. 2000 Characters."
           x-faker: random.words
           example: "Source Indentifying Vulnerability text"
-        reviewStatus:
-          type: string
-          description: "OPTIONAL/REQUIRED Values include the following options: (Not Approved,Under Review,Approved)"
-          example: "Under Review"
+
           enum:
             - "Not Approved"
             - "Under Review"
             - "Approved"           
-        # Optional/Required fields (REQ based on business rules)
         pocOrganization:
           type: string
           description: "[Required] Organization/Office represented. 100 Characters."
           x-faker: company.companyName
           example: "Army"
+        resources:
+          type: string
+          description: "[Required] List of resources used. 250 Characters."
+          x-faker: random.words
+          example: "Resource text."        
+        # Optional/Required fields (REQ based on business rules)
         pocFirstName:
           type: string
           description: "[Required] First name of POC. 100 Characters."
@@ -3171,11 +3181,7 @@ components:
             - "I"
             - "II"
             - "III"
-        resources:
-          type: string
-          description: "[Optional] List of resources used. 250 Characters."
-          x-faker: random.words
-          example: "Resource text."
+
         relevanceOfThreat:
           type: string
           description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
@@ -4600,6 +4606,13 @@ components:
           example: 45
           minimum: 1
           maximum: 300
+        displayPoamId:
+          type: integer
+          format: int64
+          description: "[Required] Globally unique identifier for individual POA&M Items, seen on the front-end as “ID”."
+          example: 450000000
+          minimum: 100000000
+          maximum: 101003239
         isInherited:
           type: boolean
           description: "[Read-only] Indicates whether a test result is inherited."
@@ -5209,11 +5222,6 @@ components:
           description: "[Read-Only] Returns true if the workflow is available to the site."
           x-faker: random.boolean
           example: false
-        name:
-          type: string
-          description: "[Read-Only] Name of the workflow stage." 
-          example: "Not Started"
-          enum: ["Not Started","Categorize System","Submit Categorization","Approval"]
         version:
           type: string
           description: "[Read-Only] Version of the workflow definition."

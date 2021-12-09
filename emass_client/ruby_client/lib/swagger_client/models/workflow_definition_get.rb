@@ -19,9 +19,6 @@ module SwaggerClient
     # [Read-Only] Returns true if the workflow is available to the site.
     attr_accessor :is_active
 
-    # [Read-Only] Name of the workflow stage.
-    attr_accessor :name
-
     # [Read-Only] Version of the workflow definition.
     attr_accessor :version
 
@@ -57,7 +54,6 @@ module SwaggerClient
       {
         :'description' => :'description',
         :'is_active' => :'isActive',
-        :'name' => :'name',
         :'version' => :'version',
         :'workflow' => :'workflow',
         :'stages' => :'stages'
@@ -69,7 +65,6 @@ module SwaggerClient
       {
         :'description' => :'Object',
         :'is_active' => :'Object',
-        :'name' => :'Object',
         :'version' => :'Object',
         :'workflow' => :'Object',
         :'stages' => :'Object'
@@ -105,10 +100,6 @@ module SwaggerClient
         self.is_active = attributes[:'is_active']
       end
 
-      if attributes.key?(:'name')
-        self.name = attributes[:'name']
-      end
-
       if attributes.key?(:'version')
         self.version = attributes[:'version']
       end
@@ -134,21 +125,9 @@ module SwaggerClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      name_validator = EnumAttributeValidator.new('Object', ['Not Started', 'Categorize System', 'Submit Categorization', 'Approval'])
-      return false unless name_validator.valid?(@name)
       workflow_validator = EnumAttributeValidator.new('Object', ['RMF Step 1: Security Category', 'RMF Step 2: Security Category', 'RMF Step 3: Security Category'])
       return false unless workflow_validator.valid?(@workflow)
       true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] name Object to be assigned
-    def name=(name)
-      validator = EnumAttributeValidator.new('Object', ['Not Started', 'Categorize System', 'Submit Categorization', 'Approval'])
-      unless validator.valid?(name)
-        fail ArgumentError, "invalid value for \"name\", must be one of #{validator.allowable_values}."
-      end
-      @name = name
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -168,7 +147,6 @@ module SwaggerClient
       self.class == o.class &&
           description == o.description &&
           is_active == o.is_active &&
-          name == o.name &&
           version == o.version &&
           workflow == o.workflow &&
           stages == o.stages
@@ -183,7 +161,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [description, is_active, name, version, workflow, stages].hash
+      [description, is_active, version, workflow, stages].hash
     end
 
     # Builds the object from hash

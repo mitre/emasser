@@ -767,7 +767,7 @@ end
 api_instance = SwaggerClient::SystemsApi.new
 opts = { 
   include_package: true, # BOOLEAN | **Include Package**:  Indicates if additional packages information is retrieved for queried system.
-  registration_type: ['registration_type_example'], # Array<String> | **Registration Type**: Filter record by selected registration type, accepts multiple comma separated values
+  registration_type: 'regular', # String | **Registration Type**: Filter record by selected registration type (single value or comma delimited values).  *Available values:* assessAndAuthorize, assessOnly, guest, regular, functional, cloudServiceProvider, commonControlProvider  
   ditpr_id: 'ditpr_id_example', # String | **DITPR ID**: Filter query by DoD Information Technology (IT) Portfolio Repository (DITPR).
   coams_id: 'coams_id_example', # String | **COAMS ID**: Filter query by Cyber Operational Attributes Management System (COAMS).
   policy: 'rmf', # String | **System Policy**: Filter query by system policy. If no value is specified and more than one policy is available, the default return is the RMF policy information.
@@ -874,7 +874,7 @@ end
 api_instance = SwaggerClient::WorkflowDefinitionsApi.new
 opts = { 
   include_inactive: true, # BOOLEAN | **Include Inactive**: If no value is specified, the default returns false to not include outdated workflow definitions.
-  registration_type: ['registration_type_example'] # Array<String> | **Registration Type**: Filter record by selected registration type, accepts multiple comma separated values
+  registration_type: 'regular' # String | **Registration Type**: Filter record by selected registration type (single value or comma delimited values).  *Available values:* assessAndAuthorize, assessOnly, guest, regular, functional, cloudServiceProvider, commonControlProvider  
 }
 
 begin
