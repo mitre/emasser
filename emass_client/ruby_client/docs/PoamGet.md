@@ -5,6 +5,7 @@ Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **system_id** | **Integer** | [Required] Unique eMASS system identifier. | [optional] 
 **poam_id** | **Integer** | [Required] Unique item identifier | [optional] 
+**display_poam_id** | **Integer** | [Required] Globally unique identifier for individual POA&amp;M Items, seen on the front-end as “ID”. | [optional] 
 **is_inherited** | **BOOLEAN** | [Read-only] Indicates whether a test result is inherited. | [optional] 
 **external_uid** | **String** | [Optional] Unique identifier external to the eMASS application for use with associating POA&amp;Ms. 100 Characters. | [optional] 
 **control_acronyms** | **String** | [Optional] System acronym name. | [optional] 

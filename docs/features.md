@@ -44,7 +44,15 @@ These variables can be set in the .env file (see the .env-example file)
   
 ### PUT
 * [/api/systems/{systemId}/controls](#put-controls)
+* [/api/systems/{systemId}/poams](#put-poams)
+* [/api/systems/{systemId}/poams/{poamId}/milestones](#put-milestones)
+* [/api/systems/{systemId}/artifacts](#put-artifacts)
 
+### DELETE
+* [/api/systems/{systemId}/poams](#delete-poams)
+* [/api/systems/{systemId}/poams/{poamId}/milestones](#delete-milestones)
+* [/api/systems/{systemId}/artifacts](#delete-artifacts)
+* 
 ## Endpoints CLI help
 Each CLI endpoint command has several layers of help. 
 - Using `help` after a `get, put, post, or delete` command lists all available endpoint calls
@@ -732,6 +740,45 @@ $ bundle exec exe/emasser post pac help add
 
 ----
 
+To add (POST) static code scans use the following command:
+
+  ````
+  $ bundle exec exe/emasser post scan_findings add --systemId [value] --applicationName [value] --version [value] --codeCheckName [value] --scanDate [value] --cweId [value]
+  ````
+  - required parameter are:
+    |parameter          | type or values                                             |
+    |-------------------|:-----------------------------------------------------------|
+    |--systemId         |Integer - Unique system identifier                          |
+    |--applicationName  |String - Name of the software application that was assessed |
+    |--version          |String - The version of the application                     |
+    |--codeCheckName    |Strings - Name of the software vulnerability or weakness    |
+    |--scanDate         |Date - The findings scan date - Unix time format            |
+    |--cweId            |String - The Common Weakness Enumerator (CWE) identifier    |
+
+  - optional parameters are:
+    |parameter          | type or values                                        |
+    |-------------------|:------------------------------------------------------|
+    |--rawSeverity*     |Possible Values: Low, Medium, Moderate, High, Critical |  
+    |--count            |Integer - Number of instances observed for a specified |
+
+*rawSeverity: In eMASS, values of "Critical" will appear as "Very High", and values of “Medium” will appear as "Moderate". Any values not listed as options in the list above will map to “Unknown” and appear as blank values.
+
+
+
+To clear (POST) static code scans use the following command:
+
+  ````
+  $ bundle exec exe/emasser post scan_findings clear --systemId [value] --applicationName [value] --version [value] --clearFindings
+  ````
+  - required parameter are:
+    |parameter          | type or values                                             |
+    |-------------------|:-----------------------------------------------------------|
+    |--systemId         |Integer - Unique system identifier                          |
+    |--applicationName  |String - Name of the software application that was assessed |
+    |--clearFindings*   |Boolean - To clear an application's findings set it to true |
+
+*The clearFindings field is an optional field, but required with a value of "True" to clear out all application findings for a single application/version pairing.
+
 **Note**
 For information at the command line use: 
 ```
@@ -740,7 +787,9 @@ $ bundle exec exe/emasser post scan_findings help add
 
 ## Usage - PUT
 ## ``put controls``
----
+[top](#api-endpoints-provided)
+
+----
 The following Business Rules apply when adding (POST) Controls:
 
 If Implementation Status `implementationStatus` field value is `Planned` or `Implemented`
@@ -815,11 +864,32 @@ $ bundle exec exe/emasser put controls help update
 ```
 
 ## ``put poams``
----
+[top](#api-endpoints-provided)
+
+----
 
 ## ``put milestones``
----
+[top](#api-endpoints-provided)
+
+----
 
 ## ``put artifacts``
----
-To update values other than the file itself, please submit a PUT request.
+[top](#api-endpoints-provided)
+
+----
+
+## Usage - DELETE
+## ``delete poams``
+[top](#api-endpoints-provided)
+
+----
+
+## ``delete milestones``
+[top](#api-endpoints-provided)
+
+----
+
+## ``delete artifacts``
+[top](#api-endpoints-provided)
+
+----

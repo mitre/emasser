@@ -17,33 +17,33 @@ module SwaggerClient
       @api_client = api_client
     end
     # Upload static code scans or Clear static code scans
-    # Upload or clear application scan findings into a system’s `systemId` assets module.
+    # Upload or clear application scan findings into a system's `systemId` assets module.  **Note:** To clear an application's findings, use only the field `clearFindings` as the Request body and set it to true.
     # @param body Update an existing Artifact by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [PacResponsePost]
-    def add_pac_approval_chain_by_system_id(body, system_id, opts = {})
-      data, _status_code, _headers = add_pac_approval_chain_by_system_id_with_http_info(body, system_id, opts)
+    # @return [Success200Response]
+    def add_static_code_scans_by_system_id(body, system_id, opts = {})
+      data, _status_code, _headers = add_static_code_scans_by_system_id_with_http_info(body, system_id, opts)
       data
     end
 
     # Upload static code scans or Clear static code scans
-    # Upload or clear application scan findings into a system’s &#x60;systemId&#x60; assets module.
+    # Upload or clear application scan findings into a system&#x27;s &#x60;systemId&#x60; assets module.  **Note:** To clear an application&#x27;s findings, use only the field &#x60;clearFindings&#x60; as the Request body and set it to true.
     # @param body Update an existing Artifact by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
-    # @return [Array<(PacResponsePost, Integer, Hash)>] PacResponsePost data, response status code and response headers
-    def add_pac_approval_chain_by_system_id_with_http_info(body, system_id, opts = {})
+    # @return [Array<(Success200Response, Integer, Hash)>] Success200Response data, response status code and response headers
+    def add_static_code_scans_by_system_id_with_http_info(body, system_id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: StaticCodeScansApi.add_pac_approval_chain_by_system_id ...'
+        @api_client.config.logger.debug 'Calling API: StaticCodeScansApi.add_static_code_scans_by_system_id ...'
       end
       # verify the required parameter 'body' is set
       if @api_client.config.client_side_validation && body.nil?
-        fail ArgumentError, "Missing the required parameter 'body' when calling StaticCodeScansApi.add_pac_approval_chain_by_system_id"
+        fail ArgumentError, "Missing the required parameter 'body' when calling StaticCodeScansApi.add_static_code_scans_by_system_id"
       end
       # verify the required parameter 'system_id' is set
       if @api_client.config.client_side_validation && system_id.nil?
-        fail ArgumentError, "Missing the required parameter 'system_id' when calling StaticCodeScansApi.add_pac_approval_chain_by_system_id"
+        fail ArgumentError, "Missing the required parameter 'system_id' when calling StaticCodeScansApi.add_static_code_scans_by_system_id"
       end
       # resource path
       local_var_path = '/api/systems/{systemId}/static-code-scans'.sub('{' + 'systemId' + '}', system_id.to_s)
@@ -64,7 +64,7 @@ module SwaggerClient
       # http body (model)
       post_body = opts[:body] || @api_client.object_to_http_body(body) 
 
-      return_type = opts[:return_type] || 'PacResponsePost' 
+      return_type = opts[:return_type] || 'Success200Response' 
 
       auth_names = opts[:auth_names] || ['apikey', 'userid']
       data, status_code, headers = @api_client.call_api(:POST, local_var_path,
@@ -76,7 +76,7 @@ module SwaggerClient
         :return_type => return_type)
 
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: StaticCodeScansApi#add_pac_approval_chain_by_system_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: StaticCodeScansApi#add_static_code_scans_by_system_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

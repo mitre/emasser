@@ -17,7 +17,7 @@ module SwaggerClient
       @api_client = api_client
     end
     # Submit control to second role of CAC
-    # Adds an Approval for given `systemId` path parameter<br><br> POST requests will only yield successful results if the control is currently sitting at the first role of the CAC. If the control is not currently sitting at the first role, then an error will be returned.
+    # Adds a Control Approval Chain (CAC) for given `systemId` path parameter<br><br> POST requests will only yield successful results if the control is currently sitting at the first role of the CAC. If the control is not currently sitting at the first role, then an error will be returned.
     # @param body Update an existing Artifact by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
@@ -28,7 +28,7 @@ module SwaggerClient
     end
 
     # Submit control to second role of CAC
-    # Adds an Approval for given &#x60;systemId&#x60; path parameter&lt;br&gt;&lt;br&gt; POST requests will only yield successful results if the control is currently sitting at the first role of the CAC. If the control is not currently sitting at the first role, then an error will be returned.
+    # Adds a Control Approval Chain (CAC) for given &#x60;systemId&#x60; path parameter&lt;br&gt;&lt;br&gt; POST requests will only yield successful results if the control is currently sitting at the first role of the CAC. If the control is not currently sitting at the first role, then an error will be returned.
     # @param body Update an existing Artifact by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters

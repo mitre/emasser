@@ -663,16 +663,16 @@ SwaggerClient.configure do |config|
 end
 
 api_instance = SwaggerClient::StaticCodeScansApi.new
-body = SwaggerClient::PacRequestPostBody.new # PacRequestPostBody | Update an existing Artifact by Id
+body = SwaggerClient::StaticCodeRequiredPost.new # StaticCodeRequiredPost | Update an existing Artifact by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
 begin
   #Upload static code scans or Clear static code scans
-  result = api_instance.add_pac_approval_chain_by_system_id(body, system_id)
+  result = api_instance.add_static_code_scans_by_system_id(body, system_id)
   p result
 rescue SwaggerClient::ApiError => e
-  puts "Exception when calling StaticCodeScansApi->add_pac_approval_chain_by_system_id: #{e}"
+  puts "Exception when calling StaticCodeScansApi->add_static_code_scans_by_system_id: #{e}"
 end
 # Setup authorization
 SwaggerClient.configure do |config|
@@ -969,7 +969,7 @@ Class | Method | HTTP request | Description
 *SwaggerClient::POAMApi* | [**get_system_poams_by_poam_id**](docs/POAMApi.md#get_system_poams_by_poam_id) | **GET** /api/systems/{systemId}/poams/{poamId} | Get POA&M item by ID in a system
 *SwaggerClient::POAMApi* | [**update_poam_by_system_id**](docs/POAMApi.md#update_poam_by_system_id) | **PUT** /api/systems/{systemId}/poams | Update one or many POA&M items in a system
 *SwaggerClient::RegistrationApi* | [**register_user**](docs/RegistrationApi.md#register_user) | **POST** /api/api-key | Register user certificate and obtain an API key
-*SwaggerClient::StaticCodeScansApi* | [**add_pac_approval_chain_by_system_id**](docs/StaticCodeScansApi.md#add_pac_approval_chain_by_system_id) | **POST** /api/systems/{systemId}/static-code-scans | Upload static code scans or Clear static code scans
+*SwaggerClient::StaticCodeScansApi* | [**add_static_code_scans_by_system_id**](docs/StaticCodeScansApi.md#add_static_code_scans_by_system_id) | **POST** /api/systems/{systemId}/static-code-scans | Upload static code scans or Clear static code scans
 *SwaggerClient::SystemRolesApi* | [**get_system_roles**](docs/SystemRolesApi.md#get_system_roles) | **GET** /api/system-roles | Get available roles
 *SwaggerClient::SystemRolesApi* | [**get_system_roles_by_category_id**](docs/SystemRolesApi.md#get_system_roles_by_category_id) | **GET** /api/system-roles/{roleCategory} | Get system roles
 *SwaggerClient::SystemsApi* | [**get_system**](docs/SystemsApi.md#get_system) | **GET** /api/systems/{systemId} | Get system information for a specific system
@@ -1067,6 +1067,11 @@ Class | Method | HTTP request | Description
  - [SwaggerClient::Roles](docs/Roles.md)
  - [SwaggerClient::Ssps](docs/Ssps.md)
  - [SwaggerClient::Stage](docs/Stage.md)
+ - [SwaggerClient::StaticCodeApplication](docs/StaticCodeApplication.md)
+ - [SwaggerClient::StaticCodeRequestPostBody](docs/StaticCodeRequestPostBody.md)
+ - [SwaggerClient::StaticCodeRequiredPost](docs/StaticCodeRequiredPost.md)
+ - [SwaggerClient::StaticCodeRequiredPostApplication](docs/StaticCodeRequiredPostApplication.md)
+ - [SwaggerClient::Success200Response](docs/Success200Response.md)
  - [SwaggerClient::SystemIdArtifactsBody](docs/SystemIdArtifactsBody.md)
  - [SwaggerClient::SystemResponse](docs/SystemResponse.md)
  - [SwaggerClient::SystemRolesCategoryResponse](docs/SystemRolesCategoryResponse.md)

@@ -146,12 +146,10 @@ tags:
     description: >
       The Cybersecurity Maturity Model Certification (CMMC) Assessments endpoint provides the
       ability to view CMMC assessment information. It is available to CMMC eMASS only.
-
   - name: Static Code Scans
     description: >
       The Static Code Scans endpoint provides the ability to upload application scan findings
-      into a system’s assets module. Application findings can also be cleared from the system.
-
+      into a system's assets module. Application findings can also be cleared from the system.
   - name: Workflow Definitions
     description: >
       The Workflow Definitions endpoint provides the ability to view all workflow schemas 
@@ -1129,6 +1127,7 @@ paths:
             application/json:
               schema:
                 "$ref": "#/components/schemas/500"
+
   #----------------------------------------------------------------------------
   # Milestones endpoint
   #----------------------------------------------------------------------------
@@ -2190,8 +2189,11 @@ paths:
         - Static Code Scans
       summary: "Upload static code scans or Clear static code scans"
       description: |-
-        Upload or clear application scan findings into a system’s `systemId` assets module.
-      operationId: addPacApprovalChainBySystemId
+        Upload or clear application scan findings into a system's `systemId` assets module.
+
+        **Note:** To clear an application's findings, use only the field `clearFindings` as
+        the Request body and set it to true.
+      operationId: addStaticCodeScansBySystemId
       parameters:
         - $ref: "#/components/parameters/systemId"
       requestBody:
@@ -2199,7 +2201,7 @@ paths:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/PacRequestPostBody"
+              "$ref": "#/components/schemas/StaticCodeRequestPostBody"
         required: true
       responses:
         '200':
@@ -2207,7 +2209,7 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": "#/components/schemas/PacResponsePost"
+                "$ref": "#/components/schemas/Success200Response"
         '201':
           description: "Created"
           content:
@@ -2799,7 +2801,7 @@ components:
           description: "[Required] Field is required for Implementation Plan."
           example: 1638741660
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         implementationNarrative:
           type: string
           description: "[Required] Includes security control comments. Character Limit = 2,000."
@@ -2902,7 +2904,7 @@ components:
           description: "[Required] Unix time format."
           example: 1638741660
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         description:
           type: string
           description: "[Required] Include description of test result. 4000 Characters."
@@ -2961,9 +2963,9 @@ components:
           type: integer
           format: int64
           description: "[Required] Unix date format."
-          example: 1499644800
+          example: 1599644800
           minimum: 1500000000
-          maximum: 1700000000    
+          maximum: 1900000000    
     MilestonesRequestPutBody:
       title: Milestones PUT Query Body
       type: object
@@ -2985,9 +2987,9 @@ components:
           type: integer
           format: int64
           description: "[Required] Unix date format."
-          example: 1499644800
+          example: 1599644800
           minimum: 1500000000
-          maximum: 1700000000    
+          maximum: 1900000000    
     ArtifactsRequestPutBody:
       title: Artifacts PUT Query Body
       type: object
@@ -3039,14 +3041,14 @@ components:
           description: "[Optional] Date Artifact expires and requires review. In Unix Date format."
           example: 1549036928
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         lastReviewedDate:
           type: integer
           format: int64
           description: "[Conditional] Date Artifact was last reviewed.. Unix time format."
           example: 1549036928
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
     CacRequestPostBody:
       title: CAC POST Query Body
       type: object
@@ -3081,7 +3083,12 @@ components:
           description: "[Required] Character Limit = 4,000."
           x-faker: random.words
           example: "Comments text."      
-
+    StaticCodeRequestPostBody:
+      title: Static Code PUT Query Body
+      type: object
+      additionalProperties: false
+      $ref: "#/components/schemas/StaticCodeRequiredPost"
+ 
     #----------------------------------------------------------------------------
     # Request Body supporting fields for (POSTs & PUTs)
     #----------------------------------------------------------------------------
@@ -3182,7 +3189,6 @@ components:
             - "I"
             - "II"
             - "III"
-
         relevanceOfThreat:
           type: string
           description: "[Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)"
@@ -3253,9 +3259,9 @@ components:
           type: integer
           format: int64
           description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
-          example: 1499644800
+          example: 1599644800
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         comments:
           type: string
           description: "[Conditional] Field is required for completed and risk accepted POA&M items. 2000 Characters"
@@ -3267,7 +3273,7 @@ components:
           description: "[Conditional] Field is required for completed POA&M items. Unix time format."
           example: 1505916276
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         milestones:
             type: array
             minimum: 1
@@ -3444,9 +3450,9 @@ components:
           type: integer
           format: int64
           description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
-          example: 1499644800
+          example: 1599644800
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         comments:
           type: string
           description: "[Conditional] Field is required for completed and risk accepted POA&M items. 2000 Characters"
@@ -3458,7 +3464,7 @@ components:
           description: "[Conditional] Field is required for completed POA&M items. Unix time format."
           example: 1505916276
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         isActive:
           type: boolean
           description: "[Conditional] Optionally used in PUT to delete milestones when updating a POA&M."
@@ -3487,9 +3493,9 @@ components:
           type: integer
           format: int64
           description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
-          example: 1499644800
+          example: 1599644800
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
     MilestonesRequiredPut:
       title: Milestones
       type: object
@@ -3515,10 +3521,72 @@ components:
           type: integer
           format: int64
           description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
-          example: 1499644800
+          example: 1599644800
           minimum: 1500000000
-          maximum: 1700000000
-
+          maximum: 1900000000
+    StaticCodeRequiredPost:
+      title: StaticCode
+      type: object
+      additionalProperties: false
+      properties:
+        application:
+          type: object
+          properties:
+            applicationName:
+              type: string
+              description: "[Required] Name of the software application that was assessed."
+              x-faker: company.companyName
+              example: 'Artemis'
+            version:
+              type: string
+              description: "[Required] The version of the application."
+              x-faker: system.semver
+              example: 'Version 5.0'
+        applicationFindings:
+          type: array
+          minimum: 1
+          maxItems: 3
+          items:
+            $ref: "#/components/schemas/StaticCodeApplication"
+    StaticCodeApplication:
+      title: Static Code Application POST object"
+      type: object
+      additionalProperties: false
+      properties:
+        rawSeverity:
+          type: string
+          description: "[Optional] Scan vulnerability ratting"
+          example: "Moderate"
+          enum: [Low, Medium, Moderate, High, Critical]
+        codeCheckName:
+          type: string
+          description: "[Required] Name of the software vulnerability or weakness."
+          example: "Hidden Field"
+          enum: ['Hidden Field', 'Redundant Check', 'Invalid Field', 'Vulnerable Field']
+        count:
+          type: integer
+          format: int64
+          description: "[Optional] Number of instances observed for a specified finding."
+          example: 14
+          minimum: 1
+          maximum: 50
+        scanDate:
+          type: integer
+          format: int64
+          description: "[Required] The date of the scan. Unix date format."
+          example: 1625070000
+          minimum: 1500000000
+          maximum: 1900000000
+        cweId:
+          type: string
+          description: '[Required] The Common Weakness Enumerator (CWE) identifier.'
+          x-faker: number.number
+          example: '155'
+        clearFindings:
+          type: boolean
+          description: "[Optional] When used by itself, can clear out all application findings for a single application/version pairing."
+          x-faker: random.boolean
+          example: false          
     #----------------------------------------------------------------------------
     # 200 Responses
     #----------------------------------------------------------------------------
@@ -3711,7 +3779,7 @@ components:
           "$ref": "#/components/schemas/200"
         data:
           type: array
-          maxItems: 10
+          maxItems: 1
           items:
             $ref: "#/components/schemas/MilestonesPost"
     MilestoneResponsePut:
@@ -3723,7 +3791,7 @@ components:
           "$ref": "#/components/schemas/200"
         data:
           type: array
-          maxItems: 10
+          maxItems: 1
           items:
             $ref: "#/components/schemas/MilestonesPut"
     ArtifactsResponseGet:
@@ -3858,7 +3926,8 @@ components:
         meta:
           "$ref": "#/components/schemas/200"
         data:
-          maxItems: 10
+          maxItems: 1
+          minItems: 1
           type: array
           items:
             $ref: '#/components/schemas/PacPost'
@@ -3898,6 +3967,26 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/WorkflowInstancesGet'
+    Success200Response:
+      title: "Default success response schema"
+      type: object
+      additionalProperties: false
+      properties:
+        meta:
+          "$ref": "#/components/schemas/200"
+        data:
+          maxItems: 1
+          minItems: 1
+          type: array
+          items:
+            type: object
+            additionalProperties: false
+            properties:
+
+              success:
+                type: boolean
+                x-faker: random.boolean
+                example: true           
     Empty200Response:
       type: object
 
@@ -4007,13 +4096,13 @@ components:
           description: "[Read-only] Authorization Date of the system record."
           example: 1638741660
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         authorizationTerminationDate:
           type: integer
           description: "[Read-only] Authorization Termination Date of the system record."
           example: 1638741660
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         authorizationLength:
           type: integer
           description: "[Read-only] Length of system’s Authorization. Calculated based off of Authorization Date & Authorization Termination Date."
@@ -4035,7 +4124,7 @@ components:
           description: "[Read-only] Approval date of the system’s RMF Security Plan."
           example: 1638741660
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         missionCriticality:
           type: string
           description: "[Read-only] Mission Criticality of the system record. Values include the following options (Mission Critical (MC), Mission Essential (ME), Mission Support (MS)."
@@ -4137,13 +4226,13 @@ components:
           description: "[Read-only] Date the system record’s Contingency Plan was tested."
           example: 1426957321
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         securityReviewDate:
           type: integer
           description: "[Read-only] Date the system record’s Annual Security Review was conducted."
           example: 1531958400
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         hasOpenPoamItem:
           type: boolean
           description: "[Read-Only] Does the system record have an Ongoing or Risk Accepted POA&M Item?"
@@ -4409,7 +4498,7 @@ components:
           description: "[Required] Field is required for Implementation Plan."
           example: 1638741660
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         implementationNarrative:
           type: string
           description: "[Required] Includes security control comments. Character Limit = 2,000."
@@ -4550,7 +4639,7 @@ components:
           description: "[Required] Unix time format."
           example: 1638741660
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         description:
           type: string
           description: "[Required] Include description of test result. 4000 Characters."
@@ -4738,16 +4827,16 @@ components:
           type: integer
           format: int64
           description: "[Conditional] Required for ongoing and completed POA&M items. Unix time format."
-          example: 1499644800
+          example: 1599644800
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         completionDate:
           type: integer
           format: int64
           description: "[Conditional] Field is required for completed POA&M items. Unix time format."
           example: 1505916276
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         extensionDate:
           type: integer
           format: int64
@@ -4757,7 +4846,7 @@ components:
             that extends beyond the POA&M Item’s scheduled completion date.
           example: 1505916298
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         comments:
           type: string
           description: "[Conditional] Field is required for completed and risk accepted POA&M items. 2000 Characters"
@@ -4851,9 +4940,9 @@ components:
           type: integer
           format: int64
           description: "[Required] Required for ongoing and completed POA&M items. Unix time format."
-          example: 1499644800
+          example: 1599644800
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         reviewStatus:
           type: string
           description: "[Read-Only] Values include the following options: (Not Approved,Under Review,Approved)"
@@ -4982,14 +5071,14 @@ components:
           description: "[Optional] Date Artifact expires and requires review. In Unix Date format."
           example: 1549036926
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         lastReviewedDate:
           type: integer
           format: int64
           description: "[Conditional] Date Artifact was last reviewed.. Unix time format."
           example: 1549036928
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
     ArtifactsDelete:
       title: Artifacts - return query from the server for the DELETE call
       type: array
@@ -5171,7 +5260,7 @@ components:
           description: "[Read-Only] Expiration date of the awarded CMMC certification."
           example: 1638741660
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         certificateId:
           type: string
           description: "[Read-Only] Unique identifier for the assessment/certificate."
@@ -5208,7 +5297,7 @@ components:
           description: "Date of the System Security Plan. Unix date format."
           example: 1638741660
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
     WorkflowDefinitionGet:
       title: Workflow Definition - return query from the server for the GET call
       type: object
@@ -5286,7 +5375,7 @@ components:
           description: "[Read-Only] Date the workflow instance or the workflow transition was created."
           example: 1636124623
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         currentStage:
           type: string
           description: "[Read-Only] Name of the current stage."
@@ -5303,7 +5392,7 @@ components:
           description: "[Read-Only] Date the workflow was last acted on."
           example: 1631130837
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         packageName:
           type: string
           description: "[Read-Only] The package name."
@@ -5358,7 +5447,7 @@ components:
           description: "[Read-Only] Date the workflow instance or the workflow transition was created."
           example: 1636124623
           minimum: 1500000000
-          maximum: 1700000000
+          maximum: 1900000000
         description:  
           type: string
           description: "[Read-Only] Description of the stage transition. This matches the action dropdown that appears for PAC users."
@@ -5374,6 +5463,7 @@ components:
           description: "[Read-Only] The beginning stage that is active before performing a transition."
           example: "Not Started"
           enum: ["Not Started","PM/ISO","Categorize System","Submit Categorization","Approval","Deny"]   
+  
     #----------------------------------------------------------------------------
     # 400 Responses
     #----------------------------------------------------------------------------
@@ -5554,7 +5644,10 @@ components:
             errorMessage:
               type: string
               default: "Server encountered an unexpected condition which prevented it from fulfilling the request"
+
+    #----------------------------------------------------------------------------  
     # Schema for error response body
+    #----------------------------------------------------------------------------
     Error:
       title: "ResponseDefaultError"
       type: object
@@ -5567,7 +5660,9 @@ components:
         - code
         - message      
 
+  #----------------------------------------------------------------------------
   # Security schemes
+  #----------------------------------------------------------------------------
   securitySchemes:
     apikey:
       type: apiKey

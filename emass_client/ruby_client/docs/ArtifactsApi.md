@@ -207,7 +207,7 @@ Name | Type | Description  | Notes
 
 Update one or many artifacts in a system
 
-Updates an artifact for given `systemId` path parameter<br><br> <b>Business Rules</b></br> Artifact <b>cannot be saved</b> if the fields below exceed the following character limits:<br> <ul>   <li>filename 1000 characters</li>   <li>description 2000 characters</li>    <li>refPageNumber 50 characters</li> </ul>  Artifact <b>cannot be saved</b> if the following fields are missing data:<br> `fileName`, `isTemplate`, `type`, and `category`
+Updates an artifact for given `systemId` path parameter<br><br> <b>Business Rules</b></br> Artifact <b>cannot be saved</b> if the fields below exceed the following character limits:<br> <ul>   <li>fileame 1,000 characters</li>   <li>description 2,000 characters</li>    <li>refPageNumber 50 characters</li> </ul>  Artifact <b>cannot be saved</b> if the following fields are missing data:<br> `fileName`, `isTemplate`, `type`, and `category`
 
 ### Example
 ```ruby

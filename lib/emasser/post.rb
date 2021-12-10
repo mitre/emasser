@@ -240,7 +240,7 @@ module Emasser
         elsif options[:status] == "Completed"
           if options[:scheduledCompletionDate].nil? || options[:comments].nil? ||
              options[:completionDate].nil? || options[:milestone].nil?
-            puts 'Missing one of these parameters/fields:'.red
+            puts 'When status = "Completed" the following parameters/fields are required:'.red
             puts '    scheduledCompletionDate, comments, completionDate, or milestone'.red
             print_milestone_help
             puts NEW_LINE + 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
@@ -311,8 +311,9 @@ module Emasser
     end
 
     desc 'add', 'Add milestones to one or many POA&M items in a system'
-    long_desc Help.text(:milestone_put_mapper)
+    long_desc Help.text(:milestone_post_mapper)
 
+    # Required parameters/fields
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :poamId, type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
     option :description, type: :string,  required: true, desc: 'The milestone description'
@@ -486,6 +487,105 @@ module Emasser
     end
   end
 
+  # TThe Static Code Scans endpoint provides the ability to upload application
+  # scan findings into a system's assets module.
+  #
+  # Application findings can also be cleared from the system.
+  #
+  # Endpoint:
+  #   /api/systems/{systemId}/static-code-scans - Upload static code scans
+  class ScanFindings < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'add', 'Upload static code scans'
+    long_desc Help.text(:staticcode_post_mapper)
+
+    # Required parameters/fields
+    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :applicationName, type: :string, required: true, desc: 'Name of the software application that was assessed'
+    option :version, type: :string, required: true, desc: 'The version of the application'
+    option :codeCheckName, type: :string, required: true, desc: 'Name of the software vulnerability or weakness'
+    option :scanDate, type: :numeric, required: false, desc: 'The findings scan date - Unix time format'
+    option :cweId, type: :string, required: true, desc: 'The Common Weakness Enumerator (CWE) identifier'
+
+    # Optional parameter/fields
+    option :rawSeverity, type: :string, required: false, enum: %w[Low Medium Moderate High Critical]
+    option :count, type: :numeric, required: false, desc: 'Number of instances observed for a specified finding'
+
+    def add
+      application = SwaggerClient::StaticCodeRequiredPostApplication.new
+      application.application_name = options[:applicationName]
+      application.version = options[:version]
+
+      application_findings = SwaggerClient::StaticCodeApplication.new
+      application_findings.code_check_name = options[:codeCheckName]
+      application_findings.scan_date = options[:scanDate]
+      application_findings.cwe_id = options[:cweId]
+
+      application_findings.raw_severity = options[:rawSeverity] if options[:rawSeverity]
+      application_findings.count = options[:count] if options[:count]
+
+      body = SwaggerClient::StaticCodeRequiredPost.new
+      body.application = application
+      body.application_findings = application_findings
+
+      body_array = Array.new(1, body)
+
+      begin
+        result = SwaggerClient::StaticCodeScansApi
+                 .new.add_static_code_scans_by_system_id(body_array, options[:systemId])
+        puts to_output_hash(result).green
+      rescue SwaggerClient::ApiError => e
+        puts 'Exception when calling StaticCodeScansApi->add_static_code_scans_by_system_id'.red
+        puts to_output_hash(e)
+      end
+    end
+
+    # CLEAR ------------------------------------------------------------------------------------
+    desc 'clear', 'Clear an application findings'
+    long_desc Help.text(:staticcode_clear_mapper)
+
+    # Required parameters/fields
+    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :applicationName, type: :string, required: true, desc: 'Name of the software application that was assessed'
+    option :version, type: :string, required: true, desc: 'The version of the application'
+    option :clearFindings, type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false'
+    # NOTE: clearFindings is a required parameter to clear an application's findings, however Thor does not allow
+    # a boolean type to be required because it automatically creates a --no-clearFindings option for clearFindings=false
+
+    def clear
+      unless options[:clearFindings]
+        puts 'To clear an application findings, the field clearFindings (--clearFindings) is required'.red
+        puts NEW_LINE + 'Invoke "bundle exec exe/emasser post scan_findings help clear" for additional help'.yellow
+        exit
+      end
+
+      application = SwaggerClient::StaticCodeRequiredPostApplication.new
+      application.application_name = options[:applicationName]
+      application.version = options[:version]
+
+      application_findings = SwaggerClient::StaticCodeApplication.new
+      application_findings.clear_findings = options[:clearFindings]
+
+      body = SwaggerClient::StaticCodeRequiredPost.new
+      body.application = application
+      body.application_findings = application_findings
+
+      body_array = Array.new(1, body)
+
+      begin
+        result = SwaggerClient::StaticCodeScansApi
+                 .new.add_static_code_scans_by_system_id(body_array, options[:systemId])
+        puts to_output_hash(result).green
+      rescue SwaggerClient::ApiError => e
+        puts 'Exception when calling StaticCodeScansApi->add_static_code_scans_by_system_id'.red
+        puts to_output_hash(e)
+      end
+    end
+  end
+
   class Post < SubCommandBase
     desc 'test_results', 'Add system Test Results'
     subcommand 'test_results', TestResults
@@ -504,5 +604,8 @@ module Emasser
 
     desc 'pac', 'Add Package Approval Chain (PAC) security content'
     subcommand 'pac', PAC
+
+    desc 'scan_findings', 'Upload static code scans'
+    subcommand 'scan_findings', ScanFindings
   end
 end

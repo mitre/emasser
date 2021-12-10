@@ -17,7 +17,7 @@ module SwaggerClient
       @api_client = api_client
     end
     # Add one or many POA&M items in a system
-    # Add a POA&M for given `systemId`<br>  **Request Body Required Fields** - `status` - `vulnerabilityDescription` - `sourceIdentVuln` - `reviewStatus`  **Note**<br /> If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are **required** within the request.<br> `pocOrganization`, `pocFirstName`, `pocLastName`, `pocEmail`, `pocPhoneNumber`<br />
+    # Add a POA&M for given `systemId`<br>  **Request Body Required Fields** - `status` - `vulnerabilityDescription` - `sourceIdentVuln` - `pocOrganization` - `resources`  **Note**<br /> If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are **required** within the request.<br> `pocFirstName`, `pocLastName`, `pocPhoneNumber`<br />
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
@@ -28,7 +28,7 @@ module SwaggerClient
     end
 
     # Add one or many POA&amp;M items in a system
-    # Add a POA&amp;M for given &#x60;systemId&#x60;&lt;br&gt;  **Request Body Required Fields** - &#x60;status&#x60; - &#x60;vulnerabilityDescription&#x60; - &#x60;sourceIdentVuln&#x60; - &#x60;reviewStatus&#x60;  **Note**&lt;br /&gt; If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are **required** within the request.&lt;br&gt; &#x60;pocOrganization&#x60;, &#x60;pocFirstName&#x60;, &#x60;pocLastName&#x60;, &#x60;pocEmail&#x60;, &#x60;pocPhoneNumber&#x60;&lt;br /&gt;
+    # Add a POA&amp;M for given &#x60;systemId&#x60;&lt;br&gt;  **Request Body Required Fields** - &#x60;status&#x60; - &#x60;vulnerabilityDescription&#x60; - &#x60;sourceIdentVuln&#x60; - &#x60;pocOrganization&#x60; - &#x60;resources&#x60;  **Note**&lt;br /&gt; If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are **required** within the request.&lt;br&gt; &#x60;pocFirstName&#x60;, &#x60;pocLastName&#x60;, &#x60;pocPhoneNumber&#x60;&lt;br /&gt;
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters

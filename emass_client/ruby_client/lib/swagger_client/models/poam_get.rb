@@ -19,6 +19,9 @@ module SwaggerClient
     # [Required] Unique item identifier
     attr_accessor :poam_id
 
+    # [Required] Globally unique identifier for individual POA&M Items, seen on the front-end as “ID”.
+    attr_accessor :display_poam_id
+
     # [Read-only] Indicates whether a test result is inherited.
     attr_accessor :is_inherited
 
@@ -135,6 +138,7 @@ module SwaggerClient
       {
         :'system_id' => :'systemId',
         :'poam_id' => :'poamId',
+        :'display_poam_id' => :'displayPoamId',
         :'is_inherited' => :'isInherited',
         :'external_uid' => :'externalUid',
         :'control_acronyms' => :'controlAcronyms',
@@ -173,6 +177,7 @@ module SwaggerClient
       {
         :'system_id' => :'Object',
         :'poam_id' => :'Object',
+        :'display_poam_id' => :'Object',
         :'is_inherited' => :'Object',
         :'external_uid' => :'Object',
         :'control_acronyms' => :'Object',
@@ -233,6 +238,10 @@ module SwaggerClient
 
       if attributes.key?(:'poam_id')
         self.poam_id = attributes[:'poam_id']
+      end
+
+      if attributes.key?(:'display_poam_id')
+        self.display_poam_id = attributes[:'display_poam_id']
       end
 
       if attributes.key?(:'is_inherited')
@@ -474,6 +483,7 @@ module SwaggerClient
       self.class == o.class &&
           system_id == o.system_id &&
           poam_id == o.poam_id &&
+          display_poam_id == o.display_poam_id &&
           is_inherited == o.is_inherited &&
           external_uid == o.external_uid &&
           control_acronyms == o.control_acronyms &&
@@ -515,7 +525,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [system_id, poam_id, is_inherited, external_uid, control_acronyms, cci, status, review_status, vulnerability_description, source_ident_vuln, security_checks, milestones, poc_organization, poc_first_name, poc_last_name, poc_email, poc_phone_number, severity, raw_severity, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, recommendations, resources, scheduled_completion_date, completion_date, extension_date, comments, mitigation, is_active].hash
+      [system_id, poam_id, display_poam_id, is_inherited, external_uid, control_acronyms, cci, status, review_status, vulnerability_description, source_ident_vuln, security_checks, milestones, poc_organization, poc_first_name, poc_last_name, poc_email, poc_phone_number, severity, raw_severity, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, recommendations, resources, scheduled_completion_date, completion_date, extension_date, comments, mitigation, is_active].hash
     end
 
     # Builds the object from hash

@@ -4,14 +4,14 @@ All URIs are relative to *http://localhost:4010*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**add_pac_approval_chain_by_system_id**](StaticCodeScansApi.md#add_pac_approval_chain_by_system_id) | **POST** /api/systems/{systemId}/static-code-scans | Upload static code scans or Clear static code scans
+[**add_static_code_scans_by_system_id**](StaticCodeScansApi.md#add_static_code_scans_by_system_id) | **POST** /api/systems/{systemId}/static-code-scans | Upload static code scans or Clear static code scans
 
-# **add_pac_approval_chain_by_system_id**
-> PacResponsePost add_pac_approval_chain_by_system_id(bodysystem_id)
+# **add_static_code_scans_by_system_id**
+> Success200Response add_static_code_scans_by_system_id(bodysystem_id)
 
 Upload static code scans or Clear static code scans
 
-Upload or clear application scan findings into a system’s `systemId` assets module.
+Upload or clear application scan findings into a system's `systemId` assets module.  **Note:** To clear an application's findings, use only the field `clearFindings` as the Request body and set it to true.
 
 ### Example
 ```ruby
@@ -31,16 +31,16 @@ SwaggerClient.configure do |config|
 end
 
 api_instance = SwaggerClient::StaticCodeScansApi.new
-body = SwaggerClient::PacRequestPostBody.new # PacRequestPostBody | Update an existing Artifact by Id
+body = SwaggerClient::StaticCodeRequiredPost.new # StaticCodeRequiredPost | Update an existing Artifact by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
 begin
   #Upload static code scans or Clear static code scans
-  result = api_instance.add_pac_approval_chain_by_system_id(bodysystem_id)
+  result = api_instance.add_static_code_scans_by_system_id(bodysystem_id)
   p result
 rescue SwaggerClient::ApiError => e
-  puts "Exception when calling StaticCodeScansApi->add_pac_approval_chain_by_system_id: #{e}"
+  puts "Exception when calling StaticCodeScansApi->add_static_code_scans_by_system_id: #{e}"
 end
 ```
 
@@ -48,12 +48,12 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**PacRequestPostBody**](PacRequestPostBody.md)| Update an existing Artifact by Id | 
+ **body** | [**StaticCodeRequiredPost**](StaticCodeRequiredPost.md)| Update an existing Artifact by Id | 
  **system_id** | **Integer**| **System Id**: The unique system record identifier. | 
 
 ### Return type
 
-[**PacResponsePost**](PacResponsePost.md)
+[**Success200Response**](Success200Response.md)
 
 ### Authorization
 

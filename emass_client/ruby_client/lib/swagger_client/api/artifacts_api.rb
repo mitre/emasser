@@ -243,7 +243,7 @@ module SwaggerClient
       return data, status_code, headers
     end
     # Update one or many artifacts in a system
-    # Updates an artifact for given `systemId` path parameter<br><br> <b>Business Rules</b></br> Artifact <b>cannot be saved</b> if the fields below exceed the following character limits:<br> <ul>   <li>filename 1000 characters</li>   <li>description 2000 characters</li>    <li>refPageNumber 50 characters</li> </ul>  Artifact <b>cannot be saved</b> if the following fields are missing data:<br> `fileName`, `isTemplate`, `type`, and `category`
+    # Updates an artifact for given `systemId` path parameter<br><br> <b>Business Rules</b></br> Artifact <b>cannot be saved</b> if the fields below exceed the following character limits:<br> <ul>   <li>fileame 1,000 characters</li>   <li>description 2,000 characters</li>    <li>refPageNumber 50 characters</li> </ul>  Artifact <b>cannot be saved</b> if the following fields are missing data:<br> `fileName`, `isTemplate`, `type`, and `category`
     # @param body See &#x60;information&#x60; above for additional instructions
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
@@ -254,7 +254,7 @@ module SwaggerClient
     end
 
     # Update one or many artifacts in a system
-    # Updates an artifact for given &#x60;systemId&#x60; path parameter&lt;br&gt;&lt;br&gt; &lt;b&gt;Business Rules&lt;/b&gt;&lt;/br&gt; Artifact &lt;b&gt;cannot be saved&lt;/b&gt; if the fields below exceed the following character limits:&lt;br&gt; &lt;ul&gt;   &lt;li&gt;filename 1000 characters&lt;/li&gt;   &lt;li&gt;description 2000 characters&lt;/li&gt;    &lt;li&gt;refPageNumber 50 characters&lt;/li&gt; &lt;/ul&gt;  Artifact &lt;b&gt;cannot be saved&lt;/b&gt; if the following fields are missing data:&lt;br&gt; &#x60;fileName&#x60;, &#x60;isTemplate&#x60;, &#x60;type&#x60;, and &#x60;category&#x60;
+    # Updates an artifact for given &#x60;systemId&#x60; path parameter&lt;br&gt;&lt;br&gt; &lt;b&gt;Business Rules&lt;/b&gt;&lt;/br&gt; Artifact &lt;b&gt;cannot be saved&lt;/b&gt; if the fields below exceed the following character limits:&lt;br&gt; &lt;ul&gt;   &lt;li&gt;fileame 1,000 characters&lt;/li&gt;   &lt;li&gt;description 2,000 characters&lt;/li&gt;    &lt;li&gt;refPageNumber 50 characters&lt;/li&gt; &lt;/ul&gt;  Artifact &lt;b&gt;cannot be saved&lt;/b&gt; if the following fields are missing data:&lt;br&gt; &#x60;fileName&#x60;, &#x60;isTemplate&#x60;, &#x60;type&#x60;, and &#x60;category&#x60;
     # @param body See &#x60;information&#x60; above for additional instructions
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters

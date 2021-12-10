@@ -13,6 +13,9 @@ require 'date'
 
 module SwaggerClient
   class PoamRequiredPost
+    # [Required] Globally unique identifier for individual POA&M Items, seen on the front-end as “ID”.
+    attr_accessor :display_poam_id
+
     # [Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable
     attr_accessor :status
 
@@ -22,11 +25,11 @@ module SwaggerClient
     # [Required] Include Source Identifying Vulnerability text. 2000 Characters.
     attr_accessor :source_ident_vuln
 
-    # OPTIONAL/REQUIRED Values include the following options: (Not Approved,Under Review,Approved)
-    attr_accessor :review_status
-
     # [Required] Organization/Office represented. 100 Characters.
     attr_accessor :poc_organization
+
+    # [Required] List of resources used. 250 Characters.
+    attr_accessor :resources
 
     # [Required] First name of POC. 100 Characters.
     attr_accessor :poc_first_name
@@ -54,9 +57,6 @@ module SwaggerClient
 
     # [Optional] Values include the following options (I,II,III)
     attr_accessor :raw_severity
-
-    # [Optional] List of resources used. 250 Characters.
-    attr_accessor :resources
 
     # [Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)
     attr_accessor :relevance_of_threat
@@ -118,11 +118,12 @@ module SwaggerClient
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'display_poam_id' => :'displayPoamId',
         :'status' => :'status',
         :'vulnerability_description' => :'vulnerabilityDescription',
         :'source_ident_vuln' => :'sourceIdentVuln',
-        :'review_status' => :'reviewStatus',
         :'poc_organization' => :'pocOrganization',
+        :'resources' => :'resources',
         :'poc_first_name' => :'pocFirstName',
         :'poc_last_name' => :'pocLastName',
         :'poc_email' => :'pocEmail',
@@ -132,7 +133,6 @@ module SwaggerClient
         :'cci' => :'cci',
         :'security_checks' => :'securityChecks',
         :'raw_severity' => :'rawSeverity',
-        :'resources' => :'resources',
         :'relevance_of_threat' => :'relevanceOfThreat',
         :'likelihood' => :'likelihood',
         :'impact' => :'impact',
@@ -151,11 +151,12 @@ module SwaggerClient
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'display_poam_id' => :'Object',
         :'status' => :'Object',
         :'vulnerability_description' => :'Object',
         :'source_ident_vuln' => :'Object',
-        :'review_status' => :'Object',
         :'poc_organization' => :'Object',
+        :'resources' => :'Object',
         :'poc_first_name' => :'Object',
         :'poc_last_name' => :'Object',
         :'poc_email' => :'Object',
@@ -165,7 +166,6 @@ module SwaggerClient
         :'cci' => :'Object',
         :'security_checks' => :'Object',
         :'raw_severity' => :'Object',
-        :'resources' => :'Object',
         :'relevance_of_threat' => :'Object',
         :'likelihood' => :'Object',
         :'impact' => :'Object',
@@ -202,6 +202,10 @@ module SwaggerClient
         h[k.to_sym] = v
       }
 
+      if attributes.key?(:'display_poam_id')
+        self.display_poam_id = attributes[:'display_poam_id']
+      end
+
       if attributes.key?(:'status')
         self.status = attributes[:'status']
       end
@@ -214,12 +218,12 @@ module SwaggerClient
         self.source_ident_vuln = attributes[:'source_ident_vuln']
       end
 
-      if attributes.key?(:'review_status')
-        self.review_status = attributes[:'review_status']
-      end
-
       if attributes.key?(:'poc_organization')
         self.poc_organization = attributes[:'poc_organization']
+      end
+
+      if attributes.key?(:'resources')
+        self.resources = attributes[:'resources']
       end
 
       if attributes.key?(:'poc_first_name')
@@ -256,10 +260,6 @@ module SwaggerClient
 
       if attributes.key?(:'raw_severity')
         self.raw_severity = attributes[:'raw_severity']
-      end
-
-      if attributes.key?(:'resources')
-        self.resources = attributes[:'resources']
       end
 
       if attributes.key?(:'relevance_of_threat')
@@ -325,8 +325,8 @@ module SwaggerClient
     def valid?
       status_validator = EnumAttributeValidator.new('Object', ['Ongoing', 'Risk Accepted', 'Completed', 'Not Applicable'])
       return false unless status_validator.valid?(@status)
-      review_status_validator = EnumAttributeValidator.new('Object', ['Not Approved', 'Under Review', 'Approved'])
-      return false unless review_status_validator.valid?(@review_status)
+      source_ident_vuln_validator = EnumAttributeValidator.new('Object', ['Not Approved', 'Under Review', 'Approved'])
+      return false unless source_ident_vuln_validator.valid?(@source_ident_vuln)
       raw_severity_validator = EnumAttributeValidator.new('Object', ['I', 'II', 'III'])
       return false unless raw_severity_validator.valid?(@raw_severity)
       relevance_of_threat_validator = EnumAttributeValidator.new('Object', ['Very Low', 'Low', 'Moderate', 'High', 'Very High'])
@@ -353,13 +353,13 @@ module SwaggerClient
     end
 
     # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] review_status Object to be assigned
-    def review_status=(review_status)
+    # @param [Object] source_ident_vuln Object to be assigned
+    def source_ident_vuln=(source_ident_vuln)
       validator = EnumAttributeValidator.new('Object', ['Not Approved', 'Under Review', 'Approved'])
-      unless validator.valid?(review_status)
-        fail ArgumentError, "invalid value for \"review_status\", must be one of #{validator.allowable_values}."
+      unless validator.valid?(source_ident_vuln)
+        fail ArgumentError, "invalid value for \"source_ident_vuln\", must be one of #{validator.allowable_values}."
       end
-      @review_status = review_status
+      @source_ident_vuln = source_ident_vuln
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -427,11 +427,12 @@ module SwaggerClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          display_poam_id == o.display_poam_id &&
           status == o.status &&
           vulnerability_description == o.vulnerability_description &&
           source_ident_vuln == o.source_ident_vuln &&
-          review_status == o.review_status &&
           poc_organization == o.poc_organization &&
+          resources == o.resources &&
           poc_first_name == o.poc_first_name &&
           poc_last_name == o.poc_last_name &&
           poc_email == o.poc_email &&
@@ -441,7 +442,6 @@ module SwaggerClient
           cci == o.cci &&
           security_checks == o.security_checks &&
           raw_severity == o.raw_severity &&
-          resources == o.resources &&
           relevance_of_threat == o.relevance_of_threat &&
           likelihood == o.likelihood &&
           impact == o.impact &&
@@ -465,7 +465,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [status, vulnerability_description, source_ident_vuln, review_status, poc_organization, poc_first_name, poc_last_name, poc_email, poc_phone_number, external_uid, control_acronym, cci, security_checks, raw_severity, resources, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, recommendations, mitigation, severity, scheduled_completion_date, comments, completion_date, milestones].hash
+      [display_poam_id, status, vulnerability_description, source_ident_vuln, poc_organization, resources, poc_first_name, poc_last_name, poc_email, poc_phone_number, external_uid, control_acronym, cci, security_checks, raw_severity, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, recommendations, mitigation, severity, scheduled_completion_date, comments, completion_date, milestones].hash
     end
 
     # Builds the object from hash

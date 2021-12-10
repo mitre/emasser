@@ -13,13 +13,13 @@ require 'date'
 
 module SwaggerClient
   class MilestonesRequestPutBody
-    # [Required] Unique item identifier
+    # [Required] Unique milestone identifier.
     attr_accessor :milestone_id
 
-    # [Optional] Include milestone description.
+    # [Required] Provide a description of the milestone.
     attr_accessor :description
 
-    # [Conditional] Required for ongoing and completed POA&M items. Unix time format.
+    # [Required] Unix date format.
     attr_accessor :scheduled_completion_date
 
     # Attribute mapping from ruby-style variable name to JSON key.

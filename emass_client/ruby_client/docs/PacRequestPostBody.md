@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**type** | **String** | [Required] Values include the following:(Assess and Authorize, Assess Only, Security Plan) | [optional] 
+**workflow** | **String** | [Required] The PAC workflow | [optional] 
 **name** | **String** | [Required] Package name. 100 Characters. | [optional] 
-**comments** | **String** | [Required] Character Limit &#x3D; 2,000. | [optional] 
+**comments** | **String** | [Required] Character Limit &#x3D; 4,000. | [optional] 
 

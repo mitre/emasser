@@ -13,13 +13,13 @@ require 'date'
 
 module SwaggerClient
   class PacRequestPostBody
-    # [Required] Values include the following:(Assess and Authorize, Assess Only, Security Plan)
-    attr_accessor :type
+    # [Required] The PAC workflow
+    attr_accessor :workflow
 
     # [Required] Package name. 100 Characters.
     attr_accessor :name
 
-    # [Required] Character Limit = 2,000.
+    # [Required] Character Limit = 4,000.
     attr_accessor :comments
 
     class EnumAttributeValidator
@@ -47,7 +47,7 @@ module SwaggerClient
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'type' => :'type',
+        :'workflow' => :'workflow',
         :'name' => :'name',
         :'comments' => :'comments'
       }
@@ -56,7 +56,7 @@ module SwaggerClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'type' => :'Object',
+        :'workflow' => :'Object',
         :'name' => :'Object',
         :'comments' => :'Object'
       }
@@ -83,8 +83,8 @@ module SwaggerClient
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'type')
-        self.type = attributes[:'type']
+      if attributes.key?(:'workflow')
+        self.workflow = attributes[:'workflow']
       end
 
       if attributes.key?(:'name')
@@ -106,19 +106,19 @@ module SwaggerClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      type_validator = EnumAttributeValidator.new('Object', ['Assess and Authorize', 'Assess Only', 'Security Plan'])
-      return false unless type_validator.valid?(@type)
+      workflow_validator = EnumAttributeValidator.new('Object', ['Assess and Authorize', 'Assess Only', 'Security Plan Approval'])
+      return false unless workflow_validator.valid?(@workflow)
       true
     end
 
     # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] type Object to be assigned
-    def type=(type)
-      validator = EnumAttributeValidator.new('Object', ['Assess and Authorize', 'Assess Only', 'Security Plan'])
-      unless validator.valid?(type)
-        fail ArgumentError, "invalid value for \"type\", must be one of #{validator.allowable_values}."
+    # @param [Object] workflow Object to be assigned
+    def workflow=(workflow)
+      validator = EnumAttributeValidator.new('Object', ['Assess and Authorize', 'Assess Only', 'Security Plan Approval'])
+      unless validator.valid?(workflow)
+        fail ArgumentError, "invalid value for \"workflow\", must be one of #{validator.allowable_values}."
       end
-      @type = type
+      @workflow = workflow
     end
 
     # Checks equality by comparing each attribute.
@@ -126,7 +126,7 @@ module SwaggerClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          type == o.type &&
+          workflow == o.workflow &&
           name == o.name &&
           comments == o.comments
     end
@@ -140,7 +140,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [type, name, comments].hash
+      [workflow, name, comments].hash
     end
 
     # Builds the object from hash

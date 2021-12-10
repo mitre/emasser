@@ -3,11 +3,12 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
+**display_poam_id** | **Integer** | [Required] Globally unique identifier for individual POA&amp;M Items, seen on the front-end as “ID”. | [optional] 
 **status** | **String** | [Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable | [optional] 
 **vulnerability_description** | **String** | [Required] Provide a description of the POA&amp;M Item. 2000 Characters. | [optional] 
 **source_ident_vuln** | **String** | [Required] Include Source Identifying Vulnerability text. 2000 Characters. | [optional] 
-**review_status** | **String** | OPTIONAL/REQUIRED Values include the following options: (Not Approved,Under Review,Approved) | [optional] 
 **poc_organization** | **String** | [Required] Organization/Office represented. 100 Characters. | [optional] 
+**resources** | **String** | [Required] List of resources used. 250 Characters. | [optional] 
 **poc_first_name** | **String** | [Required] First name of POC. 100 Characters. | [optional] 
 **poc_last_name** | **String** | [Required] Last name of POC. 100 Characters. | [optional] 
 **poc_email** | **String** | [Required] Email address of POC. 100 Characters. | [optional] 
@@ -17,7 +18,6 @@ Name | Type | Description | Notes
 **cci** | **String** | [Optional] CCI associated with POA&amp;M. | [optional] 
 **security_checks** | **String** | [Optional] Security Checks that are associated with the POA&amp;M. | [optional] 
 **raw_severity** | **String** | [Optional] Values include the following options (I,II,III) | [optional] 
-**resources** | **String** | [Optional] List of resources used. 250 Characters. | [optional] 
 **relevance_of_threat** | **String** | [Optional] Values include the following options (Very Low, Low, Moderate,High,Very High) | [optional] 
 **likelihood** | **String** | [Optional] Values include the following options (Very Low, Low, Moderate,High,Very High) | [optional] 
 **impact** | **String** | [Optional] Values include the following options (Very Low, Low, Moderate,High,Very High) | [optional] 

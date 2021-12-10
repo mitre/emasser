@@ -12,31 +12,68 @@ Swagger Codegen version: 3.0.26
 require 'date'
 
 module SwaggerClient
-  class MilestonesRequestPostBody
-    # [Required] Unique POA&M item identifier.
-    attr_accessor :poam_id
+  class StaticCodeApplication
+    # [Optional] Scan vulnerability ratting
+    attr_accessor :raw_severity
 
-    # [Required] Provide a description of the milestone.
-    attr_accessor :description
+    # [Required] Name of the software vulnerability or weakness.
+    attr_accessor :code_check_name
 
-    # [Required] Unix date format.
-    attr_accessor :scheduled_completion_date
+    # [Optional] Number of instances observed for a specified finding.
+    attr_accessor :count
+
+    # [Required] The date of the scan. Unix date format.
+    attr_accessor :scan_date
+
+    # [Required] The Common Weakness Enumerator (CWE) identifier.
+    attr_accessor :cwe_id
+
+    # [Optional] When used by itself, can clear out all application findings for a single application/version pairing.
+    attr_accessor :clear_findings
+
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'poam_id' => :'poamId',
-        :'description' => :'description',
-        :'scheduled_completion_date' => :'scheduledCompletionDate'
+        :'raw_severity' => :'rawSeverity',
+        :'code_check_name' => :'codeCheckName',
+        :'count' => :'count',
+        :'scan_date' => :'scanDate',
+        :'cwe_id' => :'cweId',
+        :'clear_findings' => :'clearFindings'
       }
     end
 
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'poam_id' => :'Object',
-        :'description' => :'Object',
-        :'scheduled_completion_date' => :'Object'
+        :'raw_severity' => :'Object',
+        :'code_check_name' => :'Object',
+        :'count' => :'Object',
+        :'scan_date' => :'Object',
+        :'cwe_id' => :'Object',
+        :'clear_findings' => :'Object'
       }
     end
 
@@ -50,27 +87,39 @@ module SwaggerClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::MilestonesRequestPostBody` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `SwaggerClient::StaticCodeApplication` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::MilestonesRequestPostBody`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `SwaggerClient::StaticCodeApplication`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'poam_id')
-        self.poam_id = attributes[:'poam_id']
+      if attributes.key?(:'raw_severity')
+        self.raw_severity = attributes[:'raw_severity']
       end
 
-      if attributes.key?(:'description')
-        self.description = attributes[:'description']
+      if attributes.key?(:'code_check_name')
+        self.code_check_name = attributes[:'code_check_name']
       end
 
-      if attributes.key?(:'scheduled_completion_date')
-        self.scheduled_completion_date = attributes[:'scheduled_completion_date']
+      if attributes.key?(:'count')
+        self.count = attributes[:'count']
+      end
+
+      if attributes.key?(:'scan_date')
+        self.scan_date = attributes[:'scan_date']
+      end
+
+      if attributes.key?(:'cwe_id')
+        self.cwe_id = attributes[:'cwe_id']
+      end
+
+      if attributes.key?(:'clear_findings')
+        self.clear_findings = attributes[:'clear_findings']
       end
     end
 
@@ -78,28 +127,37 @@ module SwaggerClient
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if @poam_id.nil?
-        invalid_properties.push('invalid value for "poam_id", poam_id cannot be nil.')
-      end
-
-      if @description.nil?
-        invalid_properties.push('invalid value for "description", description cannot be nil.')
-      end
-
-      if @scheduled_completion_date.nil?
-        invalid_properties.push('invalid value for "scheduled_completion_date", scheduled_completion_date cannot be nil.')
-      end
-
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @poam_id.nil?
-      return false if @description.nil?
-      return false if @scheduled_completion_date.nil?
+      raw_severity_validator = EnumAttributeValidator.new('Object', ['Low', 'Medium', 'Moderate', 'High', 'Critical'])
+      return false unless raw_severity_validator.valid?(@raw_severity)
+      code_check_name_validator = EnumAttributeValidator.new('Object', ['Hidden Field', 'Redundant Check', 'Invalid Field', 'Vulnerable Field'])
+      return false unless code_check_name_validator.valid?(@code_check_name)
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] raw_severity Object to be assigned
+    def raw_severity=(raw_severity)
+      validator = EnumAttributeValidator.new('Object', ['Low', 'Medium', 'Moderate', 'High', 'Critical'])
+      unless validator.valid?(raw_severity)
+        fail ArgumentError, "invalid value for \"raw_severity\", must be one of #{validator.allowable_values}."
+      end
+      @raw_severity = raw_severity
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] code_check_name Object to be assigned
+    def code_check_name=(code_check_name)
+      validator = EnumAttributeValidator.new('Object', ['Hidden Field', 'Redundant Check', 'Invalid Field', 'Vulnerable Field'])
+      unless validator.valid?(code_check_name)
+        fail ArgumentError, "invalid value for \"code_check_name\", must be one of #{validator.allowable_values}."
+      end
+      @code_check_name = code_check_name
     end
 
     # Checks equality by comparing each attribute.
@@ -107,9 +165,12 @@ module SwaggerClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          poam_id == o.poam_id &&
-          description == o.description &&
-          scheduled_completion_date == o.scheduled_completion_date
+          raw_severity == o.raw_severity &&
+          code_check_name == o.code_check_name &&
+          count == o.count &&
+          scan_date == o.scan_date &&
+          cwe_id == o.cwe_id &&
+          clear_findings == o.clear_findings
     end
 
     # @see the `==` method
@@ -121,7 +182,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [poam_id, description, scheduled_completion_date].hash
+      [raw_severity, code_check_name, count, scan_date, cwe_id, clear_findings].hash
     end
 
     # Builds the object from hash
