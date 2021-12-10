@@ -4,9 +4,10 @@ Field                   Data Type  Details
 -------------------------------------------------------------------------------------------------
 systemId                Integer    [Required] Unique eMASS identifier. Will need to provide correct number.
 isTemplate              Boolean    [Required] Indicates whether an artifact is a template.
-type                    String     [Required] Values include the following: (Procedure, Diagram, Policy, Labor,
+type*                   String     [Required] Values include the following: (Procedure, Diagram, Policy, Labor,
                                               Document, Image, Other, Scan Result, Auditor Report)
 category*               String     [Required] Values include the following: (Implementation Guidance, Evidence)
+files                   String     [Required] File names (to include path) to be uploaded into eMASS as artifacts
 
 description             String     [Optional] Artifact description. 2000 Characters.
 refPageNumber           String     [Optional] Artifact reference page number. 50 Characters.
@@ -19,7 +20,7 @@ isInherited             Boolean    [Read-Only] Indicates whether an artifact is 
 mimeContentType         String     [Read-Only] Standard MIME content type derived from file extension.
 fileSize                String     [Read-Only] File size of attached artifact.
 
-* May also accept custom artifact category values set by system administrators.
+* May also accept custom artifact type or category values set by system administrators.
 
 The request body of a POST request through the Artifact Endpoint accepts a single binary file with file extension.zip only.
 
@@ -37,11 +38,17 @@ If no artifact is matched via filename to the application, a new artifact will b
 To update values other than the file itself, please submit a PUT request.
 
 Business Rules
-Artifact cannot be saved if the file does not have the following file extensions:
+- Artifact cannot be saved if the file does not have the following file extensions:
   - .docx,.doc,.txt,.rtf,.xfdl,.xml,.mht,.mhtml,.html,.htm,.pdf
   - .mdb,.accdb,.ppt,.pptx,.xls,.xlsx,.csv,.log
   - .jpeg,.jpg,.tiff,.bmp,.tif,.png,.gif
   - .zip,.rar,.msg,.vsd,.vsw,.vdx, .z{#}, .ckl,.avi,.vsdx
+- Artifact cannot be saved if File Name (fileName) exceeds 1,000 characters
+- Artifact cannot be saved if Description (description) exceeds 2,000 characters
+- Artifact cannot be saved if Reference Page Number (refPageNumber) exceeds 50 characters
+- Artifact version cannot be saved if an Artifact with the same file name already exist in the system.
+- Artifact cannot be saved if the file size exceeds 30MB.
+- Artifact cannot be saved if the Last Review Date is set in the future.
 
 
 Example:

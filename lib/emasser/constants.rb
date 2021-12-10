@@ -15,5 +15,4 @@ module Emasser
   GET_ARTIFACTS_RETURN_TYPE = {
     return_type: 'String'
   }.freeze
-
 end

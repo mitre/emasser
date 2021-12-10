@@ -21,14 +21,14 @@ These variables can be set in the .env file (see the .env-example file)
 * [/api/system-roles/{roleCategory}](#get-roles)
 * [/api/systems/{systemId}/controls](#get-controls)
 * [/api/systems/{systemId}/test-results](#get-test_results)
-* [/api​/systems​/{systemId}​/poams](#get-poams)
+* [/api/systems/{systemId}/poams](#get-poams)
 * [/api/systems/{systemId}/poams/{poamId}](#get-poams)
 * [/api/systems/{systemId}/poams/{poamId}/milestones](#get-milestones)
 * [/api/systems/{systemId}/poams/{poamId}/milestones/{milestoneId})](#get-milestones)
 * [/api/systems/{systemId}/artifacts](#get-artifacts)
 * [/api/systems/{systemId}/artifacts-export](#get-artifacts)
-* [/api/systems/{systemId}/approval/cac](#get-approval)
-* [/api/systems/{systemId}/approval/pac](#get-approval)
+* [/api/systems/{systemId}/approval/cac](#get-cac)
+* [/api/systems/{systemId}/approval/pac](#get-pac)
 * [/api/cmmc-assessments](#get-cmmc)
 * [/api/workflow-definitions](#get-workflow_definitions)
 * [/api/systems/{systemId}/workflow-instances](#get-workflow_instances)
@@ -38,8 +38,9 @@ These variables can be set in the .env file (see the .env-example file)
 * [/api/systems/{systemId}/poam](#post-poams)
 * [/api/systems/{systemId}/poam/{poamId}/milestones](#post-milestones)
 * [/api/systems/{systemId}/artifacts](#post-artifacts)
-* [/api/systems/{systemId}/approval/cac](#post-approval)
-* [/api/systems/{systemId}/approval/pac](#post-approval)
+* [/api/systems/{systemId}/approval/cac](#post-cac)
+* [/api/systems/{systemId}/approval/pac](#post-pac)
+* [/api/systems/{systemId}/static-code-scans](#post-static_code_scan)
   
 ### PUT
 * [/api/systems/{systemId}/controls](#put-controls)
@@ -332,18 +333,14 @@ There are two get endpoints that provides the ability to view existing `Artifact
     |--compress   |BOOLEAN - true or false.           |
 
 
-## ```get approval```
+## ```get cac```
 [top](#api-endpoints-provided)
 
 ----
-Two endpoints are provided, one to view Security Controls’ locations in
-the Control Approval Chain (CAC) in a system, the other to view the location 
-of a system's package in the Package Approval Chain (PAC).
-
-- cac - Retrieves one or many Control Approval Chain (CAC) in a system specified system ID
-    ````
-    $ bundle exec exe/emasser get cac controls --systemId=SYSTEMID
-    ````
+To view one or many Control Approval Chain (CAC) in a system specified system ID use the following command:
+  ```
+  $ bundle exec exe/emasser get cac controls --systemId=SYSTEMID
+  ```
   - required parameter is:
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
@@ -354,18 +351,19 @@ of a system's package in the Package Approval Chain (PAC).
     |-------------------------------|:----------------------------------------------|
     |--controlAcronyms              |String - The system acronym(s) e.g "AC-1, AC-2"|
 
+## ```get pac```
+[top](#api-endpoints-provided)
 
+----
+To view one or many Package Approval Chain (PAC) in a system specified system ID use the following command:
 
-- pac - Retrieves one or more Package Approval Chain (PAC) in a system specified system ID
-    ````
-    $ bundle exec exe/emasser get pac package --systemId=SYSTEMID
-    ````
+  ````
+  $ bundle exec exe/emasser get pac package --systemId=SYSTEMID
+  ````
   - required parameter is:
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
-
-
 
 
 ## ```get cmmc```
@@ -528,8 +526,13 @@ To add (POST) POA&Ms use the following command:
 ```
 $ bundle exec exe/emasser post poams add --systemId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --pocOrganization [value] --resources [value]
 ```
-**Note:** The example is only showing the required fields. Refer to instructions listed above for conditional and optional fields requirements.
-
+**Notes:** 
+  - The format for milestones is:
+    --milestone description:[value] scheduledCompletionDate:[value]
+  - Based on the value for the status (--status) parameter there are other required fields
+  - Refer to instructions listed above for conditional and optional fields requirements.
+---
+Client API parameters/fields (required, conditional, and optional).
   - required parameter are:
     |parameter                  | type or values                                                         |
     |---------------------------|:-----------------------------------------------------------------------|
@@ -592,7 +595,7 @@ $ bundle exec exe/emasser post poams help add
 To add (POST) milestones in a system for one or more POA&M items use the following command:
 
 ````
-  $ bundle exec exe/emasser post poams add_milestones --systemId [value] --poamId [value] --description [value] --scheduledCompletionDate [value]
+  $ bundle exec exe/emasser post milestones add --systemId [value] --poamId [value] --description [value] --scheduledCompletionDate [value]
 ````
   - required parameter are:
     |parameter                  | type or values                                      |
@@ -602,10 +605,6 @@ To add (POST) milestones in a system for one or more POA&M items use the followi
     |--description              |String - Milestone item description. 2000 Characters |
     |--scheduledCompletionDate  |Date - Schedule completion date. Unix date format    |
 
-  - optional parameter are:
-    |parameter     | type or values                                      |
-    |--------------|:----------------------------------------------------| 
-    |--isActive    |Boolean - Set to false only in the case where POA&M PUT would delete specified milestone. Not available for other requests|
 
 **Note**
 For information at the command line use: 
@@ -618,16 +617,7 @@ $ bundle exec exe/emasser post poams help add_milestones
 [top](#api-endpoints-provided)
 
 ---
-The add (POST) artifacts endpoint accepts a single binary file with file extension.zip only. The command line (CI) reads zips the files provided into a zip file.
-
-Business Rules:
-```
-Filename uniqueness throughout eMASS will be enforced by the API.
-```
-
-```
-Upon successful receipt of a file, if a file within the .zip is matched via filename to an artifact existing within the application, the file associated with the artifact will be updated.
-```
+The add (POST) artifacts endpoint accepts a single binary file with file extension.zip only. The command line (CI) reads the files provided and zips them before sending to eMASS.
 
 ```
 If no artifact is matched via filename to the application, a new artifact will be created with the following default values. Any values not specified below will be blank.
@@ -636,18 +626,23 @@ If no artifact is matched via filename to the application, a new artifact will b
   - category: evidence
 ```
 
-```
-Artifact cannot be saved if the file does not have the following file extensions:
+Business Rules:
+- Artifact cannot be saved if the file does not have the following file extensions:
   - .docx,.doc,.txt,.rtf,.xfdl,.xml,.mht,.mhtml,.html,.htm,.pdf
   - .mdb,.accdb,.ppt,.pptx,.xls,.xlsx,.csv,.log
   - .jpeg,.jpg,.tiff,.bmp,.tif,.png,.gif
   - .zip,.rar,.msg,.vsd,.vsw,.vdx, .z{#}, .ckl,.avi,.vsdx
-```
+- Artifact cannot be saved if File Name (fileName) exceeds 1,000 characters
+- Artifact cannot be saved if Description (description) exceeds 2,000 characters
+- Artifact cannot be saved if Reference Page Number (refPageNumber) exceeds 50 characters
+- Artifact version cannot be saved if an Artifact with the same file name already exist in the system.
+- Artifact cannot be saved if the file size exceeds 30MB.
+- Artifact cannot be saved if the Last Review Date is set in the future.
+---
+To add (POST) artifacts use the following command:
 
-Posting artifacts can be accomplished by invoking the following command:
-
 ```
-$ bundle exec exe/emasser post artifacts upload --systemId [value] [--isTemplate or --no-isTemplate] --type [value] --category [value] --files[value...value]
+$ bundle exec exe/emasser post artifacts upload --systemId [value] [--isTemplate or --no-isTemplate] --type [value] --category [value] --files [value...value]
 ```
 
   - required parameter are:
@@ -657,6 +652,7 @@ $ bundle exec exe/emasser post artifacts upload --systemId [value] [--isTemplate
     |--isTemplate    |Boolean - Indicates whether an artifact is a template|
     |--type          |Possible Values: Procedure, Diagram, Policy, Labor, Document, Image, Other, Scan Result, Auditor Report|
     |--category      |Possible Values: Implementation Guidance, Evidence    |
+    |--files         |String - File names (to include path) to be uploaded into eMASS as artifacts |
 
   - optional parameter are:
     |parameter                | type or values                                        |
@@ -675,14 +671,72 @@ For information at the command line use:
 $ bundle exec exe/emasser post artifacts help upload
 ```
 
+## ``post cac``
+[top](#api-endpoints-provided)
 
-## ``post approval``
 ----
-Two endpoints are provided, one to add Security Controls’ locations in
-the Control Approval Chain (CAC) for a system, the other to add the location 
-of a system's package in the Package Approval Chain (PAC).
-- cac
-- pac
+Submit control to second role of CAC
+
+Business Rule
+- Comments are not required at the first role of the CAC but are required at the second role of the CAC. Comments cannot exceed 10,000 characters.
+
+To add (POST) test CAC use the following command:
+
+  ````
+  $ bundle exec exe/emasser post pac add --systemId [value] --controlAcronym [value] --comments [value]
+  ````
+  - required parameter are:
+    |parameter          | type or values                                              |
+    |-------------------|:------------------------------------------------------------|
+    |--systemId         |Integer - Unique system identifier                           |
+    |--controlAcronym   |String - Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined |
+
+  - conditional parameter is:
+    |parameter          | type or values                             |
+    |-------------------|:-------------------------------------------|
+    |--comments         |String -The control approval chain comments |
+
+**Note**
+For information at the command line use: 
+```
+$ bundle exec exe/emasser post cac help add
+```
+
+## ``post pac``
+[top](#api-endpoints-provided)
+
+----
+Submit control to second role of CAC
+
+To add (POST) test PAC use the following command:
+
+  ````
+  $ bundle exec exe/emasser post pac add --systemId [value] --workflow [value] --name [value] --comments [value]
+  ````
+  - required parameter are:
+    |parameter     | type or values                                                            |
+    |--------------|:--------------------------------------------------------------------------|
+    |--systemId    |Integer - Unique system identifier                                         |
+    |--workflow    |Possible Values: Assess and Authorize, Assess Only, Security Plan Approval |
+    |--name        |String - Package name. 100 Characters                                      |
+    |--comments    |Strings - Comments submitted upon initiation of the indicated workflow, 4,000 character|
+
+**Note**
+For information at the command line use: 
+```
+$ bundle exec exe/emasser post pac help add
+```
+
+## ``post static_code_scan``
+[top](#api-endpoints-provided)
+
+----
+
+**Note**
+For information at the command line use: 
+```
+$ bundle exec exe/emasser post scan_findings help add
+```
 
 ## Usage - PUT
 ## ``put controls``

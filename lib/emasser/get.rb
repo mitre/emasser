@@ -130,9 +130,9 @@ module Emasser
                      desc: 'DoD Information Technology (IT) Portfolio Repository (DITPR) string Id'
     option :coamsId, type: :string,  required: false,
                      desc: 'Cyber Operational Attributes Management System (COAMS) string Id'
-    option :policy, type: :string,  required: false, enum: %w[diacap rmf reporting]
+    option :policy, type: :string, required: false, enum: %w[diacap rmf reporting]
 
-    option :includePackage, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'    
+    option :includePackage, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
     option :includeDitprMetrics, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
     option :includeDecommissioned, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
     option :reportsForScorecard, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'

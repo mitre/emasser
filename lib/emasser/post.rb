@@ -37,6 +37,7 @@ class Thor
 end
 
 module Emasser
+  NEW_LINE = "\n"
   # The Test Results endpoints provide the ability to add test results for a
   # system's Assessment Procedures (CCIs) which determine Security Control compliance.
   #
@@ -84,8 +85,7 @@ module Emasser
   # items to a system.
   #
   # Endpoint:
-  #   /api/systems/{systemId}/poams                     - Add one or many poa&m items in a system
-  #   /api/systems/{systemId}/poams/{poamId}/milestones - Add milestones in one or many poa&m items in a system
+  #   /api/systems/{systemId}/poams - Add one or many poa&m items in a system
   # rubocop:disable Metrics/ClassLength
   class Poams < SubCommandBase
     def self.exit_on_failure?
@@ -161,94 +161,7 @@ module Emasser
       body.poc_organization = options[:pocOrganization]
       body.resources = options[:resources]
 
-      #-----------------------------------------------------------------------------
-      # Conditional fields based on the status field values
-      # "Risk Accepted"   comments, resources
-      # "Ongoing"         scheduledCompletionDate, resources, milestones (at least 1)
-      # "Completed"       scheduledCompletionDate, comments, resources,
-      #                   completionDate, milestones (at least 1)
-      # "Not Applicable"  POAM can not be created
-      #-----------------------------------------------------------------------------
-      # rubocop:disable Style/CaseLikeIf, Style/StringLiterals
-      if options[:status] == "Risk Accepted"
-        if options[:comments].nil?
-          puts 'Missing the "cooment" parameters/fields:'.red
-          puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
-          exit
-        else
-          body.comments = options[:comments]
-        end
-      elsif options[:status] == "Ongoing"
-        if options[:scheduledCompletionDate].nil? || options[:milestone].nil?
-          puts 'Missing one of these parameters/fields:'.red
-          puts 'milstoneScheduledCompletionDate, or milestone'.red
-          print_milestone_help
-          puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
-          exit
-        elsif options[:milestone]["description"].nil? || options[:milestone]["scheduledCompletionDate"].nil?
-          puts 'Missing milstone parameters/fields'.red
-          print_milestone_help
-        else
-          body.scheduled_completion_date = options[:scheduledCompletionDate]
-
-          milestone = SwaggerClient::MilestonesRequiredPost.new
-          milestone.description = options[:milestone]["description"]
-          milestone.scheduled_completion_date = options[:milestone]["scheduledCompletionDate"]
-          milestone_array = Array.new(1, milestone)
-          body.milestones = milestone_array
-        end
-      elsif options[:status] == "Completed"
-        if options[:scheduledCompletionDate].nil? || options[:comments].nil? ||
-           options[:completionDate].nil? || options[:milestone].nil?
-          puts 'Missing one of these parameters/fields:'.red
-          puts 'scheduledCompletionDate, comments, completionDate, or milestone'.red
-          print_milestone_help
-          puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
-          exit
-        else
-          body.scheduled_completion_date = options[:scheduledCompletionDate]
-          body.comments = options[:comments]
-          body.completion_date = options[:completionDate]
-
-          milestone = SwaggerClient::MilestonesRequiredPost.new
-          milestone.description = options[:milestone]["description"]
-          milestone.scheduled_completion_date = options[:milestone]["scheduledCompletionDate"]
-          milestone_array = Array.new(1, milestone)
-          body.milestones = milestone_array
-        end
-      end
-
-      # POC checks: If any poc information is provided all POC fields are required
-      if options[:pocFirstName]
-        if options[:pocLastName].nil? || options[:pocEmail].nil? || options[:pocPhoneNumber].nil?
-          puts 'If a POC first name is given, then all POC information must be entered:'.red
-          puts '    pocLastName, pocEmail, pocPhoneNumber'.red
-          puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
-          exit
-        end
-      elsif options[:pocLastName]
-        if options[:pocFirstName].nil? || options[:pocEmail].nil? || options[:pocPhoneNumber].nil?
-          puts 'If a POC last name is given, then all POC information must be entered:'.red
-          puts '    pocFirstName, pocEmail, pocPhoneNumber'.red
-          puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
-          exit
-        end
-      elsif options[:pocEmail]
-        if options[:pocFirstName].nil? || options[:pocLastName].nil? || options[:pocPhoneNumber].nil?
-          puts 'If a POC email is given, then all POC information must be entered:'.red
-          puts '    pocFirstName, pocLastName, pocPhoneNumber'.red
-          puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
-          exit
-        end
-      elsif options[:pocPhoneNumber]
-        if options[:pocFirstName].nil? || options[:pocLastName].nil? || options[:pocEmail].nil?
-          puts 'If a POC phone number is given, then all POC information must be entered:'.red
-          puts '    pocFirstName, pocLastName, pocEmail'.red
-          puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
-          exit
-        end
-      end
-      # rubocop:enable Style/CaseLikeIf, Style/StringLiterals
+      process_business_logic(body)
 
       # Add conditional fields
       body.poc_first_name = options[:pocFirstName] if options[:pocFirstName]
@@ -283,15 +196,121 @@ module Emasser
     end
     # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
+    # rubocop:disable Metrics/BlockLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     no_commands do
+      def process_business_logic(body)
+        #-----------------------------------------------------------------------------
+        # Conditional fields based on the status field values
+        # "Risk Accepted"   comments, resources
+        # "Ongoing"         scheduledCompletionDate, resources, milestones (at least 1)
+        # "Completed"       scheduledCompletionDate, comments, resources,
+        #                   completionDate, milestones (at least 1)
+        # "Not Applicable"  POAM can not be created
+        #-----------------------------------------------------------------------------
+        # rubocop:disable Style/CaseLikeIf, Style/StringLiterals
+        if options[:status] == "Risk Accepted"
+          if options[:comments].nil?
+            puts 'When status = "Risk Accepted" the following parameters/fields are required:'.red
+            puts '    comments'.red
+            puts NEW_LINE + 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            exit
+          else
+            body.comments = options[:comments]
+          end
+        elsif options[:status] == "Ongoing"
+          if options[:scheduledCompletionDate].nil? || options[:milestone].nil?
+            puts 'When status = "Ongoing" the following parameters/fields are required:'.red
+            puts '    scheduledCompletionDate, or milestone'.red
+            print_milestone_help
+            puts NEW_LINE + 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            exit
+          elsif options[:milestone]["description"].nil? || options[:milestone]["scheduledCompletionDate"].nil?
+            puts 'Missing milstone parameters/fields'.red
+            print_milestone_help
+            exit
+          else
+            body.scheduled_completion_date = options[:scheduledCompletionDate]
+
+            milestone = SwaggerClient::MilestonesRequiredPost.new
+            milestone.description = options[:milestone]["description"]
+            milestone.scheduled_completion_date = options[:milestone]["scheduledCompletionDate"]
+            milestone_array = Array.new(1, milestone)
+            body.milestones = milestone_array
+          end
+        elsif options[:status] == "Completed"
+          if options[:scheduledCompletionDate].nil? || options[:comments].nil? ||
+             options[:completionDate].nil? || options[:milestone].nil?
+            puts 'Missing one of these parameters/fields:'.red
+            puts '    scheduledCompletionDate, comments, completionDate, or milestone'.red
+            print_milestone_help
+            puts NEW_LINE + 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            exit
+          else
+            body.scheduled_completion_date = options[:scheduledCompletionDate]
+            body.comments = options[:comments]
+            body.completion_date = options[:completionDate]
+
+            milestone = SwaggerClient::MilestonesRequiredPost.new
+            milestone.description = options[:milestone]["description"]
+            milestone.scheduled_completion_date = options[:milestone]["scheduledCompletionDate"]
+            milestone_array = Array.new(1, milestone)
+            body.milestones = milestone_array
+          end
+        end
+
+        # POC checks: If any poc information is provided all POC fields are required
+        if options[:pocFirstName]
+          if options[:pocLastName].nil? || options[:pocEmail].nil? || options[:pocPhoneNumber].nil?
+            puts 'If a POC first name is given, then all POC information must be entered:'.red
+            puts '    pocLastName, pocEmail, pocPhoneNumber'.red
+            puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            exit
+          end
+        elsif options[:pocLastName]
+          if options[:pocFirstName].nil? || options[:pocEmail].nil? || options[:pocPhoneNumber].nil?
+            puts 'If a POC last name is given, then all POC information must be entered:'.red
+            puts '    pocFirstName, pocEmail, pocPhoneNumber'.red
+            puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            exit
+          end
+        elsif options[:pocEmail]
+          if options[:pocFirstName].nil? || options[:pocLastName].nil? || options[:pocPhoneNumber].nil?
+            puts 'If a POC email is given, then all POC information must be entered:'.red
+            puts '    pocFirstName, pocLastName, pocPhoneNumber'.red
+            puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            exit
+          end
+        elsif options[:pocPhoneNumber]
+          if options[:pocFirstName].nil? || options[:pocLastName].nil? || options[:pocEmail].nil?
+            puts 'If a POC phone number is given, then all POC information must be entered:'.red
+            puts '    pocFirstName, pocLastName, pocEmail'.red
+            puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            exit
+          end
+        end
+        # rubocop:enable Style/CaseLikeIf, Style/StringLiterals
+      end
+
       def print_milestone_help
         puts 'Milestone format is:'.yellow
         puts '    --milestone description:"[value]" scheduledCompletionDate:"[value]"'.yellow
       end
     end
+    # rubocop:enable Metrics/BlockLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  end
+  # rubocop:enable Metrics/ClassLength
 
-    # MILSTONES by SYSTEM and POAM ID -----------------------------------------
-    desc 'add_milestones', 'Add milestone(s) for given specified system and poam'
+  # The Milestones endpoints provide the ability add milestones that are associated with
+  # Plan of Action and Milestones (POA&M) items for a system.
+  #
+  # Endpoint:
+  #   /api/systems/{systemId}/poams/{poamId}/milestones - Add milestones in one or many poa&m items in a system
+  class Milestones < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'add', 'Add milestones to one or many POA&M items in a system'
     long_desc Help.text(:milestone_put_mapper)
 
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
@@ -300,7 +319,7 @@ module Emasser
     option :scheduledCompletionDate,
            type: :numeric, required: false, desc: 'The scheduled completion date - Unix time format'
 
-    def add_milestones
+    def add
       body = SwaggerClient::MilestonesRequestPostBody.new
       body.poam_id = options[:poamId]
       body.description = options[:description]
@@ -308,16 +327,15 @@ module Emasser
       body_array = Array.new(1, body)
 
       begin
-        result = SwaggerClient::POAMApi
+        result = SwaggerClient::MilestonesApi
                  .new.add_milestone_by_system_id_and_poam_id(body_array, options[:systemId], options[:poamId])
         puts to_output_hash(result).green
       rescue SwaggerClient::ApiError => e
-        puts 'Exception when calling POAMApi->add_milestone_by_system_id_and_poam_id'.red
+        puts 'Exception when calling MilestonesApi->add_milestone_by_system_id_and_poam_id'.red
         puts to_output_hash(e)
       end
     end
   end
-  # rubocop:enable Metrics/ClassLength
 
   # Add one or many artifacts for a system (delivery method must be a zip file)
   #
@@ -430,7 +448,7 @@ module Emasser
       end
     end
   end
-  
+
   # Add a Package Approval Chain (PAC)
   #
   # Endpoints:
@@ -449,7 +467,8 @@ module Emasser
     option :workflow, type: :string, required: true,
                       enum: ['Assess and Authorize', 'Assess Only', 'Security Plan Approval']
     option :name, type: :string, required: true, desc: 'The control package name'
-    option :comments, type: :string, required: true, desc: 'The control package approval chain comments'
+    option :comments, type: :string, required: true,
+                      desc: 'Comments submitted upon initiation of the indicated workflow'
 
     def add
       body = SwaggerClient::PacRequestBodyPost.new
@@ -473,6 +492,9 @@ module Emasser
 
     desc 'poams', 'Add Plan of Action and Milestones (POA&M) items to a system'
     subcommand 'poams', Poams
+
+    desc 'milestones', 'Add milestone(s) to one or many POA&M items in a system'
+    subcommand 'milestones', Milestones
 
     desc 'artifacts', 'Add system Artifacts'
     subcommand 'artifacts', Artifacts

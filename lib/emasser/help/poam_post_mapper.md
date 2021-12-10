@@ -92,4 +92,5 @@ bundle exec exe/emasser post poams add --systemId [value] --status [value] --vul
 Notes:
 1 - The format for milestones is:
     --milestone description:[value] scheduledCompletionDate:[value]
-2 - The example is only showing the required fields. Refer to instructions listed above for conditional and optional fields requirements.
+2 - Based on the value for the status (--status) parameter there are other required fields
+3 - Refer to instructions listed above for conditional and optional fields requirements.
