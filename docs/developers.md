@@ -1,6 +1,6 @@
 # Developers Instructions
 
-The documentation provided here is an OpenAPI Specification 3.0.3 compliant describing, producing, consuming, and visualizing the eMASS RESTful API web services (endpoints) as described in the eMASS REST API (v2.3) document, dated August 28, 2020.
+The documentation provided here is an OpenAPI (v3.0.3) Specification  compliant describing, producing, consuming, and visualizing the eMASS RESTful API web services (endpoints) as described in the eMASS REST API (v3.2) document, dated October 21, 2021.
 
 The API is documented in YAML and can be viewed utilizing Swagger Editor or Visual Studio Code (VSC) with swagger and yaml extensions.
 
@@ -11,7 +11,10 @@ There are online tool options for viewing and editing OpenAPI compliant RESTfull
 To install the Swagger Editor offline from its repository follow these [instructions](https://github.com/swagger-api/swagger-editor).
 
 ### Generate the API documentation (to view in a web browser-html)
+eMASS API documentation can be found [here](/docs/redoc/index.html)
+
 To generate the API documentation that can be viewable in a totally dependency-free (and nice looking) HTML use the `redoc-cli` command line tool.
+
 
 Install the tool via `npm`:
 ```bash
@@ -43,7 +46,7 @@ npm install -g @stoplight/prism-cli
 
 Run the prism server on the localhost, use the -p parameter to set the port (using 4010)
 ``` node
-prism mock -p 4010 eMASSRestAPI.yaml
+prism mock -p 4010 eMASSRestOpenApi.yaml
 ```
 
 To invoke the mock server interactive use the -d parameter (provides fake responses using x-faker)

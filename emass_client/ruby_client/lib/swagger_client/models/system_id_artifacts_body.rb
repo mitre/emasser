@@ -1,9 +1,9 @@
 =begin
 #Enterprise Mission Assurance Support Service (eMASS)
 
-#The Enterprise Mission Assurance Support Service (eMASS) REST Application Programming Interface (API) enables users to perform assessments and complete actions associated with system records. This document will provide an outline of all eMASS objects and their associated endpoints to include Department of Defense (DoD) business rules that pertain to each.  New users will need to register an API key with the eMASS development team prior to accessing the site for the first time. The eMASS REST API requires a client certificate (SSL/TLS, DoD PKI only) where {url}/api/register (POST) is used to register the client certificate.  Every call to the eMASS REST API will require the use of the agreed upon public key certificate and API key. The API key must be provided in the request header for all endpoint calls (api-key). If the service receives an untrusted certificate or API key, a 401 error response code will be returned along with an error message.  <strong>Available Request Headers:</strong> | Key      | Example Value                | Description |----------|------------------------------|------------------------------------ |`api-key` |avalid-apikey-isrequired-here |This API key must be provided in the request header for all endpoint calls |`user-uid`|USER.UID.KEY                  |This User unique identifier key must be provided in the request header for all PUT, POST, and DELETE endpoint calls.  |          |                              |Note: For DoD users this is the DoD ID Number (EIDIPI) on their DoD CAC.  Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions.  <strong>Approve API Client for Actionable Requests</strong><br> Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions. Please note that leaving a field parameter blank (for PUT/POST requests) has the potential to clear information in the active eMASS records.  To establish an account with eMASS and/or acquire an api-key/user-uid, contact one of the listed POC:
+#The Enterprise Mission Assurance Support Service (eMASS) Representational State Transfer (REST) Application Programming Interface (API) enables users to perform assessments and complete actions associated with system records. This command-line interface (CLI) tool implements all of the eMASS endpoints defined in the eMASS  REST API v3.2, dated October 21, 2021.</br><br>  <strong>Register CLI</strong></br> New users will need to register an API key with the eMASS development team prior to accessing the site for the first time. The eMASS REST API requires a client certificate (SSL/TLS, DoD PKI only) where {url}/api/register (POST) is used to register the client certificate.</br></br>  Every call to the eMASS REST API will require the use of the agreed upon public key certificate and API key. The API key must be provided in the request header for all endpoint calls (api-key). If the service receives an untrusted certificate or API key, a 401 error response code will be returned along with an error message.</br></br>  <strong>Available Request Headers:</strong></br> <table>   <tr>     <th align=left>key</th>     <th align=left>Example Value</th>     <th align=left>Description</th>   </tr>   <tr>     <td>`api-key`</td>     <td>api-key-provided-by-emass</td>     <td>This API key must be provided in the request header for all endpoint calls</td>   </tr>   <tr>     <td>`user-uid`</td>     <td>USER.UID.KEY</td>     <td>This User unique identifier key must be provided in the request header for all PUT, POST, and DELETE endpoint calls</td>   </tr>   <tr>     <td></td><td></td>     <td>       Note: For DoD users this is the DoD ID Number (EIDIPI) on their DoD CAC     </td>   </tr> </table>  </br><strong>Approve API Client for Actionable Requests</strong></br> Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions. Please note that leaving a field parameter blank (for PUT/POST requests) has the potential to clear information in the active eMASS records.  To establish an account with eMASS and/or acquire an api-key/user-uid, contact one of the listed POC: 
 
-OpenAPI spec version: 2.3.0
+OpenAPI spec version: v3.2
 Contact: disa.meade.id.mbx.emass-tier-iii-support@mail.mil
 Generated by: https://github.com/swagger-api/swagger-codegen.git
 Swagger Codegen version: 3.0.26
@@ -13,11 +13,42 @@ require 'date'
 
 module SwaggerClient
   class SystemIdArtifactsBody
+    attr_accessor :is_template
+
+    attr_accessor :type
+
+    attr_accessor :category
+
     attr_accessor :zipper
+
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
+        :'is_template' => :'isTemplate',
+        :'type' => :'type',
+        :'category' => :'category',
         :'zipper' => :'Zipper'
       }
     end
@@ -25,6 +56,9 @@ module SwaggerClient
     # Attribute type mapping.
     def self.openapi_types
       {
+        :'is_template' => :'Object',
+        :'type' => :'Object',
+        :'category' => :'Object',
         :'zipper' => :'Object'
       }
     end
@@ -50,6 +84,18 @@ module SwaggerClient
         h[k.to_sym] = v
       }
 
+      if attributes.key?(:'is_template')
+        self.is_template = attributes[:'is_template']
+      end
+
+      if attributes.key?(:'type')
+        self.type = attributes[:'type']
+      end
+
+      if attributes.key?(:'category')
+        self.category = attributes[:'category']
+      end
+
       if attributes.key?(:'zipper')
         self.zipper = attributes[:'zipper']
       end
@@ -59,13 +105,42 @@ module SwaggerClient
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if @zipper.nil?
+        invalid_properties.push('invalid value for "zipper", zipper cannot be nil.')
+      end
+
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      type_validator = EnumAttributeValidator.new('Object', ['Procedure', 'Diagram', 'Policy', 'Labor', 'Document', 'Image', 'Other', 'Scan Result', 'Auditor Report'])
+      return false unless type_validator.valid?(@type)
+      category_validator = EnumAttributeValidator.new('Object', ['Implementation Guidance', 'Evidence'])
+      return false unless category_validator.valid?(@category)
+      return false if @zipper.nil?
       true
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] type Object to be assigned
+    def type=(type)
+      validator = EnumAttributeValidator.new('Object', ['Procedure', 'Diagram', 'Policy', 'Labor', 'Document', 'Image', 'Other', 'Scan Result', 'Auditor Report'])
+      unless validator.valid?(type)
+        fail ArgumentError, "invalid value for \"type\", must be one of #{validator.allowable_values}."
+      end
+      @type = type
+    end
+
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] category Object to be assigned
+    def category=(category)
+      validator = EnumAttributeValidator.new('Object', ['Implementation Guidance', 'Evidence'])
+      unless validator.valid?(category)
+        fail ArgumentError, "invalid value for \"category\", must be one of #{validator.allowable_values}."
+      end
+      @category = category
     end
 
     # Checks equality by comparing each attribute.
@@ -73,6 +148,9 @@ module SwaggerClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
+          is_template == o.is_template &&
+          type == o.type &&
+          category == o.category &&
           zipper == o.zipper
     end
 
@@ -85,7 +163,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [zipper].hash
+      [is_template, type, category, zipper].hash
     end
 
     # Builds the object from hash

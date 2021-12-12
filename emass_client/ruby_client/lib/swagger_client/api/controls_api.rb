@@ -1,9 +1,9 @@
 =begin
 #Enterprise Mission Assurance Support Service (eMASS)
 
-#The Enterprise Mission Assurance Support Service (eMASS) REST Application Programming Interface (API) enables users to perform assessments and complete actions associated with system records. This document will provide an outline of all eMASS objects and their associated endpoints to include Department of Defense (DoD) business rules that pertain to each.  New users will need to register an API key with the eMASS development team prior to accessing the site for the first time. The eMASS REST API requires a client certificate (SSL/TLS, DoD PKI only) where {url}/api/register (POST) is used to register the client certificate.  Every call to the eMASS REST API will require the use of the agreed upon public key certificate and API key. The API key must be provided in the request header for all endpoint calls (api-key). If the service receives an untrusted certificate or API key, a 401 error response code will be returned along with an error message.  <strong>Available Request Headers:</strong> | Key      | Example Value                | Description |----------|------------------------------|------------------------------------ |`api-key` |avalid-apikey-isrequired-here |This API key must be provided in the request header for all endpoint calls |`user-uid`|USER.UID.KEY                  |This User unique identifier key must be provided in the request header for all PUT, POST, and DELETE endpoint calls.  |          |                              |Note: For DoD users this is the DoD ID Number (EIDIPI) on their DoD CAC.  Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions.  <strong>Approve API Client for Actionable Requests</strong><br> Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions. Please note that leaving a field parameter blank (for PUT/POST requests) has the potential to clear information in the active eMASS records.  To establish an account with eMASS and/or acquire an api-key/user-uid, contact one of the listed POC:
+#The Enterprise Mission Assurance Support Service (eMASS) Representational State Transfer (REST) Application Programming Interface (API) enables users to perform assessments and complete actions associated with system records. This command-line interface (CLI) tool implements all of the eMASS endpoints defined in the eMASS  REST API v3.2, dated October 21, 2021.</br><br>  <strong>Register CLI</strong></br> New users will need to register an API key with the eMASS development team prior to accessing the site for the first time. The eMASS REST API requires a client certificate (SSL/TLS, DoD PKI only) where {url}/api/register (POST) is used to register the client certificate.</br></br>  Every call to the eMASS REST API will require the use of the agreed upon public key certificate and API key. The API key must be provided in the request header for all endpoint calls (api-key). If the service receives an untrusted certificate or API key, a 401 error response code will be returned along with an error message.</br></br>  <strong>Available Request Headers:</strong></br> <table>   <tr>     <th align=left>key</th>     <th align=left>Example Value</th>     <th align=left>Description</th>   </tr>   <tr>     <td>`api-key`</td>     <td>api-key-provided-by-emass</td>     <td>This API key must be provided in the request header for all endpoint calls</td>   </tr>   <tr>     <td>`user-uid`</td>     <td>USER.UID.KEY</td>     <td>This User unique identifier key must be provided in the request header for all PUT, POST, and DELETE endpoint calls</td>   </tr>   <tr>     <td></td><td></td>     <td>       Note: For DoD users this is the DoD ID Number (EIDIPI) on their DoD CAC     </td>   </tr> </table>  </br><strong>Approve API Client for Actionable Requests</strong></br> Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions. Please note that leaving a field parameter blank (for PUT/POST requests) has the potential to clear information in the active eMASS records.  To establish an account with eMASS and/or acquire an api-key/user-uid, contact one of the listed POC: 
 
-OpenAPI spec version: 2.3.0
+OpenAPI spec version: v3.2
 Contact: disa.meade.id.mbx.emass-tier-iii-support@mail.mil
 Generated by: https://github.com/swagger-api/swagger-codegen.git
 Swagger Codegen version: 3.0.26
@@ -22,8 +22,8 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @option opts [String] :acronyms **Acronym**: The system acronym(s) being queried (single value or comma delimited values). (default to PM-6)
     # @return [ControlsResponseGet]
-    def get_system_by_system_id(system_id, opts = {})
-      data, _status_code, _headers = get_system_by_system_id_with_http_info(system_id, opts)
+    def get_system_controls(system_id, opts = {})
+      data, _status_code, _headers = get_system_controls_with_http_info(system_id, opts)
       data
     end
 
@@ -33,13 +33,13 @@ module SwaggerClient
     # @param [Hash] opts the optional parameters
     # @option opts [String] :acronyms **Acronym**: The system acronym(s) being queried (single value or comma delimited values).
     # @return [Array<(ControlsResponseGet, Integer, Hash)>] ControlsResponseGet data, response status code and response headers
-    def get_system_by_system_id_with_http_info(system_id, opts = {})
+    def get_system_controls_with_http_info(system_id, opts = {})
       if @api_client.config.debugging
-        @api_client.config.logger.debug 'Calling API: ControlsApi.get_system_by_system_id ...'
+        @api_client.config.logger.debug 'Calling API: ControlsApi.get_system_controls ...'
       end
       # verify the required parameter 'system_id' is set
       if @api_client.config.client_side_validation && system_id.nil?
-        fail ArgumentError, "Missing the required parameter 'system_id' when calling ControlsApi.get_system_by_system_id"
+        fail ArgumentError, "Missing the required parameter 'system_id' when calling ControlsApi.get_system_controls"
       end
       # resource path
       local_var_path = '/api/systems/{systemId}/controls'.sub('{' + 'systemId' + '}', system_id.to_s)
@@ -51,7 +51,7 @@ module SwaggerClient
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
 
       # form parameters
       form_params = opts[:form_params] || {}
@@ -71,12 +71,12 @@ module SwaggerClient
         :return_type => return_type)
 
       if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: ControlsApi#get_system_by_system_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+        @api_client.config.logger.debug "API called: ControlsApi#get_system_controls\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end
     # Update control information in a system for one or many controls
-    # Update an existing control by System Id based on the following rules:<br> | Implementation Status `implementationStatus` | Required Fields |----------------------------------------------|--------------------------------------------------- | Planned  or Implemented                      | `controlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments` | Not Applicable                               |  `naJustification`, `controlDesignation`, `responsibleEntities`   | Manually Inherited                           | `commonControlProvider`, `securityControlDesignation`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments` | Inherited                                    | Only the following fields can be updated: `commonnControlProvider`, `controlDesignation`
+    #  Update a Control for given `systemId`<br>  **Request Body Required Fields** - `acronym` - `responsibleEntities` - `controlDesignation` - `estimatedCompletionDate` - `implementationNarrative`  The following optional fields are required based on the Implementation Status `implementationStatus` value<br> | Value                    | Required Fields |--------------------------|--------------------------------------------------- | Planned  or Implemented  | `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments` | Not Applicable           | `naJustification`, `responsibleEntities` | Manually Inherited       | `commonControlProvider`, `estimatedCompletionDate`, `responsibleEntities`, `slcmCriticality`, `slcmFrequency`, `slcmMethod`, `slcmReporting`, `slcmTracking`, `slcmComments`  If the Implementation Status `implementationStatus` value is \"Inherited\", only the following fields can be updated:   - `controlDesignation`   - `commonnControlProvider`
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
@@ -87,7 +87,7 @@ module SwaggerClient
     end
 
     # Update control information in a system for one or many controls
-    # Update an existing control by System Id based on the following rules:&lt;br&gt; | Implementation Status &#x60;implementationStatus&#x60; | Required Fields |----------------------------------------------|--------------------------------------------------- | Planned  or Implemented                      | &#x60;controlDesignation&#x60;, &#x60;estimatedCompletionDate&#x60;, &#x60;responsibleEntities&#x60;, &#x60;slcmCriticality&#x60;, &#x60;slcmFrequency&#x60;, &#x60;slcmMethod&#x60;, &#x60;slcmReporting&#x60;, &#x60;slcmTracking&#x60;, &#x60;slcmComments&#x60; | Not Applicable                               |  &#x60;naJustification&#x60;, &#x60;controlDesignation&#x60;, &#x60;responsibleEntities&#x60;   | Manually Inherited                           | &#x60;commonControlProvider&#x60;, &#x60;securityControlDesignation&#x60;, &#x60;estimatedCompletionDate&#x60;, &#x60;responsibleEntities&#x60;, &#x60;slcmCriticality&#x60;, &#x60;slcmFrequency&#x60;, &#x60;slcmMethod&#x60;, &#x60;slcmReporting&#x60;, &#x60;slcmTracking&#x60;, &#x60;slcmComments&#x60; | Inherited                                    | Only the following fields can be updated: &#x60;commonnControlProvider&#x60;, &#x60;controlDesignation&#x60;
+    #  Update a Control for given &#x60;systemId&#x60;&lt;br&gt;  **Request Body Required Fields** - &#x60;acronym&#x60; - &#x60;responsibleEntities&#x60; - &#x60;controlDesignation&#x60; - &#x60;estimatedCompletionDate&#x60; - &#x60;implementationNarrative&#x60;  The following optional fields are required based on the Implementation Status &#x60;implementationStatus&#x60; value&lt;br&gt; | Value                    | Required Fields |--------------------------|--------------------------------------------------- | Planned  or Implemented  | &#x60;estimatedCompletionDate&#x60;, &#x60;responsibleEntities&#x60;, &#x60;slcmCriticality&#x60;, &#x60;slcmFrequency&#x60;, &#x60;slcmMethod&#x60;, &#x60;slcmReporting&#x60;, &#x60;slcmTracking&#x60;, &#x60;slcmComments&#x60; | Not Applicable           | &#x60;naJustification&#x60;, &#x60;responsibleEntities&#x60; | Manually Inherited       | &#x60;commonControlProvider&#x60;, &#x60;estimatedCompletionDate&#x60;, &#x60;responsibleEntities&#x60;, &#x60;slcmCriticality&#x60;, &#x60;slcmFrequency&#x60;, &#x60;slcmMethod&#x60;, &#x60;slcmReporting&#x60;, &#x60;slcmTracking&#x60;, &#x60;slcmComments&#x60;  If the Implementation Status &#x60;implementationStatus&#x60; value is \&quot;Inherited\&quot;, only the following fields can be updated:   - &#x60;controlDesignation&#x60;   - &#x60;commonnControlProvider&#x60;
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
@@ -113,7 +113,7 @@ module SwaggerClient
       # header parameters
       header_params = opts[:header_params] || {}
       # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json', 'text/plain'])
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
       # HTTP header 'Content-Type'
       header_params['Content-Type'] = @api_client.select_header_content_type(['application/json'])
 

@@ -3,5 +3,8 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**zipper** | **String** |  | [optional] 
+**is_template** | **BOOLEAN** |  | [optional] 
+**type** | **String** |  | [optional] 
+**category** | **String** |  | [optional] 
+**zipper** | **String** |  | 
 
