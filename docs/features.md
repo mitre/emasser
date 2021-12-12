@@ -1,7 +1,7 @@
-## eMASER CLI Features
+# eMASER CLI Features
 
-### Required Environment Variables
-To facilitate setting the required environment variables the eMASSER CLI utilized the zero-dependency module to load these variables from a .env file. A .env-example file is provided with the required fields (list below).
+## Required Environment Variables
+To facilitate setting the required environment variables the eMASSER CLI utilized the zero-dependency module to load these variables from a .env file. An .env-example file is provided with the required fields (listed below).
 
 eMASSER environment variables required:
 * EMASSER_API_KEY_API_KEY=`<API key>`
@@ -11,6 +11,9 @@ eMASSER environment variables required:
 * EMASSER_CERT_FILE_PATH=`<path to your emass certificate in PEM format>`
 * EMASSER_KEY_PASSWORD=`<password for the key given in EMASSER_KEY_FILE_PATH>`
 
+## Common eMASSER Endpoint Requests Information
+  - To invoke any boolean parameters use --parameterName for TRUE and --no-parameterName for FALSE
+  - The eMASS API provides the capability of updating multiple entries within several endpoints, however this CLI only supports updating one entry at the time.
 
 ## API Endpoints Provided
 
@@ -55,6 +58,9 @@ eMASSER environment variables required:
 * [/api/systems/{systemId}/artifacts](#delete-artifacts)
 
 ## Endpoints CLI help
+<details open>
+<summary>Show help content</summary>
+
 Each CLI endpoint command has several layers of help. 
 - Using `help` after a `get, put, post, or delete` command lists all available endpoint calls
 
@@ -98,15 +104,16 @@ Each CLI endpoint command has several layers of help.
       - --compress            # BOOLEAN - true or false.
 
 **The same format is applicable to POST, PUT and DELETE requests as well, however there may be additional help content**
+</details>
 
 
-## Common Endpoint Requests Information
-  - To invoke any boolean parameters use --parameterName for TRUE and --no-parameterName for FALSE
-  - Teh eMASS API provides the capability of updating multiple entries within several endpoints, however this CLI only supports updating one entry at the time.
+
 
 ## Usage - GET
+<details>
+<summary>Show HTTP GET Methods</summary>
 
-## ```get test connection```
+### ```get test connection```
 [top](#api-endpoints-provided)
 
 ---
@@ -117,7 +124,7 @@ The Test Connection endpoint provides the ability to verify connection to the we
 A return of success from the call indicates that the CLI can reach the configure server URL.
 References [Required Environment Variables](#required-environment-variables) list above.
 
-## ```get system```
+### ```get system```
 [top](#api-endpoints-provided)
 
 ---
@@ -155,7 +162,7 @@ To view a system  by its identification (Id) use the following command:
     |--policy                |Possible values: diacap, rmf, reporting  |
 
 
-## ```get systems```
+### ```get systems```
 [top](#api-endpoints-provided)
 
 ----
@@ -177,7 +184,7 @@ To view systems use the following command:
   
 
 
-## ```get roles```
+### ```get roles```
 [top](#api-endpoints-provided)
 
 ----
@@ -202,7 +209,7 @@ There are two get endpoints for system roles:
     |--policy                |Possible values: diacap, rmf, reporting  |
     |--includeDecommissioned |BOOLEAN - true or false                  |
     
-## ```get controls```
+### ```get controls```
 [top](#api-endpoints-provided)
 
 ----
@@ -220,7 +227,7 @@ To view controls use the following command:
     |-------------|:------------------------------------------|
     |--acronyms   |The system acronym(s) e.g "AC-1, AC-2" - if not provided all controls for systemId are returned |
 
-## ```get test_results```
+### ```get test_results```
 [top](#api-endpoints-provided)
 
 ----
@@ -241,7 +248,7 @@ To view test results use the following command:
     |--latestOnly       |BOOLEAN - true or false|
 
 
-## ```get poams```
+### ```get poams```
 [top](#api-endpoints-provided)
 
 ----
@@ -274,7 +281,7 @@ There are two get endpoints for system poams:
     |--systemId   |Integer - Unique system identifier |
     |--poamId     |Integer - Unique poam identifier   |
 
-## ```get milestones```
+### ```get milestones```
 [top](#api-endpoints-provided)
 
 ----
@@ -308,7 +315,7 @@ There are two get endpoints for system milestones:
     |--milestoneId |Integer - Unique milestone identifier |
 
 
-## ```get artifacts```
+### ```get artifacts```
 [top](#api-endpoints-provided)
 
 ----
@@ -343,7 +350,7 @@ There are two get endpoints that provides the ability to view existing `Artifact
     |--compress   |BOOLEAN - true or false.           |
 
 
-## ```get cac```
+### ```get cac```
 [top](#api-endpoints-provided)
 
 ----
@@ -361,7 +368,7 @@ To view one or many Control Approval Chain (CAC) in a system specified system ID
     |-------------------------------|:----------------------------------------------|
     |--controlAcronyms              |String - The system acronym(s) e.g "AC-1, AC-2"|
 
-## ```get pac```
+### ```get pac```
 [top](#api-endpoints-provided)
 
 ----
@@ -376,7 +383,7 @@ To view one or many Package Approval Chain (PAC) in a system specified system ID
     |--systemId   |Integer - Unique system identifier |
 
 
-## ```get cmmc```
+### ```get cmmc```
 [top](#api-endpoints-provided)
 
 ----
@@ -389,7 +396,7 @@ To view Cybersecurity Maturity Model Certification (CMMC) Assessments use the fo
     |----------------|:--------------------------------------|
     |--sinceDate     |Date - The CMMC date. Unix date format |
 
-## ```get workflow_definitions```
+### ```get workflow_definitions```
 [top](#api-endpoints-provided)
 
 ----
@@ -404,7 +411,7 @@ To view Workflow Definitions use the following command:
     |--registrationType   |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional, |
     |                     |                 loudServiceProvider, commonControlProvider                  |
 
-## ```get workflow_instances```
+### ```get workflow_instances```
 [top](#api-endpoints-provided)
 
 ----
@@ -434,8 +441,13 @@ There are two get endpoints to view workflow instances:
       |--systemId           |Integer - Unique system identifier            |
       |--workflowInstanceId |Integer - Unique workflow instance identifier |
 
+</details>
+
 ## Usage - POST
-## ``post test_results``
+<details>
+<summary>Show HTTP POST Methods</summary>
+
+### ``post test_results``
 [top](#api-endpoints-provided)
 
 ---
@@ -479,7 +491,7 @@ $ bundle exec exe/emasser post test_results help add
 ```
 
 
-## ``post poams``
+### ``post poams``
 [top](#api-endpoints-provided)
 
 ---
@@ -601,7 +613,7 @@ For information at the command line use:
 $ bundle exec exe/emasser post poams help add
 ```
 
-## ``post milestones``
+### ``post milestones``
 [top](#api-endpoints-provided)
 
 ---
@@ -626,7 +638,7 @@ $ bundle exec exe/emasser post milestones help add
 ```
 
 
-## ``post artifacts``
+### ``post artifacts``
 [top](#api-endpoints-provided)
 
 ---
@@ -684,7 +696,7 @@ For information at the command line use:
 $ bundle exec exe/emasser post artifacts help upload
 ```
 
-## ``post cac``
+### ``post cac``
 [top](#api-endpoints-provided)
 
 ----
@@ -715,7 +727,7 @@ For information at the command line use:
 $ bundle exec exe/emasser post cac help add
 ```
 
-## ``post pac``
+### ``post pac``
 [top](#api-endpoints-provided)
 
 ----
@@ -740,7 +752,7 @@ For information at the command line use:
 $ bundle exec exe/emasser post pac help add
 ```
 
-## ``post static_code_scan``
+### ``post static_code_scan``
 [top](#api-endpoints-provided)
 
 ----
@@ -787,9 +799,13 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post scan_findings help add
 ```
+</details>
 
 ## Usage - PUT
-## ``put controls``
+<details>
+<summary>Show HTTP PUT Methods</summary>
+
+### ``put controls``
 [top](#api-endpoints-provided)
 
 ----
@@ -867,7 +883,7 @@ For information at the command line use:
 $ bundle exec exe/emasser put controls help update
 ```
 
-## ``put poams``
+### ``put poams``
 [top](#api-endpoints-provided)
 
 ----
@@ -978,7 +994,7 @@ For information at the command line use:
 $ bundle exec exe/emasser put poams help update
 ```
 
-## ``put milestones``
+### ``put milestones``
 [top](#api-endpoints-provided)
 
 ----
@@ -1004,7 +1020,7 @@ For information at the command line use:
 $ bundle exec exe/emasser put milestones help update
 ```
 
-## ``put artifacts``
+### ``put artifacts``
 [top](#api-endpoints-provided)
 
 ----
@@ -1056,9 +1072,13 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put artifacts help update
 ```
+</details>
 
 ## Usage - DELETE
-## ``delete poams``
+<details>
+<summary>Show HTTP DELETE Methods</summary>
+
+#### ``delete poams``
 [top](#api-endpoints-provided)
 
 ----
@@ -1069,7 +1089,7 @@ To remove (DELETE) one or more POA&M items use the following command:
 bundle exec exe/emasser delete poams remove --systemId [value] --poamId [value]
 ```
 
-## ``delete milestones``
+### ``delete milestones``
 [top](#api-endpoints-provided)
 
 ----
@@ -1086,7 +1106,7 @@ To remove (DELETE) one or more Milestones in a system use the following command:
 bundle exec exe/emasser delete milestones remove--systemId [value] --poamId [value] --milestoneId [value]
 ```
 
-## ``delete artifacts``
+### ``delete artifacts``
 [top](#api-endpoints-provided)
 
 ---
@@ -1102,3 +1122,4 @@ bundle exec exe/emasser delete artifacts remove --systemId [value] --files [valu
 or
 bundle exec exe/emasser delete artifacts remove --systemId [value] --files [value, value...] 
 ```
+</details>
