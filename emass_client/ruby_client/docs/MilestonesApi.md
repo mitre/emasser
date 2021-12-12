@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 Add milestones to one or many POA&M items in a system
 
-Adds a milestone for given `systemId` and `poamId` path parameters
+Adds a milestone for given `systemId` and `poamId` path parameters  **Request Body Required Fields** - `description` - `scheduledCompletionDate`
 
 ### Example
 ```ruby
@@ -266,7 +266,7 @@ Name | Type | Description  | Notes
 
 Update one or many POA&M items in a system
 
-Updates a milestone for given `systemId` and `poamId` path parameters
+Updates a milestone for given `systemId` and `poamId` path parameters  **Request Body Required Fields** - `milestoneId` - `description` - `scheduledCompletionDate`
 
 ### Example
 ```ruby

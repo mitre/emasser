@@ -16,10 +16,7 @@ module SwaggerClient
     # [Required] File name should match exactly one file within the provided zip file. 1000 Characters.
     attr_accessor :filename
 
-    # [Optional] Artifact description. 2000 Characters.
-    attr_accessor :description
-
-    # [Read-only] Indicates it is an artifact template.
+    # [Required] Indicates it is an artifact template.
     attr_accessor :is_template
 
     # [Required] Artifact type options
@@ -28,19 +25,22 @@ module SwaggerClient
     # [Required] Artifact category options
     attr_accessor :category
 
+    # [Optional] Artifact description. 2000 Characters.
+    attr_accessor :description
+
     # [Optional] Artifact reference page number. 50 Characters.
     attr_accessor :ref_page_number
-
-    # [Optional] Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined.
-    attr_accessor :controls
 
     # [Required] CCI associated with test result.
     attr_accessor :ccis
 
+    # [Optional] Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined.
+    attr_accessor :controls
+
     # [Optional] Date Artifact expires and requires review. In Unix Date format.
     attr_accessor :artifact_expiration_date
 
-    # [Conditional] Date Artifact was last reviewed.. Unix time format.
+    # [Optional]] Date Artifact was last reviewed.. Unix time format.
     attr_accessor :last_reviewed_date
 
     class EnumAttributeValidator
@@ -69,13 +69,13 @@ module SwaggerClient
     def self.attribute_map
       {
         :'filename' => :'filename',
-        :'description' => :'description',
         :'is_template' => :'isTemplate',
         :'type' => :'type',
         :'category' => :'category',
+        :'description' => :'description',
         :'ref_page_number' => :'refPageNumber',
-        :'controls' => :'controls',
         :'ccis' => :'ccis',
+        :'controls' => :'controls',
         :'artifact_expiration_date' => :'artifactExpirationDate',
         :'last_reviewed_date' => :'lastReviewedDate'
       }
@@ -85,13 +85,13 @@ module SwaggerClient
     def self.openapi_types
       {
         :'filename' => :'Object',
-        :'description' => :'Object',
         :'is_template' => :'Object',
         :'type' => :'Object',
         :'category' => :'Object',
+        :'description' => :'Object',
         :'ref_page_number' => :'Object',
-        :'controls' => :'Object',
         :'ccis' => :'Object',
+        :'controls' => :'Object',
         :'artifact_expiration_date' => :'Object',
         :'last_reviewed_date' => :'Object'
       }
@@ -122,10 +122,6 @@ module SwaggerClient
         self.filename = attributes[:'filename']
       end
 
-      if attributes.key?(:'description')
-        self.description = attributes[:'description']
-      end
-
       if attributes.key?(:'is_template')
         self.is_template = attributes[:'is_template']
       end
@@ -138,16 +134,20 @@ module SwaggerClient
         self.category = attributes[:'category']
       end
 
+      if attributes.key?(:'description')
+        self.description = attributes[:'description']
+      end
+
       if attributes.key?(:'ref_page_number')
         self.ref_page_number = attributes[:'ref_page_number']
       end
 
-      if attributes.key?(:'controls')
-        self.controls = attributes[:'controls']
-      end
-
       if attributes.key?(:'ccis')
         self.ccis = attributes[:'ccis']
+      end
+
+      if attributes.key?(:'controls')
+        self.controls = attributes[:'controls']
       end
 
       if attributes.key?(:'artifact_expiration_date')
@@ -163,14 +163,34 @@ module SwaggerClient
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
+      if @filename.nil?
+        invalid_properties.push('invalid value for "filename", filename cannot be nil.')
+      end
+
+      if @is_template.nil?
+        invalid_properties.push('invalid value for "is_template", is_template cannot be nil.')
+      end
+
+      if @type.nil?
+        invalid_properties.push('invalid value for "type", type cannot be nil.')
+      end
+
+      if @category.nil?
+        invalid_properties.push('invalid value for "category", category cannot be nil.')
+      end
+
       invalid_properties
     end
 
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
+      return false if @filename.nil?
+      return false if @is_template.nil?
+      return false if @type.nil?
       type_validator = EnumAttributeValidator.new('Object', ['Procedure', 'Diagram', 'Policy', 'Labor', 'Document', 'Image', 'Other', 'Scan Result'])
       return false unless type_validator.valid?(@type)
+      return false if @category.nil?
       category_validator = EnumAttributeValidator.new('Object', ['Implementation Guidance', 'Evidence'])
       return false unless category_validator.valid?(@category)
       true
@@ -202,13 +222,13 @@ module SwaggerClient
       return true if self.equal?(o)
       self.class == o.class &&
           filename == o.filename &&
-          description == o.description &&
           is_template == o.is_template &&
           type == o.type &&
           category == o.category &&
+          description == o.description &&
           ref_page_number == o.ref_page_number &&
-          controls == o.controls &&
           ccis == o.ccis &&
+          controls == o.controls &&
           artifact_expiration_date == o.artifact_expiration_date &&
           last_reviewed_date == o.last_reviewed_date
     end
@@ -222,7 +242,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [filename, description, is_template, type, category, ref_page_number, controls, ccis, artifact_expiration_date, last_reviewed_date].hash
+      [filename, is_template, type, category, description, ref_page_number, ccis, controls, artifact_expiration_date, last_reviewed_date].hash
     end
 
     # Builds the object from hash

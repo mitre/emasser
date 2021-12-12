@@ -14,8 +14,8 @@ module Emasser
       require 'emasser/put'
       register(Emasser::Put, 'put', 'put [RESOURCE]', 'Puts resources')
     elsif ARGV[0].to_s.include? 'del'
-      require 'emasser/del'
-      register(Emasser::Del, 'del', 'del [RESOURCE]', 'Deletes resources')
+      require 'emasser/delete'
+      register(Emasser::Delete, 'delete', 'delete [RESOURCE]', 'Deletes resources')
     end
 
     def self.exit_on_failure?

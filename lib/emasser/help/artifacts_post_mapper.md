@@ -46,6 +46,7 @@ Business Rules
 - Artifact cannot be saved if File Name (fileName) exceeds 1,000 characters
 - Artifact cannot be saved if Description (description) exceeds 2,000 characters
 - Artifact cannot be saved if Reference Page Number (refPageNumber) exceeds 50 characters
+- Artifact cannot be saved if the file does not have an allowable file extension/type.
 - Artifact version cannot be saved if an Artifact with the same file name already exist in the system.
 - Artifact cannot be saved if the file size exceeds 30MB.
 - Artifact cannot be saved if the Last Review Date is set in the future.

@@ -3,7 +3,6 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**display_poam_id** | **Integer** | [Required] Globally unique identifier for individual POA&amp;M Items, seen on the front-end as “ID”. | [optional] 
 **status** | **String** | [Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable | [optional] 
 **vulnerability_description** | **String** | [Required] Provide a description of the POA&amp;M Item. 2000 Characters. | [optional] 
 **source_ident_vuln** | **String** | [Required] Include Source Identifying Vulnerability text. 2000 Characters. | [optional] 

@@ -4,17 +4,18 @@ Field                   Data Type  Details
 -------------------------------------------------------------------------------------------------
 systemId                 Integer   [Required] Unique eMASS identifier. Will need to provide correct number.
 poamId                   Integer   [Required] Unique POA&M identifier. Will need to provide correct number.
+displayPoamId            Integer   [Required] Globally unique identifier for individual POA&M Items, seen on the front-end as "ID".
 status                   String    [Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable.
 vulnerabilityDescription String    [Required] Provide a description of the POA&M Item. 2000 Characters.
 sourceIdentVuln          String    [Required] Include Source Identifying Vulnerability text. 2000 Characters.
-pocOrganization**        String    [Required] Organization/Office represented. 100 Characters.
-pocFirstName**           String    [Required] First name of POC. 100 Characters.
-pocLastName**            String    [Required] Last name of POC. 100 Characters.
-pocEmail**               String    [Required] Email address of POC. 100 Characters.
-pocPhoneNumber**         String    [Required] Phone number of POC (area code) ***-**** format. 100 Characters.
-reviewStatus             string    [Required/Optional] Values include the following options: (Not Approved, Under Review, Approved]
+pocOrganization          String    [Required] Organization/Office represented. 100 Characters.
+resources                String    [Required] List of resources used. 250 Characters.
 
 milestones               JSON      [Conditional] Please see Notes 1 for more details.
+pocFirstName             String    [Conditional] First name of POC. 100 Characters.
+pocLastName              String    [Conditional] Last name of POC. 100 Characters.
+pocEmail                 String    [Conditional] Email address of POC. 100 Characters.
+pocPhoneNumber           String    [Conditional] Phone number of POC (area code) ***-**** format. 100 Characters.
 severity                 String    [Conditional] Values include the following: (Very Low, Low, Moderate, High, Very High)
 scheduledCompletionDate  Date      [Conditional] Required for ongoing and completed POA&M items. Unix time format.
 completionDate           Date      [Conditional] Field is required for completed POA&M items. Unix time format.
@@ -26,30 +27,29 @@ controlAcronym           String    [Optional] Control acronym associated with th
 cci                      String    [Optional] CCI associated with the test result.
 securityChecks           String    [Optional] Security Checks that are associated with the POA&M.
 rawSeverity              String    [Optional] Values include the following: (I, II, III)
-resources                String    [Optional] List of resources used. 250 Characters.
+
 relevanceOfThreat        String    [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
 likelihood               String    [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
 impact                   String    [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
-impactDescription        String    [Optional] Include description of Security Control’s impact.
+impactDescription        String    [Optional] Include description of Security Control's impact.
 residualRiskLevel        String    [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
 recommendations          String    [Optional] Include recommendations. Character Limit 2,000.
 mitigation               String    [Optional] Include mitigation explanation. 2000 Characters.
 
 isInherited              String    [Read-Only] Indicates whether a POA&M Item is inherited.
-extensionDate            Date      [Read-Only] Value returned for a POA&M Item with review status “Approved” and has a milestone
+reviewStatus             string    [Read-Only] Values include the following options: (Not Approved, Under Review, Approved)
+extensionDate            Date      [Read-Only] Value returned for a POA&M Item with review status "Approved" and has a milestone
                                                with a scheduled completion date that extends beyond the POA&M Item’s scheduled completion date.
 
-** If any poc information is provided all POC fields are required. See additional details for POC fields below.
-
+If any poc information is provided all POC fields are required. See additional details for POC fields below.
 To delete a milestone through the POA&M PUT you must include it as inactive by setting isActive=false.
-
 If a milestone Id is not provided a new milestone is created. 
 
-If a field is misrepresented (wrong value)the following response may be provided by the server:
-Response body: {"meta":{"code":500,"errorMessage":"Sorry! Something went wrong on our end. Please contact emass_support@bah.com for assistance."}}
+Business Rules
 
-The following fields are required based on the contents of the status field
-  |status          |Required Fields
+
+The following fields are required based on the value of the `status` field
+  |Value           |Required Fields
   |----------------|--------------------------------------------------------
   |Risk Accepted   |comments, resources
   |Ongoing         |scheduledCompletionDate, resources, milestones (at least 1)
@@ -69,16 +69,16 @@ Business logic, the following rules apply when adding POA&Ms
 - POA&M Item cannot be created manually if a Security Control or AP is Not Applicable.
 - Completed POA&M Item cannot be saved if Completion Date is in the future.
 - Completed POA&M Item cannot be saved if Completion Date (completionDate) is in the future.
-- Risk Accepted POA&M Item cannot be saved with a Scheduled Completion Date or Milestones
-- POA&M Item with a review status of “Not Approved” cannot be saved if Milestone Scheduled Completion Date exceeds POA&M Item  Scheduled Completion Date.
-- POA&M Item with a review status of “Approved” can be saved if Milestone Scheduled Completion Date exceeds POA&M Item Scheduled Completion Date.
-- POA&M Items that have a status of “Completed” and a status of “Ongoing” cannot be saved without Milestones.
-- POA&M Items that have a status of “Risk Accepted” cannot have milestones.
-- POA&M Items with a review status of “Approved” that have a status of “Completed” and “Ongoing” cannot update Scheduled Completion Date.
-- POA&M Items that have a review status of “Approved” are required to have a Severity Value assigned.
+- Risk Accepted POA&M Item cannot be saved with a Scheduled Completion Date (scheduledCompletionDate) or Milestones
+- POA&M Item with a review status of "Not Approved" cannot be saved if Milestone Scheduled Completion Date exceeds POA&M Item  Scheduled Completion Date.
+- POA&M Item with a review status of "Approved" can be saved if Milestone Scheduled Completion Date exceeds POA&M Item Scheduled Completion Date.
+- POA&M Items that have a status of "Completed" and a status of "Ongoing" cannot be saved without Milestones.
+- POA&M Items that have a status of "Risk Accepted" cannot have milestones.
+- POA&M Items with a review status of "Approved" that have a status of "Completed" and "Ongoing" cannot update Scheduled Completion Date.
+- POA&M Items that have a review status of "Approved" are required to have a Severity Value assigned.
 - POA&M Items cannot be updated if they are included in an active package.
 - Archived POA&M Items cannot be updated.
-- POA&M Items with a status of “Not Applicable” will be updated through test result creation.
+- POA&M Items with a status of "Not Applicable" will be updated through test result creation.
 - If the Security Control or Assessment Procedure does not exist in the system we may have to just import POA&M Item at the System Level.
 
 
@@ -89,11 +89,11 @@ The following parameters/fields have the following character limitations:
   - Last Name             (pocLastName)
   - Email                 (email)
   - Phone Number          (pocPhoneNumber)
-- POA&M Item cannot be saved if Mitigation field (mitigation) exceeds 2000 characters.
-- POA&M Item cannot be saved if Source Identifying Vulnerability field exceeds 2000 characters.
-- POA&M Item cannot be saved if Comments (comments) field exceeds 2000 characters 
-- POA&M Item cannot be saved if Resource (resource) field exceeds 250 characters.
-- POA&M Items cannot be saved if Milestone Description exceeds 2000 characters.
+- POA&M Item cannot be saved if Mitigation field (mitigation) exceeds 2,000 characters.
+- POA&M Item cannot be saved if Source Identifying Vulnerability field (sourceIdentVuln) exceeds 2,000 characters.
+- POA&M Item cannot be saved if Comments field (comments) exceeds 2,000 characters 
+- POA&M Item cannot be saved if Resource field (resource) exceeds 250 characters.
+- POA&M Items cannot be saved if Milestone Description (description) exceeds 2,000 characters.
 
 Example:
 
@@ -102,5 +102,6 @@ bundle exec exe/emasser put poams update --systemId [value] --poamId [value] --s
 Notes:
 1 - The format for milestones is:
     --milestone milestoneId:[value] description:[value] scheduledCompletionDate:[value]
-
 2 - The example is only showing the required fields. Refer to instructions listed above for conditional and optional fields requirements.
+3 - If a field is misrepresented (wrong value) the following response may be provided by the server:
+Response body: {"meta":{"code":500,"errorMessage":"Sorry! Something went wrong on our end. Please contact emass_support@bah.com for assistance."}}

@@ -13,9 +13,6 @@ require 'date'
 
 module SwaggerClient
   class PoamRequiredPost
-    # [Required] Globally unique identifier for individual POA&M Items, seen on the front-end as “ID”.
-    attr_accessor :display_poam_id
-
     # [Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable
     attr_accessor :status
 
@@ -118,7 +115,6 @@ module SwaggerClient
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'display_poam_id' => :'displayPoamId',
         :'status' => :'status',
         :'vulnerability_description' => :'vulnerabilityDescription',
         :'source_ident_vuln' => :'sourceIdentVuln',
@@ -151,7 +147,6 @@ module SwaggerClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'display_poam_id' => :'Object',
         :'status' => :'Object',
         :'vulnerability_description' => :'Object',
         :'source_ident_vuln' => :'Object',
@@ -201,10 +196,6 @@ module SwaggerClient
         end
         h[k.to_sym] = v
       }
-
-      if attributes.key?(:'display_poam_id')
-        self.display_poam_id = attributes[:'display_poam_id']
-      end
 
       if attributes.key?(:'status')
         self.status = attributes[:'status']
@@ -427,7 +418,6 @@ module SwaggerClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          display_poam_id == o.display_poam_id &&
           status == o.status &&
           vulnerability_description == o.vulnerability_description &&
           source_ident_vuln == o.source_ident_vuln &&
@@ -465,7 +455,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [display_poam_id, status, vulnerability_description, source_ident_vuln, poc_organization, resources, poc_first_name, poc_last_name, poc_email, poc_phone_number, external_uid, control_acronym, cci, security_checks, raw_severity, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, recommendations, mitigation, severity, scheduled_completion_date, comments, completion_date, milestones].hash
+      [status, vulnerability_description, source_ident_vuln, poc_organization, resources, poc_first_name, poc_last_name, poc_email, poc_phone_number, external_uid, control_acronym, cci, security_checks, raw_severity, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, recommendations, mitigation, severity, scheduled_completion_date, comments, completion_date, milestones].hash
     end
 
     # Builds the object from hash

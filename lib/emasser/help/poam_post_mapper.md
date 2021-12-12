@@ -18,7 +18,6 @@ severity                 String    [Conditional] Values include the following: (
 scheduledCompletionDate  Date      [Conditional] Required for ongoing and completed POA&M items. Unix time format.
 completionDate           Date      [Conditional] Field is required for completed POA&M items. Unix time format.
 comments                 String    [Conditional] Field is required for completed and risk accepted POA&M items. 2000 Characters.
-isActive                 Boolean   [Conditional] Optionally used in PUT to delete milestones when updating a POA&M
 
 externalUid              String    [Optional] Unique identifier external to the eMASS application for use with associating POA&M Items. 100 Characters.
 controlAcronym           String    [Optional] Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined.
@@ -35,9 +34,10 @@ mitigation               String    [Optional] Include mitigation explanation. 20
 
 isInherited              String    [Read-Only] Indicates whether a POA&M Item is inherited.
 reviewStatus             string    [Read-Only] Values include the following options: (Not Approved, Under Review, Approved)
-extensionDate            Date      [Read-Only] Value returned for a POA&M Item with review status “Approved” and has a milestone
+extensionDate            Date      [Read-Only] Value returned for a POA&M Item with review status "Approved" and has a milestone
                                                with a scheduled completion date that extends beyond the POA&M Item’s scheduled completion date.
 
+**If a milestone Id is provided the POA&M with the provided milestone Id is updated and the new POA&M milestones is set to null.**
 
 The following fields are required based on the contents of the "status" field
   |status          |Required Fields
@@ -47,10 +47,7 @@ The following fields are required based on the contents of the "status" field
   |Completed       |scheduledCompletionDate, comments, completionDate, milestones (at least 1)
   |Not Applicable  |POAM can not be created
 
-If a POC email is supplied, the application will attempt to locate a user
-already registered within the application and pre-populate any information
-not explicitly supplied in the request. If no such user is found, these
-fields are required within the request.
+If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request.
   - pocFirstName, pocLastName, pocPhoneNumber
 
 Business logic, the following rules apply when adding POA&Ms
@@ -60,15 +57,15 @@ Business logic, the following rules apply when adding POA&Ms
 - Completed POA&M Item cannot be saved if Completion Date is in the future.
 - Completed POA&M Item cannot be saved if Completion Date (completionDate) is in the future.
 - Risk Accepted POA&M Item cannot be saved with a Scheduled Completion Date or Milestones
-- POA&M Items with a review status of “Not Approved” cannot be saved if Milestone Scheduled Completion Date exceeds POA&M Item  Scheduled Completion Date.
-- POA&M Items with a review status of “Approved” can be saved if Milestone Scheduled Completion Date exceeds POA&M Item Scheduled Completion Date.
-- POA&M Items that have a status of “Completed” and a status of “Ongoing” cannot be saved without Milestones.
-- POA&M Items that have a status of “Risk Accepted” cannot have milestones.
-- POA&M Items with a review status of “Approved” that have a status of “Completed” and “Ongoing” cannot update Scheduled Completion Date.
-- POA&M Items that have a review status of “Approved” are required to have a Severity Value assigned.
+- POA&M Items with a review status of "Not Approved" cannot be saved if Milestone Scheduled Completion Date exceeds POA&M Item  Scheduled Completion Date.
+- POA&M Items with a review status of "Approved" can be saved if Milestone Scheduled Completion Date exceeds POA&M Item Scheduled Completion Date.
+- POA&M Items that have a status of "Completed" and a status of "Ongoing" cannot be saved without Milestones.
+- POA&M Items that have a status of "Risk Accepted" cannot have milestones.
+- POA&M Items with a review status of "Approved" that have a status of "Completed" and "Ongoing" cannot update Scheduled Completion Date.
+- POA&M Items that have a review status of "Approved" are required to have a Severity Value assigned.
 - POA&M Items cannot be updated if they are included in an active package.
 - Archived POA&M Items cannot be updated.
-- POA&M Items with a status of “Not Applicable” will be updated through test result creation.
+- POA&M Items with a status of "Not Applicable" will be updated through test result creation.
 - If the Security Control or Assessment Procedure does not exist in the system we may have to just import POA&M Item at the System Level.
 
 

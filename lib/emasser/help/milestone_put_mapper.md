@@ -20,4 +20,4 @@ Response body: {"meta":{"code":500,"errorMessage":"Sorry! Something went wrong o
 
 Example:
 
-bundle exec exe/emasser put poams update_milestones --systemId [value] --poamId [value] --milestoneId [value] --description [value] --scheduledCompletionDate [value]
+bundle exec exe/emasser put milestones update --systemId [value] --poamId [value] --milestoneId [value] --description [value] --scheduledCompletionDate [value]

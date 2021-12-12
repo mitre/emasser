@@ -8,4 +8,4 @@ The last milestone can not be deleted, at-least on must exist.
 
 Example:
 
-bundle exec exe/emasser del poams remove_milestones --systemId [value] --poamId [value] --milestoneId [value]
+bundle exec exe/emasser delete milestones remove--systemId [value] --poamId [value] --milestoneId [value]

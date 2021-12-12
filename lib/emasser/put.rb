@@ -35,7 +35,8 @@ class Thor
 end
 
 module Emasser
-  NEW_LINE = "\n"
+  CONTROLS_HELP_MESSAGE = "\nInvoke \"bundle exec exe/emasser put controls help update\" for additional help"
+  POAMS_HELP_MESSAGE = "\nInvoke \"bundle exec exe/emasser put poams help add\" for additional help"
   # Update Security Control information of a system for both the Implementation Plan and Risk Assessment.
   #
   # Endpoint:
@@ -159,27 +160,25 @@ module Emasser
     end
     # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
-    # rubocop:disable Style/CaseLikeIf, Style/StringLiterals, Style/NegatedIf, Metrics/BlockLength, Metrics/CyclomaticComplexity
+    # rubocop:disable Style/CaseLikeIf, Style/StringLiterals, Metrics/BlockLength, Metrics/CyclomaticComplexity
     no_commands do
       # rubocop:disable Metrics/PerceivedComplexity, Style/GuardClause
       def process_business_logic(body)
         # Conditional fields based on implementationStatus content
-        if !options[:implementationStatus].nil?
+        # unless executes code if conditional is false
+        unless options[:implementationStatus].nil?
           body.implementation_status = options[:implementationStatus]
 
           if options[:implementationStatus] == "Planned" || options[:implementationStatus] == "Implemented"
-            if options[:controlDesignation].nil? || options[:responsibleEntities].nil? ||
-               options[:slcmCriticality].nil? || options[:slcmFrequency].nil? ||
-               options[:slcmMethod].nil? || options[:slcmReporting].nil? ||
-               options[:slcmTracking].nil? || options[:slcmComments].nil?
-
+            if options[:responsibleEntities].nil? || options[:slcmCriticality].nil? ||
+               options[:slcmFrequency].nil? || options[:slcmMethod].nil? ||
+               options[:slcmReporting].nil? || options[:slcmTracking].nil? || options[:slcmComments].nil?
               puts 'Missing one of these parameters/fields:'.red
-              puts 'controlDesignation, responsibleEntities, slcmCriticality,
-                    slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments'.red
-              puts NEW_LINE + 'Invoke "bundle exec exe/emasser put controls help update" for additional help'.yellow
+              puts '  responsibleEntities, slcmCriticality, slcmFrequency,'.red
+              puts '  slcmMethod,slcmReporting, slcmTracking, slcmComments'.red
+              puts CONTROLS_HELP_MESSAGE.yellow
               exit
             else
-              body.control_designation = option[:controlDesignation]
               body.responsible_entities = options[:responsibleEntities]
               body.slcm_criticality = options[:slcmCriticality]
               body.slcm_frequency = options[:slcmFrequency]
@@ -189,29 +188,26 @@ module Emasser
               body.slcm_comments = options[:slcmComments]
             end
           elsif options[:implementationStatus] == 'Not Applicable'
-            if options[:naJustification].nil? || options[:controlDesignation].nil? || options[:responsibleEntities].nil?
+            if options[:naJustification].nil? || options[:responsibleEntities].nil?
               puts 'Missing one of these parameters/fields:'.red
-              puts 'controlDesignation, naJustification, responsibleEntities'.red
-              puts NEW_LINE + 'Invoke "bundle exec exe/emasser put controls help update" for additional help'.yellow
+              puts '  naJustification, responsibleEntities'.red
+              puts CONTROLS_HELP_MESSAGE.yellow
               exit
             else
-              body.control_designation = option[:controlDesignation]
               body.slcm_reporting = options[:naJustification]
               body.responsible_entities = options[:responsibleEntities]
             end
           elsif options[:implementationStatus] == 'Manually Inherited'
-            if options[:commonControlProvider].nil? || options[:controlDesignation].nil? ||
-               options[:responsibleEntities].nil? || options[:slcmCriticality].nil? ||
-               options[:slcmFrequency].nil? || options[:slcmMethod].nil? ||
+            if options[:commonControlProvider].nil? || options[:responsibleEntities].nil? ||
+               options[:slcmCriticality].nil? || options[:slcmFrequency].nil? || options[:slcmMethod].nil? ||
                options[:slcmReporting].nil? || options[:slcmTracking].nil? || options[:slcmComments].nil?
               puts 'Missing one of these parameters/fields:'.red
-              puts 'commonControlProvider, controlDesignation, responsibleEntities, slcmCriticality,
-                    slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments'.red
-              puts NEW_LINE + 'Invoke "bundle exec exe/emasser put controls help update" for additional help'.yellow
+              puts '  commonControlProvider, responsibleEntities, slcmCriticality,'.red
+              puts '  slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments'.red
+              puts CONTROLS_HELP_MESSAGE.yellow
               exit
             else
               body.common_control_provider = options[:commonControlProvider]
-              body.control_designation = options[:controlDesignation]
               body.responsible_entities = options[:responsibleEntities]
               body.slcm_criticality = options[:slcmCriticality]
               body.slcm_frequency = options[:slcmFrequency]
@@ -221,21 +217,21 @@ module Emasser
               body.slcm_comments = options[:slcmComments]
             end
           elsif options[:implementationStatus] == 'Inherited'
-            if options[:commonControlProvider].nil? || options[:controlDesignation].nil?
-              puts 'When implementationStatus=Inherited only these fields are update:'.red
-              puts 'commonControlProvider, controlDesignation'.red
-              puts NEW_LINE + 'Invoke "bundle exec exe/emasser put controls help update" for additional help'.yellow
+            if options[:commonControlProvider].nil?
+              puts 'When implementationStatus value is "Inherited" only the following fields are updated:'.red
+              puts '    controlDesignation and commonControlProvider'.red
+              puts 'Missing the commonControlProvider field'.red
+              puts CONTROLS_HELP_MESSAGE.yellow
               exit
             else
               body.common_control_provider = options[:commonControlProvider]
-              body.control_designation = options[:controlDesignation]
             end
           end
         end
       end
       # rubocop:enable Metrics/PerceivedComplexity, Style/GuardClause
     end
-    # rubocop:enable Style/CaseLikeIf, Style/StringLiterals, Style/NegatedIf, Metrics/BlockLength, Metrics/CyclomaticComplexity
+    # rubocop:enable Style/CaseLikeIf, Style/StringLiterals, Metrics/BlockLength, Metrics/CyclomaticComplexity
   end
   # rubocop:enable Metrics/ClassLength, Style/WordArray
 
@@ -272,8 +268,11 @@ module Emasser
 
     # Required parameters/fields
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
-    option :poamId,   type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
-    option :status,   type: :string, required: true, enum: ['Ongoing', 'Risk Accepted', 'Completed', 'Not Applicable']
+    option :poamId, type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
+    option :displayPoamId,
+           type: :numeric, required: true,
+           desc: 'Globally unique identifier for individual POA&M Items, seen on the front-end as "ID"'
+    option :status, type: :string, required: true, enum: ['Ongoing', 'Risk Accepted', 'Completed', 'Not Applicable']
     option :vulnerabilityDescription, type: :string, required: true, desc: 'POA&M vulnerability description'
     option :sourceIdentVuln,
            type: :string, required: true, desc: 'Source that identifies the vulnerability'
@@ -372,7 +371,7 @@ module Emasser
           if options[:comments].nil?
             puts 'When status = "Risk Accepted" the following parameters/fields are required:'.red
             puts '    comments'.red
-            puts NEW_LINE + 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            puts POAMS_HELP_MESSAGE.yellow
             exit
           else
             body.comments = options[:comments]
@@ -382,7 +381,7 @@ module Emasser
             puts 'When status = "Ongoing" the following parameters/fields are required:'.red
             puts '    scheduledCompletionDate, or milestone'.red
             print_milestone_help
-            puts NEW_LINE + 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            puts POAMS_HELP_MESSAGE.yellow
             exit
           elsif options[:milestone]["description"].nil? || options[:milestone]["scheduledCompletionDate"].nil?
             puts 'Missing milstone parameters/fields'.red
@@ -391,7 +390,8 @@ module Emasser
           else
             body.scheduled_completion_date = options[:scheduledCompletionDate]
 
-            milestone = SwaggerClient::MilestonesRequiredPost.new
+            milestone = SwaggerClient::MilestonesRequiredPut.new
+            milestone.milestone_id = options[:milestone]["milestoneId"] if options[:milestone]["milestoneId"]
             milestone.description = options[:milestone]["description"]
             milestone.scheduled_completion_date = options[:milestone]["scheduledCompletionDate"]
             milestone_array = Array.new(1, milestone)
@@ -403,14 +403,15 @@ module Emasser
             puts 'Missing one of these parameters/fields:'.red
             puts '    scheduledCompletionDate, comments, completionDate, or milestone'.red
             print_milestone_help
-            puts NEW_LINE + 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            puts POAMS_HELP_MESSAGE.yellow
             exit
           else
             body.scheduled_completion_date = options[:scheduledCompletionDate]
             body.comments = options[:comments]
             body.completion_date = options[:completionDate]
 
-            milestone = SwaggerClient::MilestonesRequiredPost.new
+            milestone = SwaggerClient::MilestonesRequiredPut.new
+            milestone.milestone_id = options[:milestone]["milestoneId"] if options[:milestone]["milestoneId"]
             milestone.description = options[:milestone]["description"]
             milestone.scheduled_completion_date = options[:milestone]["scheduledCompletionDate"]
             milestone_array = Array.new(1, milestone)
@@ -423,28 +424,28 @@ module Emasser
           if options[:pocLastName].nil? || options[:pocEmail].nil? || options[:pocPhoneNumber].nil?
             puts 'If a POC first name is given, then all POC information must be entered:'.red
             puts '    pocLastName, pocEmail, pocPhoneNumber'.red
-            puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            puts POAMS_HELP_MESSAGE.yellow
             exit
           end
         elsif options[:pocLastName]
           if options[:pocFirstName].nil? || options[:pocEmail].nil? || options[:pocPhoneNumber].nil?
             puts 'If a POC last name is given, then all POC information must be entered:'.red
             puts '    pocFirstName, pocEmail, pocPhoneNumber'.red
-            puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            puts POAMS_HELP_MESSAGE.yellow
             exit
           end
         elsif options[:pocEmail]
           if options[:pocFirstName].nil? || options[:pocLastName].nil? || options[:pocPhoneNumber].nil?
             puts 'If a POC email is given, then all POC information must be entered:'.red
             puts '    pocFirstName, pocLastName, pocPhoneNumber'.red
-            puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            puts POAMS_HELP_MESSAGE.yellow
             exit
           end
         elsif options[:pocPhoneNumber]
           if options[:pocFirstName].nil? || options[:pocLastName].nil? || options[:pocEmail].nil?
             puts 'If a POC phone number is given, then all POC information must be entered:'.red
             puts '    pocFirstName, pocLastName, pocEmail'.red
-            puts 'Invoke "bundle exec exe/emasser post poams help add" for additional help'.yellow
+            puts POAMS_HELP_MESSAGE.yellow
             exit
           end
         end
@@ -453,7 +454,8 @@ module Emasser
 
       def print_milestone_help
         puts 'Milestone format is:'.yellow
-        puts '    --milestone description:"[value]" scheduledCompletionDate:"[value]"'.yellow
+        puts '    --milestone milestoneId:[value] description:"[value]" scheduledCompletionDate:"[value]"'.yellow
+        puts 'The milestoneId:[value] is optional, if not provided a new milestone is created'.yellow
       end
     end
     # rubocop:enable Metrics/BlockLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
@@ -472,6 +474,7 @@ module Emasser
     desc 'update', 'Update milestone(s) for given specified system and poam'
     long_desc Help.text(:milestone_put_mapper)
 
+    # Required parameters/fields
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :poamId, type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
     option :milestoneId,
@@ -512,6 +515,7 @@ module Emasser
     desc 'update', 'Updates artifacts for a system with provided entries'
     long_desc Help.text(:artifacts_put_mapper)
 
+    # Required parameters/fields
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :filename, type: :string, required: true, desc: 'Artifact file name to be updated'
     option :type,

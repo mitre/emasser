@@ -52,7 +52,7 @@ These variables can be set in the .env file (see the .env-example file)
 * [/api/systems/{systemId}/poams](#delete-poams)
 * [/api/systems/{systemId}/poams/{poamId}/milestones](#delete-milestones)
 * [/api/systems/{systemId}/artifacts](#delete-artifacts)
-* 
+
 ## Endpoints CLI help
 Each CLI endpoint command has several layers of help. 
 - Using `help` after a `get, put, post, or delete` command lists all available endpoint calls
@@ -96,11 +96,12 @@ Each CLI endpoint command has several layers of help.
       - --filename=FILENAME   # The artifact file name
       - --compress            # BOOLEAN - true or false.
 
-**The same format is applicable to POST and PUT requests as well, however there may be additional help content**
+**The same format is applicable to POST, PUT and DELETE requests as well, however there may be additional help content**
 
 
 ## Common Endpoint Requests Information
-  - To invoke any boolean parameters use --fieldName for TRUE and --no-fieldName for FALSE
+  - To invoke any boolean parameters use --parameterName for TRUE and --no-parameterName for FALSE
+  - Teh eMASS API provides the capability of updating multiple entries within several endpoints, however this CLI only supports updating one entry at the time.
 
 ## Usage - GET
 
@@ -441,12 +442,12 @@ Test Result add (POST) endpoint API business rules.
 
   |Business Rule                                                        | Parameter/Field  |
   |---------------------------------------------------------------------|:-----------------|
-  | Tests Results cannot be saved if the “Test Date” is in the future.  | `testDate` |
-  | Test Results cannot be saved if a Security Control is “Inherited” in the system record. | `description` |
-  | Test Results cannot be saved if an Assessment Procedure is “Inherited” in the system record. | `description` |
+  | Tests Results cannot be saved if the "Test Date" is in the future.  | `testDate` |
+  | Test Results cannot be saved if a Security Control is "Inherited" in the system record. | `description` |
+  | Test Results cannot be saved if an Assessment Procedure is "Inherited" in the system record. | `description` |
   | Test Results cannot be saved if the AP does not exist in the system. | `description` |
-  | Test Results cannot be saved if the control is marked “Not Applicable” by an Overlay. | `description` |
-  | Test Results cannot be saved if the control is required to be assessed as “Applicable” by an Overlay.| `description` |
+  | Test Results cannot be saved if the control is marked "Not Applicable" by an Overlay. | `description` |
+  | Test Results cannot be saved if the control is required to be assessed as "Applicable" by an Overlay.| `description` |
   | Test Results cannot be saved if the Tests Results entered is greater than 4000 characters.|`description`|
   | Test Results cannot be saved if the following fields are missing data: | `complianceStatus`, `testDate`, `testedBy`, `description`|
   | Test results cannot be saved if there is more than one test result per CCI |`cci`|
@@ -504,15 +505,15 @@ Business logic, the following rules apply when adding POA&Ms
 - Completed POA&M Item cannot be saved if Completion Date is in the future.
 - Completed POA&M Item cannot be saved if Completion Date (completionDate) is in the future.
 - Risk Accepted POA&M Item cannot be saved with a Scheduled Completion Date or Milestones
-- POA&M Items with a review status of “Not Approved” cannot be saved if Milestone Scheduled Completion Date exceeds POA&M Item  Scheduled Completion Date.
-- POA&M Items with a review status of “Approved” can be saved if Milestone Scheduled Completion Date exceeds POA&M Item Scheduled Completion Date.
-- POA&M Items that have a status of “Completed” and a status of “Ongoing” cannot be saved without Milestones.
-- POA&M Items that have a status of “Risk Accepted” cannot have milestones.
-- POA&M Items with a review status of “Approved” that have a status of “Completed” and “Ongoing” cannot update Scheduled Completion Date.
-- POA&M Items that have a review status of “Approved” are required to have a Severity Value assigned.
+- POA&M Items with a review status of "Not Approved" cannot be saved if Milestone Scheduled Completion Date exceeds POA&M Item  Scheduled Completion Date.
+- POA&M Items with a review status of "Approved" can be saved if Milestone Scheduled Completion Date exceeds POA&M Item Scheduled Completion Date.
+- POA&M Items that have a status of "Completed" and a status of "Ongoing" cannot be saved without Milestones.
+- POA&M Items that have a status of "Risk Accepted" cannot have milestones.
+- POA&M Items with a review status of "Approved" that have a status of "Completed" and "Ongoing" cannot update Scheduled Completion Date.
+- POA&M Items that have a review status of "Approved" are required to have a Severity Value assigned.
 - POA&M Items cannot be updated if they are included in an active package.
 - Archived POA&M Items cannot be updated.
-- POA&M Items with a status of “Not Applicable” will be updated through test result creation.
+- POA&M Items with a status of "Not Applicable" will be updated through test result creation.
 - If the Security Control or Assessment Procedure does not exist in the system we may have to just import POA&M Item at the System Level.
 
 
@@ -535,10 +536,14 @@ To add (POST) POA&Ms use the following command:
 $ bundle exec exe/emasser post poams add --systemId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --pocOrganization [value] --resources [value]
 ```
 **Notes:** 
-  - The format for milestones is:
-    --milestone description:[value] scheduledCompletionDate:[value]
-  - Based on the value for the status (--status) parameter there are other required fields
+  - The above listed parameters/fields are the minimal required.
+  - Based on the value for the status (--status) parameter additional fields are required
   - Refer to instructions listed above for conditional and optional fields requirements.
+  - When a milestone is required the format is:
+    - --milestone description:[value] scheduledCompletionDate:[value]
+  
+**If a milestone Id is provided (--milestone milestoneId:[value]) the POA&M with the provided milestone Id is updated and the new POA&M milestones is set to null.**
+
 ---
 Client API parameters/fields (required, conditional, and optional).
   - required parameter are:
@@ -580,7 +585,6 @@ Client API parameters/fields (required, conditional, and optional).
     |--cci               |String - CCI associated with the test result                                              |
     |--securityChecks    |String - Security Checks that are associated with the POA&M                               |
     |--rawSeverity       |Possible values: I, II, III                                                               |
-    |--resources         |String - List of resources used. 250 Characters                                           |
     |--relevanceOfThreat |Possible values: Very Low, Low, Moderate, High, Very High                                 |
     |--likelihood        |Possible values: Very Low, Low, Moderate, High, Very High                                 |
     |--impact            |Possible values: Very Low, Low, Moderate, High, Very High                                 |
@@ -617,7 +621,7 @@ To add (POST) milestones in a system for one or more POA&M items use the followi
 **Note**
 For information at the command line use: 
 ```
-$ bundle exec exe/emasser post poams help add_milestones
+$ bundle exec exe/emasser post milestones help add
 ```
 
 
@@ -761,9 +765,7 @@ To add (POST) static code scans use the following command:
     |--rawSeverity*     |Possible Values: Low, Medium, Moderate, High, Critical |  
     |--count            |Integer - Number of instances observed for a specified |
 
-*rawSeverity: In eMASS, values of "Critical" will appear as "Very High", and values of “Medium” will appear as "Moderate". Any values not listed as options in the list above will map to “Unknown” and appear as blank values.
-
-
+*rawSeverity: In eMASS, values of "Critical" will appear as "Very High", and values of "Medium" will appear as "Moderate". Any values not listed as options in the list above will map to "Unknown" and appear as blank values.
 
 To clear (POST) static code scans use the following command:
 
@@ -790,35 +792,36 @@ $ bundle exec exe/emasser post scan_findings help add
 [top](#api-endpoints-provided)
 
 ----
-The following Business Rules apply when adding (POST) Controls:
+Business Rules
 
-If Implementation Status `implementationStatus` field value is `Planned` or `Implemented`
-```
-controlDesignation, estimatedCompletionDate, responsibleEntities, slcmCriticality, slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments
-```
-If Implementation Status `implementationStatus` field value is `Manually Inherited`
-```
-commoncontrolprovider, securityControlDesignation, estimatedCompletionDate, responsibleEntities, slcmCriticality, slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments
-```
+The following fields are required based on the value of the `implementationStatus` field
+  |Value                   |Required Fields
+  |------------------------|--------------------------------------------------------
+  |Planned or Implemented  |controlDesignation, estimatedCompletionDate, responsibleEntities, slcmCriticality, slcmFrequency, slcmMethod, slcmMethod, slcmTracking, slcmComments
+  |Not Applicable          |naJustification, controlDesignation, responsibleEntities
+  |Manually Inherited      |controlDesignation, estimatedCompletionDate, responsibleEntities, slcmCriticality, slcmFrequency, slcmMethod, slcmMethod, slcmTracking, slcmComments
 
-If Implementation Status `implementationStatus` field value is `Not Applicable`
-```
-naJustification, controlDesignation, responsibleEntities
-```
----
-If Implementation Status `implementationStatus` field value is `Inherited` only the following
-  fields can be updated:
-```
-commonnControlProvider, controlDesignation
-```
----
-Implementation Plan information cannot be saved if the fields below exceed 2000 character limits:
-```
-naJustification, responsibleEntities, comments, slcmCriticality, slcmFrequency, slcmMethod, slcmReporting, slcmTracking, slcmComments
-```
----
-Updating (PUT) a control can be accomplished by invoking the following command:
+Implementation Plan cannot be updated if a Security Control is "Inherited" except for the following fields:
+  - Common Control Provider (commonControlProvider)
+  - Security Control Designation (controlDesignation)
+  
+The following parameters/fields have the following character limitations:
+- Implementation Plan information cannot be saved if the fields below exceed 2,000 character limits:
+  - N/A Justification        (naJustification)
+  - Responsible Entities     (responsibleEntities) 
+  - Implementation Narrative (implementationNarrative)
+  - Criticality              (slcmCriticality)
+  - Reporting                (slcmReporting)
+  - Tracking                 (slcmTracking)
+  - Vulnerability Summary    (vulnerabilitySummary)
+  - Recommendations          (recommendations)
+- Implementation Plan information cannot be saved if the fields below exceed 4,000 character limits:
+  - SLCM Comments            (slcmComments)
 
+Implementation Plan information cannot be updated if Security Control does not exist in the system record.
+
+---
+Updating (PUT) a Control can be accomplished by invoking the following command:
   ````
   $ bundle exec exe/emasser put controls update [PARAMETERS]
   ````
@@ -867,29 +870,234 @@ $ bundle exec exe/emasser put controls help update
 [top](#api-endpoints-provided)
 
 ----
+Business Rules
+
+The following fields are required based on the value of the `status` field
+  |Value           |Required Fields
+  |----------------|--------------------------------------------------------
+  |Risk Accepted   |comments, resources
+  |Ongoing         |scheduledCompletionDate, resources, milestones (at least 1)
+  |Completed       |scheduledCompletionDate, comments, resources,
+  |                |completionDate, milestones (at least 1)
+  |Not Applicable  |POAM can not be created
+
+If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request.
+  - pocOrganization, pocFirstName, pocLastName, pocEmail, pocPhoneNumber
+
+Business logic, the following rules apply when adding POA&Ms
+
+- POA&M Item cannot be saved if associated Security Control or AP is inherited.
+- POA&M Item cannot be created manually if a Security Control or AP is Not Applicable.
+- Completed POA&M Item cannot be saved if Completion Date is in the future.
+- Completed POA&M Item cannot be saved if Completion Date (completionDate) is in the future.
+- Risk Accepted POA&M Item cannot be saved with a Scheduled Completion Date (scheduledCompletionDate) or Milestones
+- POA&M Item with a review status of "Not Approved" cannot be saved if Milestone Scheduled Completion Date exceeds POA&M Item  Scheduled Completion Date.
+- POA&M Item with a review status of "Approved" can be saved if Milestone Scheduled Completion Date exceeds POA&M Item Scheduled Completion Date.
+- POA&M Items that have a status of "Completed" and a status of "Ongoing" cannot be saved without Milestones.
+- POA&M Items that have a status of "Risk Accepted" cannot have milestones.
+- POA&M Items with a review status of "Approved" that have a status of "Completed" and "Ongoing" cannot update Scheduled Completion Date.
+- POA&M Items that have a review status of "Approved" are required to have a Severity Value assigned.
+- POA&M Items cannot be updated if they are included in an active package.
+- Archived POA&M Items cannot be updated.
+- POA&M Items with a status of "Not Applicable" will be updated through test result creation.
+- If the Security Control or Assessment Procedure does not exist in the system we may have to just import POA&M Item at the System Level.
+
+
+The following parameters/fields have the following character limitations:
+- POA&M Item cannot be saved if the Point of Contact fields exceed 100 characters:
+  - Office / Organization (pocOrganization)
+  - First Name            (pocFirstName)
+  - Last Name             (pocLastName)
+  - Email                 (email)
+  - Phone Number          (pocPhoneNumber)
+- POA&M Item cannot be saved if Mitigation field (mitigation) exceeds 2,000 characters.
+- POA&M Item cannot be saved if Source Identifying Vulnerability field (sourceIdentVuln) exceeds 2,000 characters.
+- POA&M Item cannot be saved if Comments field (comments) exceeds 2,000 characters 
+- POA&M Item cannot be saved if Resource field (resource) exceeds 250 characters.
+- POA&M Items cannot be saved if Milestone Description (description) exceeds 2,000 characters.
+
+---
+Updating (PUT) a POA&M can be accomplished by invoking the following command:
+  ````
+  $ bundle exec exe/emasser put poams update [PARAMETERS]
+  ````
+  - required parameter are:
+    |parameter                  | type or values                                                         |
+    |---------------------------|:-----------------------------------------------------------------------|
+    |--systemId                 |Integer - Unique system identifier                                      |
+    |--displayPoamId            |Integer - Globally unique identifier for individual POA&M Items         |
+    |--status                   |Possible Values: Ongoing,Risk Accepted,Completed,Not Applicable         |
+    |--vulnerabilityDescription |String - Vulnerability description for the POA&M Item. 2000 Characters  |
+    |--sourceIdentVuln          |String - Include Source Identifying Vulnerability text. 2000 Characters |
+    |--pocOrganization          |String - Organization/Office represented. 100 Characters                |
+    |--resources                |String - List of resources used. Character Limit = 250                  |
+    
+    ** If any poc information is provided all POC fields are required. See additional details for POC fields below.
+
+  - conditional parameters are:
+    |parameter                 | type or values                                                                        |
+    |--------------------------|:--------------------------------------------------------------------------------------|
+    |--milestones              |JSON -  see milestone format                                                           |
+    |--pocFirstName            |String - First name of POC. 100 Characters                                             |
+    |--pocLastName             |String - Last name of POC. 100 Characters                                              |
+    |--pocEmail                |String - Email address of POC. 100 Characters                                          | 
+    |--pocPhoneNumber          |String - Phone number of POC (area code) ***-**** format. 100 Characters               |     
+    |--severity                |Possible values - Very Low, Low, Moderate, High, Very High                             |
+    |--scheduledCompletionDate |Date - Required for ongoing and completed POA&M items. Unix time format                |
+    |--completionDate          |Date - Field is required for completed POA&M items. Unix time format                   |
+    |--comments                |String - Field is required for completed and risk accepted POA&M items. 2000 Characters|
+    |--isActive                |Boolean - Used to delete milestones when updating a POA&M                              |
+
+    ** If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request:
+      pocFirstName, pocLastName, pocPhoneNumber
+
+    Milestone Format:
+      - --milestone milestoneId:[value] description:[value] scheduledCompletionDate:[value]
+      - If a milestoneId is not provide a new milestone is created
+
+  - optional parameters are:
+    |parameter           | type or values                                                                           |
+    |--------------------|:-----------------------------------------------------------------------------------------|
+    |--externalUid       |String - External unique identifier for use with associating POA&M Items. 100 Characters  |
+    |--controlAcronym    |String - Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined|
+    |--cci               |String - CCI associated with the test result                                              |
+    |--securityChecks    |String - Security Checks that are associated with the POA&M                               |
+    |--rawSeverity       |Possible values: I, II, III                                                               |
+    |--relevanceOfThreat |Possible values: Very Low, Low, Moderate, High, Very High                                 |
+    |--likelihood        |Possible values: Very Low, Low, Moderate, High, Very High                                 |
+    |--impact            |Possible values: Very Low, Low, Moderate, High, Very High                                 |
+    |--impactDescription |String - Include description of Security Control’s impact                                 |
+    |--residualRiskLevel |Possible values: Very Low, Low, Moderate, High, Very High                                 |
+    |--recommendations   |String - Include recommendations. Character Limit 2,000                                   |
+    |--mitigation        |String - Include mitigation explanation. 2000 Characters                                  |
+
+**Note**
+For information at the command line use: 
+```
+$ bundle exec exe/emasser put poams help update
+```
 
 ## ``put milestones``
 [top](#api-endpoints-provided)
 
 ----
 
+To add (POST) milestones in a system for one or more POA&M items use the following command:
+
+````
+  $ bundle exec exe/emasser put milestones update [PARAMETERS]
+````
+  - required parameter are:
+    |parameter                  | type or values                                      |
+    |---------------------------|:----------------------------------------------------|
+    |--systemId                 |Integer - Unique system identifier                   |
+    |--poamId                   |Integer - Unique poam identifier                     |
+    |--milestoneId              |Integer - Unique milestone identifier                |
+    |--description              |String - Milestone item description. 2000 Characters |
+    |--scheduledCompletionDate  |Date - Schedule completion date. Unix date format    |
+
+
+**Note**
+For information at the command line use: 
+```
+$ bundle exec exe/emasser put milestones help update
+```
+
 ## ``put artifacts``
 [top](#api-endpoints-provided)
 
 ----
+Business Rules
+
+- Artifact cannot be saved if the file does not have the following file extensions:
+  - .docx,.doc,.txt,.rtf,.xfdl,.xml,.mht,.mhtml,.html,.htm,.pdf
+  - .mdb,.accdb,.ppt,.pptx,.xls,.xlsx,.csv,.log
+  - .jpeg,.jpg,.tiff,.bmp,.tif,.png,.gif
+  - .zip,.rar,.msg,.vsd,.vsw,.vdx, .z{#}, .ckl,.avi,.vsdx
+- Artifact cannot be saved if File Name (fileName) exceeds 1,000 characters
+- Artifact cannot be saved if Description (description) exceeds 2,000 characters
+- Artifact cannot be saved if Reference Page Number (refPageNumber) exceeds 50 characters
+- Artifact cannot be saved if the file does not have an allowable file extension/type.
+- Artifact version cannot be saved if an Artifact with the same file name already exist in the system.
+- Artifact cannot be saved if the file size exceeds 30MB.
+- Artifact cannot be saved if the Last Review Date is set in the future.
+
+To add (POST) milestones in a system for one or more POA&M items use the following command:
+
+````
+  $ bundle exec exe/emasser put artifacts update [PARAMETERS]
+````
+  - required parameter are:
+    |parameter       | type or values                                      |
+    |----------------|:----------------------------------------------------|
+    |--systemId      |Integer - Unique system identifier                   |
+    |--filename        |String - File name should match exactly one file within the provided zip file|
+    |                |Binary  - Application/zip file. Max 30MB per artifact |
+    |--isTemplate    |Boolean - Indicates whether an artifact is a template|
+    |--type*         |Possible Values: Procedure, Diagram, Policy, Labor, Document, Image, Other, Scan Result, Auditor Report|
+    |--category*     |Possible Values: Implementation Guidance, Evidence    |
+
+    *May also accept custom artifact category values set by system administrators.
+
+  - optional parameter are:
+    |parameter                | type or values                                        |
+    |-------------------------|:------------------------------------------------------| 
+    |--description            |String - Artifact description. 2000 Characters         |
+    |--refPageNumber          |String - Artifact reference page number. 50 Characters |
+    |--ccis                   |String -  CCIs associated with artifact                |
+    |--controls               |String - Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined|
+    |--artifactExpirationDate |Date - Date Artifact expires and requires review. In Unix Date Format|
+    |--lastReviewedDate       |Date - Date Artifact was last reviewed. In Unix Date Format          |
+
+
+**Note**
+For information at the command line use: 
+```
+$ bundle exec exe/emasser put artifacts help update
+```
 
 ## Usage - DELETE
 ## ``delete poams``
 [top](#api-endpoints-provided)
 
 ----
+Remove one or many poa&m items in a system
+
+To remove (DELETE) one or more POA&M items use the following command:
+```
+bundle exec exe/emasser delete poams remove --systemId [value] --poamId [value]
+```
 
 ## ``delete milestones``
 [top](#api-endpoints-provided)
 
 ----
+Remove milestones in a system for one or many POA&M items
+
+To delete a milestone the record must be inactive by having the field isActive set to false (isActive=false).
+
+The server returns an empty object upon successfully deleting a milestone.
+
+The last milestone can not be deleted, at-least on must exist.
+
+To remove (DELETE) one or more Milestones in a system use the following command:
+```
+bundle exec exe/emasser delete milestones remove--systemId [value] --poamId [value] --milestoneId [value]
+```
 
 ## ``delete artifacts``
 [top](#api-endpoints-provided)
 
-----
+---
+Remove one or many artifacts in a system
+
+Provide single file or a space/comma delimited list of file names to be removed from the system (systemId)
+
+To remove (DELETE) one or more Artifacts from a system use the following command:
+```
+bundle exec exe/emasser delete artifacts remove --systemId [value] --files [value]
+or
+bundle exec exe/emasser delete artifacts remove --systemId [value] --files [value value...] 
+or
+bundle exec exe/emasser delete artifacts remove --systemId [value] --files [value, value...] 
+```

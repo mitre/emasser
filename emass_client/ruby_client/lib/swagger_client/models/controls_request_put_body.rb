@@ -13,7 +13,7 @@ require 'date'
 
 module SwaggerClient
   class ControlsRequestPutBody
-    # [Required] Acronym of the system record.
+    # [Required] Required to match the NIST SP 800-53 Revision 4.
     attr_accessor :acronym
 
     # [Required] Include written description of Responsible Entities that are responsible for the Security Control. Character Limit = 2,000.
@@ -76,7 +76,7 @@ module SwaggerClient
     # [Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)
     attr_accessor :impact
 
-    # [Optional] Include description of Security Control’s impact.
+    # [Optional] Include description of Security Control's impact.
     attr_accessor :impact_description
 
     # [Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)

@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 Add one or many test results in a system
 
-Adds test results for given `systemId`
+Adds test results for given `systemId`  **Request Body Required Fields** - `cci` - `testedBy` - `testDate` - `description` - `complianceStatus`
 
 ### Example
 ```ruby

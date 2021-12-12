@@ -13,10 +13,10 @@ require 'date'
 
 module SwaggerClient
   class MilestonesRequiredPost
-    # [Optional] Include milestone description.
+    # [Required] Include milestone description.
     attr_accessor :description
 
-    # [Conditional] Required for ongoing and completed POA&M items. Unix time format.
+    # [Required] Required for ongoing and completed POA&M items. Unix time format.
     attr_accessor :scheduled_completion_date
 
     # Attribute mapping from ruby-style variable name to JSON key.

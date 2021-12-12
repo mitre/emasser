@@ -3,8 +3,10 @@ Endpoint request parameters/fields
 Field                   Data Type  Details
 -------------------------------------------------------------------------------------------------
 systemId                Integer    [Required] Unique eMASS identifier. Will need to provide correct number.
+filename                String     [Required] File name should match exactly one file within the provided zip file.
+                        Binary     [Required] Application/zip file. Max 30MB per artifact.
 isTemplate              Boolean    [Required] Indicates whether an artifact is a template.
-type                    String     [Required] Values include the following: (Procedure, Diagram, Policy, Labor,
+type*                   String     [Required] Values include the following: (Procedure, Diagram, Policy, Labor,
                                               Document, Image, Other, Scan Result, Auditor Report)
 category*               String     [Required] Values include the following: (Implementation Guidance, Evidence)
 

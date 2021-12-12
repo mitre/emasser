@@ -16,7 +16,10 @@ module SwaggerClient
     # [Required] Unique item identifier
     attr_accessor :poam_id
 
-    # [Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable
+    # [Required] Globally unique identifier for individual POA&M Items, seen on the front-end as “ID”.
+    attr_accessor :display_poam_id
+
+    # [Required] The POA&M status
     attr_accessor :status
 
     # [Required] Provide a description of the POA&M Item. 2000 Characters.
@@ -25,23 +28,11 @@ module SwaggerClient
     # [Required] Include Source Identifying Vulnerability text. 2000 Characters.
     attr_accessor :source_ident_vuln
 
-    # OPTIONAL/REQUIRED Values include the following options: (Not Approved,Under Review,Approved)
-    attr_accessor :review_status
-
     # [Required] Organization/Office represented. 100 Characters.
     attr_accessor :poc_organization
 
-    # [Required] First name of POC. 100 Characters.
-    attr_accessor :poc_first_name
-
-    # [Required] Last name of POC. 100 Characters.
-    attr_accessor :poc_last_name
-
-    # [Required] Email address of POC. 100 Characters.
-    attr_accessor :poc_email
-
-    # [Required] Phone number of POC (area code) ***-**** format. 100 Characters.
-    attr_accessor :poc_phone_number
+    # [Required] List of resources used. 250 Characters.
+    attr_accessor :resources
 
     # [Optional] Unique identifier external to the eMASS application for use with associating POA&Ms. 100 Characters.
     attr_accessor :external_uid
@@ -57,9 +48,6 @@ module SwaggerClient
 
     # [Optional] Values include the following options (I,II,III)
     attr_accessor :raw_severity
-
-    # [Optional] List of resources used. 250 Characters.
-    attr_accessor :resources
 
     # [Optional] Values include the following options (Very Low, Low, Moderate,High,Very High)
     attr_accessor :relevance_of_threat
@@ -82,17 +70,29 @@ module SwaggerClient
     # [Optional] Include mitigation explanation. 2000 Characters.
     attr_accessor :mitigation
 
+    # [Conditional] First name of POC. 100 Characters.
+    attr_accessor :poc_first_name
+
+    # [Conditional] Last name of POC. 100 Characters.
+    attr_accessor :poc_last_name
+
+    # [Conditional] Email address of POC. 100 Characters.
+    attr_accessor :poc_email
+
+    # [Conditional] Phone number of POC (area code) ***-**** format. 100 Characters.
+    attr_accessor :poc_phone_number
+
     # [Conditional] Required for approved items. Values include the following options: (Very Low, Low, Moderate,High,Very High)
     attr_accessor :severity
 
     # [Conditional] Required for ongoing and completed POA&M items. Unix time format.
     attr_accessor :scheduled_completion_date
 
-    # [Conditional] Field is required for completed and risk accepted POA&M items. 2000 Characters
-    attr_accessor :comments
-
     # [Conditional] Field is required for completed POA&M items. Unix time format.
     attr_accessor :completion_date
+
+    # [Conditional] Field is required for completed and risk accepted POA&M items. 2000 Characters
+    attr_accessor :comments
 
     # [Conditional] Optionally used in PUT to delete milestones when updating a POA&M.
     attr_accessor :is_active
@@ -125,21 +125,17 @@ module SwaggerClient
     def self.attribute_map
       {
         :'poam_id' => :'poamId',
+        :'display_poam_id' => :'displayPoamId',
         :'status' => :'status',
         :'vulnerability_description' => :'vulnerabilityDescription',
         :'source_ident_vuln' => :'sourceIdentVuln',
-        :'review_status' => :'reviewStatus',
         :'poc_organization' => :'pocOrganization',
-        :'poc_first_name' => :'pocFirstName',
-        :'poc_last_name' => :'pocLastName',
-        :'poc_email' => :'pocEmail',
-        :'poc_phone_number' => :'pocPhoneNumber',
+        :'resources' => :'resources',
         :'external_uid' => :'externalUid',
         :'control_acronym' => :'controlAcronym',
         :'cci' => :'cci',
         :'security_checks' => :'securityChecks',
         :'raw_severity' => :'rawSeverity',
-        :'resources' => :'resources',
         :'relevance_of_threat' => :'relevanceOfThreat',
         :'likelihood' => :'likelihood',
         :'impact' => :'impact',
@@ -147,10 +143,14 @@ module SwaggerClient
         :'residual_risk_level' => :'residualRiskLevel',
         :'recommendations' => :'recommendations',
         :'mitigation' => :'mitigation',
+        :'poc_first_name' => :'pocFirstName',
+        :'poc_last_name' => :'pocLastName',
+        :'poc_email' => :'pocEmail',
+        :'poc_phone_number' => :'pocPhoneNumber',
         :'severity' => :'severity',
         :'scheduled_completion_date' => :'scheduledCompletionDate',
-        :'comments' => :'comments',
         :'completion_date' => :'completionDate',
+        :'comments' => :'comments',
         :'is_active' => :'isActive',
         :'milestones' => :'milestones'
       }
@@ -160,21 +160,17 @@ module SwaggerClient
     def self.openapi_types
       {
         :'poam_id' => :'Object',
+        :'display_poam_id' => :'Object',
         :'status' => :'Object',
         :'vulnerability_description' => :'Object',
         :'source_ident_vuln' => :'Object',
-        :'review_status' => :'Object',
         :'poc_organization' => :'Object',
-        :'poc_first_name' => :'Object',
-        :'poc_last_name' => :'Object',
-        :'poc_email' => :'Object',
-        :'poc_phone_number' => :'Object',
+        :'resources' => :'Object',
         :'external_uid' => :'Object',
         :'control_acronym' => :'Object',
         :'cci' => :'Object',
         :'security_checks' => :'Object',
         :'raw_severity' => :'Object',
-        :'resources' => :'Object',
         :'relevance_of_threat' => :'Object',
         :'likelihood' => :'Object',
         :'impact' => :'Object',
@@ -182,10 +178,14 @@ module SwaggerClient
         :'residual_risk_level' => :'Object',
         :'recommendations' => :'Object',
         :'mitigation' => :'Object',
+        :'poc_first_name' => :'Object',
+        :'poc_last_name' => :'Object',
+        :'poc_email' => :'Object',
+        :'poc_phone_number' => :'Object',
         :'severity' => :'Object',
         :'scheduled_completion_date' => :'Object',
-        :'comments' => :'Object',
         :'completion_date' => :'Object',
+        :'comments' => :'Object',
         :'is_active' => :'Object',
         :'milestones' => :'Object'
       }
@@ -216,6 +216,10 @@ module SwaggerClient
         self.poam_id = attributes[:'poam_id']
       end
 
+      if attributes.key?(:'display_poam_id')
+        self.display_poam_id = attributes[:'display_poam_id']
+      end
+
       if attributes.key?(:'status')
         self.status = attributes[:'status']
       end
@@ -228,28 +232,12 @@ module SwaggerClient
         self.source_ident_vuln = attributes[:'source_ident_vuln']
       end
 
-      if attributes.key?(:'review_status')
-        self.review_status = attributes[:'review_status']
-      end
-
       if attributes.key?(:'poc_organization')
         self.poc_organization = attributes[:'poc_organization']
       end
 
-      if attributes.key?(:'poc_first_name')
-        self.poc_first_name = attributes[:'poc_first_name']
-      end
-
-      if attributes.key?(:'poc_last_name')
-        self.poc_last_name = attributes[:'poc_last_name']
-      end
-
-      if attributes.key?(:'poc_email')
-        self.poc_email = attributes[:'poc_email']
-      end
-
-      if attributes.key?(:'poc_phone_number')
-        self.poc_phone_number = attributes[:'poc_phone_number']
+      if attributes.key?(:'resources')
+        self.resources = attributes[:'resources']
       end
 
       if attributes.key?(:'external_uid')
@@ -270,10 +258,6 @@ module SwaggerClient
 
       if attributes.key?(:'raw_severity')
         self.raw_severity = attributes[:'raw_severity']
-      end
-
-      if attributes.key?(:'resources')
-        self.resources = attributes[:'resources']
       end
 
       if attributes.key?(:'relevance_of_threat')
@@ -304,6 +288,22 @@ module SwaggerClient
         self.mitigation = attributes[:'mitigation']
       end
 
+      if attributes.key?(:'poc_first_name')
+        self.poc_first_name = attributes[:'poc_first_name']
+      end
+
+      if attributes.key?(:'poc_last_name')
+        self.poc_last_name = attributes[:'poc_last_name']
+      end
+
+      if attributes.key?(:'poc_email')
+        self.poc_email = attributes[:'poc_email']
+      end
+
+      if attributes.key?(:'poc_phone_number')
+        self.poc_phone_number = attributes[:'poc_phone_number']
+      end
+
       if attributes.key?(:'severity')
         self.severity = attributes[:'severity']
       end
@@ -312,12 +312,12 @@ module SwaggerClient
         self.scheduled_completion_date = attributes[:'scheduled_completion_date']
       end
 
-      if attributes.key?(:'comments')
-        self.comments = attributes[:'comments']
-      end
-
       if attributes.key?(:'completion_date')
         self.completion_date = attributes[:'completion_date']
+      end
+
+      if attributes.key?(:'comments')
+        self.comments = attributes[:'comments']
       end
 
       if attributes.key?(:'is_active')
@@ -343,8 +343,6 @@ module SwaggerClient
     def valid?
       status_validator = EnumAttributeValidator.new('Object', ['Ongoing', 'Risk Accepted', 'Completed', 'Not Applicable'])
       return false unless status_validator.valid?(@status)
-      review_status_validator = EnumAttributeValidator.new('Object', ['Not Approved', 'Under Review', 'Approved'])
-      return false unless review_status_validator.valid?(@review_status)
       raw_severity_validator = EnumAttributeValidator.new('Object', ['I', 'II', 'III'])
       return false unless raw_severity_validator.valid?(@raw_severity)
       relevance_of_threat_validator = EnumAttributeValidator.new('Object', ['Very Low', 'Low', 'Moderate', 'High', 'Very High'])
@@ -368,16 +366,6 @@ module SwaggerClient
         fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
       end
       @status = status
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] review_status Object to be assigned
-    def review_status=(review_status)
-      validator = EnumAttributeValidator.new('Object', ['Not Approved', 'Under Review', 'Approved'])
-      unless validator.valid?(review_status)
-        fail ArgumentError, "invalid value for \"review_status\", must be one of #{validator.allowable_values}."
-      end
-      @review_status = review_status
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -446,21 +434,17 @@ module SwaggerClient
       return true if self.equal?(o)
       self.class == o.class &&
           poam_id == o.poam_id &&
+          display_poam_id == o.display_poam_id &&
           status == o.status &&
           vulnerability_description == o.vulnerability_description &&
           source_ident_vuln == o.source_ident_vuln &&
-          review_status == o.review_status &&
           poc_organization == o.poc_organization &&
-          poc_first_name == o.poc_first_name &&
-          poc_last_name == o.poc_last_name &&
-          poc_email == o.poc_email &&
-          poc_phone_number == o.poc_phone_number &&
+          resources == o.resources &&
           external_uid == o.external_uid &&
           control_acronym == o.control_acronym &&
           cci == o.cci &&
           security_checks == o.security_checks &&
           raw_severity == o.raw_severity &&
-          resources == o.resources &&
           relevance_of_threat == o.relevance_of_threat &&
           likelihood == o.likelihood &&
           impact == o.impact &&
@@ -468,10 +452,14 @@ module SwaggerClient
           residual_risk_level == o.residual_risk_level &&
           recommendations == o.recommendations &&
           mitigation == o.mitigation &&
+          poc_first_name == o.poc_first_name &&
+          poc_last_name == o.poc_last_name &&
+          poc_email == o.poc_email &&
+          poc_phone_number == o.poc_phone_number &&
           severity == o.severity &&
           scheduled_completion_date == o.scheduled_completion_date &&
-          comments == o.comments &&
           completion_date == o.completion_date &&
+          comments == o.comments &&
           is_active == o.is_active &&
           milestones == o.milestones
     end
@@ -485,7 +473,7 @@ module SwaggerClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [poam_id, status, vulnerability_description, source_ident_vuln, review_status, poc_organization, poc_first_name, poc_last_name, poc_email, poc_phone_number, external_uid, control_acronym, cci, security_checks, raw_severity, resources, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, recommendations, mitigation, severity, scheduled_completion_date, comments, completion_date, is_active, milestones].hash
+      [poam_id, display_poam_id, status, vulnerability_description, source_ident_vuln, poc_organization, resources, external_uid, control_acronym, cci, security_checks, raw_severity, relevance_of_threat, likelihood, impact, impact_description, residual_risk_level, recommendations, mitigation, poc_first_name, poc_last_name, poc_email, poc_phone_number, severity, scheduled_completion_date, completion_date, comments, is_active, milestones].hash
     end
 
     # Builds the object from hash

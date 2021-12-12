@@ -80,7 +80,7 @@ Name | Type | Description  | Notes
 
 Remove one or many artifacts in a system
 
-Remove the Artifact(s) matching `systemId` path parameter and request body artifact(s) file name<br><br> <b>Note:</b> The endpoint expects an array of objects containing `filename: file_to_delete`. Multiple files can be deleted by providing multiple file objects (comma delimited)
+Remove the Artifact(s) matching `systemId` path parameter and request body artifact(s) file name<br><br> <b>Note:</b> Multiple files can be deleted by providing multiple file names at the CL (comma delimited)  Example: --files file1.txt, file2.txt
 
 ### Example
 ```ruby
@@ -207,7 +207,7 @@ Name | Type | Description  | Notes
 
 Update one or many artifacts in a system
 
-Updates an artifact for given `systemId` path parameter<br><br> <b>Business Rules</b></br> Artifact <b>cannot be saved</b> if the fields below exceed the following character limits:<br> <ul>   <li>fileame 1,000 characters</li>   <li>description 2,000 characters</li>    <li>refPageNumber 50 characters</li> </ul>  Artifact <b>cannot be saved</b> if the following fields are missing data:<br> `fileName`, `isTemplate`, `type`, and `category`
+Updates an artifact for given `systemId` path parameter<br><br>  **Request Body Required Fields** - `filename` - `isTemplate` - `type` - `category`
 
 ### Example
 ```ruby

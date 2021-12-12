@@ -17,7 +17,7 @@ module SwaggerClient
       @api_client = api_client
     end
     # Add one or many test results in a system
-    # Adds test results for given `systemId`
+    # Adds test results for given `systemId`  **Request Body Required Fields** - `cci` - `testedBy` - `testDate` - `description` - `complianceStatus`
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters
@@ -28,7 +28,7 @@ module SwaggerClient
     end
 
     # Add one or many test results in a system
-    # Adds test results for given &#x60;systemId&#x60;
+    # Adds test results for given &#x60;systemId&#x60;  **Request Body Required Fields** - &#x60;cci&#x60; - &#x60;testedBy&#x60; - &#x60;testDate&#x60; - &#x60;description&#x60; - &#x60;complianceStatus&#x60;
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param [Hash] opts the optional parameters

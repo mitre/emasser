@@ -3,7 +3,7 @@
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**acronym** | **String** | [Required] Acronym of the system record. | 
+**acronym** | **String** | [Required] Required to match the NIST SP 800-53 Revision 4. | 
 **responsible_entities** | **String** | [Required] Include written description of Responsible Entities that are responsible for the Security Control. Character Limit &#x3D; 2,000. | 
 **implementation_status** | **String** | [Optional] Implementation Status of the Security Control for the information system. | [optional] 
 **common_control_provider** | **String** | [Conditional] Indicate the type of Common Control Provider for an “Inherited” Security Control. | [optional] 
@@ -24,6 +24,6 @@ Name | Type | Description | Notes
 **relevance_of_threat** | **String** | [Optional] Values include the following options (Very Low, Low, Moderate,High,Very High) | [optional] 
 **likelihood** | **String** | [Optional] Values include the following options (Very Low, Low, Moderate,High,Very High) | [optional] 
 **impact** | **String** | [Optional] Values include the following options (Very Low, Low, Moderate,High,Very High) | [optional] 
-**impact_description** | **String** | [Optional] Include description of Security Control’s impact. | [optional] 
+**impact_description** | **String** | [Optional] Include description of Security Control&#x27;s impact. | [optional] 
 **residual_risk_level** | **String** | [Optional] Values include the following options (Very Low, Low, Moderate,High,Very High) | [optional] 
 

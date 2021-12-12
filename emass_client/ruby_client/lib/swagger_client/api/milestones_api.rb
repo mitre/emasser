@@ -17,7 +17,7 @@ module SwaggerClient
       @api_client = api_client
     end
     # Add milestones to one or many POA&M items in a system
-    # Adds a milestone for given `systemId` and `poamId` path parameters
+    # Adds a milestone for given `systemId` and `poamId` path parameters  **Request Body Required Fields** - `description` - `scheduledCompletionDate`
     # @param body Update an existing milestone
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
@@ -29,7 +29,7 @@ module SwaggerClient
     end
 
     # Add milestones to one or many POA&amp;M items in a system
-    # Adds a milestone for given &#x60;systemId&#x60; and &#x60;poamId&#x60; path parameters
+    # Adds a milestone for given &#x60;systemId&#x60; and &#x60;poamId&#x60; path parameters  **Request Body Required Fields** - &#x60;description&#x60; - &#x60;scheduledCompletionDate&#x60;
     # @param body Update an existing milestone
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
@@ -293,7 +293,7 @@ module SwaggerClient
       return data, status_code, headers
     end
     # Update one or many POA&M items in a system
-    # Updates a milestone for given `systemId` and `poamId` path parameters
+    # Updates a milestone for given `systemId` and `poamId` path parameters  **Request Body Required Fields** - `milestoneId` - `description` - `scheduledCompletionDate`
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.
@@ -305,7 +305,7 @@ module SwaggerClient
     end
 
     # Update one or many POA&amp;M items in a system
-    # Updates a milestone for given &#x60;systemId&#x60; and &#x60;poamId&#x60; path parameters
+    # Updates a milestone for given &#x60;systemId&#x60; and &#x60;poamId&#x60; path parameters  **Request Body Required Fields** - &#x60;milestoneId&#x60; - &#x60;description&#x60; - &#x60;scheduledCompletionDate&#x60;
     # @param body Update an existing control by Id
     # @param system_id **System Id**: The unique system record identifier.
     # @param poam_id **POA&amp;M Id**: The unique POA&amp;M record identifier.

@@ -17,7 +17,7 @@ class SubCommandBase < Thor
     if ancestors[0].to_s.include? '::Del'
       "exe/#{basename} #{command.formatted_usage(self, $thor_runner, subcommand)}"
     else
-      "exe/#{basename} del #{command.formatted_usage(self, $thor_runner, subcommand)}"
+      "exe/#{basename} delete #{command.formatted_usage(self, $thor_runner, subcommand)}"
     end
     # rubocop:enable Style/GlobalVars
   end
@@ -37,12 +37,10 @@ class Thor
 end
 
 module Emasser
-  # The POA&M endpoints provide the ability to delete a Plan of Action and Milestones (POA&M)
-  # items to a system identified by its POA&M identification.
+  # Remove one or more POA&M from a system
   #
   # Endpoint:
-  #  /api/systems/{systemId}/poams                    - Remove one or many poa&m items in a system
-  #  /api/systems/{systemId}/poam/{poamId}/milestones - Remove milestones in a system for one or many poa&m items
+  #  /api/systems/{systemId}/poams - Remove one or many poa&m items in a system
   class Poams < SubCommandBase
     def self.exit_on_failure?
       true
@@ -67,9 +65,18 @@ module Emasser
       puts 'Exception when calling POAMApi->delete_poam'.red
       puts to_output_hash(e)
     end
+  end
 
-    # Delete MILSTONES by SYSTEM and POAM ID -----------------------------------------
-    desc 'remove_milestone', 'Delete one or many POA&M MILSTONES in a system'
+  # Remove one or more Milestones from a system for a POA
+  #
+  # Endpoint:
+    #  /api/systems/{systemId}/poam/{poamId}/milestones - Remove milestones in a system for one or many poa&m items
+  class Milestones < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'remove', 'Delete one or many POA&M MILSTONES in a system'
     long_desc Help.text(:milestone_del_mapper)
 
     # Required parameters/fields
@@ -80,16 +87,16 @@ module Emasser
     option :milestoneId, type: :numeric, required: true,
                          desc: 'A numeric value representing the milestone identification'
 
-    def remove_milestone
+    def remove
       body = SwaggerClient::DeleteMilestone.new
       body.milestone_id = options[:milestoneId]
       body_array = Array.new(1, body)
 
-      result = SwaggerClient::POAMApi.new.delete_milestone(body_array, options[:systemId], options[:poamId])
+      result = SwaggerClient::MilestonesApi.new.delete_milestone(body_array, options[:systemId], options[:poamId])
       # The server returns an empty object upon successfully deleting a milestone.
       puts to_output_hash(result).green
     rescue SwaggerClient::ApiError => e
-      puts 'Exception when calling POAMApi->delete_milestone'.red
+      puts 'Exception when calling MilestonesApi->delete_milestone'.red
       puts to_output_hash(e)
     end
   end
@@ -126,9 +133,12 @@ module Emasser
     end
   end
 
-  class Del < SubCommandBase
+  class Delete < SubCommandBase
     desc 'poams', 'Delete Plan of Action and Milestones (POA&M) items for a system'
     subcommand 'poams', Poams
+
+    desc 'milestones', 'Delete Milestones from a Plan of Action ffrom a system'
+    subcommand 'milestones', Milestones
 
     desc 'artifacts', 'Delete system Artifacts'
     subcommand 'artifacts', Artifacts
