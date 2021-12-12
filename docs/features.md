@@ -1078,7 +1078,7 @@ $ bundle exec exe/emasser put artifacts help update
 <details>
 <summary>Show HTTP DELETE Methods</summary>
 
-#### ``delete poams``
+### ``delete poams``
 [top](#api-endpoints-provided)
 
 ----
