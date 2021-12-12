@@ -1,15 +1,16 @@
-## CLI Features
+## eMASER CLI Features
 
 ### Required Environment Variables
-Prior of invoking any API command, the following environment variables need to be set:
+To facilitate setting the required environment variables the eMASSER CLI utilized the zero-dependency module to load these variables from a .env file. A .env-example file is provided with the required fields (list below).
+
+eMASSER environment variables required:
 * EMASSER_API_KEY_API_KEY=`<API key>`
-* EMASSER_API_KEY_USER_UID=`<unique identifier of the eMASS user EMASSER_API_KEY_API_KEY belongs to>`
+* EMASSER_API_KEY_USER_UID=`<unique identifier for the API Key (EMASSER_API_KEY_API_KEY)`
 * EMASSER_HOST=`<FQDN of the eMASS server>`
 * EMASSER_KEY_FILE_PATH=`<path to your emass key in PEM format>`
 * EMASSER_CERT_FILE_PATH=`<path to your emass certificate in PEM format>`
 * EMASSER_KEY_PASSWORD=`<password for the key given in EMASSER_KEY_FILE_PATH>`
 
-These variables can be set in the .env file (see the .env-example file)
 
 ## API Endpoints Provided
 

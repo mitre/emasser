@@ -11,14 +11,14 @@ emasser provides users with the following documentation:
 
 ## Current Features
 
-The following API requests are implemented:
+The following eMASS API HTTP methods are implemented:
 * `GET` view eMASS resources
 * `POST` add eMASS resources
 * `PUT` update eMASS resources
 * `DELETE` remove eMASS resources
 
 
-[**CLI Features**](docs/features.md) | [**Developers Instructions**](docs/developers.md)
+[**eMASSER CLI Features**](docs/features.md) | [**eMASSER Developers Instructions**](docs/developers.md)
 
 ## In Development
 
