@@ -1,7 +1,7 @@
-# eMASER CLI Features
+# emasser CLI Features
 
 ## Required Environment Variables
-To facilitate setting the required environment variables the eMASSER CLI utilized the zero-dependency module to load these variables from a .env file. An .env-example file is provided with the required fields (listed below).
+To facilitate setting the required environment variables the emasser CLI utilized the zero-dependency module to load these variables from a .env file. An .env-example file is provided with the required fields (listed below).
 
 eMASSER environment variables required:
 * EMASSER_API_KEY_API_KEY=`<API key>`
@@ -11,7 +11,7 @@ eMASSER environment variables required:
 * EMASSER_CERT_FILE_PATH=`<path to your emass certificate in PEM format>`
 * EMASSER_KEY_PASSWORD=`<password for the key given in EMASSER_KEY_FILE_PATH>`
 
-## Common eMASSER Endpoint Requests Information
+## Common emasser Endpoint Requests Information
   - To invoke any boolean parameters use --parameterName for TRUE and --no-parameterName for FALSE
   - The eMASS API provides the capability of updating multiple entries within several endpoints, however this CLI only supports updating one entry at the time.
 
@@ -58,8 +58,6 @@ eMASSER environment variables required:
 * [/api/systems/{systemId}/artifacts](#delete-artifacts)
 
 ## Endpoints CLI help
-<details open>
-<summary>Show help content</summary>
 
 Each CLI endpoint command has several layers of help. 
 - Using `help` after a `get, put, post, or delete` command lists all available endpoint calls
@@ -104,14 +102,9 @@ Each CLI endpoint command has several layers of help.
       - --compress            # BOOLEAN - true or false.
 
 **The same format is applicable to POST, PUT and DELETE requests as well, however there may be additional help content**
-</details>
-
-
 
 
 ## Usage - GET
-<details>
-<summary>Show HTTP GET Methods</summary>
 
 ### ```get test connection```
 [top](#api-endpoints-provided)
@@ -441,11 +434,8 @@ There are two get endpoints to view workflow instances:
       |--systemId           |Integer - Unique system identifier            |
       |--workflowInstanceId |Integer - Unique workflow instance identifier |
 
-</details>
 
 ## Usage - POST
-<details>
-<summary>Show HTTP POST Methods</summary>
 
 ### ``post test_results``
 [top](#api-endpoints-provided)
@@ -799,11 +789,8 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post scan_findings help add
 ```
-</details>
 
 ## Usage - PUT
-<details>
-<summary>Show HTTP PUT Methods</summary>
 
 ### ``put controls``
 [top](#api-endpoints-provided)
@@ -1072,11 +1059,8 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put artifacts help update
 ```
-</details>
 
 ## Usage - DELETE
-<details>
-<summary>Show HTTP DELETE Methods</summary>
 
 ### ``delete poams``
 [top](#api-endpoints-provided)
@@ -1122,4 +1106,3 @@ bundle exec exe/emasser delete artifacts remove --systemId [value] --files [valu
 or
 bundle exec exe/emasser delete artifacts remove --systemId [value] --files [value, value...] 
 ```
-</details>

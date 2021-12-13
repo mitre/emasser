@@ -18,7 +18,7 @@ The following eMASS API HTTP methods are implemented:
 * `DELETE` remove eMASS resources
 
 
-[**eMASSER CLI Features**](docs/features.md) | [**eMASSER Developers Instructions**](docs/developers.md)
+[**emasser CLI Features**](docs/features.md) | [**emasser Developers Instructions**](docs/developers.md)
 
 ## In Development
 
