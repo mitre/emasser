@@ -16,8 +16,6 @@ AllCops:
     - 'test/**/*'
 
 #Cops in Metrics might need to be adjusted to past their defaults depending on how restrictive the requirements feel
-
-
 Style/Documentation:
   Enabled: false
 Layout/ParameterAlignment:
