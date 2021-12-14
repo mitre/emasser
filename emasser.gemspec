@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.authors = ['Amndeep Singh Mann', 'George Dias', 'Kyle Fagan', 'Robert Clark', 'Aaron Lippold']
   spec.email = ['saf@mitre.org']
 
-  spec.summary = "Provide an automated capability for invoving eMASS API endpoints"
-  spec.description = "emasser can be used as a gem or used from the command line to access eMASS via thei API."
+  spec.summary = 'Provide an automated capability for invoving eMASS API endpoints'
+  spec.description = 'emasser can be used as a gem or used from the command line to access eMASS via thei API.'
   spec.homepage = 'https://saf.mitre.org'
   spec.required_ruby_version = Gem::Requirement.new('~> 2.5')
 
