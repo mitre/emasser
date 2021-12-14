@@ -4,9 +4,9 @@ module Emasser
   class Error < StandardError; end
 
   class ConfigurationMissingError < Error
-    attr_reader :config_option
+    attr_reader :config
 
-    def initialize(message: 'No configuration was provided for', config: 'an option')
+    def initialize(config = 'an option', message = 'No configuration was provided for variable:')
       @config = config
       super("#{message} #{@config}")
     end

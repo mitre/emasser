@@ -70,7 +70,7 @@ module Emasser
   # Remove one or more Milestones from a system for a POA
   #
   # Endpoint:
-    #  /api/systems/{systemId}/poam/{poamId}/milestones - Remove milestones in a system for one or many poa&m items
+  #  /api/systems/{systemId}/poam/{poamId}/milestones - Remove milestones in a system for one or many poa&m items
   class Milestones < SubCommandBase
     def self.exit_on_failure?
       true
