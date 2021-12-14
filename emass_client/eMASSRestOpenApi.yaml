@@ -673,7 +673,7 @@ paths:
         - $ref: '#/components/parameters/latestOnly'
       responses:
         '200':
-          description: "Successful response"
+          description: "Successful Response"
           content:
             application/json:
               schema:
