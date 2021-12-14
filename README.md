@@ -46,6 +46,7 @@ Runtime Dependencies:
   * Ruby version 2.7 or greater.
   * `rubyzip (latest version)`
   * `swagger_client (latest version)` (Also referred to as `emass_client` and distributed via git only)
+  * To generate the `emass_client` gem follow these [instruction](/emass_client/ruby_client/README.md/#build_gem)
 
 To install:
 ```bash
