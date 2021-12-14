@@ -32,3 +32,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/redoc
           destination_dir: docs/redoc
+          enable_jekyll: true
