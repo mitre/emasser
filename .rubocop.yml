@@ -11,15 +11,13 @@ AllCops:
   NewCops: enable
   Exclude:
     - 'emass_client/ruby_client/**/*'
+    - Gemfile
+    - Rakefile
+    - 'test/**/*'
 
 #Cops in Metrics might need to be adjusted to past their defaults depending on how restrictive the requirements feel
 
-# Style/Documentation:
-#   Enabled: false
-# Metrics/AbcSize:
-#   Enabled: false
-# Metrics/MethodLength:
-#   Enabled: false
+
 Style/Documentation:
   Enabled: false
 Layout/ParameterAlignment:

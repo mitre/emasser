@@ -21,4 +21,4 @@ jobs:
       - name: Install and run Rubocop
         run: |
           bundle install
-          bundle exec rubocop
+          bundle exec rubocop --cache false
