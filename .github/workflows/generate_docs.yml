@@ -1,8 +1,10 @@
-name: test-deploy
+name: generate-docs
 
 # Run on each push to master
 on:
   push:
+    branches: [ main ]
+  pull_request:
     branches: [ main ]
 
 jobs:
@@ -10,10 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     name: Testing private usage
     steps:
-      # To use this repository's private action, you must check out the repository
+      # first checkout your code
       - name: Checkout
         uses: actions/checkout@v2
-
+      # then use redoc-cli-github-action to generate the HTML bundle
       - name: redoc-cli test
         uses: ./ # Uses an action in the root directory
         with:
@@ -34,7 +36,7 @@ jobs:
       - name: redoc-cli test
         uses: seeebiii/redoc-cli-github-action@v9
         with:
-          args: 'bundle test/petstore.yml -o petstore.html'
+          args: 'bundle emass_client/eMASSRestOpenApi.yaml -o docs/redoc/index.html'
 
       - name: check result
         run: |
