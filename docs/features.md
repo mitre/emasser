@@ -15,8 +15,6 @@ emasser environment variables required:
 * EMASSER_VERIFY_SSL_HOST=`<verify host SSL - true or false>`
 * EMASSER_DEBUGGING=`<set debugging - true or false>`
 
-
-
 ## Common emasser Endpoint Requests Information
   - To invoke any boolean parameters use --parameterName for TRUE and --no-parameterName for FALSE
   - The eMASS API provides the capability of updating multiple entries within several endpoints, however this CLI only supports updating one entry at the time.
