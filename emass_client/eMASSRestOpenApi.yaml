@@ -1,9 +1,9 @@
 # eMass Rest Open API specification
 ---
 openapi: 3.0.3
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # I N F O  - API metadata
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 info:
   title: Enterprise Mission Assurance Support Service (eMASS)
   description: |
@@ -68,19 +68,19 @@ info:
 externalDocs:
   description: eMASS New User Registration (requires CAC authentication)
   url: 'https://nisp.emass.apps.mil/Content/Help/jobaids/eMASS_OT_NewUser_Job_Aid.pdf'
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # S E R V E R S - Array of Server Objects which provide connectivity information
 #                  to target servers.
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 servers:
   - url: "http://localhost:4010"
     description: Use localhost mock server
   - url: "https://localhost:4433"
     description: Use localhost secure mock server
 
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # T A G S - A list of tags used by the specification with additional metadata.
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 tags:
   - name: Test
     description: >
@@ -159,9 +159,9 @@ tags:
       The Workflow Instances endpoint provides the ability to view detailed information on
       all active and historical workflows for a system.
 
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # P A T H S - The available paths and operations for the API endpoints
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 paths:
   #----------------------------------------------------------------------------
   # Test endpoint
@@ -673,7 +673,7 @@ paths:
         - $ref: '#/components/parameters/latestOnly'
       responses:
         '200':
-          description: "Successful response"
+          description: "Successful Response"
           content:
             application/json:
               schema:
@@ -2486,9 +2486,9 @@ paths:
               schema:
                 "$ref": "#/components/schemas/500"
 
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # C O M P O N E N T S
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 components:
   #----------------------------------------------------------------------------
   # Parameters
@@ -5685,9 +5685,9 @@ components:
         This User unique identifier key must be provided in the request header for all PUT,
         POST, and DELETE endpoint calls.
 
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 # S E C U R I T Y
-#------------------------------------------------------------------------------
+#-------------------------------------------------------------------------------
 security:
   - apikey: []
   - userid: []
