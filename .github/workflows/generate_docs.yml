@@ -10,24 +10,7 @@ on:
 jobs:
   test_job:
     runs-on: ubuntu-latest
-    name: Testing private usage
-    steps:
-      # first checkout your code
-      - name: Checkout
-        uses: actions/checkout@v2
-      # then use redoc-cli-github-action to generate the HTML bundle
-      - name: redoc-cli test
-        uses: ./ # Uses an action in the root directory
-        with:
-          args: 'bundle emass_client/eMASSRestOpenApi.yaml -o docs/redoc/index.html'
-
-      - name: check result
-        run: |
-          ls -al
-          test -f docs/redoc/index.html || (echo "Fail to generate docs/redoc/index.html from previous step." && exit 1)
-  test_job_2:
-    runs-on: ubuntu-latest
-    name: Testing public name
+    name: Generate Document with redoc
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -42,3 +25,9 @@ jobs:
         run: |
           ls -al
           test -f docs/redoc/index.html || (echo "Fail to generate docs/redoc/index.html from previous step." && exit 1)
+
+      - name: deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs/redoc
