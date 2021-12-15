@@ -185,7 +185,6 @@ To view systems use the following command:
     |--reportsForScorecard   |BOOLEAN - true or false                                                      |
   
 
-
 ### ```get roles```
 [top](#api-endpoints-provided)
 
@@ -212,7 +211,8 @@ There are two get endpoints for system roles:
     |------------------------|:----------------------------------------|
     |--policy                |Possible values: diacap, rmf, reporting  |
     |--includeDecommissioned |BOOLEAN - true or false                  |
-    
+
+
 ### ```get controls```
 [top](#api-endpoints-provided)
 
@@ -232,6 +232,7 @@ To view controls use the following command:
     |parameter    | type or values                            |
     |-------------|:------------------------------------------|
     |--acronyms   |The system acronym(s) e.g "AC-1, AC-2" - if not provided all controls for systemId are returned |
+
 
 ### ```get test_results```
 [top](#api-endpoints-provided)
@@ -281,6 +282,7 @@ There are two get endpoints for system poams:
     |--ccis                         |String - The system CCIS string numerical value|
     |--systemOnly                   |BOOLEAN - true or false|
 
+
 - byPoamId - Retrieves all poams for specified system and poam ID 
     ````
     $ bundle exec exe/emasser get poams byPoamId --systemId=SYSTEMID --poamId=POAMID
@@ -291,6 +293,7 @@ There are two get endpoints for system poams:
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
     |--poamId     |Integer - Unique poam identifier   |
+
 
 ### ```get milestones```
 [top](#api-endpoints-provided)
@@ -387,6 +390,7 @@ To view one or many Control Approval Chain (CAC) in a system specified system ID
     |-------------------------------|:----------------------------------------------|
     |--controlAcronyms              |String - The system acronym(s) e.g "AC-1, AC-2"|
 
+
 ### ```get pac```
 [top](#api-endpoints-provided)
 
@@ -417,6 +421,7 @@ To view Cybersecurity Maturity Model Certification (CMMC) Assessments use the fo
     |----------------|:--------------------------------------|
     |--sinceDate     |Date - The CMMC date. Unix date format |
 
+
 ### ```get workflow_definitions```
 [top](#api-endpoints-provided)
 
@@ -432,6 +437,7 @@ To view Workflow Definitions use the following command:
     |--includeInactive    |BOOLEAN - true or false                                                      |    
     |--registrationType   |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional, |
     |                     |                 loudServiceProvider, commonControlProvider                  |
+
 
 ### ```get workflow_instances```
 [top](#api-endpoints-provided)
@@ -640,6 +646,7 @@ For information at the command line use:
 $ bundle exec exe/emasser post poams help add
 ```
 
+
 ### ``post milestones``
 [top](#api-endpoints-provided)
 
@@ -726,6 +733,7 @@ For information at the command line use:
 $ bundle exec exe/emasser post artifacts help upload
 ```
 
+
 ### ``post cac``
 [top](#api-endpoints-provided)
 
@@ -759,6 +767,7 @@ For information at the command line use:
 $ bundle exec exe/emasser post cac help add
 ```
 
+
 ### ``post pac``
 [top](#api-endpoints-provided)
 
@@ -784,6 +793,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post pac help add
 ```
+
 
 ### ``post static_code_scan``
 [top](#api-endpoints-provided)
@@ -835,6 +845,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post scan_findings help add
 ```
+
 
 ## Usage - PUT
 
@@ -919,6 +930,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put controls help update
 ```
+
 
 ### ``put poams``
 [top](#api-endpoints-provided)
@@ -1035,6 +1047,7 @@ For information at the command line use:
 $ bundle exec exe/emasser put poams help update
 ```
 
+
 ### ``put milestones``
 [top](#api-endpoints-provided)
 
@@ -1061,6 +1074,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put milestones help update
 ```
+
 
 ### ``put artifacts``
 [top](#api-endpoints-provided)
@@ -1117,6 +1131,7 @@ For information at the command line use:
 $ bundle exec exe/emasser put artifacts help update
 ```
 
+
 ## Usage - DELETE
 
 ### ``delete poams``
@@ -1129,6 +1144,7 @@ To remove (DELETE) one or more POA&M items use the following command:
 ```
 bundle exec exe/emasser delete poams remove --systemId [value] --poamId [value]
 ```
+
 
 ### ``delete milestones``
 [top](#api-endpoints-provided)
@@ -1146,6 +1162,7 @@ To remove (DELETE) one or more Milestones in a system use the following command:
 ```
 bundle exec exe/emasser delete milestones remove--systemId [value] --poamId [value] --milestoneId [value]
 ```
+
 
 ### ``delete artifacts``
 [top](#api-endpoints-provided)
