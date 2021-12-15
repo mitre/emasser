@@ -382,6 +382,7 @@ To view one or many Control Approval Chain (CAC) in a system specified system ID
     |--systemId   |Integer - Unique system identifier |
   
   - optional parameter is:
+
     |parameter                      | type or values                                |
     |-------------------------------|:----------------------------------------------|
     |--controlAcronyms              |String - The system acronym(s) e.g "AC-1, AC-2"|
@@ -520,6 +521,7 @@ $ bundle exec exe/emasser post test_results help add
 Plan of Action and Milestones (POA&M) add (POST) endpoint API business rules.
 
 The following fields are required based on the contents of the status field
+
   |status          |Required Fields
   |----------------|--------------------------------------------------------
   |Risk Accepted   |comments 
