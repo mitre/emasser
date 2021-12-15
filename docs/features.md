@@ -149,10 +149,12 @@ To view a system  by its identification (Id) use the following command:
     $ bundle exec exe/emasser get system byId
 
   - required parameter is:
+  
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
 - Optional parameters are:
+  
     |parameter               | type or values                          |
     |------------------------|:----------------------------------------|
     |--includePackage        |BOOLEAN - true or false                  |
