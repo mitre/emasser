@@ -1,0 +1,21 @@
+name: Deploy to GitHub Pages
+on:
+  # release:
+  #   types: [published]
+  push:
+    branches:
+      - main
+    
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+      - uses: actions/checkout@v2
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.7
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: docs/features.md docs/developers.md # The folder the action should deploy.
+          publish_file: README.md
