@@ -149,10 +149,13 @@ To view a system  by its identification (Id) use the following command:
     $ bundle exec exe/emasser get system byId
 
   - required parameter is:
-    |parameter    | type or values                    |
-    |-------------|:----------------------------------|
-    |--systemId   |Integer - Unique system identifier |
-- Optional parameters are:
+  
+      |parameter    | type or values                    |
+      |-------------|:----------------------------------|
+      |--systemId   |Integer - Unique system identifier |
+
+  - Optional parameters are:
+
     |parameter               | type or values                          |
     |------------------------|:----------------------------------------|
     |--includePackage        |BOOLEAN - true or false                  |
@@ -166,7 +169,9 @@ To view a system  by its identification (Id) use the following command:
 To view systems use the following command:
 
     $ bundle exec exe/emasser get systems all
-- Optional parameters are:
+
+  - Optional parameters are:
+  
     |parameter               | type or values                                                              |
     |------------------------|:----------------------------------------------------------------------------|
     |--coamsId               |Cyber Operational Attributes Management System (COAMS) string Id             |   
@@ -179,7 +184,6 @@ To view systems use the following command:
     |                        |                 loudServiceProvider, commonControlProvider                  |
     |--reportsForScorecard   |BOOLEAN - true or false                                                      |
   
-
 
 ### ```get roles```
 [top](#api-endpoints-provided)
@@ -195,17 +199,20 @@ There are two get endpoints for system roles:
     $ bundle exec exe/emasser get roles byCategory --roleCategory=ROLECATEGORY --role=ROLE
     ````
   - required parameters are:
+  
     |parameter       | type or values                            |
     |:---------------|:------------------------------------------|
     |--roleCategory  |Possible values: PAC, CAC, Other           |
     |--role          |Possible values: AO, Auditor, Artifact Manager, C&A Team, IAO, ISSO, PM/IAM, SCA, User Rep (View Only), Validator (IV&V)|
 
   - optional parameter are:
+  
     |parameter               | type or values                          |
     |------------------------|:----------------------------------------|
     |--policy                |Possible values: diacap, rmf, reporting  |
     |--includeDecommissioned |BOOLEAN - true or false                  |
-    
+
+
 ### ```get controls```
 [top](#api-endpoints-provided)
 
@@ -215,14 +222,17 @@ To view controls use the following command:
     $ bundle exec exe/emasser get controls forSystem --systemId=SYSTEMID
 
   - required parameter is:
+
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
 
   - optional parameter is:
+
     |parameter    | type or values                            |
     |-------------|:------------------------------------------|
     |--acronyms   |The system acronym(s) e.g "AC-1, AC-2" - if not provided all controls for systemId are returned |
+
 
 ### ```get test_results```
 [top](#api-endpoints-provided)
@@ -233,11 +243,13 @@ To view test results use the following command:
     $ bundle exec exe/emasser get test_results forSystem --systemId=SYSTEMID
 
   - required parameter is:
+
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
 
   - optional parameters are:
+
     |parameter          | type or values                            |
     |-------------------|:------------------------------------------|
     |--controlAcronyms  |String - The system acronym(s) e.g "AC-1, AC-2" |
@@ -255,11 +267,13 @@ There are two get endpoints for system poams:
     $ bundle exec exe/emasser get poams forSystem --systemId=SYSTEMID
     ````
   - required parameter is:
+
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
 
   - optional parameters are:
+
     |parameter                      | type or values                                |
     |-------------------------------|:----------------------------------------------|
     |--scheduledCompletionDateStart |Date - Unix time format (e.g. 1499644800)      |
@@ -268,15 +282,18 @@ There are two get endpoints for system poams:
     |--ccis                         |String - The system CCIS string numerical value|
     |--systemOnly                   |BOOLEAN - true or false|
 
+
 - byPoamId - Retrieves all poams for specified system and poam ID 
     ````
     $ bundle exec exe/emasser get poams byPoamId --systemId=SYSTEMID --poamId=POAMID
     ````
   - required parameters are:
+
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
     |--poamId     |Integer - Unique poam identifier   |
+
 
 ### ```get milestones```
 [top](#api-endpoints-provided)
@@ -288,12 +305,14 @@ There are two get endpoints for system milestones:
     $ bundle exec exe/emasser get milestones byPoamId --systemId=SYSTEMID --poamId=POAMID
     ````
   - required parameters are:
+
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
     |--poamId     |Integer - Unique poam identifier   |
 
   - optional parameters are:
+
     |parameter                      | type or values                                |
     |-------------------------------|:----------------------------------------------|
     |--scheduledCompletionDateStart |Date - Unix time format (e.g. 1499644800)      |
@@ -305,6 +324,7 @@ There are two get endpoints for system milestones:
     $ bundle exec exe/emasser get poams byMilestoneId --systemId=SYSTEMID --poamId=POAMID --milestoneId=MILESTONEID
     ````
   - required parameters are:
+
     |parameter     | type or values                       |
     |--------------|:-------------------------------------|
     |--systemId    |Integer - Unique system identifier    |
@@ -323,11 +343,13 @@ There are two get endpoints that provides the ability to view existing `Artifact
     $ bundle exec exe/emasser get artifacts forSystem --systemId=SYSTEMID
     ````
   - required parameter is:
+
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
 
   - optional parameters are:
+
     |parameter                      | type or values                                |
     |-------------------------------|:----------------------------------------------|
     |--filename                     |The artifact file name                         |
@@ -340,6 +362,7 @@ There are two get endpoints that provides the ability to view existing `Artifact
     $ bundle exec exe/emasser get artifacts export --systemId=SYSTEMID
     ````
   - required parameters are:
+
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
@@ -356,14 +379,17 @@ To view one or many Control Approval Chain (CAC) in a system specified system ID
   $ bundle exec exe/emasser get cac controls --systemId=SYSTEMID
   ```
   - required parameter is:
+
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
   
   - optional parameter is:
+
     |parameter                      | type or values                                |
     |-------------------------------|:----------------------------------------------|
     |--controlAcronyms              |String - The system acronym(s) e.g "AC-1, AC-2"|
+
 
 ### ```get pac```
 [top](#api-endpoints-provided)
@@ -375,6 +401,7 @@ To view one or many Package Approval Chain (PAC) in a system specified system ID
   $ bundle exec exe/emasser get pac package --systemId=SYSTEMID
   ````
   - required parameter is:
+
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
@@ -389,9 +416,11 @@ To view Cybersecurity Maturity Model Certification (CMMC) Assessments use the fo
     $ bundle exec exe/emasser get workflow_definitions forSite --sinceDate=SINCEDATE 
 
   - Required parameters are:
+
     |parameter       | type or values                        |
     |----------------|:--------------------------------------|
     |--sinceDate     |Date - The CMMC date. Unix date format |
+
 
 ### ```get workflow_definitions```
 [top](#api-endpoints-provided)
@@ -402,11 +431,13 @@ To view Workflow Definitions use the following command:
     $ bundle exec exe/emasser get workflow_definitions forSite
 
   - Optional parameters are:
+
     |parameter            | type or values                                                              |
     |---------------------|:----------------------------------------------------------------------------|
     |--includeInactive    |BOOLEAN - true or false                                                      |    
     |--registrationType   |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional, |
     |                     |                 loudServiceProvider, commonControlProvider                  |
+
 
 ### ```get workflow_instances```
 [top](#api-endpoints-provided)
@@ -417,11 +448,13 @@ There are two get endpoints to view workflow instances:
     $ bundle exec exe/emasser get workflow_instances forSystem --systemId=SYSTEMID
 
     - required parameter is:
+
       |parameter    | type or values                    |
       |-------------|:----------------------------------|
       |--systemId   |Integer - Unique system identifier |
 
     - Optional parameters are:
+
       |parameter          | type or values                                     |
       |-------------------|:---------------------------------------------------|
       |--includeComments  |BOOLEAN - true or false                             |    
@@ -433,6 +466,7 @@ There are two get endpoints to view workflow instances:
     $ bundle exec exe/emasser get workflow_instances byWorkflowInstanceId --systemId=SYSTEMID --workflowInstanceId=--WORKFLOWID
 
     - required parameter is:
+
       |parameter            | type or values                               |
       |---------------------|:---------------------------------------------|
       |--systemId           |Integer - Unique system identifier            |
@@ -469,6 +503,7 @@ Note: If no POA&Ms or AP exist for the control (system), you will get this respo
 "You have entered a Non-Compliant Test Result. You must create a POA&M Item for this Control and/or AP if one does not already exist."
 
   - required parameter are:
+
     |parameter          | type or values                                              |
     |-------------------|:------------------------------------------------------------|
     |--systemId         |Integer - Unique system identifier                           |
@@ -492,6 +527,7 @@ $ bundle exec exe/emasser post test_results help add
 Plan of Action and Milestones (POA&M) add (POST) endpoint API business rules.
 
 The following fields are required based on the contents of the status field
+
   |status          |Required Fields
   |----------------|--------------------------------------------------------
   |Risk Accepted   |comments 
@@ -554,6 +590,7 @@ $ bundle exec exe/emasser post poams add --systemId [value] --status [value] --v
 ---
 Client API parameters/fields (required, conditional, and optional).
   - required parameter are:
+
     |parameter                  | type or values                                                         |
     |---------------------------|:-----------------------------------------------------------------------|
     |--systemId                 |Integer - Unique system identifier                                      |
@@ -566,6 +603,7 @@ Client API parameters/fields (required, conditional, and optional).
     ** If any poc information is provided all POC fields are required. See additional details for POC fields below.
 
   - conditional parameters are:
+
     |parameter                 | type or values                                                                        |
     |--------------------------|:--------------------------------------------------------------------------------------|
     |--milestones              |JSON -  see milestone format                                                           |
@@ -585,6 +623,7 @@ Client API parameters/fields (required, conditional, and optional).
       - --milestone description:[value] scheduledCompletionDate:[value]
 
   - optional parameters are:
+
     |parameter           | type or values                                                                           |
     |--------------------|:-----------------------------------------------------------------------------------------|
     |--externalUid       |String - External unique identifier for use with associating POA&M Items. 100 Characters  |
@@ -607,6 +646,7 @@ For information at the command line use:
 $ bundle exec exe/emasser post poams help add
 ```
 
+
 ### ``post milestones``
 [top](#api-endpoints-provided)
 
@@ -617,6 +657,7 @@ To add (POST) milestones in a system for one or more POA&M items use the followi
   $ bundle exec exe/emasser post milestones add --systemId [value] --poamId [value] --description [value] --scheduledCompletionDate [value]
 ````
   - required parameter are:
+
     |parameter                  | type or values                                      |
     |---------------------------|:----------------------------------------------------|
     |--systemId                 |Integer - Unique system identifier                   |
@@ -665,6 +706,7 @@ $ bundle exec exe/emasser post artifacts upload --systemId [value] [--isTemplate
 ```
 
   - required parameter are:
+
     |parameter       | type or values                                      |
     |----------------|:----------------------------------------------------|
     |--systemId      |Integer - Unique system identifier                   |
@@ -674,6 +716,7 @@ $ bundle exec exe/emasser post artifacts upload --systemId [value] [--isTemplate
     |--files         |String - File names (to include path) to be uploaded into eMASS as artifacts |
 
   - optional parameter are:
+
     |parameter                | type or values                                        |
     |-------------------------|:------------------------------------------------------| 
     |--description            |String - Artifact description. 2000 Characters         |
@@ -690,6 +733,7 @@ For information at the command line use:
 $ bundle exec exe/emasser post artifacts help upload
 ```
 
+
 ### ``post cac``
 [top](#api-endpoints-provided)
 
@@ -705,12 +749,14 @@ To add (POST) test CAC use the following command:
   $ bundle exec exe/emasser post pac add --systemId [value] --controlAcronym [value] --comments [value]
   ````
   - required parameter are:
+
     |parameter          | type or values                                              |
     |-------------------|:------------------------------------------------------------|
     |--systemId         |Integer - Unique system identifier                           |
     |--controlAcronym   |String - Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined |
 
   - conditional parameter is:
+
     |parameter          | type or values                             |
     |-------------------|:-------------------------------------------|
     |--comments         |String -The control approval chain comments |
@@ -720,6 +766,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post cac help add
 ```
+
 
 ### ``post pac``
 [top](#api-endpoints-provided)
@@ -733,6 +780,7 @@ To add (POST) test PAC use the following command:
   $ bundle exec exe/emasser post pac add --systemId [value] --workflow [value] --name [value] --comments [value]
   ````
   - required parameter are:
+
     |parameter     | type or values                                                            |
     |--------------|:--------------------------------------------------------------------------|
     |--systemId    |Integer - Unique system identifier                                         |
@@ -746,6 +794,7 @@ For information at the command line use:
 $ bundle exec exe/emasser post pac help add
 ```
 
+
 ### ``post static_code_scan``
 [top](#api-endpoints-provided)
 
@@ -757,6 +806,7 @@ To add (POST) static code scans use the following command:
   $ bundle exec exe/emasser post scan_findings add --systemId [value] --applicationName [value] --version [value] --codeCheckName [value] --scanDate [value] --cweId [value]
   ````
   - required parameter are:
+
     |parameter          | type or values                                             |
     |-------------------|:-----------------------------------------------------------|
     |--systemId         |Integer - Unique system identifier                          |
@@ -767,6 +817,7 @@ To add (POST) static code scans use the following command:
     |--cweId            |String - The Common Weakness Enumerator (CWE) identifier    |
 
   - optional parameters are:
+
     |parameter          | type or values                                        |
     |-------------------|:------------------------------------------------------|
     |--rawSeverity*     |Possible Values: Low, Medium, Moderate, High, Critical |  
@@ -780,6 +831,7 @@ To clear (POST) static code scans use the following command:
   $ bundle exec exe/emasser post scan_findings clear --systemId [value] --applicationName [value] --version [value] --clearFindings
   ````
   - required parameter are:
+
     |parameter          | type or values                                             |
     |-------------------|:-----------------------------------------------------------|
     |--systemId         |Integer - Unique system identifier                          |
@@ -794,6 +846,7 @@ For information at the command line use:
 $ bundle exec exe/emasser post scan_findings help add
 ```
 
+
 ## Usage - PUT
 
 ### ``put controls``
@@ -803,6 +856,7 @@ $ bundle exec exe/emasser post scan_findings help add
 Business Rules
 
 The following fields are required based on the value of the `implementationStatus` field
+
   |Value                   |Required Fields
   |------------------------|--------------------------------------------------------
   |Planned or Implemented  |controlDesignation, estimatedCompletionDate, responsibleEntities, slcmCriticality, slcmFrequency, slcmMethod, slcmMethod, slcmTracking, slcmComments
@@ -834,6 +888,7 @@ Updating (PUT) a Control can be accomplished by invoking the following command:
   $ bundle exec exe/emasser put controls update [PARAMETERS]
   ````
   - required parameter are:
+
     |parameter                 | type or values                                                           |
     |--------------------------|:-------------------------------------------------------------------------|
     |--systemId                |Integer - Unique system identifier                                        |
@@ -844,6 +899,7 @@ Updating (PUT) a Control can be accomplished by invoking the following command:
     |--comments                |String - Security control comments                                        |            
   
   - optional parameters are:
+
     |parameter              | type or values                                |
     |-----------------------|:----------------------------------------------|
     |--implementationStatus |Possible values: Planned, Implemented, Inherited, Not Applicable, or Manually Inherited|
@@ -857,6 +913,7 @@ Updating (PUT) a Control can be accomplished by invoking the following command:
     |--residualRiskLevel    |Possible values: Very Low, Low, Moderate, High, Very High |
 
   - conditional parameters are:
+
     |parameter               | type or values                                |
     |------------------------|:----------------------------------------------|
     |--commonControlProvider |Possible values: DoD, Component, Enclave|
@@ -874,6 +931,7 @@ For information at the command line use:
 $ bundle exec exe/emasser put controls help update
 ```
 
+
 ### ``put poams``
 [top](#api-endpoints-provided)
 
@@ -881,6 +939,7 @@ $ bundle exec exe/emasser put controls help update
 Business Rules
 
 The following fields are required based on the value of the `status` field
+
   |Value           |Required Fields
   |----------------|--------------------------------------------------------
   |Risk Accepted   |comments, resources
@@ -930,6 +989,7 @@ Updating (PUT) a POA&M can be accomplished by invoking the following command:
   $ bundle exec exe/emasser put poams update [PARAMETERS]
   ````
   - required parameter are:
+
     |parameter                  | type or values                                                         |
     |---------------------------|:-----------------------------------------------------------------------|
     |--systemId                 |Integer - Unique system identifier                                      |
@@ -943,6 +1003,7 @@ Updating (PUT) a POA&M can be accomplished by invoking the following command:
     ** If any poc information is provided all POC fields are required. See additional details for POC fields below.
 
   - conditional parameters are:
+
     |parameter                 | type or values                                                                        |
     |--------------------------|:--------------------------------------------------------------------------------------|
     |--milestones              |JSON -  see milestone format                                                           |
@@ -964,6 +1025,7 @@ Updating (PUT) a POA&M can be accomplished by invoking the following command:
       - If a milestoneId is not provide a new milestone is created
 
   - optional parameters are:
+
     |parameter           | type or values                                                                           |
     |--------------------|:-----------------------------------------------------------------------------------------|
     |--externalUid       |String - External unique identifier for use with associating POA&M Items. 100 Characters  |
@@ -985,6 +1047,7 @@ For information at the command line use:
 $ bundle exec exe/emasser put poams help update
 ```
 
+
 ### ``put milestones``
 [top](#api-endpoints-provided)
 
@@ -996,6 +1059,7 @@ To add (POST) milestones in a system for one or more POA&M items use the followi
   $ bundle exec exe/emasser put milestones update [PARAMETERS]
 ````
   - required parameter are:
+
     |parameter                  | type or values                                      |
     |---------------------------|:----------------------------------------------------|
     |--systemId                 |Integer - Unique system identifier                   |
@@ -1010,6 +1074,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put milestones help update
 ```
+
 
 ### ``put artifacts``
 [top](#api-endpoints-provided)
@@ -1036,6 +1101,7 @@ To add (POST) milestones in a system for one or more POA&M items use the followi
   $ bundle exec exe/emasser put artifacts update [PARAMETERS]
 ````
   - required parameter are:
+
     |parameter       | type or values                                      |
     |----------------|:----------------------------------------------------|
     |--systemId      |Integer - Unique system identifier                   |
@@ -1048,6 +1114,7 @@ To add (POST) milestones in a system for one or more POA&M items use the followi
     *May also accept custom artifact category values set by system administrators.
 
   - optional parameter are:
+
     |parameter                | type or values                                        |
     |-------------------------|:------------------------------------------------------| 
     |--description            |String - Artifact description. 2000 Characters         |
@@ -1064,6 +1131,7 @@ For information at the command line use:
 $ bundle exec exe/emasser put artifacts help update
 ```
 
+
 ## Usage - DELETE
 
 ### ``delete poams``
@@ -1076,6 +1144,7 @@ To remove (DELETE) one or more POA&M items use the following command:
 ```
 bundle exec exe/emasser delete poams remove --systemId [value] --poamId [value]
 ```
+
 
 ### ``delete milestones``
 [top](#api-endpoints-provided)
@@ -1093,6 +1162,7 @@ To remove (DELETE) one or more Milestones in a system use the following command:
 ```
 bundle exec exe/emasser delete milestones remove--systemId [value] --poamId [value] --milestoneId [value]
 ```
+
 
 ### ``delete artifacts``
 [top](#api-endpoints-provided)
