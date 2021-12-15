@@ -16,5 +16,5 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages # The branch the action should deploy to.
-          folder: docs~/features.md docs~/developers.md # The folder the action should deploy.
+          folder: /docs/features.md # The folder the action should deploy.
           # publish_file: README.md
