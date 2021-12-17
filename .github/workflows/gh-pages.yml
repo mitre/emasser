@@ -15,11 +15,11 @@ jobs:
       - name: Build Deploment Folder
         run: |
           sudo mkdir -p /publish
-          cp README.md /publish
-          cp /docs/developer.md /publish/developer.md 
-          cp /docs/features.md /publish/features.md 
-          cp -R /docs/redoc /publish/docs/redoc
-          cp -R /docs/swagger /publish/docs/swagger
+          sudo cp README.md /publish
+          sudo cp /docs/developer.md /publish/developer.md 
+          sudo cp /docs/features.md /publish/features.md 
+          sudo cp -R /docs/redoc /publish/docs/redoc
+          sudo cp -R /docs/swagger /publish/docs/swagger
 
       - name: Deploy to gh_pages 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.7
