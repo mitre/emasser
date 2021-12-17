@@ -21,6 +21,7 @@ jobs:
           cp /docs/features.md /publish/features.md 
           cp -R /docs/redoc /publish/docs/redoc
           cp -R /docs/swagger /publish/docs/swagger
+        working-directory: .
 
       - name: Deploy to gh_pages 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.7
