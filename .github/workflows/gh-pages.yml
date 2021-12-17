@@ -15,13 +15,14 @@ jobs:
       - name: Build Deploment Folder
         run: |
           mkdir publish
+          chmod 766 publish
           cp README.md /publish
           cp /docs/developer.md /publish/developer.md 
           cp /docs/features.md /publish/features.md 
           cp -R /docs/redoc /publish/docs/redoc
           cp -R /docs/swagger /publish/docs/swagger
-          
-      - name: Deploy 🚀
+
+      - name: Deploy to gh_pages 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
           branch: gh-pages # The branch the action should deploy to.
