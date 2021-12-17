@@ -15,14 +15,13 @@ jobs:
       - name: Build Deploment Folder
         with:
           deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
-        run: |
-          mkdir -p /publish
-          cp README.md /publish
-          cp /docs/developer.md /publish/developer.md 
-          cp /docs/features.md /publish/features.md 
-          cp -R /docs/redoc /publish/docs/redoc
-          cp -R /docs/swagger /publish/docs/swagger
-        working-directory: .
+          run: |
+            mkdir -p /publish
+            cp README.md /publish
+            cp /docs/developer.md /publish/developer.md 
+            cp /docs/features.md /publish/features.md 
+            cp -R /docs/redoc /publish/docs/redoc
+            cp -R /docs/swagger /publish/docs/swagger
 
       - name: Deploy to gh_pages 🚀
         uses: JamesIves/github-pages-deploy-action@4.1.7
