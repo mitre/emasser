@@ -5,47 +5,56 @@ on:
   pull_request:
     branches: [ main ]
     
-# jobs:
-#   build-deploy:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout 🛎️
-#         uses: actions/checkout@v2
-
-#       - name: Deploy 🚀
-#         uses: JamesIves/github-pages-deploy-action@4.1.7
-#         with:
-#           branch: gh-pages # The branch the action should deploy to.
-#           #folder: docs     # The folder the action should deploy.
-
 jobs:
-  test_job:
+  build-deploy:
     runs-on: ubuntu-latest
-    name: Generate Document with redoc
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
 
-      - name: Deploy README.md 🚀
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: . README.md
-          destination_dir: .
-          enable_jekyll: true
-
-      - name: Deploy developers.md 🚀
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/developers.md
-          destination_dir: docs/
-          enable_jekyll: true
-
+      - name: Build Deploment Folder
+        run: |
+          mkdir publish
+          cp README.md /publish
+          cp /docs/developer.md /publish/developer.md 
+          cp /docs/features.md /publish/features.md 
+          cp -R /docs/redoc /publish/docs/redoc
+          cp -R /docs/swagger /publish/docs/swagger
+          
       - name: Deploy 🚀
-        uses: peaceiris/actions-gh-pages@v3
+        uses: JamesIves/github-pages-deploy-action@4.1.7
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs/features.md
-          destination_dir: docs/
-          enable_jekyll: true
+          branch: gh-pages # The branch the action should deploy to.
+          folder: publish  # The folder the action should deploy.
+
+# jobs:
+#   test_job:
+#     runs-on: ubuntu-latest
+#     name: Copy Markdown Files to gh_pages
+#     steps:
+#       - name: Checkout 🛎️
+#         uses: actions/checkout@v2
+
+#       - name: Deploy README.md 🚀
+#         uses: peaceiris/actions-gh-pages@v3
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: . README.md
+#           destination_dir: .
+#           enable_jekyll: true
+
+#       - name: Deploy developers.md 🚀
+#         uses: peaceiris/actions-gh-pages@v3
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: ./docs/developers.md
+#           destination_dir: docs/
+#           enable_jekyll: true
+
+#       - name: Deploy 🚀
+#         uses: peaceiris/actions-gh-pages@v3
+#         with:
+#           github_token: ${{ secrets.GITHUB_TOKEN }}
+#           publish_dir: ./docs/features.md
+#           destination_dir: docs/
+#           enable_jekyll: true
