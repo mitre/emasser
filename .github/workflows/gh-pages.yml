@@ -38,6 +38,7 @@ jobs:
       - name: Build Deploment Folder 🔧
         run: |
           sudo mkdir -p /publish
+          sudo mkdir -p /publish/docs
           sudo cp README.md /publish
           sudo cp ./docs/developers.md /publish/developers.md 
           sudo cp ./docs/features.md /publish/features.md 
