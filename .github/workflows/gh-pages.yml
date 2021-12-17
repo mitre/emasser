@@ -40,10 +40,10 @@ jobs:
           sudo mkdir -p /publish
           sudo mkdir -p /publish/docs
           sudo cp README.md /publish
-          sudo cp ./docs/developers.md /publish/developers.md 
-          sudo cp ./docs/features.md /publish/features.md 
           sudo cp -R ./docs/redoc /publish/docs/redoc
           sudo cp -R ./docs/swagger /publish/docs/swagger
+          sudo cp ./docs/developers.md /publish/developers.md 
+          sudo cp ./docs/features.md /publish/features.md          
 
       - name: Deploy Markdown Files 🚀
         uses: peaceiris/actions-gh-pages@v3
