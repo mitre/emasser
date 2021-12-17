@@ -14,7 +14,7 @@ jobs:
 
       - name: Build Deploment Folder
         with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
         run: |
           mkdir -p /publish
           cp README.md /publish
