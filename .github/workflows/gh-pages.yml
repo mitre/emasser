@@ -5,9 +5,32 @@ on:
   pull_request:
     branches: [ main ]
     
+# jobs:
+#   build-deploy:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout 🛎️
+#         uses: actions/checkout@v2
+
+#       - name: Build Deploment Folder
+#         run: |
+#           sudo mkdir -p /publish
+#           sudo cp README.md /publish
+#           sudo cp ./docs/developers.md /publish/developers.md 
+#           sudo cp ./docs/features.md /publish/features.md 
+#           sudo cp -R ./docs /publish
+#           # sudo cp -R ./docs/swagger /publish/docs/swagger
+
+#       - name: Deploy to gh_pages 🚀
+#         uses: JamesIves/github-pages-deploy-action@4.1.7
+#         with:
+#           branch: gh-pages # The branch the action should deploy to.
+#           folder: . /publish  # The folder the action should deploy.
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
+    name: Copy Markdown Files to gh_pages
     steps:
       - name: Checkout 🛎️
         uses: actions/checkout@v2
@@ -21,27 +44,13 @@ jobs:
           sudo cp -R ./docs /publish
           # sudo cp -R ./docs/swagger /publish/docs/swagger
 
-      - name: Deploy to gh_pages 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.7
+      - name: Deploy Markdown Files 🚀
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          branch: gh-pages # The branch the action should deploy to.
-          folder: . /publish  # The folder the action should deploy.
-
-# jobs:
-#   test_job:
-#     runs-on: ubuntu-latest
-#     name: Copy Markdown Files to gh_pages
-#     steps:
-#       - name: Checkout 🛎️
-#         uses: actions/checkout@v2
-
-#       - name: Deploy README.md 🚀
-#         uses: peaceiris/actions-gh-pages@v3
-#         with:
-#           github_token: ${{ secrets.GITHUB_TOKEN }}
-#           publish_dir: . README.md
-#           destination_dir: .
-#           enable_jekyll: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: /publish
+          destination_dir: .
+          enable_jekyll: true
 
 #       - name: Deploy developers.md 🚀
 #         uses: peaceiris/actions-gh-pages@v3
