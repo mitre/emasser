@@ -42,7 +42,7 @@ jobs:
           sudo cp README.md /publish
           sudo cp ./docs/developers.md /publish/developers.md 
           sudo cp ./docs/features.md /publish/features.md 
-          # sudo cp -R ./docs /publish
+          sudo cp -R ./docs/redoc /publish/docs/redoc
           sudo cp -R ./docs/swagger /publish/docs/swagger
 
       - name: Deploy Markdown Files 🚀
