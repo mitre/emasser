@@ -1,5 +1,5 @@
 # emasser CLI Features
-
+WHAT
 ## Required Environment Variables
 To facilitate setting the required environment variables the emasser CLI utilized the zero-dependency module to load these variables from a .env file. An .env-example file is provided with the required fields (listed below).
 
