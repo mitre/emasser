@@ -1,5 +1,5 @@
 # Developers Instructions
-WHAT
+
 The documentation provided here is an OpenAPI (v3.0.3) Specification  compliant describing, producing, consuming, and visualizing the eMASS RESTful API web services (endpoints) as described in the eMASS REST API (v3.2) document, dated October 21, 2021.
 
 The API is documented in YAML and can be viewed utilizing Swagger Editor or Visual Studio Code (VSC) with swagger and yaml extensions.
