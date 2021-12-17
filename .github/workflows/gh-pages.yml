@@ -14,7 +14,7 @@ jobs:
 
       - name: Build Deploment Folder
         run: |
-          mkdir -p ./publish
+          mkdir -p /publish
           cp README.md /publish
           cp /docs/developer.md /publish/developer.md 
           cp /docs/features.md /publish/features.md 
