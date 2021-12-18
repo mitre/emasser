@@ -22,7 +22,7 @@ jobs:
           sudo cp -R ./docs/swagger /publish/docs/swagger
           sudo cp ./docs/developers.md /publish/docs/developers.md 
           sudo cp ./docs/features.md /publish/docs/features.md          
-
+          sudo cp ./docs/_config.yml /publish/docs/_config.yml
       - name: Deploy Markdown Files 🚀
         uses: peaceiris/actions-gh-pages@v3
         with:

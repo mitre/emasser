@@ -9,7 +9,7 @@ module Emasser
       ENV.fetch(env) { raise Emasser::ConfigurationMissingError.new(env) }
     rescue Emasser::ConfigurationMissingError => e
       puts e.message.red
-      puts 'See emasser environment variables required in emasser CLI Features'
+      puts 'See emasser environment variables requirements in emasser CLI Features'
       exit
     end
     # rubocop: enable Style/RaiseArgs
