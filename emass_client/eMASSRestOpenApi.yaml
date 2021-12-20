@@ -23,7 +23,7 @@ info:
       certificate and API key. The API key must be provided in the request header for all
       endpoint calls (api-key). If the service receives an untrusted certificate or API key, a
       401 error response code will be returned along with an error message.</br></br>
-      
+  
       <strong>Available Request Headers:</strong></br>
       <table>
         <tr>
