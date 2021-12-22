@@ -182,7 +182,7 @@ module Emasser
     option :roleCategory, type: :string, required: true, enum: %w[PAC CAC Other]
     option :role,         type: :string, required: true,
                           enum: ['AO', 'Auditor', 'Artifact Manager', 'C&A Team', 'IAO',
-                                 'ISSO', 'PM/IAM', 'SCA', 'User Rep (View Only)', 'Validator (IV&V)']
+                                 'ISSO', 'PM/IAM', 'SCA', 'User Rep', 'Validator']
     # Optional parameters/fields
     option :policy, type: :string, required: false, enum: %w[diacap rmf reporting]
     option :includeDecommissioned, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'

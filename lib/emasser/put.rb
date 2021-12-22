@@ -41,7 +41,7 @@ module Emasser
   #
   # Endpoint:
   #    /api/systems/{systemId}/controls - Update control information in a system for one or many controls
-  # rubocop:disable Metrics/ClassLength, Style/WordArray
+  # rubocop:disable Style/WordArray
   class Controls < SubCommandBase
     def self.exit_on_failure?
       true
@@ -233,13 +233,12 @@ module Emasser
     end
     # rubocop:enable Style/CaseLikeIf, Style/StringLiterals, Metrics/BlockLength, Metrics/CyclomaticComplexity
   end
-  # rubocop:enable Metrics/ClassLength, Style/WordArray
+  # rubocop:enable Style/WordArray
 
   # Update Plan of Action (POA&M) items to a system.
   #
   # Endpoint:
   #   /api/systems/{systemId}/poams - Update one or many poa&m items in a system
-  # rubocop:disable Metrics/ClassLength
   class Poams < SubCommandBase
     def self.exit_on_failure?
       true
@@ -460,7 +459,6 @@ module Emasser
     end
     # rubocop:enable Metrics/BlockLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   end
-  # rubocop:enable Metrics/ClassLength
 
   # Update Milestones items to a system.
   #

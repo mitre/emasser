@@ -1,6 +1,6 @@
 name: generate-docs
 
-# Run on each push to master
+# Run on each push to main
 on:
   push:
     branches: [ main ]
