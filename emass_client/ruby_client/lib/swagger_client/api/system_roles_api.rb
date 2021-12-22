@@ -104,8 +104,8 @@ module SwaggerClient
         fail ArgumentError, "Missing the required parameter 'role' when calling SystemRolesApi.get_system_roles_by_category_id"
       end
       # verify enum value
-      if @api_client.config.client_side_validation && !['AO', 'Auditor', 'Artifact Manager', 'C&A Team', 'IAO', 'ISSO', 'PM/IAM', 'SCA', 'User Rep (View Only)', 'Validator (IV&V)'].include?(role)
-        fail ArgumentError, "invalid value for 'role', must be one of AO, Auditor, Artifact Manager, C&A Team, IAO, ISSO, PM/IAM, SCA, User Rep (View Only), Validator (IV&V)"
+      if @api_client.config.client_side_validation && !['AO', 'Auditor', 'Artifact Manager', 'C&A Team', 'IAO', 'ISSO', 'PM/IAM', 'SCA', 'User Rep', 'Validator'].include?(role)
+        fail ArgumentError, "invalid value for 'role', must be one of AO, Auditor, Artifact Manager, C&A Team, IAO, ISSO, PM/IAM, SCA, User Rep, Validator"
       end
       if @api_client.config.client_side_validation && opts[:'policy'] && !['diacap', 'rmf', 'reporting'].include?(opts[:'policy'])
         fail ArgumentError, 'invalid value for "policy", must be one of diacap, rmf, reporting'

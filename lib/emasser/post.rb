@@ -87,7 +87,6 @@ module Emasser
   #
   # Endpoint:
   #   /api/systems/{systemId}/poams - Add one or many poa&m items in a system
-  # rubocop:disable Metrics/ClassLength
   class Poams < SubCommandBase
     def self.exit_on_failure?
       true
@@ -299,7 +298,6 @@ module Emasser
     end
     # rubocop:enable Metrics/BlockLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   end
-  # rubocop:enable Metrics/ClassLength
 
   # The Milestones endpoints provide the ability add milestones that are associated with
   # Plan of Action and Milestones (POA&M) items for a system.

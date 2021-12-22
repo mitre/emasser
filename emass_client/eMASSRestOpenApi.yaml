@@ -9,9 +9,10 @@ info:
   description: |
       The Enterprise Mission Assurance Support Service (eMASS) Representational State
       Transfer (REST) Application Programming Interface (API) enables users to perform
-      assessments and complete actions associated with system records. This command-line
-      interface (CLI) tool implements all of the eMASS endpoints defined in the eMASS 
-      REST API v3.2, dated October 21, 2021.</br><br>
+      assessments and complete actions associated with system records. 
+      
+      The `emasser` is a command-line interface (CLI) tool that implements all of the 
+      eMASS endpoints defined in the eMASS REST API v3.2, dated October 21, 2021.</br><br>
 
       <strong>Register CLI</strong></br>
       New users will need to register an API key with the eMASS development team prior to
@@ -75,8 +76,8 @@ externalDocs:
 servers:
   - url: "http://localhost:4010"
     description: Use localhost mock server
-  - url: "https://localhost:4433"
-    description: Use localhost secure mock server
+  - url: "https://stoplight.io/mocks/mitre/emasser/32836028"
+    description: Use the hosted Prism mock server
 
 #-------------------------------------------------------------------------------
 # T A G S - A list of tags used by the specification with additional metadata.
@@ -2547,12 +2548,12 @@ components:
     role:
       name: role
       in: query
-      description: "**Role**: Required parameter. Accepts single value from available options."
+      description: "**Role**: Accepts single value from options available at base system-roles endpoint e.g., SCA."
       required: true
       schema:
         type: string
-        enum: ["AO","Auditor","Artifact Manager","C&A Team","IAO","ISSO","PM/IAM","SCA","User Rep (View Only)", "Validator (IV&V)"]
-        default: "Validator (IV&V)"
+        enum: ["AO","Auditor","Artifact Manager","C&A Team","IAO","ISSO","PM/IAM","SCA","User Rep", "Validator"]
+        default: "IAO"
     exportfilename:
       name: filename
       in: query
@@ -5400,7 +5401,6 @@ components:
         packageName:
           type: string
           description: "[Read-Only] The package name."
-          x-faker:
           example: "Test RMF Step 1 package"
           enum: ["Test POA&M Approval","Test RMF Step 1 package","Test RMF Step 2 package","Test RMF Step 3 package"]
         systemName:
@@ -5670,25 +5670,34 @@ components:
   securitySchemes:
     apikey:
       type: apiKey
-      #type: https
-      #scheme: basic
       in: header
       name: api-key
       description: >
-        The API key must be provided in the request header for all endpoint calls.<br>
-        See the
+        The API key must be provided in the request header for all eMASS endpoint calls.</br></br>
+        **For connecting to a mock server, any value is acceptable, e.g., 123**
     userid:
       type: apiKey
       in: header
       name: user-uid
       description: >
         This User unique identifier key must be provided in the request header for all PUT,
-        POST, and DELETE endpoint calls.
-
+        POST, and DELETE endpoint calls.</br>
+        Note: For DoD users this is the DoD ID Number (EIDIPI) on their DoD CAC.</br></br>
+        **For connecting to a mock server, any value is acceptable, e.g., 123**
+    mockType:
+      type: apiKey
+      in: header
+      name: Prefer
+      description: >
+        This header parameter is ony utilized when interacting with the mock server.</br>
+        Options are (enter in the **Value** textbox): 
+          - For random response values `code=200, dynamic=true`
+          - For static response values `code=200` 
 #-------------------------------------------------------------------------------
 # S E C U R I T Y
 #-------------------------------------------------------------------------------
 security:
   - apikey: []
   - userid: []
+  - mockType: []
 ...
