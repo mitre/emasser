@@ -25,4 +25,6 @@ jobs:
           fetch-depth: 0
       - uses: actions/checkout@v2
       - name: Run cli tests
-        run: rspec spec --format documentation
+        run: |
+          bundle install
+          rspec spec --format documentation
