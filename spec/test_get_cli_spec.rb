@@ -12,8 +12,8 @@ describe Emasser::Test do
     # run before each test
     @instance = Emasser::Test.new
   end
-  context 'The Test class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of Test class object' do
+    it 'should create an instance of Test' do
       expect(@instance).to be_instance_of(Emasser::Test)
     end
   end
@@ -24,8 +24,8 @@ describe Emasser::System do
     # run before each test
     @instance = Emasser::System.new
   end
-  context 'The System class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of System class object' do
+    it 'should create an instance of System' do
       expect(@instance).to be_instance_of(Emasser::System)
     end
   end
@@ -36,8 +36,8 @@ describe Emasser::Systems do
     # run before each test
     @instance = Emasser::Systems.new
   end
-  context 'The Systems class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of Systems class object' do
+    it 'should create an instance of Systems' do
       expect(@instance).to be_instance_of(Emasser::Systems)
     end
   end
@@ -48,8 +48,8 @@ describe Emasser::Roles do
     # run before each test
     @instance = Emasser::Roles.new
   end
-  context 'The Roles class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of Roles class object' do
+    it 'should create an instance of Roles' do
       expect(@instance).to be_instance_of(Emasser::Roles)
     end
   end
@@ -60,8 +60,8 @@ describe Emasser::Controls do
     # run before each test
     @instance = Emasser::Controls.new
   end
-  context 'The Controls class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of Controls class object' do
+    it 'should create an instance of Controls' do
       expect(@instance).to be_instance_of(Emasser::Controls)
     end
   end
@@ -72,8 +72,8 @@ describe Emasser::TestResults do
     # run before each test
     @instance = Emasser::TestResults.new
   end
-  context 'The TestResults class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of TestResults class object' do
+    it 'should create an instance of TestResults' do
       expect(@instance).to be_instance_of(Emasser::TestResults)
     end
   end
@@ -84,8 +84,8 @@ describe Emasser::Poams do
     # run before each test
     @instance = Emasser::Poams.new
   end
-  context 'The Poams class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of Poams class object' do
+    it 'should create an instance of Poams' do
       expect(@instance).to be_instance_of(Emasser::Poams)
     end
   end
@@ -96,8 +96,8 @@ describe Emasser::Milestones do
     # run before each test
     @instance = Emasser::Milestones.new
   end
-  context 'The Milestones class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of Milestones class object' do
+    it 'should create an instance of Milestones' do
       expect(@instance).to be_instance_of(Emasser::Milestones)
     end
   end
@@ -108,8 +108,8 @@ describe Emasser::Artifacts do
     # run before each test
     @instance = Emasser::Artifacts.new
   end
-  context 'The Artifacts class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of Artifacts class object' do
+    it 'should create an instance of Artifacts' do
       expect(@instance).to be_instance_of(Emasser::Artifacts)
     end
   end
@@ -120,8 +120,8 @@ describe Emasser::CAC do
     # run before each test
     @instance = Emasser::CAC.new
   end
-  context 'The CAC class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of CAC class object' do
+    it 'should create an instance of CAC' do
       expect(@instance).to be_instance_of(Emasser::CAC)
     end
   end
@@ -132,8 +132,8 @@ describe Emasser::PAC do
     # run before each test
     @instance = Emasser::PAC.new
   end
-  context 'The PAC class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of PAC class object' do
+    it 'should create an instance of PAC' do
       expect(@instance).to be_instance_of(Emasser::PAC)
     end
   end
@@ -144,8 +144,8 @@ describe Emasser::CMMC do
     # run before each test
     @instance = Emasser::CMMC.new
   end
-  context 'The CMMC class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of CMMC class object' do
+    it 'should create an instance of CMMC' do
       expect(@instance).to be_instance_of(Emasser::CMMC)
     end
   end
@@ -156,8 +156,8 @@ describe Emasser::WorkflowDefinitions do
     # run before each test
     @instance = Emasser::WorkflowDefinitions.new
   end
-  context 'The WorkflowDefinitions class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of WorkflowDefinitions class object' do
+    it 'should create an instance of WorkflowDefinitions' do
       expect(@instance).to be_instance_of(Emasser::WorkflowDefinitions)
     end
   end
@@ -168,8 +168,8 @@ describe Emasser::WorkflowInstances do
     # run before each test
     @instance = Emasser::WorkflowInstances.new
   end
-  context 'The WorkflowInstances class object' do
-    it 'should be equal to an instance of itself' do
+  context 'test an instance of WorkflowInstances class object' do
+    it 'should create an instance of WorkflowInstances' do
       expect(@instance).to be_instance_of(Emasser::WorkflowInstances)
     end
   end

@@ -316,8 +316,6 @@ module SwaggerClient
     def valid?
       status_validator = EnumAttributeValidator.new('Object', ['Ongoing', 'Risk Accepted', 'Completed', 'Not Applicable'])
       return false unless status_validator.valid?(@status)
-      source_ident_vuln_validator = EnumAttributeValidator.new('Object', ['Not Approved', 'Under Review', 'Approved'])
-      return false unless source_ident_vuln_validator.valid?(@source_ident_vuln)
       raw_severity_validator = EnumAttributeValidator.new('Object', ['I', 'II', 'III'])
       return false unless raw_severity_validator.valid?(@raw_severity)
       relevance_of_threat_validator = EnumAttributeValidator.new('Object', ['Very Low', 'Low', 'Moderate', 'High', 'Very High'])
@@ -341,16 +339,6 @@ module SwaggerClient
         fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
       end
       @status = status
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] source_ident_vuln Object to be assigned
-    def source_ident_vuln=(source_ident_vuln)
-      validator = EnumAttributeValidator.new('Object', ['Not Approved', 'Under Review', 'Approved'])
-      unless validator.valid?(source_ident_vuln)
-        fail ArgumentError, "invalid value for \"source_ident_vuln\", must be one of #{validator.allowable_values}."
-      end
-      @source_ident_vuln = source_ident_vuln
     end
 
     # Custom attribute writer method checking allowed values (enum).

@@ -2926,7 +2926,7 @@ components:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
           description: "[Required] CCI associated with test result."
-          example: "000001"
+          example: "000001,000002"
         testedBy:
           type: string
           description: "[Required] Last Name, First Name. 100 Characters."
@@ -3163,11 +3163,6 @@ components:
           description: "[Required] Include Source Identifying Vulnerability text. 2000 Characters."
           x-faker: random.words
           example: "Source Indentifying Vulnerability text"
-
-          enum:
-            - "Not Approved"
-            - "Under Review"
-            - "Approved"           
         pocOrganization:
           type: string
           description: "[Required] Organization/Office represented. 100 Characters."
@@ -3214,7 +3209,7 @@ components:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
           description: "[Optional] CCI associated with POA&M."
-          example: "000001"        
+          example: "000001,000002"        
         securityChecks:
           type: string
           description: "[Optional] Security Checks that are associated with the POA&M."
@@ -3336,7 +3331,7 @@ components:
           type: integer
           format: int64
           description: "[Required] Globally unique identifier for individual POA&M Items, seen on the front-end as “ID”."
-          example: 450000000
+          example: 100000010
           minimum: 100000000
           maximum: 101003239          
         status:
@@ -3379,7 +3374,7 @@ components:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
           description: "CCI associated with POA&M."
-          example: "000001"        
+          example: "000001,000002"        
         securityChecks:
           type: string
           description: "[Optional] Security Checks that are associated with the POA&M."
@@ -4627,7 +4622,7 @@ components:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
           description: "[Required] CCI associated with test result."
-          example: "000001"
+          example: "000001,000002"
         isInherited:
           type: boolean
           description: "[Read-only] Indicates whether a test result is inherited."
@@ -4669,7 +4664,7 @@ components:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
           description: "CCI associated with test result."
-          example: "000001"
+          example: "000001,000002"
         success:
           type: boolean
           description: "Indicates if operations result (success/fail)"
@@ -4705,7 +4700,7 @@ components:
           type: integer
           format: int64
           description: "[Required] Globally unique identifier for individual POA&M Items, seen on the front-end as “ID”."
-          example: 450000000
+          example: 100000010
           minimum: 100000000
           maximum: 101003239
         isInherited:
@@ -4727,7 +4722,7 @@ components:
           type: string
           pattern: '^\d{5,6},\d{5,6}'
           description: "[Optional] CCI associated with POA&M Item.."
-          example: "000001"
+          example: "000001,000002"
         status:
           type: string
           description: "[Required] Values include the following: (Ongoing,Risk Accepted,Completed,Not Applicable"

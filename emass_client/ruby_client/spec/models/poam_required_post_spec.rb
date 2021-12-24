@@ -50,10 +50,6 @@ describe 'PoamRequiredPost' do
   describe 'test attribute "source_ident_vuln"' do
     it 'should work' do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-      # validator = Petstore::EnumTest::EnumAttributeValidator.new('String', ["Not Approved", "Under Review", "Approved"])
-      # validator.allowable_values.each do |value|
-      #   expect { @instance.source_ident_vuln = value }.not_to raise_error
-      # end
     end
   end
 

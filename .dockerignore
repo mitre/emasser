@@ -7,5 +7,5 @@ CHANGELOG.md
 .gitlab-ci.yml
 
 # code
-test
+spec
 .env
