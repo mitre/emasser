@@ -78,7 +78,7 @@ servers:
     description: Use localhost mock server
   - url: "https://stoplight.io/mocks/mitre/emasser/32836028"
     description: Use the hosted Prism mock server
-
+  #- dst: "what"
 #-------------------------------------------------------------------------------
 # T A G S - A list of tags used by the specification with additional metadata.
 #-------------------------------------------------------------------------------
