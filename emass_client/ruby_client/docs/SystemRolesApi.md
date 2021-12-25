@@ -25,6 +25,11 @@ SwaggerClient.configure do |config|
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['api-key'] = 'Bearer'
 
+  # Configure API key authorization: mockType
+  config.api_key['Prefer'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Prefer'] = 'Bearer'
+
   # Configure API key authorization: userid
   config.api_key['user-uid'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -51,7 +56,7 @@ This endpoint does not need any parameter.
 
 ### Authorization
 
-[apikey](../README.md#apikey), [userid](../README.md#userid)
+[apikey](../README.md#apikey), [mockType](../README.md#mockType), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -78,6 +83,11 @@ SwaggerClient.configure do |config|
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['api-key'] = 'Bearer'
 
+  # Configure API key authorization: mockType
+  config.api_key['Prefer'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Prefer'] = 'Bearer'
+
   # Configure API key authorization: userid
   config.api_key['user-uid'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -86,7 +96,7 @@ end
 
 api_instance = SwaggerClient::SystemRolesApi.new
 role_category = 'role_category_example' # String | **Role Category**: The system role category been queried
-role = 'Validator (IV&V)' # String | **Role**: Required parameter. Accepts single value from available options.
+role = 'IAO' # String | **Role**: Accepts single value from options available at base system-roles endpoint e.g., SCA.
 opts = { 
   policy: 'rmf', # String | **System Policy**: Filter query by system policy. If no value is specified and more than one policy is available, the default return is the RMF policy information.
   include_decommissioned: true # BOOLEAN | **Include Decommissioned Systems**: Indicates if decommissioned systems are retrieved. If no value is specified, the default returns true to include decommissioned systems.
@@ -106,7 +116,7 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **role_category** | **String**| **Role Category**: The system role category been queried | 
- **role** | **String**| **Role**: Required parameter. Accepts single value from available options. | [default to Validator (IV&amp;V)]
+ **role** | **String**| **Role**: Accepts single value from options available at base system-roles endpoint e.g., SCA. | [default to IAO]
  **policy** | **String**| **System Policy**: Filter query by system policy. If no value is specified and more than one policy is available, the default return is the RMF policy information. | [optional] [default to rmf]
  **include_decommissioned** | **BOOLEAN**| **Include Decommissioned Systems**: Indicates if decommissioned systems are retrieved. If no value is specified, the default returns true to include decommissioned systems. | [optional] [default to true]
 
@@ -116,7 +126,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apikey](../README.md#apikey), [userid](../README.md#userid)
+[apikey](../README.md#apikey), [mockType](../README.md#mockType), [userid](../README.md#userid)
 
 ### HTTP request headers
 

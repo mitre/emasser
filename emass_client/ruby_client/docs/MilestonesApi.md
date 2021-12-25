@@ -28,6 +28,11 @@ SwaggerClient.configure do |config|
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['api-key'] = 'Bearer'
 
+  # Configure API key authorization: mockType
+  config.api_key['Prefer'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Prefer'] = 'Bearer'
+
   # Configure API key authorization: userid
   config.api_key['user-uid'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -63,7 +68,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apikey](../README.md#apikey), [userid](../README.md#userid)
+[apikey](../README.md#apikey), [mockType](../README.md#mockType), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -89,6 +94,11 @@ SwaggerClient.configure do |config|
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: mockType
+  config.api_key['Prefer'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Prefer'] = 'Bearer'
 
   # Configure API key authorization: userid
   config.api_key['user-uid'] = 'YOUR API KEY'
@@ -125,7 +135,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apikey](../README.md#apikey), [userid](../README.md#userid)
+[apikey](../README.md#apikey), [mockType](../README.md#mockType), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -151,6 +161,11 @@ SwaggerClient.configure do |config|
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: mockType
+  config.api_key['Prefer'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Prefer'] = 'Bearer'
 
   # Configure API key authorization: userid
   config.api_key['user-uid'] = 'YOUR API KEY'
@@ -190,7 +205,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apikey](../README.md#apikey), [userid](../README.md#userid)
+[apikey](../README.md#apikey), [mockType](../README.md#mockType), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -216,6 +231,11 @@ SwaggerClient.configure do |config|
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: mockType
+  config.api_key['Prefer'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Prefer'] = 'Bearer'
 
   # Configure API key authorization: userid
   config.api_key['user-uid'] = 'YOUR API KEY'
@@ -252,7 +272,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apikey](../README.md#apikey), [userid](../README.md#userid)
+[apikey](../README.md#apikey), [mockType](../README.md#mockType), [userid](../README.md#userid)
 
 ### HTTP request headers
 
@@ -278,6 +298,11 @@ SwaggerClient.configure do |config|
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
   #config.api_key_prefix['api-key'] = 'Bearer'
+
+  # Configure API key authorization: mockType
+  config.api_key['Prefer'] = 'YOUR API KEY'
+  # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
+  #config.api_key_prefix['Prefer'] = 'Bearer'
 
   # Configure API key authorization: userid
   config.api_key['user-uid'] = 'YOUR API KEY'
@@ -314,7 +339,7 @@ Name | Type | Description  | Notes
 
 ### Authorization
 
-[apikey](../README.md#apikey), [userid](../README.md#userid)
+[apikey](../README.md#apikey), [mockType](../README.md#mockType), [userid](../README.md#userid)
 
 ### HTTP request headers
 
