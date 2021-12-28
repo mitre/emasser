@@ -15,9 +15,9 @@ class SubCommandBase < Thor
 
     # rubocop:disable Style/GlobalVars
     if ancestors[0].to_s.include? '::Post'
-      "exe/#{basename} #{command.formatted_usage(self, $thor_runner, subcommand)}"
+      "#{basename} #{command.formatted_usage(self, $thor_runner, subcommand)}"
     else
-      "exe/#{basename} post #{command.formatted_usage(self, $thor_runner, subcommand)}"
+      "#{basename} post #{command.formatted_usage(self, $thor_runner, subcommand)}"
     end
     # rubocop:enable Style/GlobalVars
   end
@@ -37,8 +37,7 @@ class Thor
 end
 
 module Emasser
-  CONTROLS_HELP_MESSAGE = "\nInvoke \"bundle exec exe/emasser put controls help update\" for additional help"
-  POAMS_HELP_MESSAGE = "\nInvoke \"bundle exec exe/emasser post poams help add\" for additional help"
+  POAMS_POST_HELP_MESSAGE = "\nInvoke \"bundle exec exe/emasser post poams help add\" for additional help"
   # The Test Results endpoints provide the ability to add test results for a
   # system's Assessment Procedures (CCIs) which determine Security Control compliance.
   #
@@ -212,7 +211,7 @@ module Emasser
           if options[:comments].nil?
             puts 'When status = "Risk Accepted" the following parameters/fields are required:'.red
             puts '    comments'.red
-            puts POAMS_HELP_MESSAGE.yellow
+            puts POAMS_POST_HELP_MESSAGE.yellow
             exit
           else
             body.comments = options[:comments]
@@ -222,7 +221,7 @@ module Emasser
             puts 'When status = "Ongoing" the following parameters/fields are required:'.red
             puts '    scheduledCompletionDate, or milestone'.red
             print_milestone_help
-            puts POAMS_HELP_MESSAGE.yellow
+            puts POAMS_POST_HELP_MESSAGE.yellow
             exit
           elsif options[:milestone]["description"].nil? || options[:milestone]["scheduledCompletionDate"].nil?
             puts 'Missing milstone parameters/fields'.red
@@ -243,7 +242,7 @@ module Emasser
             puts 'When status = "Completed" the following parameters/fields are required:'.red
             puts '    scheduledCompletionDate, comments, completionDate, or milestone'.red
             print_milestone_help
-            puts POAMS_HELP_MESSAGE.yellow
+            puts POAMS_POST_HELP_MESSAGE.yellow
             exit
           else
             body.scheduled_completion_date = options[:scheduledCompletionDate]
@@ -263,28 +262,28 @@ module Emasser
           if options[:pocLastName].nil? || options[:pocEmail].nil? || options[:pocPhoneNumber].nil?
             puts 'If a POC first name is given, then all POC information must be entered:'.red
             puts '    pocLastName, pocEmail, pocPhoneNumber'.red
-            puts POAMS_HELP_MESSAGE.yellow
+            puts POAMS_POST_HELP_MESSAGE.yellow
             exit
           end
         elsif options[:pocLastName]
           if options[:pocFirstName].nil? || options[:pocEmail].nil? || options[:pocPhoneNumber].nil?
             puts 'If a POC last name is given, then all POC information must be entered:'.red
             puts '    pocFirstName, pocEmail, pocPhoneNumber'.red
-            puts POAMS_HELP_MESSAGE.yellow
+            puts POAMS_POST_HELP_MESSAGE.yellow
             exit
           end
         elsif options[:pocEmail]
           if options[:pocFirstName].nil? || options[:pocLastName].nil? || options[:pocPhoneNumber].nil?
             puts 'If a POC email is given, then all POC information must be entered:'.red
             puts '    pocFirstName, pocLastName, pocPhoneNumber'.red
-            puts POAMS_HELP_MESSAGE.yellow
+            puts POAMS_POST_HELP_MESSAGE.yellow
             exit
           end
         elsif options[:pocPhoneNumber]
           if options[:pocFirstName].nil? || options[:pocLastName].nil? || options[:pocEmail].nil?
             puts 'If a POC phone number is given, then all POC information must be entered:'.red
             puts '    pocFirstName, pocLastName, pocEmail'.red
-            puts POAMS_HELP_MESSAGE.yellow
+            puts POAMS_POST_HELP_MESSAGE.yellow
             exit
           end
         end
