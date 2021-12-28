@@ -20,7 +20,14 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
       - uses: actions/checkout@v2
-      - name: Run cli tests
+      - name: Testing on Windows for Ruby ${{ matrix.ruby }}
+        if: ${{ matrix.platform }} == 'windows-latest'
+        uses: wei/curl@v1
+        run: |
+          bundle install
+          bundle info swagger_client
+          rspec spec --format documentation
+      - name: Testing on ${{ matrix.platform }} for Ruby ${{ matrix.ruby }}
         run: |
           bundle install
           bundle info swagger_client
