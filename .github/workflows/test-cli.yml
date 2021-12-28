@@ -29,7 +29,7 @@ jobs:
           bundle install
           bundle info swagger_client
           # rspec spec --format documentation
-          rspec spec\test_emasser_cli_spec.rb  --format documentation
-          rspec spec\test_get_cli_spec.rb  --format documentation
-          rspec spec\test_put_cli_spec.rb  --format documentation
-          rspec spec\test_post_cli_spec.rb  --format documentation
+          rspec spec/test_emasser_cli_spec.rb --format documentation
+          rspec spec/test_get_cli_spec.rb --format documentation
+          rspec spec/test_put_cli_spec.rb --format documentation
+          rspec spec/test_post_cli_spec.rb --format documentation
