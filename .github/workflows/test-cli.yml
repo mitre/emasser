@@ -20,13 +20,9 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
       - uses: actions/checkout@v2
-      - name: Testing on Windows for Ruby ${{ matrix.ruby }}
+      - name: cURL
         if: ${{ matrix.platform }} == 'windows-latest'
-        uses: wei/curl@v1
-        run: |
-          bundle install
-          bundle info swagger_client
-          rspec spec --format documentation
+        uses: wei/curl@v1      
       - name: Testing on ${{ matrix.platform }} for Ruby ${{ matrix.ruby }}
         run: |
           bundle install
