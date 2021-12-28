@@ -1,5 +1,5 @@
 # emasser
-
+![example workflow](https://github.com/github/docs/actions/workflows/main.yml/badge.svg)
 ## About
 
 `emasser` is a command line interface (CLI) that aims to automate routine business use-cases and provide utility surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its representational state transfer (REST) application programming interface (API) v3.2.
