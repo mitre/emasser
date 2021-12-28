@@ -25,6 +25,7 @@ jobs:
         run: |
           echo "need to install libcurl.dll"
       - name: Testing on ${{ matrix.platform }} for Ruby ${{ matrix.ruby }}
+        if: matrix.platform == 'ubuntu-latest' || matrix.platform == 'macos-latest'
         run: |
           bundle install
           bundle info swagger_client
