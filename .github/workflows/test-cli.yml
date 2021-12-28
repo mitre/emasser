@@ -20,9 +20,10 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
       - uses: actions/checkout@v2
-      - name: cURL
-        if: ${{ matrix.platform }} == 'windows-latest'
-        uses: wei/curl@v1      
+      - name: Testing on ${{ matrix.platform }} for Ruby ${{ matrix.ruby }}
+        if: matrix.platform == 'windows-latest'
+        run: |
+          echo "need to install libcurl.dll"
       - name: Testing on ${{ matrix.platform }} for Ruby ${{ matrix.ruby }}
         run: |
           bundle install
