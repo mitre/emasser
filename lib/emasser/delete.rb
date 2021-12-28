@@ -15,9 +15,9 @@ class SubCommandBase < Thor
 
     # rubocop:disable Style/GlobalVars
     if ancestors[0].to_s.include? '::Del'
-      "exe/#{basename} #{command.formatted_usage(self, $thor_runner, subcommand)}"
+      "#{basename} #{command.formatted_usage(self, $thor_runner, subcommand)}"
     else
-      "exe/#{basename} delete #{command.formatted_usage(self, $thor_runner, subcommand)}"
+      "#{basename} delete #{command.formatted_usage(self, $thor_runner, subcommand)}"
     end
     # rubocop:enable Style/GlobalVars
   end

@@ -17,9 +17,9 @@ class SubCommandBase < Thor
 
     # rubocop:disable Style/GlobalVars
     if ancestors[0].to_s.include? '::Get'
-      "exe/#{basename} #{command.formatted_usage(self, $thor_runner, subcommand)}"
+      "#{basename} #{command.formatted_usage(self, $thor_runner, subcommand)}"
     else
-      "exe/#{basename} get #{command.formatted_usage(self, $thor_runner, subcommand)}"
+      "#{basename} get #{command.formatted_usage(self, $thor_runner, subcommand)}"
     end
     # rubocop:enable Style/GlobalVars
   end
