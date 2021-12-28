@@ -1,6 +1,6 @@
 # emasser
 ![Overall Status](https://github.com/mitre/heimdall_tools/workflows/heimdall_tools/badge.svg)
-![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/workflows/emasser/badge.svg) 
+![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg) 
 ![Docs Generation](https://github.com/mitre/emasser/actions/workflows/generate_docs.yml/badge.svg)
 ## About
 
