@@ -1,4 +1,4 @@
-ruby_client_path = File.expand_path('../emass_client/ruby_client', __dir__)
+ruby_client_path = File.expand_path('../emass_client/ruby_client/lib', __dir__)
 $LOAD_PATH.unshift(ruby_client_path) unless $LOAD_PATH.include?(ruby_client_path)
 
 spec_path = File.expand_path('../emass_client/ruby_client/spec', __dir__)
