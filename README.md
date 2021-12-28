@@ -1,5 +1,5 @@
 # emasser
-![CodeQL Vulnerabilities and Errors](https://github.com/mitre/docs/actions/workflows/codeql-analysis.yml/badge.svg) ![Docs Generation](https://github.com/mitre/docs/actions/workflows/generate_docs.yml.yml/badge.svg)
+![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/workflows/codeql-analysis.yml/badge.svg) ![Docs Generation](https://github.com/mitre/emasser/workflows/generate_docs.yml.yml/badge.svg)
 ## About
 
 `emasser` is a command line interface (CLI) that aims to automate routine business use-cases and provide utility surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its representational state transfer (REST) application programming interface (API) v3.2.
