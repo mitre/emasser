@@ -53,12 +53,14 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby-version }}
       - uses: actions/checkout@v2
-      - uses: crazy-max/ghaction-chocolatey@v1      
+      - uses: crazy-max/ghaction-chocolatey@v1
+        with:
+          args: -y
         if: matrix.platform == 'windows-latest'
       - name: Testing on ${{ matrix.platform }} for Ruby ${{ matrix.ruby }}
         if: matrix.platform == 'windows-latest'
         run: |
-          choco install curl -y
+          choco install curl
           bundle install
           bundle info swagger_client
           rspec spec --format documentation
