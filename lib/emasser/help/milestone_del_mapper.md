@@ -7,5 +7,7 @@ The server returns an empty object upon successfully deleting a milestone.
 The last milestone can not be deleted, at-least on must exist.
 
 Example:
-
-bundle exec exe/emasser delete milestones remove--systemId [value] --poamId [value] --milestoneId [value]
+If running from source code:
+  bundle exec [ruby] exe/emasser delete milestones remove--systemId [value] --poamId [value] --milestoneId [value]
+If running from gem:
+  emasser delete milestones remove--systemId [value] --poamId [value] --milestoneId [value]

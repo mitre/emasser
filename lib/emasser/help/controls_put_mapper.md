@@ -68,7 +68,9 @@ The following parameters/fields have the following character limitations:
 Implementation Plan information cannot be updated if Security Control does not exist in the system record.
 
 Example:
-
-bundle exec exe/emasser put controls update --systemId [value] --acronym [value] --responsibleEntities [value] --controlDesignation [value] --estimatedCompletionDate [value] --implementationNarrative [value]
+If running from source code:
+  bundle exec [ruby] exe/emasser put controls update --systemId [value] --acronym [value] --responsibleEntities [value] --controlDesignation [value] --estimatedCompletionDate [value] --implementationNarrative [value]
+If running from gem:
+  emasser put controls update --systemId [value] --acronym [value] --responsibleEntities [value] --controlDesignation [value] --estimatedCompletionDate [value] --implementationNarrative [value]
 
 Note: The example is only showing the required fields. Refer to instructions listed above for conditional and optional fields requirements.

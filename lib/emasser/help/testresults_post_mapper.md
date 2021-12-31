@@ -14,8 +14,10 @@ complianceStatus String      [Required] Values include the following: (Compliant
 control          String      [Read-Only] Control acronym associated with the test result. NIST SP 800-53 Revision 4 defined.
 
 Example:
-
-bundle exec exe/emasser post test_results add --systemId [value] --cci [value] --testedBy [value] --testDate [value] --description [value] --complianceStatus [value]
+If running from source code:
+  bundle exec [ruby] exe/emasser post test_results add --systemId [value] --cci [value] --testedBy [value] --testDate [value] --description [value] --complianceStatus [value]
+If running from gem:
+  emasser post test_results add --systemId [value] --cci [value] --testedBy [value] --testDate [value] --description [value] --complianceStatus [value]
 
 Note: If no POA&Ms or AP exist for the control (system), you will get this response:
 "You have entered a Non-Compliant Test Result. You must create a POA&M Item for this Control and/or AP if one does not already exist."

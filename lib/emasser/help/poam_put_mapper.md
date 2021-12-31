@@ -96,8 +96,10 @@ The following parameters/fields have the following character limitations:
 - POA&M Items cannot be saved if Milestone Description (description) exceeds 2,000 characters.
 
 Example:
-
-bundle exec exe/emasser put poams update --systemId [value] --poamId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --reviewStatus [value]
+If running from source code:
+  bundle exec [ruby] exe/emasser put poams update --systemId [value] --poamId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --reviewStatus [value]
+If running from gem:
+  emasser put poams update --systemId [value] --poamId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --reviewStatus [value]
 
 Notes:
 1 - The format for milestones is:

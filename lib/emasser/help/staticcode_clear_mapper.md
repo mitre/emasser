@@ -12,5 +12,7 @@ clearFindings*   Boolean    [Required] To clear an application's findings set it
 *The clearFindings field is an optional field, but required with a value of "True" to clear out all application findings for a single application/version pairing.
   
 Example:
-
-bundle exec exe/emasser post scan_findings clear --systemId [value] --applicationName [value] --version [value] --clearFindings
+If running from source code:
+  bundle exec [ruby] exe/emasser post scan_findings clear --systemId [value] --applicationName [value] --version [value] --clearFindings
+If running from gem:
+  emasser post scan_findings clear --systemId [value] --applicationName [value] --version [value] --clearFindings

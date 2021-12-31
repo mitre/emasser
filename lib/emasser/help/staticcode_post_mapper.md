@@ -17,5 +17,7 @@ count                   Integer    [Optional] Number of instances observed for a
 *rawSeverity: In eMASS, values of "Critical" will appear as "Very High", and values of “Medium” will appear as "Moderate". Any values not listed as options in the list above will map to “Unknown” and appear as blank values.
 
 Example:
-
-bundle exec exe/emasser post scan_findings add --systemId [value] --applicationName [value] --version [value] --codeCheckName [value] --scanDate [value] --cweId [value]
+If running from source code:
+  bundle exec [ruby] exe/emasser post scan_findings add --systemId [value] --applicationName [value] --version [value] --codeCheckName [value] --scanDate [value] --cweId [value]
+If running from gem:
+  emasser post scan_findings add --systemId [value] --applicationName [value] --version [value] --codeCheckName [value] --scanDate [value] --cweId [value]

@@ -53,7 +53,9 @@ Business Rules
 
 
 Example:
-
-bundle exec exe/emasser post artifacts upload --systemId [value] [--isTemplate or --no-isTemplate] --type [value] --category [value] --files[value...value]
+If running from source code:
+  bundle exec [ruby] exe/emasser post artifacts upload --systemId [value] [--isTemplate or --no-isTemplate] --type [value] --category [value] --files[value...value]
+If running from gem:
+  emasser post artifacts upload --systemId [value] [--isTemplate or --no-isTemplate] --type [value] --category [value] --files[value...value]
 
 Note: The example does not list any optional fields

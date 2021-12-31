@@ -16,5 +16,7 @@ comments*         String     [Conditional] Comments related to package approval 
 role of the CAC. Comments cannot exceed 10,000 characters.
 
 Example:
-
-bundle exec exe/emasser post cac add --systemId [value] --controlAcronym [value] --comments [value]
+If running from source code:
+  bundle exec [ruby] exe/emasser post cac add --systemId [value] --controlAcronym [value] --comments [value]
+If running from gem:
+  emasser post cac add --systemId [value] --controlAcronym [value] --comments [value]

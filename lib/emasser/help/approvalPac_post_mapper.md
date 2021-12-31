@@ -16,5 +16,7 @@ totalSteps    Integer    [Read-Only] Total number of steps in Package Approval C
 
 
 Example:
-
-bundle exec exe/emasser post pac add --systemId [value] --workflow [value] --name [value] --comments [value]
+If running from source code:
+  bundle exec [ruby] exe/emasser post pac add --systemId [value] --workflow [value] --name [value] --comments [value]
+If running from gem:
+  emasser post pac add --systemId [value] --workflow [value] --name [value] --comments [value]

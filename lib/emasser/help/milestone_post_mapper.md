@@ -10,5 +10,7 @@ description             String     [Required] Provide a description of the miles
 scheduledCompletionDate Date       [Required] Schedule completion date - Unix date format
 
 Example:
-
-bundle exec exe/emasser put milestones add --systemId [value] --poamId [value] --description [value] --scheduledCompletionDate [value]
+If running from source code:
+  bundle exec [ruby] exe/emasser put milestones add --systemId [value] --poamId [value] --description [value] --scheduledCompletionDate [value]
+If running from gem:
+  emasser put milestones add --systemId [value] --poamId [value] --description [value] --scheduledCompletionDate [value]

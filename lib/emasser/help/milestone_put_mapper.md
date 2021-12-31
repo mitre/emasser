@@ -19,5 +19,7 @@ If a field is misrepresented (wrong value)the following response may be provided
 Response body: {"meta":{"code":500,"errorMessage":"Sorry! Something went wrong on our end. Please contact emass_support@bah.com for assistance."}}
 
 Example:
-
-bundle exec exe/emasser put milestones update --systemId [value] --poamId [value] --milestoneId [value] --description [value] --scheduledCompletionDate [value]
+If running from source code:
+  exe/emasser put milestones update --systemId [value] --poamId [value] --milestoneId [value] --description [value] --scheduledCompletionDate [value]
+If running from gem:
+  emasser put milestones update --systemId [value] --poamId [value] --milestoneId [value] --description [value] --scheduledCompletionDate [value]

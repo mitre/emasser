@@ -30,5 +30,7 @@ The file name provided should match exactly one file within the previously uploa
 
 
 Example:
-
-bundle exec exe/emasser put artifacts update --systemId [value] [--isTemplate or --no-isTemplate] --type [value] --category [value] --files[value...value]
+If running from source code:
+  bundle exec [ruby] exe/emasser put artifacts update --systemId [value] [--isTemplate or --no-isTemplate] --type [value] --category [value] --files[value...value]
+If running from gem:
+  emasser put artifacts update --systemId [value] [--isTemplate or --no-isTemplate] --type [value] --category [value] --files[value...value]
