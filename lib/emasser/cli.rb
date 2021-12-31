@@ -16,6 +16,9 @@ module Emasser
     elsif ARGV[0].to_s.include? 'del'
       require 'emasser/delete'
       register(Emasser::Delete, 'delete', 'delete [RESOURCE]', 'Deletes resources')
+    elsif (ARGV[0].to_s.include? "-v") || (ARGV[0].to_s.include? "-V")
+      puts Emasser::VERSION.green
+      exit      
     end
 
     def self.exit_on_failure?

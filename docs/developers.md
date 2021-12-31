@@ -11,7 +11,7 @@ There are online tool options for viewing and editing OpenAPI compliant RESTfull
 To install the Swagger Editor offline from its repository follow these [instructions](https://github.com/swagger-api/swagger-editor).
 
 ### Generate the API documentation (to view in a web browser-html)
-eMASS API documentation can be found [here](/docs/redoc/index.html)
+eMASS API documentation can be found [here](https://mitre.github.io/emasser/docs/features.html)
 
 To generate the API documentation that can be viewable in a totally dependency-free (and nice looking) HTML use the `redoc-cli` command line tool.
 
@@ -29,16 +29,19 @@ The command above assumes that the generated file is placed in a subfolder relat
 
 ### Setting up Visual Studio Code
 Install these Extensions (Ctrl+Shift+X):
-* YAML ([link](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml))
-* Swagger Viewer ([link](https://marketplace.visualstudio.com/items?itemName=Arjun.swagger-viewer))
-* OpenAPI Swagger Editor ([link](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi))
-* Swagger Snippets ([link](https://marketplace.visualstudio.com/items?itemName=adisreyaj.swagger-snippets), optional)
+* [YAML](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
+* [Swagger Viewer](https://marketplace.visualstudio.com/items?itemName=Arjun.swagger-viewer)
+* [OpenAPI Swagger Editor](https://marketplace.visualstudio.com/items?itemName=42Crunch.vscode-openapi)
+* [Swagger Snippets](https://marketplace.visualstudio.com/items?itemName=adisreyaj.swagger-snippets), optional
 
 Open the eMASS Rest API file by selecting File -> Open Folder and select the folder containing the eMASSRestApi.yaml file. Open the file into the editor and select the "OpenApi: show preview using default render" (Ctrl+K V)
 
 Once the mock server is running, we can utilize the "Try it Out" on each of the API endpoints to test the API documentation with mock data.
 
 ### Using PRISM HTTP mock Server
+The emasser has access to a Prism mock server when using the [eMASS Swagger UI](https://mitre.github.io/emasser/docs/swagger/) and selecting `stopligh.io` from the Servers dropdown selection box.
+
+### Installing and Using Local mock Server
 Install prism (if not installed) via npm:
 ``` npm
 npm install -g @stoplight/prism-cli

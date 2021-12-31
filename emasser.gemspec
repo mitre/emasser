@@ -7,6 +7,7 @@ Gem::Specification.new do |spec|
   spec.version = Emasser::VERSION
   spec.authors = ['Amndeep Singh Mann', 'George Dias', 'Kyle Fagan', 'Robert Clark', 'Aaron Lippold']
   spec.email = ['saf@mitre.org']
+  spec.licenses = ['Nonstandard']
 
   spec.summary = 'Provide an automated capability for invoving eMASS API endpoints'
   spec.description = 'emasser can be used as a gem or used from the command line to access eMASS via thei API.'
@@ -21,20 +22,20 @@ Gem::Specification.new do |spec|
   spec.bindir = 'exe'
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
 
-  spec.add_runtime_dependency 'activesupport'
-  spec.add_runtime_dependency 'colorize'
-  spec.add_runtime_dependency 'dotenv'
-  spec.add_runtime_dependency 'rubyzip'
-  spec.add_runtime_dependency 'swagger_client'
+  spec.add_runtime_dependency 'activesupport', '~> 6.1.4.4'
+  spec.add_runtime_dependency 'colorize', '~> 0.8.1'
+  spec.add_runtime_dependency 'dotenv', '~> 2.7.6'
+  spec.add_runtime_dependency 'rubyzip', '~> 2.3.2'
+  spec.add_runtime_dependency 'swagger_client', '~> 1.0.0'
 
-  spec.add_development_dependency 'bundler', '~> 2.1'
-  spec.add_development_dependency 'bundler-audit', '~> 0.7'
-  spec.add_development_dependency 'byebug'
-  spec.add_development_dependency 'rspec', '~>3.10.0'
-  spec.add_development_dependency 'yaml', '~>0.2.0'
-  spec.add_development_dependency 'rake', '~> 13.0'
-  spec.add_development_dependency 'rubocop', '~> 1.7'
-  spec.add_development_dependency 'rubocop-minitest', '~> 0.10'
-  spec.add_development_dependency 'rubocop-performance', '~> 1.11'
-  spec.add_development_dependency 'rubocop-rake', '~> 0.5'
+  spec.add_development_dependency 'bundler', '~> 2.2.29'
+  spec.add_development_dependency 'bundler-audit', '~> 0.9.0.1'
+  spec.add_development_dependency 'byebug', '~> 11.1.3'
+  spec.add_development_dependency 'rspec', '~> 3.10.0'
+  spec.add_development_dependency 'yaml', '~> 0.2.0'
+  spec.add_development_dependency 'rake', '~> 13.0.6'
+  spec.add_development_dependency 'rubocop', '~> 1.24.0'
+  spec.add_development_dependency 'rubocop-minitest', '~> 0.17.0'
+  spec.add_development_dependency 'rubocop-performance', '~> 1.13.0'
+  spec.add_development_dependency 'rubocop-rake', '~> 0.6.0'
 end
