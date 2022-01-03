@@ -28,7 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'rubyzip', '~> 2.3.2'
   spec.add_runtime_dependency 'swagger_client', '~> 1.0.0'
 
-  spec.add_development_dependency 'bundler', '~> 2.2.29'
+  spec.add_development_dependency 'bundler', '~> 2.3.4'
   spec.add_development_dependency 'bundler-audit', '~> 0.9.0.1'
   spec.add_development_dependency 'byebug', '~> 11.1.3'
   spec.add_development_dependency 'rspec', '~> 3.10.0'
