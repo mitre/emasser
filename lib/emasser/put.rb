@@ -129,7 +129,7 @@ module Emasser
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def update
       # Required fields
-      body = SwaggerClient::ControlsRequestPutBody.new
+      body = EmassClient::ControlsRequestPutBody.new
       body.acronym = options[:acronym]
       body.responsible_entities = options[:responsibleEntities]
       body.control_designation = options[:controlDesignation]
@@ -151,9 +151,9 @@ module Emasser
       body_array = Array.new(1, body)
 
       begin
-        result = SwaggerClient::ControlsApi.new.update_control_by_system_id(body_array, options[:systemId])
+        result = EmassClient::ControlsApi.new.update_control_by_system_id(body_array, options[:systemId])
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling ControlsApi->update_control_by_system_id'.red
         puts to_output_hash(e)
       end
@@ -312,7 +312,7 @@ module Emasser
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def update
       # Required fields
-      body = SwaggerClient::PoamRequiredPut.new
+      body = EmassClient::PoamRequiredPut.new
       body.poam_id = options[:poamId]
       body.status = options[:status]
       body.vulnerability_description = options[:vulnerabilityDescription]
@@ -345,9 +345,9 @@ module Emasser
       body_array = Array.new(1, body)
 
       begin
-        result = SwaggerClient::POAMApi.new.update_poam_by_system_id(body_array, options[:systemId])
+        result = EmassClient::POAMApi.new.update_poam_by_system_id(body_array, options[:systemId])
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling POAMApi->update_poam_by_system_id'.red
         puts to_output_hash(e)
       end
@@ -389,7 +389,7 @@ module Emasser
           else
             body.scheduled_completion_date = options[:scheduledCompletionDate]
 
-            milestone = SwaggerClient::MilestonesRequiredPut.new
+            milestone = EmassClient::MilestonesRequiredPut.new
             milestone.milestone_id = options[:milestone]["milestoneId"] if options[:milestone]["milestoneId"]
             milestone.description = options[:milestone]["description"]
             milestone.scheduled_completion_date = options[:milestone]["scheduledCompletionDate"]
@@ -409,7 +409,7 @@ module Emasser
             body.comments = options[:comments]
             body.completion_date = options[:completionDate]
 
-            milestone = SwaggerClient::MilestonesRequiredPut.new
+            milestone = EmassClient::MilestonesRequiredPut.new
             milestone.milestone_id = options[:milestone]["milestoneId"] if options[:milestone]["milestoneId"]
             milestone.description = options[:milestone]["description"]
             milestone.scheduled_completion_date = options[:milestone]["scheduledCompletionDate"]
@@ -482,7 +482,7 @@ module Emasser
            type: :numeric, required: false, desc: 'The scheduled completion date - Unix time format'
 
     def update
-      body = SwaggerClient::MilestonesRequestPutBody.new
+      body = EmassClient::MilestonesRequestPutBody.new
       body.milestone_id = options[:milestoneId]
       body.description = options[:description]
       body.scheduled_completion_date = options[:scheduledCompletionDate]
@@ -490,11 +490,11 @@ module Emasser
 
       begin
         # Get milestones in one or many poa&m items in a system
-        result = SwaggerClient::POAMApi
+        result = EmassClient::POAMApi
                  .new
                  .update_milestone_by_system_id_and_poam_id(body_array, options[:systemId], options[:poamId])
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling POAMApi->update_milestone_by_system_id_and_poam_id'.red
         puts to_output_hash(e)
       end
@@ -539,7 +539,7 @@ module Emasser
 
     # rubocop:disable Metrics/CyclomaticComplexity
     def update
-      body = SwaggerClient::ArtifactsRequestPutBody.new
+      body = EmassClient::ArtifactsRequestPutBody.new
       body.filename = options[:filename]
       body.type = options[:type]
       body.category = options[:category]
@@ -555,9 +555,9 @@ module Emasser
       body_array = Array.new(1, body)
 
       begin
-        result = SwaggerClient::ArtifactsApi.new.update_artifact_by_system_id(body_array, options[:systemId])
+        result = EmassClient::ArtifactsApi.new.update_artifact_by_system_id(body_array, options[:systemId])
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling ArtifactsApi->update_artifact_by_system_id'.red
         puts to_output_hash(e)
       end

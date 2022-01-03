@@ -1,4 +1,4 @@
-# SwaggerClient::CmmcResponseGet
+# EmassClient::CmmcResponseGet
 
 ## Properties
 Name | Type | Description | Notes

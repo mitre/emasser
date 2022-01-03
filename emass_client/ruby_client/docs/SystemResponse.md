@@ -1,4 +1,4 @@
-# SwaggerClient::SystemResponse
+# EmassClient::SystemResponse
 
 ## Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# SwaggerClient::MilestonesRequiredPost
+# EmassClient::MilestonesRequiredPost
 
 ## Properties
 Name | Type | Description | Notes

@@ -15,7 +15,7 @@ module Emasser
     # rubocop: enable Style/RaiseArgs
 
     # rubocop: disable Style/TernaryParentheses, Style/IfWithBooleanLiteralBranches
-    SwaggerClient.configure do |config|
+    EmassClient.configure do |config|
       config.api_key['api-key'] = raise_unless_present('EMASSER_API_KEY_API_KEY')
       config.api_key['user-uid'] = raise_unless_present('EMASSER_API_KEY_USER_UID')
       config.scheme = 'https'

@@ -1,4 +1,4 @@
-# SwaggerClient::TestResultsResponseGet
+# EmassClient::TestResultsResponseGet
 
 ## Properties
 Name | Type | Description | Notes

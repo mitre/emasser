@@ -1,4 +1,4 @@
-# SwaggerClient::RegisterData
+# EmassClient::RegisterData
 
 ## Properties
 Name | Type | Description | Notes

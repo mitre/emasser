@@ -1,4 +1,4 @@
-# SwaggerClient::PoamRequiredPut
+# EmassClient::PoamRequiredPut
 
 ## Properties
 Name | Type | Description | Notes

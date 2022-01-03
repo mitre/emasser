@@ -17,10 +17,6 @@ describe 'emasser cli' do
   # rubocop:disable Style/StringConcatenation, Style/CommandLiteral, Style/PercentLiteralDelimiters
   let(:file) { File.expand_path('../emass_client', __dir__)+'/eMASSRestOpenApi.yaml' }
 
-  it 'version should be equal to 1.0.0' do
-    expect(Emasser::VERSION).to eq('1.0.0')
-  end
-
   it 'should have the eMASS API yaml definition file' do
     yaml_object = JSON.generate(YAML.load_file(file))
     # puts "definition is: #{yaml_object.length}"

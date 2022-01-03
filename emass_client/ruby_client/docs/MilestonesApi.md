@@ -1,4 +1,4 @@
-# SwaggerClient::MilestonesApi
+# EmassClient::MilestonesApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -20,9 +20,9 @@ Adds a milestone for given `systemId` and `poamId` path parameters  **Request Bo
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -39,8 +39,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::MilestonesApi.new
-body = SwaggerClient::MilestonesRequestPostBody.new # MilestonesRequestPostBody | Update an existing milestone
+api_instance = EmassClient::MilestonesApi.new
+body = EmassClient::MilestonesRequestPostBody.new # MilestonesRequestPostBody | Update an existing milestone
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 poam_id = 56 # Integer | **POA&M Id**: The unique POA&M record identifier.
 
@@ -49,7 +49,7 @@ begin
   #Add milestones to one or many POA&M items in a system
   result = api_instance.add_milestone_by_system_id_and_poam_id(bodysystem_idpoam_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling MilestonesApi->add_milestone_by_system_id_and_poam_id: #{e}"
 end
 ```
@@ -87,9 +87,9 @@ Remove the POA&M matching `systemId` path parameter<br> **Notes**<br> To delete 
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -106,8 +106,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::MilestonesApi.new
-body = SwaggerClient::DeleteMilestone.new # DeleteMilestone | Delete the given Milestone Id
+api_instance = EmassClient::MilestonesApi.new
+body = EmassClient::DeleteMilestone.new # DeleteMilestone | Delete the given Milestone Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 poam_id = 56 # Integer | **POA&M Id**: The unique POA&M record identifier.
 
@@ -116,7 +116,7 @@ begin
   #Remove milestones in a system for one or many POA&M items
   result = api_instance.delete_milestone(bodysystem_idpoam_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling MilestonesApi->delete_milestone: #{e}"
 end
 ```
@@ -154,9 +154,9 @@ Returns system containing milestones for matching parameters.
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -173,7 +173,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::MilestonesApi.new
+api_instance = EmassClient::MilestonesApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 poam_id = 56 # Integer | **POA&M Id**: The unique POA&M record identifier.
 opts = { 
@@ -185,7 +185,7 @@ begin
   #Get milestones in one or many POA&M items in a system
   result = api_instance.get_system_milestones_by_poam_id(system_id, poam_id, opts)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling MilestonesApi->get_system_milestones_by_poam_id: #{e}"
 end
 ```
@@ -224,9 +224,9 @@ Returns systems containing milestones for matching parameters.
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -243,7 +243,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::MilestonesApi.new
+api_instance = EmassClient::MilestonesApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 poam_id = 56 # Integer | **POA&M Id**: The unique POA&M record identifier.
 milestone_id = 56 # Integer | **Milestone Id**: The unique milestone record identifier.
@@ -253,7 +253,7 @@ begin
   #Get milestone by ID in POA&M item in a system
   result = api_instance.get_system_milestones_by_poam_id_and_milestone_id(system_id, poam_id, milestone_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling MilestonesApi->get_system_milestones_by_poam_id_and_milestone_id: #{e}"
 end
 ```
@@ -291,9 +291,9 @@ Updates a milestone for given `systemId` and `poamId` path parameters  **Request
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -310,8 +310,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::MilestonesApi.new
-body = SwaggerClient::MilestonesRequestPutBody.new # MilestonesRequestPutBody | Update an existing control by Id
+api_instance = EmassClient::MilestonesApi.new
+body = EmassClient::MilestonesRequestPutBody.new # MilestonesRequestPutBody | Update an existing control by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 poam_id = 56 # Integer | **POA&M Id**: The unique POA&M record identifier.
 
@@ -320,7 +320,7 @@ begin
   #Update one or many POA&M items in a system
   result = api_instance.update_milestone_by_system_id_and_poam_id(bodysystem_idpoam_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling MilestonesApi->update_milestone_by_system_id_and_poam_id: #{e}"
 end
 ```

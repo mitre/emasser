@@ -40,9 +40,9 @@ module Emasser
     desc 'connection', 'Test connection to the API'
 
     def connection
-      result = SwaggerClient::TestApi.new.test_connection
+      result = EmassClient::TestApi.new.test_connection
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling TestApi->test_connection'.red
       puts to_output_hash(e)
     end
@@ -73,10 +73,10 @@ module Emasser
       end
 
       begin
-        results = SwaggerClient::SystemsApi.new.get_systems.data
+        results = EmassClient::SystemsApi.new.get_systems.data
         results = filter_systems(results, options[:system_name], options[:system_owner])
         results.each { |result| puts "#{result[:systemId]} - #{result[:systemOwner]} - #{result[:name]}" }
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling SystemsApi->get_systems'
         puts to_output_hash(e)
       end
@@ -107,9 +107,9 @@ module Emasser
 
       begin
         # Get system information matching provided parameters
-        result = SwaggerClient::SystemsApi.new.get_system(options[:systemId], optional_options)
+        result = EmassClient::SystemsApi.new.get_system(options[:systemId], optional_options)
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling SystemsApi->get_systems'.red
         puts to_output_hash(e)
       end
@@ -144,9 +144,9 @@ module Emasser
 
       begin
         # Get system information matching provided parameters
-        result = SwaggerClient::SystemsApi.new.get_systems(optional_options)
+        result = EmassClient::SystemsApi.new.get_systems(optional_options)
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling SystemsApi->get_systems'.red
         puts to_output_hash(e)
       end
@@ -170,9 +170,9 @@ module Emasser
     desc 'all', 'Retrieves all available system roles'
 
     def all
-      result = SwaggerClient::SystemRolesApi.new.get_system_roles
+      result = EmassClient::SystemRolesApi.new.get_system_roles
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling SystemRolesApi->get_system_roles'.red
       puts to_output_hash(e)
     end
@@ -192,10 +192,10 @@ module Emasser
       optional_options = to_input_hash(optional_options_keys, options)
 
       begin
-        result = SwaggerClient::SystemRolesApi.new.get_system_roles_by_category_id(options[:roleCategory],
-                                                                                   options[:role], optional_options)
+        result = EmassClient::SystemRolesApi.new.get_system_roles_by_category_id(options[:roleCategory],
+                                                                                 options[:role], optional_options)
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling SystemRolesApi->get_system_by_role_category_id'.red
         puts to_output_hash(e)
       end
@@ -226,9 +226,9 @@ module Emasser
       optional_options = to_input_hash(optional_options_keys, options)
 
       begin
-        result = SwaggerClient::ControlsApi.new.get_system_controls(options[:systemId], optional_options)
+        result = EmassClient::ControlsApi.new.get_system_controls(options[:systemId], optional_options)
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling ControlsApi->get_system_controls'.red
         puts to_output_hash(e)
       end
@@ -259,9 +259,9 @@ module Emasser
       optional_options = to_input_hash(optional_options_keys, options)
 
       begin
-        result = SwaggerClient::TestResultsApi.new.get_system_test_results(options[:systemId], optional_options)
+        result = EmassClient::TestResultsApi.new.get_system_test_results(options[:systemId], optional_options)
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling TestResultsApi->get_system_test_results'.red
         puts to_output_hash(e)
       end
@@ -298,9 +298,9 @@ module Emasser
       optional_options = to_input_hash(optional_options_keys, options)
 
       begin
-        result = SwaggerClient::POAMApi.new.get_system_poams(options[:systemId], optional_options)
+        result = EmassClient::POAMApi.new.get_system_poams(options[:systemId], optional_options)
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling POAMApi->get_system_poams'.red
         puts to_output_hash(e)
       end
@@ -315,9 +315,9 @@ module Emasser
                       desc: 'A numeric value representing the poam identification'
 
     def byPoamId
-      result = SwaggerClient::POAMApi.new.get_system_poams_by_poam_id(options[:systemId], options[:poamId])
+      result = EmassClient::POAMApi.new.get_system_poams_by_poam_id(options[:systemId], options[:poamId])
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling POAMApi->get_system_poams_by_poam_id'.red
       puts to_output_hash(e)
     end
@@ -351,10 +351,10 @@ module Emasser
 
       begin
         # Get milestones in one or many poa&m items in a system
-        result = SwaggerClient::MilestonesApi.new.get_system_milestones_by_poam_id(options[:systemId],
-                                                                                   options[:poamId], optional_options)
+        result = EmassClient::MilestonesApi.new.get_system_milestones_by_poam_id(options[:systemId],
+                                                                                 options[:poamId], optional_options)
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling MilestonesApi->get_system_milestones_by_poam_id'.red
         puts to_output_hash(e)
       end
@@ -371,11 +371,11 @@ module Emasser
                          desc: 'A numeric value representing the milestone identification'
 
     def byMilestoneId
-      result = SwaggerClient::MilestonesApi.new.get_system_milestones_by_poam_id_and_milestone_id(
+      result = EmassClient::MilestonesApi.new.get_system_milestones_by_poam_id_and_milestone_id(
         options[:systemId], options[:poamId], options[:milestoneId]
       )
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling MilestonesApi->get_system_milestones_by_poam_id_and_milestone_id'.red
       puts to_output_hash(e)
     end
@@ -409,10 +409,10 @@ module Emasser
 
       begin
         # Get one or many artifacts in a system
-        result = SwaggerClient::ArtifactsApi.new.get_system_artifacts(options[:systemId],
-                                                                      optional_options)
+        result = EmassClient::ArtifactsApi.new.get_system_artifacts(options[:systemId],
+                                                                    optional_options)
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling ArtifactsApi->get_system_artifacts'.red
         puts to_output_hash(e)
       end
@@ -433,7 +433,7 @@ module Emasser
       optional_options = to_input_hash(optional_options_keys, options)
       optional_options.merge!(Emasser::GET_ARTIFACTS_RETURN_TYPE)
 
-      result = SwaggerClient::ArtifactsExportApi.new.get_system_artifacts_export(
+      result = EmassClient::ArtifactsExportApi.new.get_system_artifacts_export(
         options[:systemId], options[:filename], optional_options
       )
       if options[:compress]
@@ -445,7 +445,7 @@ module Emasser
           puts result.red
         end
       end
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling ArtifactsApi->get_system_artifacts_export'.red
       puts to_output_hash(e)
     end
@@ -479,9 +479,9 @@ module Emasser
 
       begin
         # Get location of one or many controls in CAC
-        result = SwaggerClient::CACApi.new.get_system_cac(options[:systemId], optional_options)
+        result = EmassClient::CACApi.new.get_system_cac(options[:systemId], optional_options)
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling ApprovalChainApi->get_system_cac'.red
         puts to_output_hash(e)
       end
@@ -510,9 +510,9 @@ module Emasser
 
     def package
       # Get location of system package in PAC
-      result = SwaggerClient::PACApi.new.get_system_pac(options[:systemId])
+      result = EmassClient::PACApi.new.get_system_pac(options[:systemId])
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_system_'.red
       puts to_output_hash(e)
     end
@@ -535,9 +535,9 @@ module Emasser
     option :sinceDate, type: :string, required: true, desc: 'The CMMC date. Unix date format'
 
     def assessments
-      result = SwaggerClient::CMMCAssessmentsApi.new.get_cmmc_assessments(options[:sinceDate])
+      result = EmassClient::CMMCAssessmentsApi.new.get_cmmc_assessments(options[:sinceDate])
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_cmmc_assessments'.red
       puts to_output_hash(e)
     end
@@ -565,9 +565,9 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = SwaggerClient::WorkflowDefinitionsApi.new.get_workflow_definitions(optional_options)
+      result = EmassClient::WorkflowDefinitionsApi.new.get_workflow_definitions(optional_options)
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_workflow_definitions'.red
       puts to_output_hash(e)
     end
@@ -599,11 +599,11 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = SwaggerClient::WorkflowInstancesApi.new.get_system_workflow_instances(
+      result = EmassClient::WorkflowInstancesApi.new.get_system_workflow_instances(
         options[:systemId], optional_options
       )
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_system_workflow_instances'.red
       puts to_output_hash(e)
     end
@@ -618,11 +618,11 @@ module Emasser
                                 desc: 'A numeric value representing the workflowInstance identification'
 
     def byWorkflowInstanceId
-      result = SwaggerClient::WorkflowInstancesApi.new.get_system_workflow_instances_by_workflow_instance_id(
+      result = EmassClient::WorkflowInstancesApi.new.get_system_workflow_instances_by_workflow_instance_id(
         options[:systemId], options[:workflowInstanceId]
       )
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_system_workflow_instances_by_workflow_instance_id'.red
       puts to_output_hash(e)
     end

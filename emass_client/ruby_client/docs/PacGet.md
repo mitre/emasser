@@ -1,4 +1,4 @@
-# SwaggerClient::PacGet
+# EmassClient::PacGet
 
 ## Properties
 Name | Type | Description | Notes

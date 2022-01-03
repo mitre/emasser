@@ -1,4 +1,4 @@
-# SwaggerClient::ArtifactsResponseGet
+# EmassClient::ArtifactsResponseGet
 
 ## Properties
 Name | Type | Description | Notes

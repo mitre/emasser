@@ -55,13 +55,13 @@ module Emasser
     option :poamId,   type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
 
     def remove
-      body = SwaggerClient::DeletePoam.new
+      body = EmassClient::DeletePoam.new
       body.poam_id = options[:poamId]
       body_array = Array.new(1, body)
 
-      result = SwaggerClient::POAMApi.new.delete_poam(body_array, options[:systemId])
+      result = EmassClient::POAMApi.new.delete_poam(body_array, options[:systemId])
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling POAMApi->delete_poam'.red
       puts to_output_hash(e)
     end
@@ -88,14 +88,14 @@ module Emasser
                          desc: 'A numeric value representing the milestone identification'
 
     def remove
-      body = SwaggerClient::DeleteMilestone.new
+      body = EmassClient::DeleteMilestone.new
       body.milestone_id = options[:milestoneId]
       body_array = Array.new(1, body)
 
-      result = SwaggerClient::MilestonesApi.new.delete_milestone(body_array, options[:systemId], options[:poamId])
+      result = EmassClient::MilestonesApi.new.delete_milestone(body_array, options[:systemId], options[:poamId])
       # The server returns an empty object upon successfully deleting a milestone.
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling MilestonesApi->delete_milestone'.red
       puts to_output_hash(e)
     end
@@ -125,9 +125,9 @@ module Emasser
         body_array << obj
       end
 
-      result = SwaggerClient::ArtifactsApi.new.delete_artifact(body_array, options[:systemId])
+      result = EmassClient::ArtifactsApi.new.delete_artifact(body_array, options[:systemId])
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling ArtifactsApi->delete_artifact'.red
       puts to_output_hash(e)
     end

@@ -1,4 +1,4 @@
-# SwaggerClient::SystemsApi
+# EmassClient::SystemsApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -17,9 +17,9 @@ Returns the system matching provided parameters
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -36,7 +36,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::SystemsApi.new
+api_instance = EmassClient::SystemsApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
   include_package: true, # BOOLEAN | **Include Package**:  Indicates if additional packages information is retrieved for queried system.
@@ -47,7 +47,7 @@ begin
   #Get system information for a specific system
   result = api_instance.get_system(system_id, opts)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling SystemsApi->get_system: #{e}"
 end
 ```
@@ -85,9 +85,9 @@ Returns all system(s) that match the query parameters
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -104,7 +104,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::SystemsApi.new
+api_instance = EmassClient::SystemsApi.new
 opts = { 
   include_package: true, # BOOLEAN | **Include Package**:  Indicates if additional packages information is retrieved for queried system.
   registration_type: 'regular', # String | **Registration Type**: Filter record by selected registration type (single value or comma delimited values).  *Available values:* assessAndAuthorize, assessOnly, guest, regular, functional, cloudServiceProvider, commonControlProvider  
@@ -120,7 +120,7 @@ begin
   #Get system information
   result = api_instance.get_systems(opts)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling SystemsApi->get_systems: #{e}"
 end
 ```

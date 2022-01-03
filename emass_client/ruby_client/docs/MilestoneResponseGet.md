@@ -1,4 +1,4 @@
-# SwaggerClient::MilestoneResponseGet
+# EmassClient::MilestoneResponseGet
 
 ## Properties
 Name | Type | Description | Notes

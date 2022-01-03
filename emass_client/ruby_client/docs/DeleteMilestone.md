@@ -1,4 +1,4 @@
-# SwaggerClient::DeleteMilestone
+# EmassClient::DeleteMilestone
 
 ## Properties
 Name | Type | Description | Notes

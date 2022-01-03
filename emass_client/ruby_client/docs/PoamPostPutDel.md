@@ -1,4 +1,4 @@
-# SwaggerClient::PoamPostPutDel
+# EmassClient::PoamPostPutDel
 
 ## Properties
 Name | Type | Description | Notes

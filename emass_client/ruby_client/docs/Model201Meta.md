@@ -1,4 +1,4 @@
-# SwaggerClient::Model201Meta
+# EmassClient::Model201Meta
 
 ## Properties
 Name | Type | Description | Notes

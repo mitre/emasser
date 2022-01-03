@@ -1,4 +1,4 @@
-# SwaggerClient::CACApi
+# EmassClient::CACApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -17,9 +17,9 @@ Adds a Control Approval Chain (CAC) for given `systemId` path parameter<br><br> 
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -36,8 +36,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::CACApi.new
-body = SwaggerClient::CacRequestPostBody.new # CacRequestPostBody | Update an existing Artifact by Id
+api_instance = EmassClient::CACApi.new
+body = EmassClient::CacRequestPostBody.new # CacRequestPostBody | Update an existing Artifact by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -45,7 +45,7 @@ begin
   #Submit control to second role of CAC
   result = api_instance.add_system_cac(bodysystem_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling CACApi->add_system_cac: #{e}"
 end
 ```
@@ -82,9 +82,9 @@ Returns the location of a system's package in the Control Approval Chain (CAC) f
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -101,7 +101,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::CACApi.new
+api_instance = EmassClient::CACApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
   control_acronyms: 'control_acronyms_example' # String | **System Acronym**: Filter query by given system acronym (single or comma separated).
@@ -111,7 +111,7 @@ begin
   #Get location of one or many controls in CAC
   result = api_instance.get_system_cac(system_id, opts)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling CACApi->get_system_cac: #{e}"
 end
 ```

@@ -1,4 +1,4 @@
-# SwaggerClient::PACApi
+# EmassClient::PACApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -17,9 +17,9 @@ Adds a Package Approval Chain (PAC) for given `systemId` path parameter
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -36,8 +36,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::PACApi.new
-body = SwaggerClient::PacRequestPostBody.new # PacRequestPostBody | Update an existing Artifact by Id
+api_instance = EmassClient::PACApi.new
+body = EmassClient::PacRequestPostBody.new # PacRequestPostBody | Update an existing Artifact by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -45,7 +45,7 @@ begin
   #Submit system package for review
   result = api_instance.add_system_pac(bodysystem_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling PACApi->add_system_pac: #{e}"
 end
 ```
@@ -82,9 +82,9 @@ Returns the location of a system's package in the Package Approval Chain (PAC) f
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -101,7 +101,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::PACApi.new
+api_instance = EmassClient::PACApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -109,7 +109,7 @@ begin
   #Get location of system package in PAC
   result = api_instance.get_system_pac(system_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling PACApi->get_system_pac: #{e}"
 end
 ```

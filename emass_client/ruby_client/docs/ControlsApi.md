@@ -1,4 +1,4 @@
-# SwaggerClient::ControlsApi
+# EmassClient::ControlsApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -17,9 +17,9 @@ Returns system control information for matching `systemId` path parameter
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -36,7 +36,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::ControlsApi.new
+api_instance = EmassClient::ControlsApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
   acronyms: 'PM-6' # String | **Acronym**: The system acronym(s) being queried (single value or comma delimited values).
@@ -46,7 +46,7 @@ begin
   #Get control information in a system for one or many controls
   result = api_instance.get_system_controls(system_id, opts)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling ControlsApi->get_system_controls: #{e}"
 end
 ```
@@ -83,9 +83,9 @@ Update control information in a system for one or many controls
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -102,8 +102,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::ControlsApi.new
-body = SwaggerClient::ControlsRequestPutBody.new # ControlsRequestPutBody | Update an existing control by Id
+api_instance = EmassClient::ControlsApi.new
+body = EmassClient::ControlsRequestPutBody.new # ControlsRequestPutBody | Update an existing control by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -111,7 +111,7 @@ begin
   #Update control information in a system for one or many controls
   result = api_instance.update_control_by_system_id(bodysystem_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling ControlsApi->update_control_by_system_id: #{e}"
 end
 ```

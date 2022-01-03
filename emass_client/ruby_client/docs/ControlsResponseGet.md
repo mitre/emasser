@@ -1,4 +1,4 @@
-# SwaggerClient::ControlsResponseGet
+# EmassClient::ControlsResponseGet
 
 ## Properties
 Name | Type | Description | Notes

@@ -1,5 +1,4 @@
 # require 'dotenv/load'
-# require 'swagger_client'
 require 'thor'
 require 'emasser/errors'
 require 'emasser/output_converters'

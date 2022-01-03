@@ -1,4 +1,4 @@
-# SwaggerClient::WorkflowInstancesApi
+# EmassClient::WorkflowInstancesApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -17,9 +17,9 @@ View detailed information on all active and historical workflows for a system `s
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -36,7 +36,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::WorkflowInstancesApi.new
+api_instance = EmassClient::WorkflowInstancesApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
   include_comments: true, # BOOLEAN | **Include Comments**: If no value is specified, the default returns true to not include transition comments.  Note: Corresponds to the Comments textbox that is required at most workflow transitions. Does not include other text input fields such as Terms / Conditions for Authorization. 
@@ -49,7 +49,7 @@ begin
   #Get workflow instances in a system
   result = api_instance.get_system_workflow_instances(system_id, opts)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling WorkflowInstancesApi->get_system_workflow_instances: #{e}"
 end
 ```
@@ -89,9 +89,9 @@ View detailed information on all active and historical workflows for a system `s
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -108,7 +108,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::WorkflowInstancesApi.new
+api_instance = EmassClient::WorkflowInstancesApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 workflow_instance_id = 56 # Integer | **Workflow Instance Id**: The unique milestone record identifier.
 
@@ -117,7 +117,7 @@ begin
   #Get workflow instance by ID in a system
   result = api_instance.get_system_workflow_instances_by_workflow_instance_id(system_id, workflow_instance_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling WorkflowInstancesApi->get_system_workflow_instances_by_workflow_instance_id: #{e}"
 end
 ```

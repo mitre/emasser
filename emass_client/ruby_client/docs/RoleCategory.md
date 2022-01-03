@@ -1,4 +1,4 @@
-# SwaggerClient::RoleCategory
+# EmassClient::RoleCategory
 
 ## Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# SwaggerClient::POAMApi
+# EmassClient::POAMApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -20,9 +20,9 @@ Add a POA&M for given `systemId`<br>  **Request Body Required Fields** - `status
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -39,8 +39,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::POAMApi.new
-body = SwaggerClient::PoamRequiredPost.new # PoamRequiredPost | Update an existing control by Id
+api_instance = EmassClient::POAMApi.new
+body = EmassClient::PoamRequiredPost.new # PoamRequiredPost | Update an existing control by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -48,7 +48,7 @@ begin
   #Add one or many POA&M items in a system
   result = api_instance.add_poam_by_system_id(bodysystem_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling POAMApi->add_poam_by_system_id: #{e}"
 end
 ```
@@ -85,9 +85,9 @@ Remove the POA&M matching `systemId` path parameter and `poamId` query parameter
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -104,8 +104,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::POAMApi.new
-body = SwaggerClient::DeletePoam.new # DeletePoam | Delete the given POA&M Id
+api_instance = EmassClient::POAMApi.new
+body = EmassClient::DeletePoam.new # DeletePoam | Delete the given POA&M Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -113,7 +113,7 @@ begin
   #Remove one or many POA&M items in a system
   result = api_instance.delete_poam(bodysystem_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling POAMApi->delete_poam: #{e}"
 end
 ```
@@ -150,9 +150,9 @@ Returns system(s) containing POA&M items for matching parameters.
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -169,7 +169,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::POAMApi.new
+api_instance = EmassClient::POAMApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
   scheduled_completion_date_start: 'scheduled_completion_date_start_example', # String | **Date Started**: Filter query by the scheduled completion start date (Unix date format).
@@ -183,7 +183,7 @@ begin
   #Get one or many POA&M items in a system
   result = api_instance.get_system_poams(system_id, opts)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling POAMApi->get_system_poams: #{e}"
 end
 ```
@@ -224,9 +224,9 @@ Returns system(s) containing POA&M items for matching parameters.
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -243,7 +243,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::POAMApi.new
+api_instance = EmassClient::POAMApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 poam_id = 56 # Integer | **POA&M Id**: The unique POA&M record identifier.
 
@@ -252,7 +252,7 @@ begin
   #Get POA&M item by ID in a system
   result = api_instance.get_system_poams_by_poam_id(system_id, poam_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling POAMApi->get_system_poams_by_poam_id: #{e}"
 end
 ```
@@ -289,9 +289,9 @@ Update a POA&M for given `systemId`<br>  **Request Body Required Fields** - `poa
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -308,8 +308,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::POAMApi.new
-body = SwaggerClient::PoamRequiredPut.new # PoamRequiredPut | Update an existing control by Id
+api_instance = EmassClient::POAMApi.new
+body = EmassClient::PoamRequiredPut.new # PoamRequiredPut | Update an existing control by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -317,7 +317,7 @@ begin
   #Update one or many POA&M items in a system
   result = api_instance.update_poam_by_system_id(bodysystem_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling POAMApi->update_poam_by_system_id: #{e}"
 end
 ```

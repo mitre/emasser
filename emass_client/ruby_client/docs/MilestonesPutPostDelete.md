@@ -1,4 +1,4 @@
-# SwaggerClient::MilestonesPutPostDelete
+# EmassClient::MilestonesPutPostDelete
 
 ## Properties
 Name | Type | Description | Notes

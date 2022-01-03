@@ -1,4 +1,4 @@
-# SwaggerClient::ArtifactsDeleteInner
+# EmassClient::ArtifactsDeleteInner
 
 ## Properties
 Name | Type | Description | Notes

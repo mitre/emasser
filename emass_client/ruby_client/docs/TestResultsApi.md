@@ -1,4 +1,4 @@
-# SwaggerClient::TestResultsApi
+# EmassClient::TestResultsApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -17,9 +17,9 @@ Adds test results for given `systemId`  **Request Body Required Fields** - `cci`
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -36,8 +36,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::TestResultsApi.new
-body = SwaggerClient::TestResultsRequestPostBody.new # TestResultsRequestPostBody | Update an existing control by Id
+api_instance = EmassClient::TestResultsApi.new
+body = EmassClient::TestResultsRequestPostBody.new # TestResultsRequestPostBody | Update an existing control by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -45,7 +45,7 @@ begin
   #Add one or many test results in a system
   result = api_instance.add_test_results_by_system_id(bodysystem_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling TestResultsApi->add_test_results_by_system_id: #{e}"
 end
 ```
@@ -82,9 +82,9 @@ Returns system test results information for matching parameters.<br>
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -101,7 +101,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::TestResultsApi.new
+api_instance = EmassClient::TestResultsApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
   control_acronyms: 'control_acronyms_example', # String | **System Acronym**: Filter query by given system acronym (single or comma separated).
@@ -113,7 +113,7 @@ begin
   #Get one or many test results in a system
   result = api_instance.get_system_test_results(system_id, opts)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling TestResultsApi->get_system_test_results: #{e}"
 end
 ```

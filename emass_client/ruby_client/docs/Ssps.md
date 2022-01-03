@@ -1,4 +1,4 @@
-# SwaggerClient::Ssps
+# EmassClient::Ssps
 
 ## Properties
 Name | Type | Description | Notes

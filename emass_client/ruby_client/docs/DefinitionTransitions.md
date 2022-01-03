@@ -1,4 +1,4 @@
-# SwaggerClient::DefinitionTransitions
+# EmassClient::DefinitionTransitions
 
 ## Properties
 Name | Type | Description | Notes

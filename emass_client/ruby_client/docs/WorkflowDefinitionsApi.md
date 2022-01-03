@@ -1,4 +1,4 @@
-# SwaggerClient::WorkflowDefinitionsApi
+# EmassClient::WorkflowDefinitionsApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -16,9 +16,9 @@ View all workflow schemas available on the eMASS instance filtered by  status `i
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -35,7 +35,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::WorkflowDefinitionsApi.new
+api_instance = EmassClient::WorkflowDefinitionsApi.new
 opts = { 
   include_inactive: true, # BOOLEAN | **Include Inactive**: If no value is specified, the default returns false to not include outdated workflow definitions.
   registration_type: 'regular' # String | **Registration Type**: Filter record by selected registration type (single value or comma delimited values).  *Available values:* assessAndAuthorize, assessOnly, guest, regular, functional, cloudServiceProvider, commonControlProvider  
@@ -45,7 +45,7 @@ begin
   #Get workflow definitions in a site
   result = api_instance.get_workflow_definitions(opts)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling WorkflowDefinitionsApi->get_workflow_definitions: #{e}"
 end
 ```

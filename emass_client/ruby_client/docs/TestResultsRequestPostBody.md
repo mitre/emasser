@@ -1,4 +1,4 @@
-# SwaggerClient::TestResultsRequestPostBody
+# EmassClient::TestResultsRequestPostBody
 
 ## Properties
 Name | Type | Description | Notes

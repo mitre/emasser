@@ -1,4 +1,4 @@
-# SwaggerClient::Users
+# EmassClient::Users
 
 ## Properties
 Name | Type | Description | Notes
