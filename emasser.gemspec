@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.summary = 'Provide an automated capability for invoving eMASS API endpoints'
   spec.description = 'emasser can be used as a gem or used from the command line to access eMASS via thei API.'
   spec.homepage = 'https://saf.mitre.org'
-  spec.required_ruby_version = Gem::Requirement.new('~> 2.5')
+  spec.required_ruby_version = Gem::Requirement.new('~> 2.7')
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.

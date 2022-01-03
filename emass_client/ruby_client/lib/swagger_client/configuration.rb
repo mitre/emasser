@@ -116,8 +116,8 @@ module SwaggerClient
     ### TLS/SSL setting
     # Client private key passphrase (for client certificate)
     attr_accessor :key_password
-    
-	# Set this to customize parameters encoding of array parameter with multi collectionFormat.
+
+    # Set this to customize parameters encoding of array parameter with multi collectionFormat.
     # Default to nil.
     #
     # @see The params_encoding option of Ethon. Related source code:
@@ -141,7 +141,7 @@ module SwaggerClient
       @params_encoding = nil
       @cert_file = nil
       @key_file = nil
-      @key_password = nil
+      @key_password = nil	  
       @debugging = false
       @inject_format = false
       @force_ending_format = false
