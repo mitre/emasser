@@ -1,4 +1,4 @@
-# SwaggerClient::StaticCodeApplication
+# EmassClient::StaticCodeApplication
 
 ## Properties
 Name | Type | Description | Notes

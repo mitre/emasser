@@ -1,4 +1,4 @@
-# SwaggerClient::InstancesTransitions
+# EmassClient::InstancesTransitions
 
 ## Properties
 Name | Type | Description | Notes

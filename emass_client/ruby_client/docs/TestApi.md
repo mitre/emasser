@@ -1,4 +1,4 @@
-# SwaggerClient::TestApi
+# EmassClient::TestApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -16,9 +16,9 @@ Returns endpoint call status
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -35,13 +35,13 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::TestApi.new
+api_instance = EmassClient::TestApi.new
 
 begin
   #Test connection to the API
   result = api_instance.test_connection
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling TestApi->test_connection: #{e}"
 end
 ```

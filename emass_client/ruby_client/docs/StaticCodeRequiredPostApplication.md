@@ -1,4 +1,4 @@
-# SwaggerClient::StaticCodeRequiredPostApplication
+# EmassClient::StaticCodeRequiredPostApplication
 
 ## Properties
 Name | Type | Description | Notes

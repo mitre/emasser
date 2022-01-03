@@ -1,4 +1,4 @@
-# SwaggerClient::SystemIdArtifactsBody
+# EmassClient::SystemIdArtifactsBody
 
 ## Properties
 Name | Type | Description | Notes

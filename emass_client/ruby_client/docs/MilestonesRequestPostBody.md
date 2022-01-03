@@ -1,4 +1,4 @@
-# SwaggerClient::MilestonesRequestPostBody
+# EmassClient::MilestonesRequestPostBody
 
 ## Properties
 Name | Type | Description | Notes

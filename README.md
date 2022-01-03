@@ -1,6 +1,6 @@
 # emasser
 ![emasser Testing](https://github.com/mitre/emasser/actions/workflows/test-cli.yml/badge.svg)
-![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg) 
+![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg)
 ![Docs Generation](https://github.com/mitre/emasser/actions/workflows/generate_docs.yml/badge.svg)
 ![Code Linter](https://github.com/mitre/emasser/actions/workflows/rubocop.yml/badge.svg)
 ## About
@@ -48,7 +48,7 @@ Installation Dependencies:
 Runtime Dependencies:
   * Ruby version 2.7 or greater.
   * `rubyzip (latest version)`
-  * `swagger_client (latest version)` (Also referred to as `emass_client` and distributed via git only)
+  * `emass_client (latest version)`
   * On Windows the `cURL` binary is required (libcurl.dll). Options to install cURL for the emasser CLI to work are:
     - Download the curl for windows zip file from [curl x.x.x for Windows](https://curl.se/windows/)
       - Go into the archive and browse to /bin
@@ -56,7 +56,7 @@ Runtime Dependencies:
       - Extract the file into the Ruby installation /bin directory
       - Rename the file to `libcurl.dll` if it has the `_x64` suffix
     - Install [cURL for windows](https://community.chocolatey.org/packages/curl) and add the installation directory to the PATH.
- 
+
 
 To install:
 ```bash
@@ -95,7 +95,7 @@ Because interactions with the API are handled by a dependency, the bulk of `emas
 
 Approved for Public Release; Distribution Unlimited. Case Number 18-3678.
 
-### NOTICE  
+### NOTICE
 
 MITRE hereby grants express written permission to use, reproduce, distribute, modify, and otherwise leverage this software to the extent permitted by the licensed terms provided in the LICENSE.md file included with this project.
 

@@ -1,4 +1,4 @@
-# SwaggerClient::Test
+# EmassClient::Test
 
 ## Properties
 Name | Type | Description | Notes

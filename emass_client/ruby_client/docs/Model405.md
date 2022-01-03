@@ -1,4 +1,4 @@
-# SwaggerClient::Model405
+# EmassClient::Model405
 
 ## Properties
 Name | Type | Description | Notes

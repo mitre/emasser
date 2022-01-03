@@ -1,4 +1,4 @@
-# SwaggerClient::WorkflowInstancesResponseGet
+# EmassClient::WorkflowInstancesResponseGet
 
 ## Properties
 Name | Type | Description | Notes

@@ -1,4 +1,4 @@
-# SwaggerClient::MilestonesGet
+# EmassClient::MilestonesGet
 
 ## Properties
 Name | Type | Description | Notes

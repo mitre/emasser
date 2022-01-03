@@ -1,4 +1,4 @@
-# SwaggerClient::CacResponseGet
+# EmassClient::CacResponseGet
 
 ## Properties
 Name | Type | Description | Notes

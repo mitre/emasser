@@ -1,4 +1,4 @@
-# SwaggerClient::ArtifactsGet
+# EmassClient::ArtifactsGet
 
 ## Properties
 Name | Type | Description | Notes

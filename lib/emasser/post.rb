@@ -61,7 +61,7 @@ module Emasser
     option :complianceStatus, type: :string, required: true, enum: ['Compliant', 'Non-Compliant', 'Not Applicable']
 
     def add
-      body = SwaggerClient::TestResultsRequestPostBody.new
+      body = EmassClient::TestResultsRequestPostBody.new
       body.cci = options[:cci]
       body.tested_by = options[:testedBy]
       body.test_date = options[:testDate]
@@ -71,10 +71,10 @@ module Emasser
       body_array = Array.new(1, body)
 
       begin
-        result = SwaggerClient::TestResultsApi
+        result = EmassClient::TestResultsApi
                  .new.add_test_results_by_system_id(body_array, options[:systemId])
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling TestResultsApi->add_test_results_by_system_id'.red
         puts to_output_hash(e)
       end
@@ -153,7 +153,7 @@ module Emasser
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def add
       # Required fields
-      body = SwaggerClient::PoamRequiredPost.new
+      body = EmassClient::PoamRequiredPost.new
       body.status = options[:status]
       body.vulnerability_description = options[:vulnerabilityDescription]
       body.source_ident_vuln = options[:sourceIdentVuln]
@@ -186,9 +186,9 @@ module Emasser
       body_array = Array.new(1, body)
 
       begin
-        result = SwaggerClient::POAMApi.new.add_poam_by_system_id(body_array, options[:systemId])
+        result = EmassClient::POAMApi.new.add_poam_by_system_id(body_array, options[:systemId])
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling POAMApi->add_poam_by_system_id'.red
         puts to_output_hash(e)
       end
@@ -230,7 +230,7 @@ module Emasser
           else
             body.scheduled_completion_date = options[:scheduledCompletionDate]
 
-            milestone = SwaggerClient::MilestonesRequiredPost.new
+            milestone = EmassClient::MilestonesRequiredPost.new
             milestone.description = options[:milestone]["description"]
             milestone.scheduled_completion_date = options[:milestone]["scheduledCompletionDate"]
             milestone_array = Array.new(1, milestone)
@@ -249,7 +249,7 @@ module Emasser
             body.comments = options[:comments]
             body.completion_date = options[:completionDate]
 
-            milestone = SwaggerClient::MilestonesRequiredPost.new
+            milestone = EmassClient::MilestonesRequiredPost.new
             milestone.description = options[:milestone]["description"]
             milestone.scheduled_completion_date = options[:milestone]["scheduledCompletionDate"]
             milestone_array = Array.new(1, milestone)
@@ -319,17 +319,17 @@ module Emasser
            type: :numeric, required: false, desc: 'The scheduled completion date - Unix time format'
 
     def add
-      body = SwaggerClient::MilestonesRequestPostBody.new
+      body = EmassClient::MilestonesRequestPostBody.new
       body.poam_id = options[:poamId]
       body.description = options[:description]
       body.scheduled_completion_date = options[:scheduledCompletionDate]
       body_array = Array.new(1, body)
 
       begin
-        result = SwaggerClient::MilestonesApi
+        result = EmassClient::MilestonesApi
                  .new.add_milestone_by_system_id_and_poam_id(body_array, options[:systemId], options[:poamId])
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling MilestonesApi->add_milestone_by_system_id_and_poam_id'.red
         puts to_output_hash(e)
       end
@@ -393,12 +393,12 @@ module Emasser
       end
 
       begin
-        result = SwaggerClient::ArtifactsApi
+        result = EmassClient::ArtifactsApi
                  .new
                  .add_artifacts_by_system_id(options[:isTemplate], options[:type],
                                              options[:category], tempfile, options[:systemId], opts)
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling ArtifactsApi->add_artifacts_by_system_id'.red
         puts to_output_hash(e)
       ensure
@@ -431,7 +431,7 @@ module Emasser
     option :comments, type: :string, required: false, desc: 'The control approval chain comments'
 
     def add
-      body = SwaggerClient::CacRequestPostBody.new
+      body = EmassClient::CacRequestPostBody.new
       body.control_acronym = options[:controlAcronym]
       body.comments = options[:comments]
 
@@ -439,9 +439,9 @@ module Emasser
 
       begin
         # Get location of one or many controls in CAC
-        result = SwaggerClient::CacApi.new.add_s_ystem_c_ac(body_array, options[:systemId])
+        result = EmassClient::CacApi.new.add_s_ystem_c_ac(body_array, options[:systemId])
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling ApprovalChainApi->add_s_ystem_c_ac'.red
         puts to_output_hash(e)
       end
@@ -470,16 +470,16 @@ module Emasser
                       desc: 'Comments submitted upon initiation of the indicated workflow'
 
     def add
-      body = SwaggerClient::PacRequestBodyPost.new
+      body = EmassClient::PacRequestBodyPost.new
       body.name = options[:name]
       body.type = options[:type]
       body.comments = options[:comments]
 
       body_array = Array.new(1, body)
 
-      result = SwaggerClient::PacApi.new.add_s_ystem_p_ac(body_array, options[:systemId])
+      result = EmassClient::PacApi.new.add_s_ystem_p_ac(body_array, options[:systemId])
       puts to_output_hash(result).green
-    rescue SwaggerClient::ApiError => e
+    rescue EmassClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->add_s_ystem_c_ac'.red
       puts to_output_hash(e)
     end
@@ -513,11 +513,11 @@ module Emasser
     option :count, type: :numeric, required: false, desc: 'Number of instances observed for a specified finding'
 
     def add
-      application = SwaggerClient::StaticCodeRequiredPostApplication.new
+      application = EmassClient::StaticCodeRequiredPostApplication.new
       application.application_name = options[:applicationName]
       application.version = options[:version]
 
-      application_findings = SwaggerClient::StaticCodeApplication.new
+      application_findings = EmassClient::StaticCodeApplication.new
       application_findings.code_check_name = options[:codeCheckName]
       application_findings.scan_date = options[:scanDate]
       application_findings.cwe_id = options[:cweId]
@@ -525,17 +525,17 @@ module Emasser
       application_findings.raw_severity = options[:rawSeverity] if options[:rawSeverity]
       application_findings.count = options[:count] if options[:count]
 
-      body = SwaggerClient::StaticCodeRequiredPost.new
+      body = EmassClient::StaticCodeRequiredPost.new
       body.application = application
       body.application_findings = application_findings
 
       body_array = Array.new(1, body)
 
       begin
-        result = SwaggerClient::StaticCodeScansApi
+        result = EmassClient::StaticCodeScansApi
                  .new.add_static_code_scans_by_system_id(body_array, options[:systemId])
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling StaticCodeScansApi->add_static_code_scans_by_system_id'.red
         puts to_output_hash(e)
       end
@@ -560,24 +560,24 @@ module Emasser
         exit
       end
 
-      application = SwaggerClient::StaticCodeRequiredPostApplication.new
+      application = EmassClient::StaticCodeRequiredPostApplication.new
       application.application_name = options[:applicationName]
       application.version = options[:version]
 
-      application_findings = SwaggerClient::StaticCodeApplication.new
+      application_findings = EmassClient::StaticCodeApplication.new
       application_findings.clear_findings = options[:clearFindings]
 
-      body = SwaggerClient::StaticCodeRequiredPost.new
+      body = EmassClient::StaticCodeRequiredPost.new
       body.application = application
       body.application_findings = application_findings
 
       body_array = Array.new(1, body)
 
       begin
-        result = SwaggerClient::StaticCodeScansApi
+        result = EmassClient::StaticCodeScansApi
                  .new.add_static_code_scans_by_system_id(body_array, options[:systemId])
         puts to_output_hash(result).green
-      rescue SwaggerClient::ApiError => e
+      rescue EmassClient::ApiError => e
         puts 'Exception when calling StaticCodeScansApi->add_static_code_scans_by_system_id'.red
         puts to_output_hash(e)
       end

@@ -1,4 +1,4 @@
-# SwaggerClient::ArtifactsResponsePutPost
+# EmassClient::ArtifactsResponsePutPost
 
 ## Properties
 Name | Type | Description | Notes

@@ -11,14 +11,14 @@ Swagger Codegen version: 3.0.26
 
 require 'spec_helper'
 
-describe SwaggerClient::Configuration do
-  let(:config) { SwaggerClient::Configuration.default }
+describe EmassClient::Configuration do
+  let(:config) { EmassClient::Configuration.default }
 
   before(:each) do
     # uncomment below to setup host and base_path
     # require 'URI'
     # uri = URI.parse("http://localhost:4010")
-    # SwaggerClient.configure do |c|
+    # EmassClient.configure do |c|
     #   c.host = uri.host
     #   c.base_path = uri.path
     # end

@@ -1,4 +1,4 @@
-# SwaggerClient::ArtifactsApi
+# EmassClient::ArtifactsApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -19,9 +19,9 @@ Add one or many artifacts in a system
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -38,7 +38,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::ArtifactsApi.new
+api_instance = EmassClient::ArtifactsApi.new
 is_template = true # BOOLEAN | 
 type = 'type_example' # String | 
 category = 'category_example' # String | 
@@ -50,7 +50,7 @@ begin
   #Add one or many artifacts in a system
   result = api_instance.add_artifacts_by_system_id(is_templatetypecategoryzippersystem_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling ArtifactsApi->add_artifacts_by_system_id: #{e}"
 end
 ```
@@ -90,9 +90,9 @@ Remove the Artifact(s) matching `systemId` path parameter and request body artif
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -109,8 +109,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::ArtifactsApi.new
-body = [SwaggerClient::ArtifactsDeleteInner.new] # Array<ArtifactsDeleteInner> | See notes above for additional information
+api_instance = EmassClient::ArtifactsApi.new
+body = [EmassClient::ArtifactsDeleteInner.new] # Array<ArtifactsDeleteInner> | See notes above for additional information
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -118,7 +118,7 @@ begin
   #Remove one or many artifacts in a system
   result = api_instance.delete_artifact(bodysystem_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling ArtifactsApi->delete_artifact: #{e}"
 end
 ```
@@ -155,9 +155,9 @@ Returns selected artifacts matching parameters to include the file name containi
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -174,7 +174,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::ArtifactsApi.new
+api_instance = EmassClient::ArtifactsApi.new
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 opts = { 
   filename: 'filename_example', # String | **File Name**: The file name (to include file-extension).
@@ -187,7 +187,7 @@ begin
   #Get one or many artifacts in a system
   result = api_instance.get_system_artifacts(system_id, opts)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling ArtifactsApi->get_system_artifacts: #{e}"
 end
 ```
@@ -227,9 +227,9 @@ Updates an artifact for given `systemId` path parameter<br><br>  **Request Body 
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -246,8 +246,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::ArtifactsApi.new
-body = SwaggerClient::ArtifactsRequestPutBody.new # ArtifactsRequestPutBody | See `information` above for additional instructions
+api_instance = EmassClient::ArtifactsApi.new
+body = EmassClient::ArtifactsRequestPutBody.new # ArtifactsRequestPutBody | See `information` above for additional instructions
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -255,7 +255,7 @@ begin
   #Update one or many artifacts in a system
   result = api_instance.update_artifact_by_system_id(bodysystem_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling ArtifactsApi->update_artifact_by_system_id: #{e}"
 end
 ```

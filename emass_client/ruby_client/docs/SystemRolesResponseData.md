@@ -1,4 +1,4 @@
-# SwaggerClient::SystemRolesResponseData
+# EmassClient::SystemRolesResponseData
 
 ## Properties
 Name | Type | Description | Notes

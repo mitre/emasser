@@ -1,4 +1,4 @@
-# SwaggerClient::Success200Response
+# EmassClient::Success200Response
 
 ## Properties
 Name | Type | Description | Notes

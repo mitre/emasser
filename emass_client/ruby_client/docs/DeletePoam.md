@@ -1,4 +1,4 @@
-# SwaggerClient::DeletePoam
+# EmassClient::DeletePoam
 
 ## Properties
 Name | Type | Description | Notes

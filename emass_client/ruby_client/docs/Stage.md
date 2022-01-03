@@ -1,4 +1,4 @@
-# SwaggerClient::Stage
+# EmassClient::Stage
 
 ## Properties
 Name | Type | Description | Notes

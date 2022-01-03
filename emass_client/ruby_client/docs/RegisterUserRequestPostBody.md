@@ -1,4 +1,4 @@
-# SwaggerClient::RegisterUserRequestPostBody
+# EmassClient::RegisterUserRequestPostBody
 
 ## Properties
 Name | Type | Description | Notes

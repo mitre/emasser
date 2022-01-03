@@ -1,4 +1,4 @@
-# SwaggerClient::StaticCodeScansApi
+# EmassClient::StaticCodeScansApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -16,9 +16,9 @@ Upload or clear application scan findings into a system's `systemId` assets modu
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -35,8 +35,8 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::StaticCodeScansApi.new
-body = SwaggerClient::StaticCodeRequiredPost.new # StaticCodeRequiredPost | Update an existing Artifact by Id
+api_instance = EmassClient::StaticCodeScansApi.new
+body = EmassClient::StaticCodeRequiredPost.new # StaticCodeRequiredPost | Update an existing Artifact by Id
 system_id = 56 # Integer | **System Id**: The unique system record identifier.
 
 
@@ -44,7 +44,7 @@ begin
   #Upload static code scans or Clear static code scans
   result = api_instance.add_static_code_scans_by_system_id(bodysystem_id)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling StaticCodeScansApi->add_static_code_scans_by_system_id: #{e}"
 end
 ```

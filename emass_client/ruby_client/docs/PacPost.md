@@ -1,4 +1,4 @@
-# SwaggerClient::PacPost
+# EmassClient::PacPost
 
 ## Properties
 Name | Type | Description | Notes

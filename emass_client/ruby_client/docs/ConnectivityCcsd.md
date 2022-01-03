@@ -1,4 +1,4 @@
-# SwaggerClient::ConnectivityCcsd
+# EmassClient::ConnectivityCcsd
 
 ## Properties
 Name | Type | Description | Notes

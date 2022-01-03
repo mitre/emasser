@@ -1,4 +1,4 @@
-# SwaggerClient::Model400Response
+# EmassClient::Model400Response
 
 ## Properties
 Name | Type | Description | Notes

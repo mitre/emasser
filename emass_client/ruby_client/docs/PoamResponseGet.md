@@ -1,4 +1,4 @@
-# SwaggerClient::PoamResponseGet
+# EmassClient::PoamResponseGet
 
 ## Properties
 Name | Type | Description | Notes

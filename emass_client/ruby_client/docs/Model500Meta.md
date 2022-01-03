@@ -1,4 +1,4 @@
-# SwaggerClient::Model500Meta
+# EmassClient::Model500Meta
 
 ## Properties
 Name | Type | Description | Notes

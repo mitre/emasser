@@ -1,4 +1,4 @@
-# SwaggerClient::SystemRolesApi
+# EmassClient::SystemRolesApi
 
 All URIs are relative to *http://localhost:4010*
 
@@ -17,9 +17,9 @@ Returns all available roles
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -36,13 +36,13 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::SystemRolesApi.new
+api_instance = EmassClient::SystemRolesApi.new
 
 begin
   #Get available roles
   result = api_instance.get_system_roles
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling SystemRolesApi->get_system_roles: #{e}"
 end
 ```
@@ -75,9 +75,9 @@ Returns the role(s) data matching parameters.
 ### Example
 ```ruby
 # load the gem
-require 'swagger_client'
+require 'emass_client'
 # setup authorization
-SwaggerClient.configure do |config|
+EmassClient.configure do |config|
   # Configure API key authorization: apikey
   config.api_key['api-key'] = 'YOUR API KEY'
   # Uncomment the following line to set a prefix for the API key, e.g. 'Bearer' (defaults to nil)
@@ -94,7 +94,7 @@ SwaggerClient.configure do |config|
   #config.api_key_prefix['user-uid'] = 'Bearer'
 end
 
-api_instance = SwaggerClient::SystemRolesApi.new
+api_instance = EmassClient::SystemRolesApi.new
 role_category = 'role_category_example' # String | **Role Category**: The system role category been queried
 role = 'IAO' # String | **Role**: Accepts single value from options available at base system-roles endpoint e.g., SCA.
 opts = { 
@@ -106,7 +106,7 @@ begin
   #Get system roles
   result = api_instance.get_system_roles_by_category_id(role_category, role, opts)
   p result
-rescue SwaggerClient::ApiError => e
+rescue EmassClient::ApiError => e
   puts "Exception when calling SystemRolesApi->get_system_roles_by_category_id: #{e}"
 end
 ```
