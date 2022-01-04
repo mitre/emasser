@@ -8,15 +8,14 @@ module Emasser
     def self.raise_unless_present(env)
       ENV.fetch(env) { raise Emasser::ConfigurationMissingError.new(env) }
     rescue Emasser::ConfigurationMissingError => e
-      if (ARGV[0].to_s.include? "-v") || (ARGV[0].to_s.include? "-V") 
+      if (ARGV[0].to_s.include? '-v') || (ARGV[0].to_s.include? '-V')
         puts Emasser::VERSION.green
-        exit
       else
         puts "\n", e.message.red
         puts 'Create a .env file with the necessary variables, place it in the root directory where the emasser command'.yellow
         puts 'is executed. See emasser environment variables requirements in emasser CLI Features for more information'.yellow, "\n"
-        exit
       end
+      exit
     end
     # rubocop: enable Style/RaiseArgs
 
