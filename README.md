@@ -31,7 +31,7 @@ This project is actively looking for user stories, features to build, and intera
 
 ## Roadmap
 
-Emasser is currently in MVP development and we are targeting all the features listed in Current and In Development for version 1.0. The Road Map are things that the team and community have talked about as possible great additions but feedback on which should come first, second, and third are what we would love feedback on from you.
+Emasser is currently in MVP development and we are targeting all the features listed in Current and In Development for version 1.0.X. The Road Map are things that the team and community have talked about as possible great additions but feedback on which should come first, second, and third are what we would love feedback on from you.
 
 * Update a system's record with met/not met NIST 800-53 Security and Privacy controls and/or common control indicators (CCI) based on scan results expressed in [Heimdall Data Format (HDF)](https://saf.mitre.org/#/normalize).
 * Resolve a particular plan of action and milestone (POA&M) based on scan results or git-ops workflow.
@@ -49,27 +49,41 @@ Runtime Dependencies:
   * Ruby version 2.7 or greater.
   * `rubyzip (latest version)`
   * `emass_client (latest version)`
-  * On Windows the `cURL` binary is required (libcurl.dll). Options to install cURL for the emasser CLI to work are:
-    - Download the curl for windows zip file from [curl x.x.x for Windows](https://curl.se/windows/)
-      - Go into the archive and browse to /bin
-      - Locate libcurl_x64.dll (it may be just libcurl.dll)
+  * On Windows the `cURL` binary is required (libcurl.dll). To install cURL: 
+    - Download cURL for windows from [curl x.x.x for Windows](https://curl.se/windows/)
+      - Go into the archive and browse to the /bin directory
+      - Locate libcurl_x64.dll (it may be named just libcurl.dll)
       - Extract the file into the Ruby installation /bin directory
       - Rename the file to `libcurl.dll` if it has the `_x64` suffix
     - Install [cURL for windows](https://community.chocolatey.org/packages/curl) and add the installation directory to the PATH.
 
 
-To install:
+To install (via github):
 ```bash
 git clone <path to emasser git> emasser
 cd emasser
+```
+Build the emasser gem
+```
 gem build *.gemspec
 gem install *.gem
+```
+Build the emass_client gem
+```
+cd emass_client/ruby_client
+gem build *.gemspec
+gem install *.gem
+```
+
+To install (via published RubyGems):
+```
+gem install emasser
 ```
 
 ## Use
 
 **Requirement 1 & 2: Authentication and Authorization:**
-`emasser` requires authentication to eMASS as well as authorization to use the eMASS API. This authentication and authorization is **not** a function of `emasser` and needs to be handled directly with discussions with eMASS. `emasser` will accept credentials that are created based on those discussions.
+`emasser` requires authentication to eMASS as well as authorization to use the eMASS API. This authentication and authorization is **not** a function of `emasser` and needs to be handled directly with discussions with [eMASS](https://www.dcsa.mil/is/emass/). `emasser` will accept credentials that are created based on those discussions.
 
 **Approve API Client for Actionable Requests**
 Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions.
@@ -83,7 +97,7 @@ To establish an account with eMASS and/or acquire an api-key/user-uid, contact o
 ## Design
 
 **Interactions with eMASS API:**
-`emasser` leverages a MITRE dependency, `emass_client`, which provides a REST API client based on a MITRE-created [OpenAPI](https://www.openapis.org/) version 3 specification based on the official eMASS version 2.3 API documentation. This design enables REST API clients to be generated in [any supported programming language](https://swagger.io/tools/swagger-codegen/). This design decision enables `emass_client` to generate a Ruby client for `emasser` and a TypeScript client that is included with [Heimdall Enterprise Server](https://github.com/mitre/heimdall2).
+`emasser` leverages a MITRE dependency, `emass_client`, which provides a REST API client based on a MITRE-created [OpenAPI](https://www.openapis.org/) version 3 specification for the official eMASS version 3.2 API documentation. This design enables REST API clients to be generated in [any supported programming language](https://swagger.io/tools/swagger-codegen/). This design decision enables `emass_client` to generate a Ruby client for `emasser` and a TypeScript client that is included with [Heimdall Enterprise Server](https://github.com/mitre/heimdall2).
 
 **Business Logic:**
 Because interactions with the API are handled by a dependency, the bulk of `emasser` is business logic for accepting user input/output, reading data from eMASS or from input, transforming data, and routing data to the appropriate eMASS API endpoint. This business logic is organized into Ruby Classes and Modules based on the command or subcommand requested by the user.

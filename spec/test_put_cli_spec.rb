@@ -5,6 +5,8 @@ require 'emasser/output_converters'
 require 'emasser/help'
 require 'emasser/put'
 
+# -----------------------------------------------------
+# Test that all required CLI PUT classes are available
 describe Emasser::Controls do
   before do
     # run before each test

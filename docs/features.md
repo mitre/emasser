@@ -19,7 +19,7 @@ emasser environment variables required:
   - To invoke any boolean parameters use --parameterName for TRUE and --no-parameterName for FALSE
   - The eMASS API provides the capability of updating multiple entries within several endpoints, however this CLI only supports updating one entry at the time.
 
-## Invoking emmaser CLI Commands
+## Invoking emasser CLI Commands
 
 The CLI invoke commands listed in this document shows them when executing from the source code (after a pull from GitHub). If an executable (.gem) is created the command to invoke the endpoint is different. For example:
 - Invoking the GET systems endpoint from the source code is:
