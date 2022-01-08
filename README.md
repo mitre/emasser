@@ -4,7 +4,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mitre/emasser?label=Release%20Version)
 ![emasser Testing](https://github.com/mitre/emasser/actions/workflows/test-cli.yml/badge.svg)
 ![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg)
-![Docs Generation](https://github.com/mitre/emasser/actions/workflows/generate_docs.yml/badge.svg)
+![Docs Generation](https://github.com/mitre/emasser/actions/workflows/generate_docs.yml/badge.svg?label=Docs%20Generation)
 ![Code Linter](https://github.com/mitre/emasser/actions/workflows/rubocop.yml/badge.svg)
 ## About
 
