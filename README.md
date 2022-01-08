@@ -1,6 +1,6 @@
 # emasser
 [![Gem Version](https://badge.fury.io/rb/emasser.svg)](https://badge.fury.io/rb/emasser)
-[![Gem Version](https://badge.fury.io/rb/emasse_client.svg)](https://badge.fury.io/rb/emasse_client)
+[![emass_client Gem Version](https://badge.fury.io/rb/emass_client.svg)](https://badge.fury.io/rb/emass_client)
 ![emasser Testing](https://github.com/mitre/emasser/actions/workflows/test-cli.yml/badge.svg)
 ![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg)
 ![Docs Generation](https://github.com/mitre/emasser/actions/workflows/generate_docs.yml/badge.svg)
