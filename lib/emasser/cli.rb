@@ -17,7 +17,11 @@ module Emasser
       require 'emasser/delete'
       register(Emasser::Delete, 'delete', 'delete [RESOURCE]', 'Deletes resources')
     elsif (ARGV[0].to_s.include? '-v') || (ARGV[0].to_s.include? '-V')
-      puts Emasser::VERSION.green
+      puts "emasser version: #{Emasser::VERSION}".green
+      exit
+    elsif ARGV[0].to_s.include? 'hello'
+      # 5.times { print "Hello world!\t".cyan }
+      print "Hello #{ENV['USERNAME']} - enjoy using emasser!".cyan
       exit
     end
 

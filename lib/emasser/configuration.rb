@@ -9,7 +9,7 @@ module Emasser
       ENV.fetch(env) { raise Emasser::ConfigurationMissingError.new(env) }
     rescue Emasser::ConfigurationMissingError => e
       if (ARGV[0].to_s.include? '-v') || (ARGV[0].to_s.include? '-V')
-        puts Emasser::VERSION.green
+        puts "emasser version: #{Emasser::VERSION}".green
       else
         puts "\n", e.message.red
         puts 'Create a .env file with the necessary variables, place it in the root directory where the emasser command'.yellow

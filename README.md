@@ -1,4 +1,8 @@
 # emasser
+![GitHub Release Date](https://img.shields.io/github/release-date/mitre/emasser?label=Release%20Date)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/mitre/emasser?label=Release%20Version)
+[![Gem Version](https://badge.fury.io/rb/emasser.svg)](https://badge.fury.io/rb/emasser)
+</br>
 ![emasser Testing](https://github.com/mitre/emasser/actions/workflows/test-cli.yml/badge.svg)
 ![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg)
 ![Docs Generation](https://github.com/mitre/emasser/actions/workflows/generate_docs.yml/badge.svg)
@@ -63,23 +67,27 @@ To install (via github):
 git clone <path to emasser git> emasser
 cd emasser
 ```
-Build the emasser gem
+- Build the emasser gem
+```bash
+  gem build *.gemspec
+  gem install *.gem
 ```
-gem build *.gemspec
-gem install *.gem
-```
-Build the emass_client gem
-```
-cd emass_client/ruby_client
-gem build *.gemspec
-gem install *.gem
+- Build the emass_client gem
+```bash
+  cd emass_client/ruby_client
+  gem build *.gemspec
+  gem install *.gem
 ```
 
 To install (via published RubyGems):
-```
+```bash
 gem install emasser
 ```
 
+**Note:** To run in development mode there isn't a need to build the gem, simply clone from the emasser repository and use:
+```
+bundle exec exe/emasser [command]
+```
 ## Use
 
 **Requirement 1 & 2: Authentication and Authorization:**
