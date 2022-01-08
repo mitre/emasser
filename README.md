@@ -2,6 +2,7 @@
 [![Gem Version](https://badge.fury.io/rb/emasser.svg)](https://badge.fury.io/rb/emasser)
 ![GitHub Release Date](https://img.shields.io/github/release-date/mitre/emasser?label=Release%20Date)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mitre/emasser?label=Release%20Version)
+</br>
 ![emasser Testing](https://github.com/mitre/emasser/actions/workflows/test-cli.yml/badge.svg)
 ![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg)
 ![Docs Generation](https://github.com/mitre/emasser/actions/workflows/generate_docs.yml/badge.svg)
