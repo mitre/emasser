@@ -3,13 +3,15 @@
 ## Required Environment Variables
 To facilitate setting the required environment variables the emasser CLI utilized the zero-dependency module to load these variables from a .env file. An .env-example file is provided with the required fields (listed below).
 
-emasser environment variables required:
+emasser environment variables (required):
 * EMASSER_API_KEY_API_KEY=`<API key>`
 * EMASSER_API_KEY_USER_UID=`<unique identifier for the API Key (EMASSER_API_KEY_API_KEY)`
 * EMASSER_HOST=`<FQDN of the eMASS server>`
 * EMASSER_KEY_FILE_PATH=`<path to your eMASS key in PEM format>`
 * EMASSER_CERT_FILE_PATH=`<path to your eMASS certificate in PEM format>`
 * EMASSER_KEY_PASSWORD=`<password for the key given in EMASSER_KEY_FILE_PATH>`
+  
+emasser environment variables (optional):
 * EMASSER_CLIENT_SIDE_VALIDATION=`<client side validation - true or false>`
 * EMASSER_VERIFY_SSL=`<verify SSL - true or false>`
 * EMASSER_VERIFY_SSL_HOST=`<verify host SSL - true or false>`

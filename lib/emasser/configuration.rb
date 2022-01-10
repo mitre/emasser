@@ -12,8 +12,15 @@ module Emasser
         puts "emasser version: #{Emasser::VERSION}".green
       else
         puts "\n", e.message.red
-        puts 'Create a .env file with the necessary variables, place it in the root directory where the emasser command'.yellow
-        puts 'is executed. See emasser environment variables requirements in emasser CLI Features for more information'.yellow, "\n"
+        puts 'Create a .env file containing required variables, place it in the root directory where the emasser command is executed'.yellow
+        puts 'Required environment variables are:'.yellow
+        puts '  export EMASSER_API_KEY_API_KEY=<API key>'.green
+        puts '  export EMASSER_API_KEY_USER_UID=<unique identifier of the eMASS user EMASSER_API_KEY_API_KEY belongs to>'.green
+        puts '  export EMASSER_HOST=<FQDN of the eMASS server>'.green
+        puts '  export EMASSER_KEY_FILE_PATH=<path to your emass key in PEM format>'.green
+        puts '  export EMASSER_CERT_FILE_PATH=<path to your emass certficate in PEM format>'.green
+        puts '  export EMASSER_KEY_PASSWORD=<password for the key given in EMASSER_KEY_FILE_PATH>'.green, "\n"
+        puts 'See emasser environment variables requirements in emasser CLI Features for more information (https://mitre.github.io/emasser/docs/features.html).', "\n"
       end
       exit
     end
@@ -21,6 +28,7 @@ module Emasser
 
     # rubocop: disable Style/TernaryParentheses, Style/IfWithBooleanLiteralBranches
     EmassClient.configure do |config|
+      # Required env variables
       config.api_key['api-key'] = raise_unless_present('EMASSER_API_KEY_API_KEY')
       config.api_key['user-uid'] = raise_unless_present('EMASSER_API_KEY_USER_UID')
       config.scheme = 'https'
@@ -29,10 +37,11 @@ module Emasser
       config.key_file = raise_unless_present('EMASSER_KEY_FILE_PATH')
       config.cert_file = raise_unless_present('EMASSER_CERT_FILE_PATH')
       config.key_password = raise_unless_present('EMASSER_KEY_PASSWORD')
-      config.client_side_validation = (ENV.fetch('EMASSER_CLIENT_SIDE_VALIDATION', false) == 'false') ? false : true
-      config.verify_ssl = (ENV.fetch('EMASSER_VERIFY_SSL', false) == 'false') ? false : true
-      config.verify_ssl_host = (ENV.fetch('EMASSER_VERIFY_SSL_HOST', false) == 'false') ? false : true
-      config.debugging = (ENV.fetch('EMASSER_DEBUGGING', false) == 'true') ? true : false
+      # Optional env variables
+      config.client_side_validation = (ENV.fetch('EMASSER_CLIENT_SIDE_VALIDATION', 'true').eql? 'true') ? true : false
+      config.verify_ssl = (ENV.fetch('EMASSER_VERIFY_SSL', 'true').eql? 'true') ? true : false
+      config.verify_ssl_host = (ENV.fetch('EMASSER_VERIFY_SSL_HOST', 'true').eql? 'true') ? true : false
+      config.debugging = (ENV.fetch('EMASSER_DEBUGGING', 'false') == 'false') ? false : true
     end
     # rubocop: enable Style/TernaryParentheses, Style/IfWithBooleanLiteralBranches
   end
