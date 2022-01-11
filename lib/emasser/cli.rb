@@ -20,14 +20,13 @@ module Emasser
       puts "emasser version: #{Emasser::VERSION}".green
       exit
     elsif ARGV[0].to_s.include? 'hello'
-      # 5.times { print "Hello world!\t".cyan }
       print "Hello #{ENV['USERNAME']} - enjoy using emasser!".cyan
       exit
     end
 
     def help
-      puts 'Emasser commands:'
-      puts '  emasser [get, put, post, delete, -v, or -V]'
+      puts 'Emasser commands:'.yellow
+      puts '  emasser [get, put, post, delete, -v, or -V]'.yellow
     end
 
     def self.exit_on_failure?
