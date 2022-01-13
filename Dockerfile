@@ -1,14 +1,14 @@
 # Buld from ruby 2.7.5 image
 FROM ruby:2.7
 
-LABEL name="emasser" \
-      vendor="MTIRE" \
-      version="${EMASSER_VERSION}" \
-      release="1" \
-      url="https://github.com/mitre/emasser" \
-      description="Emasser is a command-line interface (CLI) that aims to automate routine business use-cases and provide utility surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its representational state transfer (REST) application programming interface (API)." \
-      docs="https://mitre.github.io/emasser/" \
-      run="docker run -d --name ${NAME} ${IMAGE} <args>"
+# LABEL name="emasser" \
+#       vendor="MTIRE" \
+#       version="${EMASSER_VERSION}" \
+#       release="1" \
+#       url="https://github.com/mitre/emasser" \
+#       description="Emasser is a command-line interface (CLI) that aims to automate routine business use-cases and provide utility surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its representational state transfer (REST) application programming interface (API)." \
+#       docs="https://mitre.github.io/emasser/" \
+#       run="docker run -d --name ${NAME} ${IMAGE} <args>"
 
 # Set the base directory that will be used from now on
 WORKDIR /emasser
@@ -17,9 +17,9 @@ WORKDIR /emasser
 COPY . .
 
 # Don't install development or test dependencies
-RUN bundle config set without 'development test'
+# RUN bundle config set without 'development test'
 # Install dependency
 RUN bundle install
 
 ENTRYPOINT ["bundle", "exec", "exe/emasser"]
-CMD ["-h"]
+CMD ["-hello"]
