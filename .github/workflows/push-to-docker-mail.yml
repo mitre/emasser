@@ -25,4 +25,4 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: mitre/emasser:lateste
+          tags: mitre/emasser:latest
