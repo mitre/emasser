@@ -29,7 +29,7 @@ RUN mv emass_client/ruby_client/emass_client*.gem gems/emass_client.gem
 RUN mv emasser*.gem gems/emasser.gem
 
 FROM ruby:2-alpine
-
+# RUN sed -i 's/https/http/g' /etc/apk/repositories
 COPY --from=build /emasser/gems /emass-gems
 
 RUN apk add build-base libcurl && gem install /emass-gems/emass_client.gem && gem install /emass-gems/emasser.gem

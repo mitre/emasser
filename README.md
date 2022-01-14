@@ -111,7 +111,7 @@ bundle exec exe/emasser [command]
 
 ### Delete (remove) the Docker Container
 ```
-  docker rmi -f emasser
+  docker rmi -f mitre/emasser
 ```
 
 ## Use
