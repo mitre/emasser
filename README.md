@@ -88,6 +88,49 @@ gem install emasser
 ```
 bundle exec exe/emasser [command]
 ```
+
+## Using Docker
+**Note:** Before building the container:
+  - Add a .env file containing the emasser required variables in the emasser source directory
+  - Place the certificates (key.pem and client.pem) used to access the eMASS URL in the emasser source directory as well
+
+### Build the Docker Container
+- Install and start Docker
+- Download emasser by running git clone https://github.com/mitre/emasser.git.
+- Navigate to the base folder where Dockerfile is located
+- Build the emasser container from a terminal window in the emasser source directory:
+  ``` 
+  docker build -t emasser .
+  ```
+- To see the build output use:
+  ```
+  docker build --no-cache --progress=plain -t emasser .
+  ```
+
+### Run the emasser Docker Container (--rm remove the container when exit)
+- To run the emasser container use:
+  ```
+  docker run --rm emasser
+  ```
+- To list all GET, POST, PUT, or DELETE commands use:
+  ```
+  docker run --rm emasser get help
+  ```
+  ```
+  docker run --rm emasser post help
+  ```
+  ```
+  docker run --rm emasser put help
+  ```
+  ```
+  docker run --rm emasser delete help
+  ```
+
+### Delete (remove) the Docker Container
+```
+  docker rmi -f emasser
+```
+
 ## Use
 
 **Requirement 1 & 2: Authentication and Authorization:**

@@ -1,11 +1,21 @@
 # git
-.git
 .gitignore
+Gemfile.lock
 CHANGELOG.md
 
+# VS Code
+.vscode/
+
+# doc
+doc/
+
 # ci
-.gitlab-ci.yml
+.github
+_config.yml
 
 # code
 spec
-.env
+
+#rubocop
+.rubocop.yml
+.rubocop_todo.yml

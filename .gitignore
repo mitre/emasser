@@ -11,8 +11,9 @@
 
 **/*.un~
 
-emassing/test/test_example.zip
 .DS_Store
 .byebug_history
 .env
+key.pem
+client.pem
 *.gem

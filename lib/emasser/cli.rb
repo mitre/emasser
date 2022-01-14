@@ -20,7 +20,8 @@ module Emasser
       puts "emasser version: #{Emasser::VERSION}".green
       exit
     elsif ARGV[0].to_s.include? 'hello'
-      print "Hello #{ENV['USERNAME']} - enjoy using emasser!".cyan
+      user_name = ENV['USERNAME'] || 'rookie'
+      print "Hello #{user_name} - enjoy using emasser!".cyan
       exit
     end
 
