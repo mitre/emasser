@@ -32,8 +32,6 @@ FROM ruby:2-alpine
 
 COPY --from=build /emasser/gems /emass-gems
 
-RUN sed -i 's/https/http/g' /etc/apk/repositories
-
 RUN apk add build-base libcurl && gem install /emass-gems/emass_client.gem && gem install /emass-gems/emasser.gem
 
 VOLUME [ "/data" ]
