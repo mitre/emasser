@@ -2,7 +2,8 @@
 ![GitHub Release Date](https://img.shields.io/github/release-date/mitre/emasser?label=Release%20Date)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mitre/emasser?label=Release%20Version)
 [![Gem Version](https://badge.fury.io/rb/emasser.svg)](https://badge.fury.io/rb/emasser)
-</br>
+
+
 ![emasser Testing](https://github.com/mitre/emasser/actions/workflows/test-cli.yml/badge.svg)
 ![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg)
 ![Docs Generation](https://github.com/mitre/emasser/actions/workflows/generate_docs.yml/badge.svg)
@@ -90,11 +91,23 @@ bundle exec exe/emasser [command]
 ```
 
 ## Using Docker
-### Run the emasser Docker Container (--rm remove the container when exit)
+### Run the emasser Docker Container
 - To run the emasser container use:
   ```
   docker run --rm -v $PWD/path-to-secrets:/data mitre/emasser:latest
   ```
+- To run the emasser container in a `Windows terminal (cmd)` use:
+    ```
+  docker run --rm -v %cd%/path-to-secrets:/data mitre/emasser:latest
+  ```
+**Notes:**
+- Docker Options
+  - `--rm` Automatically remove the container when it exits
+  - `-v` Bind mount a volume
+- path-to-secrets
+  - Path to the `.env` file and the appropriate eMASS certificates (key. pem and client.pem). See [Editing Environment Variables Configuration](https://github.com/mitre/emasser/wiki/Editing-Environment-Variables-Configuration)
+
+### Run emasser API client commands
 - To list all GET, POST, PUT, or DELETE commands use:
   ```
   docker run --rm -v $PWD/path-to-secrets:/data mitre/emasser:latest get help
