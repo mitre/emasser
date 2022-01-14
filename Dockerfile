@@ -13,8 +13,6 @@ LABEL name="emasser" \
 # Set the base directory that will be used from now on
 WORKDIR /emasser
 
-# Copy - source (.) destination (.)
-
 # Install dependency
 RUN gem install bundler -v '2.3.5'
 RUN apt update && apt install -y build-essential
@@ -29,6 +27,8 @@ RUN mv emass_client/ruby_client/emass_client*.gem gems/emass_client.gem
 RUN mv emasser*.gem gems/emasser.gem
 
 FROM ruby:2-alpine
+
+# Use the line below when testing creating the container locally
 # RUN sed -i 's/https/http/g' /etc/apk/repositories
 COPY --from=build /emasser/gems /emass-gems
 

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    emasser (1.0.1)
+    emasser (1.0.3)
       activesupport (~> 6.1.4)
       colorize (~> 0.8.1)
       dotenv (~> 2.7.6)
@@ -12,7 +12,7 @@ PATH
 PATH
   remote: emass_client/ruby_client
   specs:
-    emass_client (1.0.1)
+    emass_client (1.0.3)
       json (~> 2.1, >= 2.1.0)
       typhoeus (~> 1.0, >= 1.0.1)
 
