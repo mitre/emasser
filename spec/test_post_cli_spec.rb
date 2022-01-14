@@ -6,6 +6,8 @@ require 'emasser/input_converters'
 require 'emasser/help'
 require 'emasser/post'
 
+# -----------------------------------------------------
+# Test that all required CLI POST classes are available
 describe Emasser::TestResults do
   before do
     # run before each test

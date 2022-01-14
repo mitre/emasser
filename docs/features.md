@@ -3,13 +3,15 @@
 ## Required Environment Variables
 To facilitate setting the required environment variables the emasser CLI utilized the zero-dependency module to load these variables from a .env file. An .env-example file is provided with the required fields (listed below).
 
-emasser environment variables required:
+emasser environment variables (required):
 * EMASSER_API_KEY_API_KEY=`<API key>`
 * EMASSER_API_KEY_USER_UID=`<unique identifier for the API Key (EMASSER_API_KEY_API_KEY)`
 * EMASSER_HOST=`<FQDN of the eMASS server>`
 * EMASSER_KEY_FILE_PATH=`<path to your eMASS key in PEM format>`
 * EMASSER_CERT_FILE_PATH=`<path to your eMASS certificate in PEM format>`
 * EMASSER_KEY_PASSWORD=`<password for the key given in EMASSER_KEY_FILE_PATH>`
+  
+emasser environment variables (optional):
 * EMASSER_CLIENT_SIDE_VALIDATION=`<client side validation - true or false>`
 * EMASSER_VERIFY_SSL=`<verify SSL - true or false>`
 * EMASSER_VERIFY_SSL_HOST=`<verify host SSL - true or false>`
@@ -19,7 +21,7 @@ emasser environment variables required:
   - To invoke any boolean parameters use --parameterName for TRUE and --no-parameterName for FALSE
   - The eMASS API provides the capability of updating multiple entries within several endpoints, however this CLI only supports updating one entry at the time.
 
-## Invoking emmaser CLI Commands
+## Invoking emasser CLI Commands
 
 The CLI invoke commands listed in this document shows them when executing from the source code (after a pull from GitHub). If an executable (.gem) is created the command to invoke the endpoint is different. For example:
 - Invoking the GET systems endpoint from the source code is:

@@ -1,11 +1,8 @@
-# git
-.git
-.gitignore
-CHANGELOG.md
+# VS Code
+.vscode/
 
-# ci
-.gitlab-ci.yml
+# doc
+doc/
 
 # code
-spec
-.env
+spec/

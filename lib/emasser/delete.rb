@@ -47,7 +47,7 @@ module Emasser
     end
 
     # Delete a POAM -----------------------------------------------------------
-    desc 'remove', 'Add one or many POA&M items in a system'
+    desc 'remove', 'Delete one or many POA&M items in a system'
     long_desc Help.text(:poam_del_mapper)
 
     # Required parameters/fields
@@ -110,7 +110,7 @@ module Emasser
       true
     end
 
-    desc 'remove', 'Remove one or many artifacts in a system'
+    desc 'remove', 'Delete one or many artifacts in a system'
     long_desc Help.text(:artifact_del_mapper)
 
     # Required parameters/fields

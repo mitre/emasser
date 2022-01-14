@@ -7,6 +7,8 @@ require 'emasser/input_converters'
 require 'emasser/help'
 require 'emasser/get'
 
+# ----------------------------------------------------
+# Test that all required CLI GET classes are available
 describe Emasser::Test do
   before do
     # run before each test

@@ -30,3 +30,12 @@ require 'test_api_spec'
 require 'test_results_api_spec'
 require 'workflow_definitions_api_spec'
 require 'workflow_instances_api_spec'
+
+# Test that versions match
+require 'emasser/version'
+
+describe 'emass_client version number' do
+  it 'is equal to the emasser version number' do
+    expect(Emasser::VERSION).to eq(EmassClient::VERSION)
+  end
+end
