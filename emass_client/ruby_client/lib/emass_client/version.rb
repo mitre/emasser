@@ -10,5 +10,5 @@ Swagger Codegen version: 3.0.26
 =end
 
 module EmassClient
-  VERSION = '1.0.1'
+  VERSION = '1.0.3'
 end
