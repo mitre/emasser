@@ -21,7 +21,7 @@ module Emasser
       exit
     elsif ARGV[0].to_s.include? 'hello'
       user_name = ENV['USERNAME'] || 'rookie'
-      print "Hello #{user_name} - enjoy using emasser!".cyan
+      puts "Hello #{user_name} - enjoy using emasser!".cyan
       exit
     end
 
