@@ -1,21 +1,8 @@
-# git
-.gitignore
-Gemfile.lock
-CHANGELOG.md
-
 # VS Code
 .vscode/
 
 # doc
 doc/
 
-# ci
-.github
-_config.yml
-
 # code
-spec
-
-#rubocop
-.rubocop.yml
-.rubocop_todo.yml
+spec/

@@ -1,5 +1,5 @@
 # Buld from ruby 2.7.5 image
-FROM ruby:2.7.5
+FROM ruby:2.7.5 as build
 
 LABEL name="emasser" \
       vendor="MITRE" \
@@ -12,17 +12,33 @@ LABEL name="emasser" \
 
 # Set the base directory that will be used from now on
 WORKDIR /emasser
-VOLUME ["/emasser"]
 
 # Copy - source (.) destination (.)
-COPY . .
 
-# Don't install development or test dependencies
-RUN bundle config set without 'development test'
 # Install dependency
 RUN gem install bundler -v '2.3.5'
+RUN apt update && apt install -y build-essential
+COPY . .
 RUN bundle install
+WORKDIR /emasser/emass_client/ruby_client
+RUN gem build emass_client.gemspec
+WORKDIR /emasser
+RUN gem build emasser.gemspec
+RUN mkdir gems
+RUN mv emass_client/ruby_client/emass_client*.gem gems/emass_client.gem
+RUN mv emasser*.gem gems/emasser.gem
 
-ENTRYPOINT ["bundle", "exec", "exe/emasser"]
+FROM ruby:2-alpine
+
+COPY --from=build /emasser/gems /emass-gems
+
+RUN sed -i 's/https/http/g' /etc/apk/repositories
+
+RUN apk add build-base libcurl && gem install /emass-gems/emass_client.gem && gem install /emass-gems/emasser.gem
+
+VOLUME [ "/data" ]
+WORKDIR /data
+
+ENTRYPOINT ["emasser"]
 
 CMD ["-h"]

@@ -53,7 +53,7 @@ Runtime Dependencies:
   * Ruby version 2.7 or greater.
   * `rubyzip (latest version)`
   * `emass_client (latest version)`
-  * On Windows the `cURL` binary is required (libcurl.dll). To install cURL: 
+  * On Windows the `cURL` binary is required (libcurl.dll). To install cURL:
     - Download cURL for windows from [curl x.x.x for Windows](https://curl.se/windows/)
       - Go into the archive and browse to the /bin directory
       - Locate libcurl_x64.dll (it may be named just libcurl.dll)
@@ -90,40 +90,23 @@ bundle exec exe/emasser [command]
 ```
 
 ## Using Docker
-**Note:** Before building the container:
-  - Add a .env file containing the emasser required variables in the emasser source directory
-  - Place the certificates (key.pem and client.pem) used to access the eMASS URL in the emasser source directory as well
-
-### Build the Docker Container
-- Install and start Docker
-- Download emasser by running git clone https://github.com/mitre/emasser.git.
-- Navigate to the base folder where Dockerfile is located
-- Build the emasser container from a terminal window in the emasser source directory:
-  ``` 
-  docker build -t emasser .
-  ```
-- To see the build output use:
-  ```
-  docker build --no-cache --progress=plain -t emasser .
-  ```
-
 ### Run the emasser Docker Container (--rm remove the container when exit)
 - To run the emasser container use:
   ```
-  docker run --rm emasser
+  docker run --rm -v $PWD/path-to-secrets:/data mitre/emasser:latest
   ```
 - To list all GET, POST, PUT, or DELETE commands use:
   ```
-  docker run --rm emasser get help
+  docker run --rm -v $PWD/path-to-secrets:/data mitre/emasser:latest get help
   ```
   ```
-  docker run --rm emasser post help
+  docker run --rm -v $PWD/path-to-secrets:/data mitre/emasser:latest post help
   ```
   ```
-  docker run --rm emasser put help
+  docker run --rm -v $PWD/path-to-secrets:/data mitre/emasser:latest put help
   ```
   ```
-  docker run --rm emasser delete help
+  docker run --rm -v $PWD/path-to-secrets:/data mitre/emasser:latest delete help
   ```
 
 ### Delete (remove) the Docker Container
