@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.licenses = ['Apache-2.0']
 
   spec.summary = 'Provide an automated capability for invoving eMASS API endpoints'
-  spec.description = 'emasser can be used as a gem or used from the command line to access eMASS via thei API.'
+  spec.description = 'emasser can be used as a gem or used from the command line (CL) to access eMASS endpoints via their API.'
   spec.homepage = 'https://saf.mitre.org'
   spec.required_ruby_version = Gem::Requirement.new('~> 2.5')
 
@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   # References: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-rubygems-registry
   spec.metadata = { "github_repo" => "ssh://github.com/mitre/emasser" }
-  
+
   spec.add_runtime_dependency 'activesupport', '~> 6.1.4'
   spec.add_runtime_dependency 'colorize', '~> 0.8.1'
   spec.add_runtime_dependency 'dotenv', '~> 2.7.6'
