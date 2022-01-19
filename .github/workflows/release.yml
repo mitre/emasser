@@ -33,7 +33,8 @@ jobs:
       - name: Build emasser
         run: gem build *.gemspec
       - name: Build emass_client
-        run: gem build -C emass_client/ruby_client/ emass_client.gemspec
+        # run: gem build -C emass_client/ruby_client/ emass_client.gemspec
+        run: gem build emass_client/ruby_client/emass_client.gemspec
       # - name: Publish to RubyGems
       #   run: |
       #     gem push --KEY rubygems --host https://rubygems.org *.gem
@@ -43,6 +44,6 @@ jobs:
           # gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem
           # gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emass_client/ruby_client/*.gem
           # gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emasser*.gem
-          gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emass_client/ruby_client/emass_client*.gem          
+          gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emass_client*.gem          
         env:
           OWNER: mitre
