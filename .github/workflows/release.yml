@@ -1,8 +1,12 @@
 name: Build and release gem
 
 on:
-  release:
-    types: [published]
+  # release:
+  #   types: [published]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   release:
@@ -30,13 +34,13 @@ jobs:
         run: gem build *.gemspec
       - name: Build emass_client
         run: gem build -C emass_client/ruby_client/ emass_client.gemspec
-      - name: Publish to RubyGems
-        run: |
-          gem push --KEY rubygems --host https://rubygems.org *.gem
-          gem push --KEY rubygems --host https://rubygems.org emass_client/ruby_client/*.gem
-      # - name: Publish to GPR
+      # - name: Publish to RubyGems
       #   run: |
-      #     gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem
-      #     gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emass_client/ruby_client/*.gem
-      #   env:
-      #     OWNER: mitre
+      #     gem push --KEY rubygems --host https://rubygems.org *.gem
+      #     gem push --KEY rubygems --host https://rubygems.org emass_client/ruby_client/*.gem
+      - name: Publish to GPR
+        run: |
+          gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem
+          gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emass_client/ruby_client/*.gem
+        env:
+          OWNER: mitre

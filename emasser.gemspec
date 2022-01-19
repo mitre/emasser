@@ -21,7 +21,9 @@ Gem::Specification.new do |spec|
   end
   spec.bindir = 'exe'
   spec.executables = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-
+  # References: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-rubygems-registry
+  spec.metadata = { "github_repo" => "ssh://github.com/mitre/emasser" }
+  
   spec.add_runtime_dependency 'activesupport', '~> 6.1.4'
   spec.add_runtime_dependency 'colorize', '~> 0.8.1'
   spec.add_runtime_dependency 'dotenv', '~> 2.7.6'
