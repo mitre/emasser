@@ -43,6 +43,6 @@ jobs:
           # gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem
           # gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emass_client/ruby_client/*.gem
           # gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emasser*.gem
-          gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emass_client*.gem          
+          gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emass_client/ruby_client/emass_client*.gem          
         env:
           OWNER: mitre
