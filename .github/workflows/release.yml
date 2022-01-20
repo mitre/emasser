@@ -34,8 +34,8 @@ jobs:
         run: gem build -C emass_client/ruby_client/ emass_client.gemspec
       - name: Publish to RubyGems
         run: |
-          gem push --KEY rubygems --host https://rubygems.org *.gem
-          gem push --KEY rubygems --host https://rubygems.org emass_client/ruby_client/*.gem
+        #gem push --KEY rubygems --host https://rubygems.org *.gem
+        #gem push --KEY rubygems --host https://rubygems.org emass_client/ruby_client/*.gem
       - name: Publish to GPR
         run: |
           # gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem
