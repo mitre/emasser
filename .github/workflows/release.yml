@@ -38,12 +38,9 @@ jobs:
         #gem push --KEY rubygems --host https://rubygems.org emass_client/ruby_client/*.gem
       - name: Publish to GPR
         run: |
-          # gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem
-          # Multiple package release not working (emass_client)
-          # ERROR:  While executing gem ... (Gem::Package::FormatError)
-          #     No such file or directory @ rb_sysopen - emass_client/ruby_client/*.gem
+          gem push --KEY github --host https://rubygems.pkg.github.com/mitre *.gem
           ls -la
           ls -la emass_client/ruby_client
-          gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emass_client/ruby_client/*.gem
+          gem push --KEY github --host https://rubygems.pkg.github.com/mitre emass_client/ruby_client/*.gem
         env:
           OWNER: mitre

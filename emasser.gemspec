@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name = 'emasser'
   spec.version = Emasser::VERSION
   spec.authors = ['Amndeep Singh Mann', 'George Dias', 'Kyle Fagan', 'Robert Clark', 'Aaron Lippold']
-  spec.email = ['saf@mitre.org']
+  spec.email = ['saf@groups.mitre.org']
   spec.licenses = ['Apache-2.0']
 
   spec.summary = 'Provide an automated capability for invoving eMASS API endpoints'
