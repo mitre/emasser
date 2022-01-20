@@ -31,7 +31,7 @@ jobs:
       - name: Build emasser
         run: gem build *.gemspec
       - name: Build emass_client
-        run: gem build -C emass_client/ruby_client/ emass_client/ruby_client/emass_client.gemspec
+        run: gem build -C emass_client/ruby_client/ emass_client.gemspec
       - name: Publish to RubyGems
         run: |
           gem push --KEY rubygems --host https://rubygems.org *.gem
@@ -42,6 +42,8 @@ jobs:
           # Multiple package release not working (emass_client)
           # ERROR:  While executing gem ... (Gem::Package::FormatError)
           #     No such file or directory @ rb_sysopen - emass_client/ruby_client/*.gem
+          ls -la
+          ls -la emass_client/ruby_client
           gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emass_client/ruby_client/*.gem
         env:
           OWNER: mitre
