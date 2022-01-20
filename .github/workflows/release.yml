@@ -1,8 +1,10 @@
 name: Build and release gem
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 
 jobs:
   release:
