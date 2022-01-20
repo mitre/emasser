@@ -34,9 +34,9 @@ jobs:
         run: |
           gem push --KEY rubygems --host https://rubygems.org *.gem
           gem push --KEY rubygems --host https://rubygems.org emass_client/ruby_client/*.gem
-      # - name: Publish to GPR
-      #   run: |
-      #     gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} *.gem
-      #     gem push --KEY github --host https://rubygems.pkg.github.com/${OWNER} emass_client/ruby_client/*.gem
-      #   env:
-      #     OWNER: mitre
+      - name: Publish to GPR
+        run: |
+          gem push --KEY github --host https://rubygems.pkg.github.com/mitre *.gem
+          gem push --KEY github --host https://rubygems.pkg.github.com/mitre emass_client/ruby_client/*.gem
+        env:
+          OWNER: mitre
