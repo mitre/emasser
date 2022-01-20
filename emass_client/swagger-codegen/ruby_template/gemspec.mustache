@@ -24,13 +24,14 @@ Gem::Specification.new do |s|
   {{/gemLicense}}
   s.required_ruby_version = "{{{gemRequiredRubyVersion}}}{{^gemRequiredRubyVersion}}>= 1.9{{/gemRequiredRubyVersion}}"
 
+  # Required for github to display multiple packages (emasser and emass_client)
+  s.metadata = { "github_repo" => "ssh://github.com/mitre/emasser" }
+
   s.add_runtime_dependency 'typhoeus', '~> 1.0', '>= 1.0.1'
   s.add_runtime_dependency 'json', '~> 2.1', '>= 2.1.0'
 
   s.add_development_dependency 'rspec', '~> 3.6', '>= 3.6.0'
 
-  #s.files         = `find *`.split("\n").uniq.sort.select { |f| !f.empty? }
-  #s.test_files    = `find spec/*`.split("\n")
   s.files = Dir.glob('lib/**/*') + %w{Rakefile README.md}  
   s.executables   = []
   s.require_paths = ["lib"]
