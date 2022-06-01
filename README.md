@@ -10,47 +10,24 @@
 ![Code Linter](https://github.com/mitre/emasser/actions/workflows/rubocop.yml/badge.svg)
 ## About
 
-`emasser` is a command line interface (CLI) that aims to automate routine business use-cases and provide utility surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its representational state transfer (REST) application programming interface (API) v3.2.
+`emasser` is a Command Line Interface (CLI) that aims to automate routine business use-cases and provide utility surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its Representational State Transfer (REST) Application Programming Interface (API). 
 
+---
 ## Documentation
-emasser provides users with the following documentation:
+For detail content information about the `eMASS` API references the [**eMASS API Specification**](https://mitre.github.io/emass_client/docs/redoc/) page.
 
-[**eMASS API Documentation**](https://mitre.github.io/emasser/docs/redoc/) | [**eMASS Swagger UI**](https://mitre.github.io/emasser/docs/swagger/)
+For detail features provided bt the `emasser` CLI references the [**emasser CLI Features**](docs/features.md) page.
 
-## Current Features
+---
+## Installation Options
 
-The following eMASS API HTTP methods are implemented:
-* `GET` view eMASS resources
-* `POST` add eMASS resources
-* `PUT` update eMASS resources
-* `DELETE` remove eMASS resources
+`emasser` is a Ruby CLI distributed via GitHub (this repository), [RubyGems](https://rubygems.org/gems/emass_client/versions/), or [Docker](https://hub.docker.com/r/mitre/emasser/tags).
 
-
-[**emasser CLI Features**](docs/features.md) | [**emasser Developers Instructions**](docs/developers.md)
-
-## In Development
-
-This project is actively looking for user stories, features to build, and interactions with eMASS. See Roadmap for more information.
-
-* Support raw JSON upload
-
-## Roadmap
-
-Emasser is currently in MVP development and we are targeting all the features listed in Current and In Development for version 1.0.X. The Road Map are things that the team and community have talked about as possible great additions but feedback on which should come first, second, and third are what we would love feedback on from you.
-
-* Update a system's record with met/not met NIST 800-53 Security and Privacy controls and/or common control indicators (CCI) based on scan results expressed in [Heimdall Data Format (HDF)](https://saf.mitre.org/#/normalize).
-* Resolve a particular plan of action and milestone (POA&M) based on scan results or git-ops workflow.
-* PKCS11 support to run in an attended mode.
-
-## Installation
-
-`emasser` is a Ruby CLI that is distributed via git only. You must request the source from saf@groups.mitre.org
-
-Installation Dependencies:
+### Installation Dependencies
   * git
   * Ruby version 2.7 or greater.
 
-Runtime Dependencies:
+### Runtime Dependencies
   * Ruby version 2.7 or greater.
   * `rubyzip (latest version)`
   * `emass_client (latest version)`
@@ -63,52 +40,60 @@ Runtime Dependencies:
     - Install [cURL for windows](https://community.chocolatey.org/packages/curl) and add the installation directory to the PATH.
 
 
-To install (via github):
-```bash
-git clone <path to emasser git> emasser
-cd emasser
+## Install via GitHub
+- [Clone](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) the repository
+  ```bash
+  git clone <path to emasser repository> emasser
+  cd emasser
+  ```
+- Build the emasser gem*
+  ```bash
+    gem build *.gemspec
+    gem install *.gem
+  ```
+***Note:** To run in development mode there isn't a need to build the gem, simply clone from the emasser repository and use:
 ```
-- Build the emasser gem
-```bash
-  gem build *.gemspec
-  gem install *.gem
-```
-- Build the emass_client gem
-```bash
-  cd emass_client/ruby_client
-  gem build *.gemspec
-  gem install *.gem
-```
+bundle install
 
-To install (via published RubyGems):
-```bash
-gem install emasser
-```
-
-**Note:** To run in development mode there isn't a need to build the gem, simply clone from the emasser repository and use:
-```
 bundle exec exe/emasser [command]
 ```
+## Install via published RubyGems
+- Just install the ```emasser``` gem from the [RubyGems](https://rubygems.org/gems/emass_client/versions/) registry
+    ```bash
+    gem install emasser
+    ```
+- To run (execute a command) create a `.env*` file in the directory where you want to invoke the `emmaser` and use: 
+  
+  ```
+  emasser [command]
+  ```
+***Note:** See [Setting Environment Variables Configuration](https://github.com/mitre/emasser/wiki/Editing-Environment-Variables-Configuration) for detailed information on required and optional variables.
 
 ## Using Docker
-### Run the emasser Docker Container
-- To run the emasser container use:
+Ensure that docker engine is running and start the emasser Docker Container.
+- To run the emasser container use (other than windows):
   ```
   docker run --rm -v $PWD/path-to-secrets:/data mitre/emasser:latest
   ```
 - To run the emasser container in a `Windows terminal (cmd)` use:
     ```
-  docker run --rm -v %cd%/path-to-secrets:/data mitre/emasser:latest
-  ```
+    docker run --rm -v %cd%/path-to-secrets:/data mitre/emasser:latest
+    ```
 **Notes:**
 - Docker Options
   - `--rm` Automatically remove the container when it exits
   - `-v` Bind mount a volume
 - path-to-secrets
-  - Path to the `.env` file and the appropriate eMASS certificates (key. pem and client.pem). See [Editing Environment Variables Configuration](https://github.com/mitre/emasser/wiki/Editing-Environment-Variables-Configuration)
+  - Path to the `.env` file and the appropriate eMASS certificates (key. pem and client.pem).
+  - For example, if the `.env` is located in the same directory where the `docker run` is executed, the command would look like this:
+  
+      ```
+      docker run --rm -v %cd%/.:/data mitre/emasser:latest
+      ```
+  -  See [Editing Environment Variables Configuration](https://github.com/mitre/emasser/wiki/Editing-Environment-Variables-Configuration)
 
 ### Run emasser API client commands
-- To list all GET, POST, PUT, or DELETE commands use:
+- To list all available GET, POST, PUT, or DELETE commands use:
   ```
   docker run --rm -v $PWD/path-to-secrets:/data mitre/emasser:latest get help
   ```
@@ -126,29 +111,36 @@ bundle exec exe/emasser [command]
 ```
   docker rmi -f mitre/emasser
 ```
+---
+## Roadmap
 
-## Use
+Emasser implements all endpoints provided by the `eMASS` API, there is, all `HTTP` calls from the `eMASS GUI` to the `eMASS backend` that are exposed by the API.
 
-**Requirement 1 & 2: Authentication and Authorization:**
-`emasser` requires authentication to eMASS as well as authorization to use the eMASS API. This authentication and authorization is **not** a function of `emasser` and needs to be handled directly with discussions with [eMASS](https://www.dcsa.mil/is/emass/). `emasser` will accept credentials that are created based on those discussions.
+The Road Map seeks to add any useful features that facilitates organization that utilizes  `eMASS` instances and have a need to automate their cybersecurity management process. 
 
-**Approve API Client for Actionable Requests**
-Users are required to log-in to eMASS and grant permissions for a client to update data within eMASS on their behalf. This is only required for actionable requests (PUT, POST, DELETE). The Registration Endpoint and all GET requests can be accessed without completing this process with the correct permissions.
+For additional capability create an issue, and email (saf@groups.mitre.org) citing the issue link so we can help
 
-To establish an account with eMASS and/or acquire an api-key/user-uid, contact one of the listed POC:
-* [eMASS Tier III support - Website](https://www.dcsa.mil/is/emass/)
-* [Send email to eMASS Tier III support](disa.meade.id.mbx.emass-tier-iii-support@mail.mil)
-* [eMASS New User Registration (CAC required)](https://nisp.emass.apps.mil/Content/Help/jobaids/eMASS_OT_NewUser_Job_Aid.pdf)
+Some proposed capabilities (looking for a sponsor) are:
+* Update a system's record with met/not met NIST 800-53 Security and Privacy controls and/or common control indicators (CCI) based on scan results expressed in [Heimdall Data Format (HDF)](https://saf.mitre.org/#/normalize).
+* Resolve a particular plan of action and milestone (POA&M) based on scan results or git-ops workflow.
+* PKCS11 support to run in an attended mode.
 
 
 ## Design
 
-**Interactions with eMASS API:**
-`emasser` leverages a MITRE dependency, `emass_client`, which provides a REST API client based on a MITRE-created [OpenAPI](https://www.openapis.org/) version 3 specification for the official eMASS version 3.2 API documentation. This design enables REST API clients to be generated in [any supported programming language](https://swagger.io/tools/swagger-codegen/). This design decision enables `emass_client` to generate a Ruby client for `emasser` and a TypeScript client that is included with [Heimdall Enterprise Server](https://github.com/mitre/heimdall2).
+### Interactions with eMASS API
+`emasser` leverages a MITRE dependency, `emass_client`, which provides a REST API client based on a MITRE-created [OpenAPI](https://www.openapis.org/) version 3 specification for the official [eMASS API specification](https://mitre.github.io/emass_client/docs/redoc). This design enables REST API clients to be generated in [any supported programming language](https://openapi-generator.tech/docs/generators/). This design decision enables `emass_client` to generate a Ruby client for `emasser` and a TypeScript client that is included with [Security Automation Framework CLI (SAF) CLI](https://github.com/mitre/saf).
 
-**Business Logic:**
-Because interactions with the API are handled by a dependency, the bulk of `emasser` is business logic for accepting user input/output, reading data from eMASS or from input, transforming data, and routing data to the appropriate eMASS API endpoint. This business logic is organized into Ruby Classes and Modules based on the command or subcommand requested by the user.
+### Business Logic
+Because interactions with the API are handled by a dependency, the bulk of `emasser` business logic is to accepting user input/output, reading data from eMASS or from input, transforming data, and routing data to the appropriate eMASS API endpoint. This business logic is organized into Ruby Classes and Modules based on the command or subcommand requested by the user.
 
+## Emasser CLI Architecture
+The `emasser` CLI implements the `emass_client` ruby gem to communicate with an `eMASS` instance via the `eMASS API` as depicted in the diagram below:
+<div align="center">
+
+![emasser Architecture](images/emasser_architecture.jpg)
+
+</div>
 
 ### NOTICE
 
