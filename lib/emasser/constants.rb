@@ -5,14 +5,18 @@ module Emasser
     include_package: false,
     include_ditpr_metrics: false,
     include_decommissioned: false,
-    return_type: 'SystemResponse' # This is used by swagger client only to format output
+    debug_return_type: 'SystemResponse' # This is used by swagger client only to format output
   }.freeze
 
   GET_SYSTEM_RETURN_TYPE = {
-    return_type: 'SystemResponse'
+    debug_return_type: 'SystemResponse'
   }.freeze
 
   GET_ARTIFACTS_RETURN_TYPE = {
-    return_type: 'String'
+    debug_return_type: 'String'
+  }.freeze
+
+  DEL_MILESTONES_RETURN_TYPE = {
+    debug_return_type: 'Object'
   }.freeze
 end

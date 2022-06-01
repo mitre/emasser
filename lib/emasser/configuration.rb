@@ -33,6 +33,7 @@ module Emasser
       config.api_key['user-uid'] = raise_unless_present('EMASSER_API_KEY_USER_UID')
       config.scheme = 'https'
       config.base_path = '/'
+      config.server_index = nil
       config.host = raise_unless_present('EMASSER_HOST')
       config.key_file = raise_unless_present('EMASSER_KEY_FILE_PATH')
       config.cert_file = raise_unless_present('EMASSER_CERT_FILE_PATH')

@@ -17,6 +17,10 @@ emasser environment variables (optional):
 * EMASSER_VERIFY_SSL_HOST=`<verify host SSL - true or false>`
 * EMASSER_DEBUGGING=`<set debugging - true or false>`
 
+***NOTE***
+`emasser` requires authentication to an eMASS instance as well as authorization to use the eMASS API. This authentication and authorization is **not** a function of `emasser` and needs to be accomplished with the eMASS instances owner organization. Further information about eMASS credential requirements refer to [Defense Counterintelligence and Security Agency](https://www.dcsa.mil/is/emass/) about eMASS access.
+
+---
 ## Common emasser Endpoint Requests Information
   - To invoke any boolean parameters use --parameterName for TRUE and --no-parameterName for FALSE
   - The eMASS API provides the capability of updating multiple entries within several endpoints, however this CLI only supports updating one entry at the time.
