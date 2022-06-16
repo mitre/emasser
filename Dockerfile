@@ -18,13 +18,14 @@ RUN gem install bundler -v '2.3.5'
 RUN apt update && apt install -y build-essential
 COPY . .
 RUN bundle install
-WORKDIR /emasser/emass_client/ruby_client
-RUN gem build emass_client.gemspec
+# WORKDIR /emasser/emass_client/ruby_client
+# RUN gem build emass_client.gemspec
 WORKDIR /emasser
 RUN gem build emasser.gemspec
 RUN mkdir gems
-RUN mv emass_client/ruby_client/emass_client*.gem gems/emass_client.gem
+# RUN mv emass_client/ruby_client/emass_client*.gem gems/emass_client.gem
 RUN mv emasser*.gem gems/emasser.gem
+
 
 FROM ruby:2-alpine
 
@@ -32,7 +33,8 @@ FROM ruby:2-alpine
 # RUN sed -i 's/https/http/g' /etc/apk/repositories
 COPY --from=build /emasser/gems /emass-gems
 
-RUN apk add build-base libcurl && gem install /emass-gems/emass_client.gem && gem install /emass-gems/emasser.gem
+# RUN apk add build-base libcurl && gem install /emass-gems/emass_client.gem && gem install /emass-gems/emasser.gem
+RUN apk add build-base libcurl && gem install /emass-gems/emasser.gem
 
 VOLUME [ "/data" ]
 WORKDIR /data

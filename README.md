@@ -12,11 +12,15 @@
 
 `emasser` is a Command Line Interface (CLI) that aims to automate routine business use-cases and provide utility surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its Representational State Transfer (REST) Application Programming Interface (API). 
 
+***NOTE***: The `emasser` CLI utilizes the [emass_client](https://github.com/mitre/emass_client) RubyGem executable package to access the eMASS API endpoints.
+
 ---
 ## Documentation
 For detail content information about the `eMASS` API references the [**eMASS API Specification**](https://mitre.github.io/emass_client/docs/redoc/) page.
 
-For detail features provided bt the `emasser` CLI references the [**emasser CLI Features**](docs/features.md) page.
+For detail features provided by the `emasser` CLI references the [**emasser CLI Features**](docs/features.md) page.
+
+The `emasser` CLI [**Architecture**](#emasser-cli-architecture) depicts the `emasser` structure, and provides an explanation of how it behaves. 
 
 ---
 ## Installation Options
@@ -25,7 +29,7 @@ For detail features provided bt the `emasser` CLI references the [**emasser CLI 
 
 ### Installation Dependencies
   * git
-  * Ruby version 2.7 or greater.
+  * Ruby version 2.7 or greater
 
 ### Runtime Dependencies
   * Ruby version 2.7 or greater.
@@ -136,10 +140,9 @@ Because interactions with the API are handled by a dependency, the bulk of `emas
 
 ## Emasser CLI Architecture
 The `emasser` CLI implements the `emass_client` ruby gem to communicate with an `eMASS` instance via the `eMASS API` as depicted in the diagram below:
+
 <div align="center">
-
-![emasser Architecture](images/emasser_architecture.jpg)
-
+  <img src="images/emasser_architecture.jpg" alt="emasser CLI Architecture" title="emasser CLI Architecture">
 </div>
 
 ### NOTICE

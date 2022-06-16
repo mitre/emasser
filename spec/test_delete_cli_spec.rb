@@ -2,29 +2,17 @@ require 'thor'
 require 'emasser/errors'
 require 'emasser/output_converters'
 require 'emasser/help'
-require 'emasser/put'
+require 'emasser/delete'
 
 # -----------------------------------------------------
-# Test that all required CLI PUT classes are available
-describe Emasser::Controls do
-  before do
-    # run before each test
-    @instance = Emasser::Controls.new
-  end
-  context 'test an instance of Controls class object' do
-    it 'should create an instance of Controls (put)' do
-      expect(@instance).to be_instance_of(Emasser::Controls)
-    end
-  end
-end
-
+# Test that all required CLI DELETE classes are available
 describe Emasser::Poams do
   before do
     # run before each test
     @instance = Emasser::Poams.new
   end
   context 'test an instance of Poams class object' do
-    it 'should create an instance of Poams (put)' do
+    it 'should create an instance of Poams (delete)' do
       expect(@instance).to be_instance_of(Emasser::Poams)
     end
   end
@@ -36,7 +24,7 @@ describe Emasser::Milestones do
     @instance = Emasser::Milestones.new
   end
   context 'test an instance of Milestones class object' do
-    it 'should create an instance of Milestones (put)' do
+    it 'should create an instance of Milestones (delete)' do
       expect(@instance).to be_instance_of(Emasser::Milestones)
     end
   end
@@ -48,7 +36,7 @@ describe Emasser::Artifacts do
     @instance = Emasser::Artifacts.new
   end
   context 'test an instance of Artifacts class object' do
-    it 'should create an instance of Artifacts (put)' do
+    it 'should create an instance of Artifacts (delete)' do
       expect(@instance).to be_instance_of(Emasser::Artifacts)
     end
   end

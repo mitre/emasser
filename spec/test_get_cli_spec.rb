@@ -1,4 +1,3 @@
-# require 'dotenv/load'
 require 'thor'
 require 'emasser/errors'
 require 'emasser/options_parser'
@@ -15,7 +14,7 @@ describe Emasser::Test do
     @instance = Emasser::Test.new
   end
   context 'test an instance of Test class object' do
-    it 'should create an instance of Test' do
+    it 'should create an instance of Test (get)' do
       expect(@instance).to be_instance_of(Emasser::Test)
     end
   end
@@ -27,7 +26,7 @@ describe Emasser::System do
     @instance = Emasser::System.new
   end
   context 'test an instance of System class object' do
-    it 'should create an instance of System' do
+    it 'should create an instance of System (get)' do
       expect(@instance).to be_instance_of(Emasser::System)
     end
   end
@@ -39,7 +38,7 @@ describe Emasser::Systems do
     @instance = Emasser::Systems.new
   end
   context 'test an instance of Systems class object' do
-    it 'should create an instance of Systems' do
+    it 'should create an instance of Systems (get)' do
       expect(@instance).to be_instance_of(Emasser::Systems)
     end
   end
@@ -51,7 +50,7 @@ describe Emasser::Roles do
     @instance = Emasser::Roles.new
   end
   context 'test an instance of Roles class object' do
-    it 'should create an instance of Roles' do
+    it 'should create an instance of Roles (get)' do
       expect(@instance).to be_instance_of(Emasser::Roles)
     end
   end
@@ -63,7 +62,7 @@ describe Emasser::Controls do
     @instance = Emasser::Controls.new
   end
   context 'test an instance of Controls class object' do
-    it 'should create an instance of Controls' do
+    it 'should create an instance of Controls (get)' do
       expect(@instance).to be_instance_of(Emasser::Controls)
     end
   end
@@ -75,7 +74,7 @@ describe Emasser::TestResults do
     @instance = Emasser::TestResults.new
   end
   context 'test an instance of TestResults class object' do
-    it 'should create an instance of TestResults' do
+    it 'should create an instance of TestResults (get)' do
       expect(@instance).to be_instance_of(Emasser::TestResults)
     end
   end
@@ -87,7 +86,7 @@ describe Emasser::Poams do
     @instance = Emasser::Poams.new
   end
   context 'test an instance of Poams class object' do
-    it 'should create an instance of Poams' do
+    it 'should create an instance of Poams (get)' do
       expect(@instance).to be_instance_of(Emasser::Poams)
     end
   end
@@ -99,7 +98,7 @@ describe Emasser::Milestones do
     @instance = Emasser::Milestones.new
   end
   context 'test an instance of Milestones class object' do
-    it 'should create an instance of Milestones' do
+    it 'should create an instance of Milestones (get)' do
       expect(@instance).to be_instance_of(Emasser::Milestones)
     end
   end
@@ -111,7 +110,7 @@ describe Emasser::Artifacts do
     @instance = Emasser::Artifacts.new
   end
   context 'test an instance of Artifacts class object' do
-    it 'should create an instance of Artifacts' do
+    it 'should create an instance of Artifacts (get)' do
       expect(@instance).to be_instance_of(Emasser::Artifacts)
     end
   end
@@ -123,7 +122,7 @@ describe Emasser::CAC do
     @instance = Emasser::CAC.new
   end
   context 'test an instance of CAC class object' do
-    it 'should create an instance of CAC' do
+    it 'should create an instance of CAC (get)' do
       expect(@instance).to be_instance_of(Emasser::CAC)
     end
   end
@@ -135,7 +134,7 @@ describe Emasser::PAC do
     @instance = Emasser::PAC.new
   end
   context 'test an instance of PAC class object' do
-    it 'should create an instance of PAC' do
+    it 'should create an instance of PAC (get)' do
       expect(@instance).to be_instance_of(Emasser::PAC)
     end
   end
@@ -147,7 +146,7 @@ describe Emasser::CMMC do
     @instance = Emasser::CMMC.new
   end
   context 'test an instance of CMMC class object' do
-    it 'should create an instance of CMMC' do
+    it 'should create an instance of CMMC (get)' do
       expect(@instance).to be_instance_of(Emasser::CMMC)
     end
   end
@@ -159,7 +158,7 @@ describe Emasser::WorkflowDefinitions do
     @instance = Emasser::WorkflowDefinitions.new
   end
   context 'test an instance of WorkflowDefinitions class object' do
-    it 'should create an instance of WorkflowDefinitions' do
+    it 'should create an instance of WorkflowDefinitions (get)' do
       expect(@instance).to be_instance_of(Emasser::WorkflowDefinitions)
     end
   end
@@ -171,7 +170,7 @@ describe Emasser::WorkflowInstances do
     @instance = Emasser::WorkflowInstances.new
   end
   context 'test an instance of WorkflowInstances class object' do
-    it 'should create an instance of WorkflowInstances' do
+    it 'should create an instance of WorkflowInstances (get)' do
       expect(@instance).to be_instance_of(Emasser::WorkflowInstances)
     end
   end

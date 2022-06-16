@@ -597,13 +597,13 @@ module Emasser
   #
   # Endpoint:
   #   /api/systems/{systemId}/cloud-resources-results - Upload cloud resources and their scan results
-  class CloudResources < SubCommandBase
+  class CloudResource < SubCommandBase
     def self.exit_on_failure?
       true
     end
 
     desc 'add', 'Upload cloud resources and their scan results'
-    # long_desc Help.text(:staticcode_post_mapper)
+    long_desc Help.text(:cloudresource_post_mapper)
 
     # Required parameters/fields
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
@@ -689,12 +689,13 @@ module Emasser
   #
   # Endpoint:
   #   /api/systems/{systemId}/container-scan-results - Upload containers and their scan results
-  class Containers < SubCommandBase
+  class Container < SubCommandBase
     def self.exit_on_failure?
       true
     end
 
     desc 'add', 'Upload containers and their scan results'
+    long_desc Help.text(:container_post_mapper)
 
     # Required parameters/fields
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
@@ -792,10 +793,10 @@ module Emasser
     desc 'scan_findings', 'Upload static code scans'
     subcommand 'scan_findings', ScanFindings
 
-    desc 'cloud_resources', 'Upload cloud resources and their scan results'
-    subcommand 'cloud_resources', CloudResources
+    desc 'cloud_resource', 'Upload cloud resource and their scan results'
+    subcommand 'cloud_resource', CloudResource
 
-    desc 'containers', 'Upload containers and their scan results'
-    subcommand 'containers', Containers
+    desc 'container', 'Upload container and their scan results'
+    subcommand 'container', Container
   end
 end

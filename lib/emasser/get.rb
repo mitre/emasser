@@ -112,7 +112,7 @@ module Emasser
         result = EmassClient::SystemsApi.new.get_system(options[:systemId], optional_options)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
-        puts 'Exception when calling SystemsApi->get_systems'.red
+        puts 'Exception when calling SystemsApi->get_system'.red
         puts to_output_hash(e).yellow
       end
     end
@@ -613,8 +613,9 @@ module Emasser
                                 desc: 'A numeric value representing the workflowInstance identification'
 
     def byInstanceId
+      opts = Emasser::GET_WORKFLOWINSTANCES_RETURN_TYPE
       result = EmassClient::WorkflowInstancesApi.new
-                                                .get_system_workflow_instances_by_workflow_instance_id(options[:workflowInstanceId])
+                                                .get_system_workflow_instances_by_workflow_instance_id(options[:workflowInstanceId], opts)
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_system_workflow_instances_by_workflow_instance_id'.red
