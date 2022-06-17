@@ -60,10 +60,15 @@ bundle install
 bundle exec exe/emasser [command]
 ```
 ## Install via published RubyGems
-- Just install the ```emasser``` gem from the [RubyGems](https://rubygems.org/gems/emass_client/versions/) registry
+- Install the `emasser` gem from the [RubyGems](https://rubygems.org/gems/emass_client/versions/) registry
     ```bash
     gem install emasser
     ```
+- Update the `emasser` gem to the latest version
+  ```bash
+  gem update emasser
+  ```
+
 - To run (execute a command) create a `.env*` file in the directory where you want to invoke the `emmaser` and use: 
   
   ```
@@ -73,21 +78,26 @@ bundle exec exe/emasser [command]
 
 ## Using Docker
 Ensure that docker engine is running and start the emasser Docker Container.
-- To run the emasser container use (other than windows):
+### Install
+- On Linux or Mac:
   ```
   docker run --rm -v $PWD/path-to-secrets:/data mitre/emasser:latest
   ```
-- To run the emasser container in a `Windows terminal (cmd)` use:
+- On Windows:
     ```
     docker run --rm -v %cd%/path-to-secrets:/data mitre/emasser:latest
     ```
+- Update via Docker
+  ```bash
+    docker pull mitre/emasser:latest
+  ```
 **Notes:**
 - Docker Options
   - `--rm` Automatically remove the container when it exits
   - `-v` Bind mount a volume
 - path-to-secrets
   - Path to the `.env` file and the appropriate eMASS certificates (key. pem and client.pem).
-  - For example, if the `.env` is located in the same directory where the `docker run` is executed, the command would look like this:
+  - For example, if the `.env` is located in the same directory where the `docker run` is executed. Running the command in a Windows platform would look like this:
   
       ```
       docker run --rm -v %cd%/.:/data mitre/emasser:latest
@@ -108,6 +118,7 @@ Ensure that docker engine is running and start the emasser Docker Container.
   ```
   docker run --rm -v $PWD/path-to-secrets:/data mitre/emasser:latest delete help
   ```
+  Example commands are for Linux or Mac, replace the `$PWD` with `%cd%` for Windows
 
 ### Delete (remove) the Docker Container
 ```
@@ -131,13 +142,13 @@ Some proposed capabilities (looking for a sponsor) are:
 ## Design
 
 ### Interactions with eMASS API
-`emasser` leverages a MITRE dependency, `emass_client`, which provides a REST API client based on a MITRE-created [OpenAPI](https://www.openapis.org/) version 3 specification for the official [eMASS API specification](https://mitre.github.io/emass_client/docs/redoc). This design enables REST API clients to be generated in [any supported programming language](https://openapi-generator.tech/docs/generators/). This design decision enables `emass_client` to generate a Ruby client for `emasser` and a TypeScript client that is included with [Security Automation Framework CLI (SAF) CLI](https://github.com/mitre/saf).
+The `emasser` CLI leverages the [emass_client](https://github.com/mitre/emass_client), which provides a REST API client based on a MITRE-created [OpenAPI](https://www.openapis.org/) version 3 specification for the official [eMASS API specification](https://mitre.github.io/emass_client/docs/redoc). This design enables REST API clients to be generated in [any supported programming language](https://openapi-generator.tech/docs/generators/). The design enables the `emass_client` to be generated independently of the emasser CLI. Currently a Ruby and a Typescript eMASS client API are provided. The TypeScript client is used with the [Security Automation Framework CLI (SAF) CLI](https://github.com/mitre/saf).
 
 ### Business Logic
-Because interactions with the API are handled by a dependency, the bulk of `emasser` business logic is to accepting user input/output, reading data from eMASS or from input, transforming data, and routing data to the appropriate eMASS API endpoint. This business logic is organized into Ruby Classes and Modules based on the command or subcommand requested by the user.
+Because interactions with the API are handled by a dependency, the bulk of `emasser` business logic is for accepting user input/output, reading data from eMASS or from input, transforming data, and routing data to the appropriate eMASS API endpoint. This business logic is organized into Ruby Classes and Modules based on the command or subcommand requested by the user.
 
 ## Emasser CLI Architecture
-The `emasser` CLI implements the `emass_client` ruby gem to communicate with an `eMASS` instance via the `eMASS API` as depicted in the diagram below:
+The `emasser` CLI makes use of the `emass_client` ruby gem to communicate with an `eMASS` instance via the `eMASS API` as depicted in the diagram below:
 
 <div align="center">
   <img src="images/emasser_architecture.jpg" alt="emasser CLI Architecture" title="emasser CLI Architecture">
