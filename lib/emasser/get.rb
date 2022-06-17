@@ -58,9 +58,8 @@ module Emasser
       true
     end
 
-    desc 'id [--system-name [SYSTEM_NAME]] [--system-owner [SYSTEM_OWNER]]',
+    desc 'id [--system_name [SYSTEM_NAME]] [--system_owner [SYSTEM_OWNER]]',
          'Attempts to provide system ID of a system with name [NAME] and owner [SYSTEM_OWNER]'
-    # desc 'id', 'Get a system ID given "name" or "owner"'
 
     # Required parameters/fields
     option :system_name
@@ -73,26 +72,29 @@ module Emasser
       end
 
       begin
-        results = EmassClient::SystemsApi.new.get_systems.data
+        results = EmassClient::SystemsApi.new.get_systems
         results = filter_systems(results, options[:system_name], options[:system_owner])
         results.each { |result| puts "#{result[:systemId]} - #{result[:systemOwner]} - #{result[:name]}" }
       rescue EmassClient::ApiError => e
         puts 'Exception when calling SystemsApi->get_systems'
-        puts to_output_hash(e)
+        puts to_output_hash(e).yellow
       end
     end
 
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     no_commands do
       def filter_systems(results, system_name = nil, system_owner = nil)
+        results = results.to_body if results.respond_to?(:to_body)
         if system_owner.nil?
-          results.filter { |result| result[:name].eql?(system_name) }
+          results[:data].filter { |result| result[:name].eql?(system_name) }
         elsif system_name.nil?
-          results.filter { |result| result[:systemOwner].eql?(system_owner) }
+          results[:data].filter { |result| result[:systemOwner].eql?(system_owner) }
         else
-          results.filter { |result| result[:name].eql?(system_name) && result[:systemOwner].eql?(system_owner) }
+          results[:data].filter { |result| result[:name].eql?(system_name) && result[:systemOwner].eql?(system_owner) }
         end
       end
     end
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
     desc "byId \[options\]", 'Retrieve a system - filtered by [options] params'
     option :systemId, type: :numeric, required: true,
@@ -110,8 +112,8 @@ module Emasser
         result = EmassClient::SystemsApi.new.get_system(options[:systemId], optional_options)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
-        puts 'Exception when calling SystemsApi->get_systems'.red
-        puts to_output_hash(e)
+        puts 'Exception when calling SystemsApi->get_system'.red
+        puts to_output_hash(e).yellow
       end
     end
   end
@@ -148,7 +150,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling SystemsApi->get_systems'.red
-        puts to_output_hash(e)
+        puts to_output_hash(e).yellow
       end
     end
   end
@@ -174,7 +176,7 @@ module Emasser
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling SystemRolesApi->get_system_roles'.red
-      puts to_output_hash(e)
+      puts to_output_hash(e).yellow
     end
 
     desc "byCategory \[options\]", 'Retrieves role(s) - filtered by [options] params'
@@ -184,7 +186,7 @@ module Emasser
                           enum: ['AO', 'Auditor', 'Artifact Manager', 'C&A Team', 'IAO',
                                  'ISSO', 'PM/IAM', 'SCA', 'User Rep', 'Validator']
     # Optional parameters/fields
-    option :policy, type: :string, required: false, enum: %w[diacap rmf reporting]
+    option :policy, type: :string, required: false, default: 'rmf', enum: %w[diacap rmf reporting]
     option :includeDecommissioned, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
 
     def byCategory
@@ -197,7 +199,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling SystemRolesApi->get_system_by_role_category_id'.red
-        puts to_output_hash(e)
+        puts to_output_hash(e).yellow
       end
     end
   end
@@ -230,7 +232,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling ControlsApi->get_system_controls'.red
-        puts to_output_hash(e)
+        puts to_output_hash(e).yellow
       end
     end
   end
@@ -263,7 +265,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling TestResultsApi->get_system_test_results'.red
-        puts to_output_hash(e)
+        puts to_output_hash(e).yellow
       end
     end
   end
@@ -289,8 +291,8 @@ module Emasser
                                           desc: 'The schedule completion start date - Unix time format.'
     option :scheduledCompletionDateEnd,   type: :numeric,  required: false,
                                           desc: 'The scheduled completion end date - Unix time format.'
-    option :controlAcronyms, type: :string,  required: false, desc: 'The system acronym(s) e.g "AC-1, AC-2"'
-    option :ccis,            type: :string,  required: false, desc: 'The system CCIS string numerical value'
+    option :controlAcronyms, type: :string,  required: false, desc: 'The system acronym(s) e.g "AC-1" or "AC-1, AC-2"'
+    option :ccis,            type: :string,  required: false, desc: 'The system CCIS string numerical value e.g "000123" or "000123,000069"'
     option :systemOnly,      type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
 
     def forSystem
@@ -302,7 +304,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling POAMApi->get_system_poams'.red
-        puts to_output_hash(e)
+        puts to_output_hash(e).yellow
       end
     end
 
@@ -319,7 +321,7 @@ module Emasser
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling POAMApi->get_system_poams_by_poam_id'.red
-      puts to_output_hash(e)
+      puts to_output_hash(e).yellow
     end
   end
 
@@ -356,7 +358,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling MilestonesApi->get_system_milestones_by_poam_id'.red
-        puts to_output_hash(e)
+        puts to_output_hash(e).yellow
       end
     end
 
@@ -377,7 +379,7 @@ module Emasser
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling MilestonesApi->get_system_milestones_by_poam_id_and_milestone_id'.red
-      puts to_output_hash(e)
+      puts to_output_hash(e).yellow
     end
   end
 
@@ -393,7 +395,7 @@ module Emasser
       true
     end
 
-    desc 'system', 'Get all system artifacts for a system Id'
+    desc 'forSystem', 'Get all system artifacts for a system Id'
     # Required parameters/fields
     option :systemId, type: :numeric, required: true,
                       desc: 'A numeric value representing the system identification'
@@ -414,7 +416,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling ArtifactsApi->get_system_artifacts'.red
-        puts to_output_hash(e)
+        puts to_output_hash(e).yellow
       end
     end
 
@@ -437,7 +439,7 @@ module Emasser
         options[:systemId], options[:filename], optional_options
       )
       if options[:compress]
-        p result.green
+        pp result
       else
         begin
           puts JSON.pretty_generate(JSON.parse(result)).green
@@ -447,7 +449,7 @@ module Emasser
       end
     rescue EmassClient::ApiError => e
       puts 'Exception when calling ArtifactsApi->get_system_artifacts_export'.red
-      puts to_output_hash(e)
+      puts to_output_hash(e).yellow
     end
   end
 
@@ -483,7 +485,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling ApprovalChainApi->get_system_cac'.red
-        puts to_output_hash(e)
+        puts to_output_hash(e).yellow
       end
     end
   end
@@ -514,7 +516,7 @@ module Emasser
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_system_'.red
-      puts to_output_hash(e)
+      puts to_output_hash(e).yellow
     end
   end
 
@@ -539,7 +541,7 @@ module Emasser
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_cmmc_assessments'.red
-      puts to_output_hash(e)
+      puts to_output_hash(e).yellow
     end
   end
 
@@ -569,7 +571,7 @@ module Emasser
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_workflow_definitions'.red
-      puts to_output_hash(e)
+      puts to_output_hash(e).yellow
     end
   end
 
@@ -577,17 +579,14 @@ module Emasser
   # active and historical workflows for a system.
   #
   # Endpoints:
-  #    /api/systems/{systemId}/workflow-instances                      - Get workflow instances in a system
-  #    /api/systems/{systemId}/workflow-instances/{workflowInstanceId} - Get workflow instance by ID in a system
+  #    /api/workflows/instances                      - Get workflow instances in a site
+  #    /api/workflows/instances/{workflowInstanceId} - Get workflow instance by ID
   class WorkflowInstances < SubCommandBase
     def self.exit_on_failure?
       true
     end
 
-    desc 'forSystem', 'Get workflow instances in a system'
-    # Required parameters/fields
-    option :systemId, type: :numeric, required: true,
-                      desc: 'A numeric value representing the system identification'
+    desc 'all', 'Get workflow instances in a site'
 
     # Optional parameters/fields
     option :includeComments, type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
@@ -595,36 +594,32 @@ module Emasser
     option :sinceDate, type: :string, required: false, desc: 'The workflow instance date. Unix date format'
     option :status, type: :string, required: false, enum: %w[active inactive all]
 
-    def forSystem
+    def all
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::WorkflowInstancesApi.new.get_system_workflow_instances(
-        options[:systemId], optional_options
-      )
+      result = EmassClient::WorkflowInstancesApi.new.get_system_workflow_instances(optional_options)
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_system_workflow_instances'.red
-      puts to_output_hash(e)
+      puts to_output_hash(e).yellow
     end
 
     # Workflow by workflowInstanceId ---------------------------------------------------------
-    desc 'byWorkflowInstanceId', 'Get workflow instance by ID in a system'
+    desc 'byInstanceId', 'Get workflow instance by ID'
 
     # Required parameters/fields
-    option :systemId, type: :numeric, required: true,
-                      desc: 'A numeric value representing the system identification'
     option :workflowInstanceId, type: :numeric, required: true,
                                 desc: 'A numeric value representing the workflowInstance identification'
 
-    def byWorkflowInstanceId
-      result = EmassClient::WorkflowInstancesApi.new.get_system_workflow_instances_by_workflow_instance_id(
-        options[:systemId], options[:workflowInstanceId]
-      )
+    def byInstanceId
+      opts = Emasser::GET_WORKFLOWINSTANCES_RETURN_TYPE
+      result = EmassClient::WorkflowInstancesApi.new
+                                                .get_system_workflow_instances_by_workflow_instance_id(options[:workflowInstanceId], opts)
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling ApprovalChainApi->get_system_workflow_instances_by_workflow_instance_id'.red
-      puts to_output_hash(e)
+      puts to_output_hash(e).yellow
     end
   end
 

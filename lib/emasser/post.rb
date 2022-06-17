@@ -37,7 +37,8 @@ class Thor
 end
 
 module Emasser
-  POAMS_POST_HELP_MESSAGE = "\nInvoke \"bundle exec exe/emasser post poams help add\" for additional help"
+  POAMS_POST_HELP_MESSAGE = "\nInvoke \"emasser post poams help add\" for additional help"
+  SCAN_POST_HELP_MESSAGE = "\nInvoke \"emasser post scan_findings help clear\" for additional help"
   # The Test Results endpoints provide the ability to add test results for a
   # system's Assessment Procedures (CCIs) which determine Security Control compliance.
   #
@@ -61,7 +62,7 @@ module Emasser
     option :complianceStatus, type: :string, required: true, enum: ['Compliant', 'Non-Compliant', 'Not Applicable']
 
     def add
-      body = EmassClient::TestResultsRequestPostBody.new
+      body = EmassClient::TestResultsGet.new
       body.cci = options[:cci]
       body.tested_by = options[:testedBy]
       body.test_date = options[:testDate]
@@ -72,7 +73,7 @@ module Emasser
 
       begin
         result = EmassClient::TestResultsApi
-                 .new.add_test_results_by_system_id(body_array, options[:systemId])
+                 .new.add_test_results_by_system_id(options[:systemId], body_array)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling TestResultsApi->add_test_results_by_system_id'.red
@@ -153,7 +154,7 @@ module Emasser
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def add
       # Required fields
-      body = EmassClient::PoamRequiredPost.new
+      body = EmassClient::PoamGet.new
       body.status = options[:status]
       body.vulnerability_description = options[:vulnerabilityDescription]
       body.source_ident_vuln = options[:sourceIdentVuln]
@@ -186,7 +187,7 @@ module Emasser
       body_array = Array.new(1, body)
 
       begin
-        result = EmassClient::POAMApi.new.add_poam_by_system_id(body_array, options[:systemId])
+        result = EmassClient::POAMApi.new.add_poam_by_system_id(options[:systemId], body_array)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling POAMApi->add_poam_by_system_id'.red
@@ -195,7 +196,7 @@ module Emasser
     end
     # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
-    # rubocop:disable Metrics/BlockLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/BlockLength, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     no_commands do
       def process_business_logic(body)
         #-----------------------------------------------------------------------------
@@ -213,13 +214,18 @@ module Emasser
             puts '    comments'.red
             puts POAMS_POST_HELP_MESSAGE.yellow
             exit
+          elsif !(options[:scheduledCompletionDate].nil? && options[:milestone].nil?)
+            puts 'When status = "Risk Accepted" POA&M Item CAN NOT be saved with the following parameters/fields:'.red
+            puts '    scheduledCompletionDate, or milestone'.red
+            puts POAMS_PUT_HELP_MESSAGE.yellow
+            exit
           else
             body.comments = options[:comments]
           end
         elsif options[:status] == "Ongoing"
           if options[:scheduledCompletionDate].nil? || options[:milestone].nil?
             puts 'When status = "Ongoing" the following parameters/fields are required:'.red
-            puts '    scheduledCompletionDate, or milestone'.red
+            puts '    scheduledCompletionDate, milestone'.red
             print_milestone_help
             puts POAMS_POST_HELP_MESSAGE.yellow
             exit
@@ -295,7 +301,7 @@ module Emasser
         puts '    --milestone description:"[value]" scheduledCompletionDate:"[value]"'.yellow
       end
     end
-    # rubocop:enable Metrics/BlockLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/BlockLength, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   end
 
   # The Milestones endpoints provide the ability add milestones that are associated with
@@ -316,18 +322,17 @@ module Emasser
     option :poamId, type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
     option :description, type: :string,  required: true, desc: 'The milestone description'
     option :scheduledCompletionDate,
-           type: :numeric, required: false, desc: 'The scheduled completion date - Unix time format'
+           type: :numeric, required: true, desc: 'The scheduled completion date - Unix time format'
 
     def add
-      body = EmassClient::MilestonesRequestPostBody.new
-      body.poam_id = options[:poamId]
+      body = EmassClient::MilestonesGet.new
       body.description = options[:description]
       body.scheduled_completion_date = options[:scheduledCompletionDate]
       body_array = Array.new(1, body)
 
       begin
         result = EmassClient::MilestonesApi
-                 .new.add_milestone_by_system_id_and_poam_id(body_array, options[:systemId], options[:poamId])
+                 .new.add_milestone_by_system_id_and_poam_id(options[:systemId], options[:poamId], body_array)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling MilestonesApi->add_milestone_by_system_id_and_poam_id'.red
@@ -357,8 +362,6 @@ module Emasser
                   'Image', 'Other', 'Scan Result', 'Auditor Report']
     option :category, type: :string, required: true, enum: ['Implementation Guidance', 'Evidence']
     option :isTemplate, type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
-    # NOTE: compress is a required parameter, however Thor does not allow a boolean type to be required because it
-    # automatically creates a --no-isTemplate option for isTemplate=false
 
     # Optional parameters/fields
     option :description, type: :string, required: false, desc: 'Artifact description'
@@ -379,6 +382,9 @@ module Emasser
       optional_options.delete(:is_template)
 
       opts = {}
+      opts[:type] = options[:type]
+      opts[:category] = options[:category]
+      opts[:is_template] = options[:is_template]
       opts[:form_params] = optional_options
 
       tempfile = Tempfile.create(['artifacts', '.zip'])
@@ -395,8 +401,7 @@ module Emasser
       begin
         result = EmassClient::ArtifactsApi
                  .new
-                 .add_artifacts_by_system_id(options[:isTemplate], options[:type],
-                                             options[:category], tempfile, options[:systemId], opts)
+                 .add_artifacts_by_system_id(options[:systemId], tempfile, opts)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling ArtifactsApi->add_artifacts_by_system_id'.red
@@ -431,7 +436,7 @@ module Emasser
     option :comments, type: :string, required: false, desc: 'The control approval chain comments'
 
     def add
-      body = EmassClient::CacRequestPostBody.new
+      body = EmassClient::CacGet.new
       body.control_acronym = options[:controlAcronym]
       body.comments = options[:comments]
 
@@ -439,10 +444,10 @@ module Emasser
 
       begin
         # Get location of one or many controls in CAC
-        result = EmassClient::CacApi.new.add_s_ystem_c_ac(body_array, options[:systemId])
+        result = EmassClient::CACApi.new.add_system_cac(options[:systemId], body_array)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
-        puts 'Exception when calling ApprovalChainApi->add_s_ystem_c_ac'.red
+        puts 'Exception when calling ApprovalChainApi->add_system_cac'.red
         puts to_output_hash(e)
       end
     end
@@ -470,22 +475,22 @@ module Emasser
                       desc: 'Comments submitted upon initiation of the indicated workflow'
 
     def add
-      body = EmassClient::PacRequestBodyPost.new
+      body = EmassClient::PacGet.new
       body.name = options[:name]
-      body.type = options[:type]
+      body.workflow = options[:workflow]
       body.comments = options[:comments]
 
       body_array = Array.new(1, body)
 
-      result = EmassClient::PacApi.new.add_s_ystem_p_ac(body_array, options[:systemId])
+      result = EmassClient::PACApi.new.add_system_pac(options[:systemId], body_array)
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling ApprovalChainApi->add_s_ystem_c_ac'.red
+      puts 'Exception when calling ApprovalChainApi->add_system_pac'.red
       puts to_output_hash(e)
     end
   end
 
-  # TThe Static Code Scans endpoint provides the ability to upload application
+  # The Static Code Scans endpoint provides the ability to upload application
   # scan findings into a system's assets module.
   #
   # Application findings can also be cleared from the system.
@@ -505,15 +510,14 @@ module Emasser
     option :applicationName, type: :string, required: true, desc: 'Name of the software application that was assessed'
     option :version, type: :string, required: true, desc: 'The version of the application'
     option :codeCheckName, type: :string, required: true, desc: 'Name of the software vulnerability or weakness'
-    option :scanDate, type: :numeric, required: false, desc: 'The findings scan date - Unix time format'
+    option :scanDate, type: :numeric, required: true, desc: 'The findings scan date - Unix time format'
     option :cweId, type: :string, required: true, desc: 'The Common Weakness Enumerator (CWE) identifier'
-
+    option :count, type: :numeric, required: true, desc: 'Number of instances observed for a specified finding'
     # Optional parameter/fields
     option :rawSeverity, type: :string, required: false, enum: %w[Low Medium Moderate High Critical]
-    option :count, type: :numeric, required: false, desc: 'Number of instances observed for a specified finding'
 
     def add
-      application = EmassClient::StaticCodeRequiredPostApplication.new
+      application = EmassClient::StaticCodeRequestPostBodyApplication.new
       application.application_name = options[:applicationName]
       application.version = options[:version]
 
@@ -521,19 +525,20 @@ module Emasser
       application_findings.code_check_name = options[:codeCheckName]
       application_findings.scan_date = options[:scanDate]
       application_findings.cwe_id = options[:cweId]
-
+      application_findings.count = options[:count]
       application_findings.raw_severity = options[:rawSeverity] if options[:rawSeverity]
-      application_findings.count = options[:count] if options[:count]
 
-      body = EmassClient::StaticCodeRequiredPost.new
+      app_findings_array = Array.new(1, application_findings)
+
+      body = EmassClient::StaticCodeRequestPostBody.new
       body.application = application
-      body.application_findings = application_findings
+      body.application_findings = app_findings_array
 
       body_array = Array.new(1, body)
 
       begin
         result = EmassClient::StaticCodeScansApi
-                 .new.add_static_code_scans_by_system_id(body_array, options[:systemId])
+                 .new.add_static_code_scans_by_system_id(options[:systemId], body_array)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling StaticCodeScansApi->add_static_code_scans_by_system_id'.red
@@ -556,32 +561,214 @@ module Emasser
     def clear
       unless options[:clearFindings]
         puts 'To clear an application findings, the field clearFindings (--clearFindings) is required'.red
-        puts NEW_LINE + 'Invoke "bundle exec exe/emasser post scan_findings help clear" for additional help'.yellow
+        puts SCAN_POST_HELP_MESSAGE.yellow
         exit
       end
 
-      application = EmassClient::StaticCodeRequiredPostApplication.new
+      application = EmassClient::StaticCodeRequestPostBodyApplication.new
       application.application_name = options[:applicationName]
       application.version = options[:version]
 
       application_findings = EmassClient::StaticCodeApplication.new
       application_findings.clear_findings = options[:clearFindings]
 
-      body = EmassClient::StaticCodeRequiredPost.new
+      app_findings_array = Array.new(1, application_findings)
+
+      body = EmassClient::StaticCodeRequestPostBody.new
       body.application = application
-      body.application_findings = application_findings
+      body.application_findings = app_findings_array
 
       body_array = Array.new(1, body)
 
       begin
         result = EmassClient::StaticCodeScansApi
-                 .new.add_static_code_scans_by_system_id(body_array, options[:systemId])
+                 .new.add_static_code_scans_by_system_id(options[:systemId], body_array)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling StaticCodeScansApi->add_static_code_scans_by_system_id'.red
         puts to_output_hash(e)
       end
     end
+  end
+
+  # The Cloud Resources endpoint provides the ability to upload (add)
+  # cloud resources and their scan results in the assets module for a system.
+  #
+  #
+  # Endpoint:
+  #   /api/systems/{systemId}/cloud-resources-results - Upload cloud resources and their scan results
+  class CloudResource < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'add', 'Upload cloud resources and their scan results'
+    long_desc Help.text(:cloudresource_post_mapper)
+
+    # Required parameters/fields
+    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :provider, type: :string, required: true, desc: 'Cloud service provider name'
+    option :resourceId, type: :string, required: true, desc: 'Unique identifier/resource namespace for policy compliance result'
+    option :resourceName, type: :string, required: true, desc: 'Friendly name of Cloud resource'
+    option :resourceType, type: :string, required: true, desc: 'Type of Cloud resource'
+    # ComplianceResults Array Objects
+    option :cspPolicyDefinitionId, type: :string, required: true, desc: 'Unique identifier/compliance namespace for CSP/Resource\'s policy definition/compliance check'
+    option :isCompliant, type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false'
+    option :policyDefinitionTitle, type: :string, required: true, desc: 'Friendly policy/compliance check title. Recommend short title'
+
+    # Optional parameter/fields
+    option :initiatedBy, type: :string, required: false, desc: 'Email of POC'
+    option :cspAccountId, type: :string, required: false, desc: 'System/owner\'s CSP account ID/number'
+    option :cspRegion, type: :string, required: false, desc: 'CSP region of system'
+    option :isBaseline, type: :boolean, required: false, default: true, desc: 'BOOLEAN - true or false'
+    # Tags Object
+    option :test, type: :string, required: false, desc: 'The test tag'
+    # ComplianceResults Array Objects
+    option :assessmentProcedure, type: :string, required: false, desc: 'Comma separated correlation to Assessment Procedure (i.e. CCI number for DoD Control Set)'
+    option :complianceCheckTimestamp, type: :numeric, required: false, desc: 'The compliance timestamp Unix date format.'
+    option :complianceReason, type: :string, required: false, desc: 'Reason/comments for compliance result'
+    option :control, type: :string, required: false, desc: 'Comma separated correlation to Security Control (e.g. exact NIST Control acronym)'
+    option :policyDeploymentName, type: :string, required: false, desc: 'Name of policy deployment'
+    option :policyDeploymentVersion, type: :string, required: false, desc: 'policyDeploymentVersion'
+    option :severity, type: :string, required: false, enum: %w[Low Medium Moderate High Critical]
+
+    # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    def add
+      # Required and Optional main fields
+      body = {}
+      body[:provider] = options[:provider]
+      body[:resourceId] = options[:resourceId]
+      body[:resourceName] = options[:resourceName]
+      body[:resourceType] = options[:resourceType]
+
+      body[:initiatedBy] = options[:initiatedBy] if options[:initiatedBy]
+      body[:cspAccountId] = options[:cspAccountId] if options[:cspAccountId]
+      body[:cspRegion] = options[:cspRegion] if options[:cspRegion]
+      body[:isBaseline] = options[:isBaseline] if options[:isBaseline]
+
+      # Optional tags field
+      tags = {}
+      tags[:test] = options[:test] if options[:test]
+
+      # Required and Optional compliances results fields
+      compliance_results = {}
+      compliance_results[:cspPolicyDefinitionId] = options[:cspPolicyDefinitionId]
+      compliance_results[:isCompliant] = options[:isCompliant]
+      compliance_results[:policyDefinitionTitle] = options[:policyDefinitionTitle]
+      # Optional fields
+      compliance_results[:assessmentProcedure] = options[:assessmentProcedure] if options[:assessmentProcedure]
+      compliance_results[:complianceCheckTimestamp] = options[:complianceCheckTimestamp] if options[:complianceCheckTimestamp]
+      compliance_results[:complianceReason] = options[:complianceReason] if options[:complianceReason]
+      compliance_results[:control] = options[:control] if options[:control]
+      compliance_results[:policyDeploymentName] = options[:policyDeploymentName] if options[:policyDeploymentName]
+      compliance_results[:policyDeploymentVersion] = options[:policyDeploymentVersion] if options[:policyDeploymentVersion]
+      compliance_results[:severity] = options[:severity] if options[:severity]
+
+      compliance_results_array = Array.new(1, compliance_results)
+
+      body[:tags] = tags
+      body[:complianceResults] = compliance_results_array
+
+      body_array = Array.new(1, body)
+
+      begin
+        result = EmassClient::CloudResourcesApi
+                 .new.add_cloud_resources_by_system_id(options[:systemId], body_array)
+        puts to_output_hash(result).green
+      rescue EmassClient::ApiError => e
+        puts 'Exception when calling StaticCodeScansApi->add_cloud_resources_by_system_id'.red
+        puts to_output_hash(e)
+      end
+    end
+    # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+  end
+
+  # The Containers endpoint provides the ability to upload (add)
+  # containers and their scan results in the assets module for a system.
+  #
+  #
+  # Endpoint:
+  #   /api/systems/{systemId}/container-scan-results - Upload containers and their scan results
+  class Container < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'add', 'Upload containers and their scan results'
+    long_desc Help.text(:container_post_mapper)
+
+    # Required parameters/fields
+    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :containerId, type: :string, required: true, desc: 'Unique identifier of the container'
+    option :containerName, type: :string, required: true, desc: 'Friendly name of the container'
+    option :time, type: :numeric, required: true, desc: 'Datetime of scan/result. Unix date format'
+    # Benchmarks Array Objects
+    option :benchmark, type: :string, required: true, desc: 'Identifier of the benchmark/grouping of compliance results'
+    # Benchmarks.Results Array Objects
+    option :lastSeen, type: :numeric, required: true, desc: 'Date last seen, Unix date format'
+    option :ruleId, type: :string, required: true, desc: 'Identifier for the compliance result, vulnerability, etc. the result is for'
+    option :status, type: :string, required: true, enum: ['Pass', 'Fail', 'Other', 'Not Reviewed', 'Not Checked', 'Not Applicable']
+
+    # Optional parameter/fields
+    option :namespace, type: :string, required: false, desc: 'Namespace of container in container orchestration'
+    option :podIp, type: :string, required: false, desc: 'IP address of the pod'
+    option :podName, type: :string, required: false, desc: 'Name of pod (e.g. Kubernetes pod)'
+    # Tags Object
+    option :test, type: :string, required: false, desc: 'The test tag'
+    # Benchmarks Array Objects
+    option :isBaseline, type: :boolean, required: false, default: true, desc: 'BOOLEAN - true or false'
+    # Benchmarks.Results Array Objects
+    option :message, type: :string, required: false, desc: 'Benchmark result comments'
+
+    # rubocop:disable Metrics/CyclomaticComplexity
+    def add
+      # Required and Optional main fields
+      body = {}
+      body[:containerId] = options[:containerId]
+      body[:containerName] = options[:containerName]
+      body[:time] = options[:time]
+      body[:namespace] = options[:namespace] if options[:namespace]
+      body[:podIp] = options[:podIp] if options[:podIp]
+      body[:podName] = options[:podName] if options[:podName]
+
+      # Optional tags field
+      tags = {}
+      tags[:test] = options[:test] if options[:test]
+
+      # Required and Optional Benchmarks fields
+      benchmarks = {}
+      benchmarks[:benchmark] = options[:benchmark]
+      # Optional fields
+      benchmarks[:isBaseline] = options[:isBaseline] if options[:isBaseline]
+
+      # Required and Optional Benchmarks.Results
+      benchmarks_results = {}
+      benchmarks_results[:lastSeen] = options[:lastSeen]
+      benchmarks_results[:ruleId] = options[:ruleId]
+      benchmarks_results[:status] = options[:status]
+      benchmarks_results[:message] = options[:message] if options[:message]
+
+      # Add Benchmark results to an array and add array to benchmarks object
+      benchmarks_results_array = Array.new(1, benchmarks_results)
+      benchmarks[:results] = benchmarks_results_array # = Array.new(1, benchmarks_results)
+      # Add benchmarks object to an array
+      benchmarks_array = Array.new(1, benchmarks)
+      # Add tags and benchmark ojects to body object
+      body[:tags] = tags
+      body[:benchmarks] = benchmarks_array
+
+      body_array = Array.new(1, body)
+
+      begin
+        result = EmassClient::ContainersApi
+                 .new.add_container_sans_by_system_id(options[:systemId], body_array)
+        puts to_output_hash(result).green
+      rescue EmassClient::ApiError => e
+        puts 'Exception when calling StaticCodeScansApi->add_container_sans_by_system_id'.red
+        puts to_output_hash(e)
+      end
+    end
+    # rubocop:enable Metrics/CyclomaticComplexity
   end
 
   class Post < SubCommandBase
@@ -605,5 +792,11 @@ module Emasser
 
     desc 'scan_findings', 'Upload static code scans'
     subcommand 'scan_findings', ScanFindings
+
+    desc 'cloud_resource', 'Upload cloud resource and their scan results'
+    subcommand 'cloud_resource', CloudResource
+
+    desc 'container', 'Upload container and their scan results'
+    subcommand 'container', Container
   end
 end

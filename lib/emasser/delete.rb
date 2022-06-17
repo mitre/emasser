@@ -55,11 +55,11 @@ module Emasser
     option :poamId,   type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
 
     def remove
-      body = EmassClient::DeletePoam.new
+      body = EmassClient::PoamGet.new
       body.poam_id = options[:poamId]
       body_array = Array.new(1, body)
 
-      result = EmassClient::POAMApi.new.delete_poam(body_array, options[:systemId])
+      result = EmassClient::POAMApi.new.delete_poam(options[:systemId], body_array)
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling POAMApi->delete_poam'.red
@@ -88,16 +88,18 @@ module Emasser
                          desc: 'A numeric value representing the milestone identification'
 
     def remove
-      body = EmassClient::DeleteMilestone.new
+      body = EmassClient::MilestonesGet.new
       body.milestone_id = options[:milestoneId]
       body_array = Array.new(1, body)
 
-      result = EmassClient::MilestonesApi.new.delete_milestone(body_array, options[:systemId], options[:poamId])
-      # The server returns an empty object upon successfully deleting a milestone.
+      # Getting an empty return when utilizing the default return type - using 'Object' as return type
+      opts = Emasser::DEL_MILESTONES_RETURN_TYPE
+
+      result = EmassClient::MilestonesApi.new.delete_milestone(options[:systemId], options[:poamId], body_array, opts)
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling MilestonesApi->delete_milestone'.red
-      puts to_output_hash(e)
+      puts to_output_hash(e).yellow
     end
   end
 
@@ -125,7 +127,7 @@ module Emasser
         body_array << obj
       end
 
-      result = EmassClient::ArtifactsApi.new.delete_artifact(body_array, options[:systemId])
+      result = EmassClient::ArtifactsApi.new.delete_artifact(options[:systemId], body_array)
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling ArtifactsApi->delete_artifact'.red

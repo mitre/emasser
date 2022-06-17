@@ -129,7 +129,7 @@ module Emasser
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def update
       # Required fields
-      body = EmassClient::ControlsRequestPutBody.new
+      body = EmassClient::ControlsGet.new
       body.acronym = options[:acronym]
       body.responsible_entities = options[:responsibleEntities]
       body.control_designation = options[:controlDesignation]
@@ -147,11 +147,12 @@ module Emasser
       body.impact = options[:impact] if options[:impact]
       body.impact_description = options[:impactDescription] if options[:impactDescription]
       body.residual_risk_level = options[:residualRiskLevel] if options[:residualRiskLevel]
+      body.test_method = options[:testMethod] if options[:testMethod]
 
       body_array = Array.new(1, body)
 
       begin
-        result = EmassClient::ControlsApi.new.update_control_by_system_id(body_array, options[:systemId])
+        result = EmassClient::ControlsApi.new.update_control_by_system_id(options[:systemId], body_array)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling ControlsApi->update_control_by_system_id'.red
@@ -268,9 +269,9 @@ module Emasser
     # Required parameters/fields
     option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
     option :poamId, type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
-    option :displayPoamId,
-           type: :numeric, required: true,
-           desc: 'Globally unique identifier for individual POA&M Items, seen on the front-end as "ID"'
+    # option :displayPoamId,
+    #        type: :numeric, required: true,
+    #        desc: 'Globally unique identifier for individual POA&M Items, seen on the front-end as "ID"'
     option :status, type: :string, required: true, enum: ['Ongoing', 'Risk Accepted', 'Completed', 'Not Applicable']
     option :vulnerabilityDescription, type: :string, required: true, desc: 'POA&M vulnerability description'
     option :sourceIdentVuln,
@@ -312,12 +313,13 @@ module Emasser
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def update
       # Required fields
-      body = EmassClient::PoamRequiredPut.new
+      body = EmassClient::PoamGet.new
       body.poam_id = options[:poamId]
       body.status = options[:status]
       body.vulnerability_description = options[:vulnerabilityDescription]
       body.source_ident_vuln = options[:sourceIdentVuln]
       body.poc_organization = options[:pocOrganization]
+      body.resources = options[:resources]
 
       process_business_logic(body)
 
@@ -345,7 +347,7 @@ module Emasser
       body_array = Array.new(1, body)
 
       begin
-        result = EmassClient::POAMApi.new.update_poam_by_system_id(body_array, options[:systemId])
+        result = EmassClient::POAMApi.new.update_poam_by_system_id(options[:systemId], body_array)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling POAMApi->update_poam_by_system_id'.red
@@ -354,7 +356,7 @@ module Emasser
     end
     # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
-    # rubocop:disable Metrics/BlockLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/AbcSize, Metrics/BlockLength, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     no_commands do
       def process_business_logic(body)
         #-----------------------------------------------------------------------------
@@ -372,13 +374,18 @@ module Emasser
             puts '    comments'.red
             puts POAMS_PUT_HELP_MESSAGE.yellow
             exit
+          elsif !(options[:scheduledCompletionDate].nil? && options[:milestone].nil?)
+            puts 'When status = "Risk Accepted" POA&M Item CAN NOT be saved with the following parameters/fields:'.red
+            puts '    scheduledCompletionDate, or milestone'.red
+            puts POAMS_PUT_HELP_MESSAGE.yellow
+            exit
           else
             body.comments = options[:comments]
           end
         elsif options[:status] == "Ongoing"
           if options[:scheduledCompletionDate].nil? || options[:milestone].nil?
             puts 'When status = "Ongoing" the following parameters/fields are required:'.red
-            puts '    scheduledCompletionDate, or milestone'.red
+            puts '    scheduledCompletionDate, milestone'.red
             print_milestone_help
             puts POAMS_PUT_HELP_MESSAGE.yellow
             exit
@@ -457,7 +464,7 @@ module Emasser
         puts 'The milestoneId:[value] is optional, if not provided a new milestone is created'.yellow
       end
     end
-    # rubocop:enable Metrics/BlockLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/AbcSize, Metrics/BlockLength, Metrics/MethodLength, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   end
 
   # Update Milestones items to a system.
@@ -482,7 +489,7 @@ module Emasser
            type: :numeric, required: false, desc: 'The scheduled completion date - Unix time format'
 
     def update
-      body = EmassClient::MilestonesRequestPutBody.new
+      body = EmassClient::MilestonesGet.new
       body.milestone_id = options[:milestoneId]
       body.description = options[:description]
       body.scheduled_completion_date = options[:scheduledCompletionDate]
@@ -490,12 +497,12 @@ module Emasser
 
       begin
         # Get milestones in one or many poa&m items in a system
-        result = EmassClient::POAMApi
+        result = EmassClient::MilestonesApi
                  .new
-                 .update_milestone_by_system_id_and_poam_id(body_array, options[:systemId], options[:poamId])
+                 .update_milestone_by_system_id_and_poam_id(options[:systemId], options[:poamId], body_array)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
-        puts 'Exception when calling POAMApi->update_milestone_by_system_id_and_poam_id'.red
+        puts 'Exception when calling MilestonesApi->update_milestone_by_system_id_and_poam_id'.red
         puts to_output_hash(e)
       end
     end
@@ -539,7 +546,7 @@ module Emasser
 
     # rubocop:disable Metrics/CyclomaticComplexity
     def update
-      body = EmassClient::ArtifactsRequestPutBody.new
+      body = EmassClient::ArtifactsGet.new
       body.filename = options[:filename]
       body.type = options[:type]
       body.category = options[:category]
@@ -555,7 +562,7 @@ module Emasser
       body_array = Array.new(1, body)
 
       begin
-        result = EmassClient::ArtifactsApi.new.update_artifact_by_system_id(body_array, options[:systemId])
+        result = EmassClient::ArtifactsApi.new.update_artifact_by_system_id(options[:systemId], body_array)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling ArtifactsApi->update_artifact_by_system_id'.red

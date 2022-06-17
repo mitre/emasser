@@ -1,9 +1,17 @@
 # emasser CLI Features
 
-## Required Environment Variables
-To facilitate setting the required environment variables the emasser CLI utilized the zero-dependency module to load these variables from a .env file. An .env-example file is provided with the required fields (listed below).
+## Environment Variables
+To facilitate setting the required environment variables the `emasser `CLI utilized the zero-dependency module to load these variables from a `.env` file.  
 
-emasser environment variables (required):
+### Configuring the `.env` File
+An `.env-example` file is provided with the required and optional fields.
+
+Modify the `.env_example` as necessary and save it as a `.env` file. 
+
+Place the file on the  path where the `emasser` command is executed.
+
+### Required and Optional Environment Variables
+The following environment variables are required:
 * EMASSER_API_KEY_API_KEY=`<API key>`
 * EMASSER_API_KEY_USER_UID=`<unique identifier for the API Key (EMASSER_API_KEY_API_KEY)`
 * EMASSER_HOST=`<FQDN of the eMASS server>`
@@ -11,26 +19,31 @@ emasser environment variables (required):
 * EMASSER_CERT_FILE_PATH=`<path to your eMASS certificate in PEM format>`
 * EMASSER_KEY_PASSWORD=`<password for the key given in EMASSER_KEY_FILE_PATH>`
   
-emasser environment variables (optional):
-* EMASSER_CLIENT_SIDE_VALIDATION=`<client side validation - true or false>`
-* EMASSER_VERIFY_SSL=`<verify SSL - true or false>`
-* EMASSER_VERIFY_SSL_HOST=`<verify host SSL - true or false>`
-* EMASSER_DEBUGGING=`<set debugging - true or false>`
+The following environment variables are *optional:
+* EMASSER_CLIENT_SIDE_VALIDATION=`<client side validation - true or false (default true)>`
+* EMASSER_VERIFY_SSL=`<verify SSL - true or false (default true)>`
+* EMASSER_VERIFY_SSL_HOST=`<verify host SSL - true or false (default true)>`
+* EMASSER_DEBUGGING=`<set debugging - true or false (default false)>`
+* EMASSER_CLI_DISPLAY_NULL=`<display null value fields - true or false (default true)>`
+* EMASSER_POCH_TO_DATETIME=`<convert epoch to data/time value - true or false (default false)>`
+  
+\* If not provided defaults are used
 
+The proper format to set these variables in the `.env` files is as follows:
+```bash
+export [VARIABLE_NAME]='value'
+```
+***NOTE***
+`emasser` requires authentication to an eMASS instance as well as authorization to use the eMASS API. This authentication and authorization is **not** a function of `emasser` and needs to be accomplished with the eMASS instances owner organization. Further information about eMASS credential requirements refer to [Defense Counterintelligence and Security Agency](https://www.dcsa.mil/is/emass/) about eMASS access.
+
+---
 ## Common emasser Endpoint Requests Information
   - To invoke any boolean parameters use --parameterName for TRUE and --no-parameterName for FALSE
-  - The eMASS API provides the capability of updating multiple entries within several endpoints, however this CLI only supports updating one entry at the time.
+  - The eMASS API provides the capability of updating multiple entries within several endpoints, however the `emasser` CLI, in some cases only supports updating one entry at the time.
 
 ## Invoking emasser CLI Commands
 
-The CLI invoke commands listed in this document shows them when executing from the source code (after a pull from GitHub). If an executable (.gem) is created the command to invoke the endpoint is different. For example:
-- Invoking the GET systems endpoint from the source code is:
-  
-      bundle exec exe/emasser get systems all
-
-- Invoking the GET systems endpoint from the compile binary (.gem) is:
-
-      emasser get systems all
+The CLI invoke commands listed in this document shows them when executing from the source code (after a pull from GitHub). Please reference the [`emasser` README](https://mitre.github.io/emasser/) on how to invoke the CLI using other available executables (gem or docker).
 
 ## API Endpoints Provided
 
@@ -38,10 +51,11 @@ The CLI invoke commands listed in this document shows them when executing from t
 * [/api](#get-test-connection)
 * [/api/system](#get-system)
 * [/api/systems](#get-systems)
+* [/api/systems/{systemId}](#get-system)
 * [/api/system-roles](#get-roles)
 * [/api/system-roles/{roleCategory}](#get-roles)
 * [/api/systems/{systemId}/controls](#get-controls)
-* [/api/systems/{systemId}/test-results](#get-test_results)
+* [/api/systems/{systemId}/test-results](#get-testresults)
 * [/api/systems/{systemId}/poams](#get-poams)
 * [/api/systems/{systemId}/poams/{poamId}](#get-poams)
 * [/api/systems/{systemId}/poams/{poamId}/milestones](#get-milestones)
@@ -51,8 +65,8 @@ The CLI invoke commands listed in this document shows them when executing from t
 * [/api/systems/{systemId}/approval/cac](#get-cac)
 * [/api/systems/{systemId}/approval/pac](#get-pac)
 * [/api/cmmc-assessments](#get-cmmc)
-* [/api/workflow-definitions](#get-workflow_definitions)
-* [/api/systems/{systemId}/workflow-instances](#get-workflow_instances)
+* [/api/workflow-definitions](#get-workflowdefinitions)
+* [/api/systems/{systemId}/workflow-instances](#get-workflowinstances)
 
 ### POST
 * [/api/systems/{systemId}/test-results](#post-test_results)
@@ -62,6 +76,8 @@ The CLI invoke commands listed in this document shows them when executing from t
 * [/api/systems/{systemId}/approval/cac](#post-cac)
 * [/api/systems/{systemId}/approval/pac](#post-pac)
 * [/api/systems/{systemId}/static-code-scans](#post-static_code_scan)
+* [/api/systems/{systemId}/cloud-resource-results](#post-cloudresource)
+* [/api/systems/{systemId}/container-scan-results](#post-container)
   
 ### PUT
 * [/api/systems/{systemId}/controls](#put-controls)
@@ -77,77 +93,76 @@ The CLI invoke commands listed in this document shows them when executing from t
 ## Endpoints CLI help
 
 Each CLI endpoint command has several layers of help. 
-- Using `help` after a `get, put, post, or delete` command lists all available endpoint calls
+- Using `help` after a `get, put, post, or delete` command lists all available endpoint calls. The following command would list all available `GET` endpoints commands.
 
-    ```
+    ```bash
     $ bundle exec exe/emasser get help
+    Commands:
+      emasser get artifacts             # Get system Artifacts
+      emasser get cac                   # Get location of one or many controls in...
+      emasser get cmmc                  # Get CMMC assessment information
+      emasser get controls              # Get system Controls
+      emasser get help [COMMAND]        # Describe subcommands or one specific su...
+      emasser get milestones            # Get system Milestones
+      emasser get pac                   # Get status of active workflows in a system
+      emasser get poams                 # Get system Poams
+      emasser get roles                 # Get all system roles or by category Id
+      emasser get system                # Get a system ID given name/owner, or ge...
+      emasser get systems               # Get all systems
+      emasser get test                  # Test connection to the configured eMASS...
+      emasser get test_results          # Get system Test Results
+      emasser get workflow_definitions  # Get workflow definitions in a site
+      emasser get workflow_instances    # Get workflow instance by system and/or ...
     ```
-
-    would list all available `GET` endpoint Commands:
-
-    - emasser get approval                                                       ...
-    - emasser get artifacts                                                      ...
-    - emasser get controls                                                       ...
-    - emasser get help [COMMAND]                                                 ...
-    - emasser get poams                                                          ...
-    - emasser get roles                                                          ...
-    - emasser get system [--system-name [SYSTEM_NAME]] [--system-owner [SYSTEM_OW...
-    - emasser get systems [options]                                              ...
-    - emasser get test_results                                                   ...
-
-- Preceding any command with `help` provides help for the command
-
-    ```
+- Preceding any command with `help` provides help for the command. The following command would list all available sub-commands and options for the `get artifacts` endpoint command.
+    ```bash
     $ bundle exec exe/emasser get help artifacts
+    commands:
+      emasser get artifacts export --filename=FILENAME --systemId=N  # Get artifa...
+      emasser get artifacts forSystem --systemId=N                   # Get all sy...
+      emasser get artifacts help [COMMAND]                           # Describe s...
     ```
-    would list all available sub-commands and options for the `get artifacts` endpoint commands:
-    - emasser get artifacts export --filename=FILENAME --systemId=N  # Get artifa...
-    - emasser get artifacts help [COMMAND]                           # Describe s...
-    - emasser get artifacts system --systemId=N                      # Get all sy...
-
-- Using `help` after any command lists all available options 
-
-    ```
+- Using `help` after any command lists all available options. The following command would list all available options for the `get artifacts export` endpoint command. 
+    ```bash
     $ bundle exec exe/emasser get artifacts help export
-    ```
-    would list all available options for the `get artifacts export` endpoint command: 
-    - Usage:
-      - emasser get artifacts export --filename=FILENAME --systemId=N
-    - Options:
-      - --systemId=N          # A numeric value representing the system identification
-      - --filename=FILENAME   # The artifact file name
-      - --compress            # BOOLEAN - true or false.
+    Usage:
+      emasser get artifacts export --filename=FILENAME --systemId=N
 
-**The same format is applicable to POST, PUT and DELETE requests as well, however there may be additional help content**
+    Options:
+      --systemId=N                   # A numeric value representing the system identification
+      --filename=FILENAME            # The artifact file name
+      [--compress], [--no-compress]  # BOOLEAN - true or false.
+    ```
+**The same format is applicable for POST, PUT and DELETE requests as well, however there may be additional help content**
 
 
 ## Usage - GET
 
-### ```get test connection```
-[top](#api-endpoints-provided)
-
+### ```get test connection``` 
 ---
 The Test Connection endpoint provides the ability to verify connection to the web service.
 
     $ bundle exec exe/emasser get test connection
 
 A return of success from the call indicates that the CLI can reach the configure server URL.
-References [Required Environment Variables](#required-environment-variables) list above.
+References [Required Environment Variables](#required-environment-variables) for the necessary environment variables.
 
-### ```get system```
 [top](#api-endpoints-provided)
 
----
-The `get system id` is a notified call by the CLI to find a system ID based on the system `name` or `owner`
+### ```get system```
 
-The `get system byId` is an eMASS GET request
+---
+The `get system` command is not a sanctioned eMASS endpoint, it makes use of the `get systems` endpoint with added business logic.
+
+There are two commands provided by the get system:
+
+- The `get system id` - returns system ID's based on the system `name` or `owner`
+- The `get system byId` - returns the system content for parameter system ID
 
 ### get system id
 Retrieves a system identification based on the SYSTEM_NAME (name) or SYSTEM_OWNER (systemOwner) fields.
 
-**NOTE** This call is based on the /api/systems endpoint
-
-To invoke the `get system` use the following command:
+To invoke the `get system id` use the following command:
 
     $ bundle exec exe/emasser get system id --system_name "system name" --system_owner "system owner"
 
@@ -157,7 +172,7 @@ If using a platform that has `awk` installed the following command can be used t
 
 
 ### get system byId
-To view a system  by its identification (Id) use the following command:
+Retrieves the system content for provided identification (ID) number. To invoke the endpoint use  the following command:
 
     $ bundle exec exe/emasser get system byId
 
@@ -174,14 +189,16 @@ To view a system  by its identification (Id) use the following command:
     |--includePackage        |BOOLEAN - true or false                  |
     |--policy                |Possible values: diacap, rmf, reporting  |
 
-
-### ```get systems```
 [top](#api-endpoints-provided)
 
-----
-To view systems use the following command:
+### ```get systems```
 
+----
+To retrieve controls use the following command:
+- all - Retrieves all available systems
+    ```
     $ bundle exec exe/emasser get systems all
+    ```
 
   - Optional parameters are:
   
@@ -194,12 +211,11 @@ To view systems use the following command:
     |--includePackage        |BOOLEAN - true or false                                                      |
     |--policy                |Possible values: diacap, rmf, reporting                                      |
     |--registrationType      |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional, |
-    |                        |                 loudServiceProvider, commonControlProvider                  |
+    |                        |                 cloudServiceProvider, commonControlProvider                  |
     |--reportsForScorecard   |BOOLEAN - true or false                                                      |
   
-
-### ```get roles```
 [top](#api-endpoints-provided)
+### ```get roles```
 
 ----
 There are two get endpoints for system roles:
@@ -225,12 +241,11 @@ There are two get endpoints for system roles:
     |--policy                |Possible values: diacap, rmf, reporting  |
     |--includeDecommissioned |BOOLEAN - true or false                  |
 
-
-### ```get controls```
 [top](#api-endpoints-provided)
+### ```get controls```
 
 ----
-To view controls use the following command:
+To retrieve controls use the following command:
 
     $ bundle exec exe/emasser get controls forSystem --systemId=SYSTEMID
 
@@ -246,12 +261,11 @@ To view controls use the following command:
     |-------------|:------------------------------------------|
     |--acronyms   |The system acronym(s) e.g "AC-1, AC-2" - if not provided all controls for systemId are returned |
 
-
-### ```get test_results```
 [top](#api-endpoints-provided)
+### ```get test_results```
 
 ----
-To view test results use the following command:
+To retrieve test results use the following command:
 
     $ bundle exec exe/emasser get test_results forSystem --systemId=SYSTEMID
 
@@ -269,9 +283,8 @@ To view test results use the following command:
     |--ccis             |String - The system CCIS string numerical value |
     |--latestOnly       |BOOLEAN - true or false|
 
-
-### ```get poams```
 [top](#api-endpoints-provided)
+### ```get poams```
 
 ----
 There are two get endpoints for system poams:
@@ -307,9 +320,8 @@ There are two get endpoints for system poams:
     |--systemId   |Integer - Unique system identifier |
     |--poamId     |Integer - Unique poam identifier   |
 
-
-### ```get milestones```
 [top](#api-endpoints-provided)
+### ```get milestones```
 
 ----
 There are two get endpoints for system milestones:
@@ -344,9 +356,8 @@ There are two get endpoints for system milestones:
     |--poamId      |Integer - Unique poam identifier      |
     |--milestoneId |Integer - Unique milestone identifier |
 
-
-### ```get artifacts```
 [top](#api-endpoints-provided)
+### ```get artifacts```
 
 ----
 There are two get endpoints that provides the ability to view existing `Artifacts` in a system:
@@ -380,11 +391,14 @@ There are two get endpoints that provides the ability to view existing `Artifact
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
     |--filename   |The artifact file name             |
+  
+  - optional parameter is:
+    |parameter    | type or values                    |
+    |-------------|:----------------------------------|
     |--compress   |BOOLEAN - true or false.           |
 
-
-### ```get cac```
 [top](#api-endpoints-provided)
+### ```get cac```
 
 ----
 To view one or many Control Approval Chain (CAC) in a system specified system ID use the following command:
@@ -403,9 +417,8 @@ To view one or many Control Approval Chain (CAC) in a system specified system ID
     |-------------------------------|:----------------------------------------------|
     |--controlAcronyms              |String - The system acronym(s) e.g "AC-1, AC-2"|
 
-
-### ```get pac```
 [top](#api-endpoints-provided)
+### ```get pac```
 
 ----
 To view one or many Package Approval Chain (PAC) in a system specified system ID use the following command:
@@ -419,9 +432,8 @@ To view one or many Package Approval Chain (PAC) in a system specified system ID
     |-------------|:----------------------------------|
     |--systemId   |Integer - Unique system identifier |
 
-
-### ```get cmmc```
 [top](#api-endpoints-provided)
+### ```get cmmc```
 
 ----
 To view Cybersecurity Maturity Model Certification (CMMC) Assessments use the following command:
@@ -434,9 +446,8 @@ To view Cybersecurity Maturity Model Certification (CMMC) Assessments use the fo
     |----------------|:--------------------------------------|
     |--sinceDate     |Date - The CMMC date. Unix date format |
 
-
-### ```get workflow_definitions```
 [top](#api-endpoints-provided)
+### ```get workflow_definitions```
 
 ----
 To view Workflow Definitions use the following command:
@@ -449,22 +460,15 @@ To view Workflow Definitions use the following command:
     |---------------------|:----------------------------------------------------------------------------|
     |--includeInactive    |BOOLEAN - true or false                                                      |    
     |--registrationType   |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional, |
-    |                     |                 loudServiceProvider, commonControlProvider                  |
+    |                     |                 cloudServiceProvider, commonControlProvider                 |
 
-
-### ```get workflow_instances```
 [top](#api-endpoints-provided)
 
+### ```get workflow_instances```
 ----
 There are two get endpoints to view workflow instances:
-  - forSystem
-    $ bundle exec exe/emasser get workflow_instances forSystem --systemId=SYSTEMID
-
-    - required parameter is:
-
-      |parameter    | type or values                    |
-      |-------------|:----------------------------------|
-      |--systemId   |Integer - Unique system identifier |
+  - all
+    $ bundle exec exe/emasser get workflow_instances all
 
     - Optional parameters are:
 
@@ -476,21 +480,20 @@ There are two get endpoints to view workflow instances:
       |--status           |Possible values: active, inactive, all              | 
 
   - byWorkflowInstanceId
-    $ bundle exec exe/emasser get workflow_instances byWorkflowInstanceId --systemId=SYSTEMID --workflowInstanceId=--WORKFLOWID
+    $ bundle exec exe/emasser get workflow_instances byWorkflowInstanceId --workflowInstanceId=--WORKFLOWID
 
     - required parameter is:
 
       |parameter            | type or values                               |
       |---------------------|:---------------------------------------------|
-      |--systemId           |Integer - Unique system identifier            |
       |--workflowInstanceId |Integer - Unique workflow instance identifier |
+
+[top](#api-endpoints-provided)
 
 
 ## Usage - POST
 
 ### ``post test_results``
-[top](#api-endpoints-provided)
-
 ---
 Test Result add (POST) endpoint API business rules.
 
@@ -531,11 +534,9 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post test_results help add
 ```
-
+[top](#post)
 
 ### ``post poams``
-[top](#api-endpoints-provided)
-
 ---
 Plan of Action and Milestones (POA&M) add (POST) endpoint API business rules.
 
@@ -573,19 +574,23 @@ Business logic, the following rules apply when adding POA&Ms
 - If the Security Control or Assessment Procedure does not exist in the system we may have to just import POA&M Item at the System Level.
 
 
-The following parameters/fields have the following character limitations:
-- POA&M Item cannot be saved if the Point of Contact fields exceed 100 characters:
-  - Office / Organization (pocOrganization)
-  - First Name            (pocFirstName)
-  - Last Name             (pocLastName)
-  - Email                 (email)
-  - Phone Number          (pocPhoneNumber)
-- POA&M Items cannot be saved if Mitigation field (mitigation) exceeds 2000 characters.
-- POA&M Items cannot be saved if Source Identifying Vulnerability field exceeds 2000 characters.
-- POA&M Items cannot be saved if Comments (comments) field exceeds 2000 characters 
-- POA&M Items cannot be saved if Resource (resource) field exceeds 250 characters.
-- POA&M Items cannot be saved if Milestone Description exceeds 2000 characters.
-
+The following POA&M parameters/fields have the following character limitations:
+- Fields that can not exceed 100 characters:
+  - Office / Organization (`pocOrganization`)
+  - First Name            (`pocFirstName`)
+  - Last Name             (`pocLastName`)
+  - Email                 (`email`)
+  - Phone Number          (`pocPhoneNumber`)
+  - External Unique ID    (`externalUid`)
+- Fields that can not exceed 250 characters:
+  - Resource              (`resource`)
+- Fields have can not exceed 2000 character: 
+  - Vulnerability Description        (`vulnerabilityDescription`)
+  - Source Identifying Vulnerability (`sourceIdentVuln`)
+  - Recommendations                  (`recommendations`)
+  - Risk Accepted Comments           (`comments`) 
+  - Milestone Description            (`description`)
+  - Mitigation Justification         (`mitigation`)
 
 To add (POST) POA&Ms use the following command:
 ```
@@ -604,30 +609,30 @@ $ bundle exec exe/emasser post poams add --systemId [value] --status [value] --v
 Client API parameters/fields (required, conditional, and optional).
   - required parameter are:
 
-    |parameter                  | type or values                                                         |
-    |---------------------------|:-----------------------------------------------------------------------|
-    |--systemId                 |Integer - Unique system identifier                                      |
-    |--status                   |Possible Values: Ongoing,Risk Accepted,Completed,Not Applicable         |
-    |--vulnerabilityDescription |String - Vulnerability description for the POA&M Item. 2000 Characters  |
-    |--sourceIdentVuln          |String - Include Source Identifying Vulnerability text. 2000 Characters |
-    |--pocOrganization          |String - Organization/Office represented. 100 Characters                |
-    |--resources                |String - List of resources used. Character Limit = 250                  |
+    |parameter                  | type or values                                                 |
+    |---------------------------|:---------------------------------------------------------------|
+    |--systemId                 |Integer - Unique system identifier                              |
+    |--status                   |Possible Values: Ongoing,Risk Accepted,Completed,Not Applicable |
+    |--vulnerabilityDescription |String - Vulnerability description for the POA&M Item           |
+    |--sourceIdentVuln          |String - Include Source Identifying Vulnerability text          |
+    |--pocOrganization          |String - Organization/Office represented       |
+    |--resources                |String - List of resources used. Character Limit = 250          |
 
     ** If any poc information is provided all POC fields are required. See additional details for POC fields below.
 
   - conditional parameters are:
 
-    |parameter                 | type or values                                                                        |
-    |--------------------------|:--------------------------------------------------------------------------------------|
-    |--milestones              |JSON -  see milestone format                                                           |
-    |--pocFirstName            |String - First name of POC. 100 Characters                                             |
-    |--pocLastName             |String - Last name of POC. 100 Characters                                              |
-    |--pocEmail                |String - Email address of POC. 100 Characters                                          | 
-    |--pocPhoneNumber          |String - Phone number of POC (area code) ***-**** format. 100 Characters               |     
-    |--severity                |Possible values - Very Low, Low, Moderate, High, Very High                             |
-    |--scheduledCompletionDate |Date - Required for ongoing and completed POA&M items. Unix time format                |
-    |--completionDate          |Date - Field is required for completed POA&M items. Unix time format                   |
-    |--comments                |String - Field is required for completed and risk accepted POA&M items. 2000 Characters|
+    |parameter                 | type or values                                                          |
+    |--------------------------|:------------------------------------------------------------------------|
+    |--milestones              |JSON -  see milestone format                                             |
+    |--pocFirstName            |String - First name of POC                                               |
+    |--pocLastName             |String - Last name of POC                                                |
+    |--pocEmail                |String - Email address of POC                                            | 
+    |--pocPhoneNumber          |String - Phone number of POC (area code) ***-**** format                 |     
+    |--severity                |Possible values - Very Low, Low, Moderate, High, Very High               |
+    |--scheduledCompletionDate |Date - Required for ongoing and completed POA&M items. Unix time format  |
+    |--completionDate          |Date - Field is required for completed POA&M items. Unix time format     |
+    |--comments                |String - Field is required for completed and risk accepted POA&M items.  |
 
     ** If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request:
       pocFirstName, pocLastName, pocPhoneNumber
@@ -639,7 +644,7 @@ Client API parameters/fields (required, conditional, and optional).
 
     |parameter           | type or values                                                                           |
     |--------------------|:-----------------------------------------------------------------------------------------|
-    |--externalUid       |String - External unique identifier for use with associating POA&M Items. 100 Characters  |
+    |--externalUid       |String - External unique identifier for use with associating POA&M Items                  |
     |--controlAcronym    |String - Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined|
     |--cci               |String - CCI associated with the test result                                              |
     |--securityChecks    |String - Security Checks that are associated with the POA&M                               |
@@ -649,8 +654,8 @@ Client API parameters/fields (required, conditional, and optional).
     |--impact            |Possible values: Very Low, Low, Moderate, High, Very High                                 |
     |--impactDescription |String - Include description of Security Control’s impact                                 |
     |--residualRiskLevel |Possible values: Very Low, Low, Moderate, High, Very High                                 |
-    |--recommendations   |String - Include recommendations. Character Limit 2,000                                   |
-    |--mitigation        |String - Include mitigation explanation. 2000 Characters                                  |
+    |--recommendations   |String - Include recommendations                                                          |
+    |--mitigation        |String - Include mitigation explanation                                                   |
 
 
 **Note**
@@ -658,11 +663,9 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post poams help add
 ```
-
+[top](#post)
 
 ### ``post milestones``
-[top](#api-endpoints-provided)
-
 ---
 To add (POST) milestones in a system for one or more POA&M items use the following command:
 
@@ -684,11 +687,9 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post milestones help add
 ```
-
+[top](#post)
 
 ### ``post artifacts``
-[top](#api-endpoints-provided)
-
 ---
 The add (POST) artifacts endpoint accepts a single binary file with file extension.zip only. The command line (CI) reads the files provided and zips them before sending to eMASS.
 
@@ -745,11 +746,9 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post artifacts help upload
 ```
-
+[top](#post)
 
 ### ``post cac``
-[top](#api-endpoints-provided)
-
 ----
 Submit control to second role of CAC
 
@@ -779,11 +778,9 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post cac help add
 ```
-
+[top](#post)
 
 ### ``post pac``
-[top](#api-endpoints-provided)
-
 ----
 Submit control to second role of CAC
 
@@ -799,20 +796,17 @@ To add (POST) test PAC use the following command:
     |--systemId    |Integer - Unique system identifier                                         |
     |--workflow    |Possible Values: Assess and Authorize, Assess Only, Security Plan Approval |
     |--name        |String - Package name. 100 Characters                                      |
-    |--comments    |Strings - Comments submitted upon initiation of the indicated workflow, 4,000 character|
+    |--comments    |String - Comments submitted upon initiation of the indicated workflow, 4,000 character|
 
 **Note**
 For information at the command line use: 
 ```
 $ bundle exec exe/emasser post pac help add
 ```
-
+[top](#post)
 
 ### ``post static_code_scan``
-[top](#api-endpoints-provided)
-
 ----
-
 To add (POST) static code scans use the following command:
 
   ````
@@ -858,12 +852,139 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post scan_findings help add
 ```
+[top](#post)
 
+### ```post cloud_resource```
+---
+
+The following Cloud Resource parameters/fields have the following character limitations:
+- Fields that can not exceed 50 characters:
+  - Policy Deployment Version (`policyDeploymentVersion`)
+- Fields that can not exceed 100 characters:
+  - Assessment Procedure      (`assessmentProcedure`)
+  - Security Control Acronym  (`control`)
+  - CSP Account ID            (`cspAccountId`)
+  - CSP Region                (`cspRegion`)
+  - Email of POC              (`initiatedBy`)
+  - Cloud Service Provider    (`provider`)
+  - Type of Cloud resource    (`resourceType`)
+- Fields that can not exceed 500 characters:
+  - CSP/Resource’s Policy ID  (`cspPolicyDefinitionId`)
+  - Policy Deployment Name    (`policyDeploymentName`)
+  - Policy Compliance ID      (`resourceId`)
+  - Cloud Resource Name       (`resourceName`)
+- Fields that can not exceed 1000 characters:
+  - Reason for Compliance (`complianceReason`)
+- Fields that can not exceed 2000 characters:
+  - Policy Short Title    (`policyDefinitionTitle`)
+
+To add a cloud resource and their scan results in the assets module for a system use the following command:
+````
+  $ bundle exec exe/emasser post cloud_resource add --systemId [value] --provider [value] --resourceId [value] --resourceName [value] --resourceType [value] --cspPolicyDefinitionId [value] --isCompliant or --is-not-Compliant --policyDefinitionTitle [value] --test [value]
+````
+  - required parameter are:
+
+    |parameter               | type or values                                                            |
+    |------------------------|:--------------------------------------------------------------------------|
+    |--systemId              |Integer - Unique system identifier                                         |
+    |--provider              |string - Cloud service provider name                                       |
+    |--resourceId            |String - Unique identifier/resource namespace for policy compliance result |
+    |--resourceName          |String - Friendly name of Cloud resource                                   |
+    |--resourceType          |String - Type of Cloud resource                                            |
+    |--cspPolicyDefinitionId |String - Unique identifier/compliance namespace for CSP/Resource\'s policy definition/compliance check|
+    |--isCompliant | Boolean - Compliance status of the policy for the identified cloud resource         |
+    |--policyDefinitionTitle | String - Friendly policy/compliance check title. Recommend short title    |
+
+  - optional parameters are:
+
+    |parameter          | type or values                                        |
+    |-------------------|:------------------------------------------------------|
+    |--initiatedBy      |String - Person initiating the process email address |  
+    |--cspAccountId     |String - System/owner\'s CSP account ID/number |
+    |--cspRegion        |String - CSP region of system |
+    |--isBaseline       |Boolean - Flag that indicates in results is a baseline |    
+    |Tags Object (tags)|
+    |--text | String - Text that specifies the tag type |
+    |Compliance Results Array Objects (complianceResults)|
+    |--assessmentProcedure      |String - Comma separated correlation to Assessment Procedure (i.e. CCI number for DoD Control Set) |
+    |--complianceCheckTimestamp |Date - The compliance check date - Unix time format |
+    |--complianceReason         |String - Reason/comments for compliance result |
+    |--control                  |String - Comma separated correlation to Security Control (e.g. exact NIST Control acronym) |
+    |--policyDeploymentName     |String - Name of policy deployment |
+    |--policyDeploymentVersion  |String - Version of policy deployment |
+    |--severity                 |Possible Values: Low, Medium, High, Critical |
+    
+
+**Note**
+For information at the command line use: 
+```
+$ bundle exec exe/emasser post cloud_resource help add
+```    
+
+[top](#post)
+
+
+### ```post container```
+---
+The following Container parameters/fields have the following character limitations:
+- Fields that can not exceed 100 characters:
+  - STIG Benchmark ID      (`benchmark`)
+  - Container Namespace    (`namespace`)
+  - Kubernetes assigned IP (`podIp`)
+  - Kubernetes Pod Name)   (`podName`)
+- Fields that can not exceed 500 characters:
+  - Container ID              (`containerId`)
+  - Friendly Container Name    (`containerName`)
+- Fields that can not exceed 1000 characters:
+  - Result Comments (`message`)
+
+
+
+To add containers and their scan results in the assets module for a system use the following command:
+````
+  $ bundle exec ruby exe/emasser post container add --systemId [value] --containerId [value] --containerName [value] --time [value] --benchmark [value] --lastSeen [value] --ruleId [value] --status [value]
+ 
+````
+
+  - required parameter are:
+
+    |parameter               | type or values                                                            |
+    |------------------------|:--------------------------------------------------------------------------|
+    |--systemId              |Integer - Unique system identifier                                         |
+    |--containerId           |String - Unique identifier of the container  |
+    |--containerName         |String - Friendly name of the container      |
+    |--time                  |Date   - Datetime of scan/result. Unix date format |
+    |Bench Marks Object (benchmarks)|
+    |--benchmark         |String - Identifier of the benchmark/grouping of compliance results  |
+    |benchmarks.results  |Object
+    |--ruleId            |String - Identifier for the compliance result, vulnerability, etc.
+    |--status            |String - Benchmark result status
+    |--lastSeen          |Date - Date last seen, Unix date format
+
+  - optional parameters are:
+
+    |parameter                   | type or values                                        |
+    |----------------------------|:------------------------------------------------------|
+    |--podName          |String - Name of pod (e.g. Kubernetes pod) |
+    |--podIp            |String - IP address of pod  |
+    |--namespace        |String - Namespace of container in container orchestration (e.g. Kubernetes namespace)|
+    |Tags Object (tags)|
+    |--text | String - Text that specifies the tag type |
+    |Bench Marks Object (benchmarks)
+    |--isBaseline       |Boolean - True/false flag for providing results as baseline. If true, all existing compliance results for the provided benchmark within the container will be replaced by results in the current call|
+    |benchmarks.results  |Object
+    |--message           |String - Comments for the result
+
+**Note**
+For information at the command line use: 
+```
+$ bundle exec exe/emasser post container help add
+```
+[top](#post)
 
 ## Usage - PUT
 
 ### ``put controls``
-[top](#api-endpoints-provided)
 
 ----
 Business Rules
@@ -882,16 +1003,16 @@ Implementation Plan cannot be updated if a Security Control is "Inherited" excep
   
 The following parameters/fields have the following character limitations:
 - Implementation Plan information cannot be saved if the fields below exceed 2,000 character limits:
-  - N/A Justification        (naJustification)
-  - Responsible Entities     (responsibleEntities) 
-  - Implementation Narrative (implementationNarrative)
-  - Criticality              (slcmCriticality)
-  - Reporting                (slcmReporting)
-  - Tracking                 (slcmTracking)
-  - Vulnerability Summary    (vulnerabilitySummary)
-  - Recommendations          (recommendations)
+  - N/A Justification        (`naJustification`)
+  - Responsible Entities     (`responsibleEntities`) 
+  - Implementation Narrative (`implementationNarrative`)
+  - Criticality              (`slcmCriticality`)
+  - Reporting                (`slcmReporting`)
+  - Tracking                 (`slcmTracking`)
+  - Vulnerability Summary    (`vulnerabilitySummary`)
+  - Recommendations          (`recommendations`)
 - Implementation Plan information cannot be saved if the fields below exceed 4,000 character limits:
-  - SLCM Comments            (slcmComments)
+  - SLCM Comments            (`slcmComments`)
 
 Implementation Plan information cannot be updated if Security Control does not exist in the system record.
 
@@ -943,10 +1064,9 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put controls help update
 ```
-
+[top](#put)
 
 ### ``put poams``
-[top](#api-endpoints-provided)
 
 ----
 Business Rules
@@ -996,6 +1116,26 @@ The following parameters/fields have the following character limitations:
 - POA&M Item cannot be saved if Resource field (resource) exceeds 250 characters.
 - POA&M Items cannot be saved if Milestone Description (description) exceeds 2,000 characters.
 
+
+The following POA&M parameters/fields have the following character limitations:
+- Fields that can not exceed 100 characters:
+  - Office / Organization (`pocOrganization`)
+  - First Name            (`pocFirstName`)
+  - Last Name             (`pocLastName`)
+  - Email                 (`email`)
+  - Phone Number          (`pocPhoneNumber`)
+  - External Unique ID    (`externalUid`)
+- Fields that can not exceed 250 characters:
+  - Resource              (`resource`)
+- Fields have can not exceed 2000 character: 
+  - Vulnerability Description        (`vulnerabilityDescription`)
+  - Source Identifying Vulnerability (`sourceIdentVuln`)
+  - Recommendations                  (`recommendations`)
+  - Risk Accepted Comments           (`comments`) 
+  - Milestone Description            (`description`)
+  - Mitigation Justification         (`mitigation`)
+
+
 ---
 Updating (PUT) a POA&M can be accomplished by invoking the following command:
   ````
@@ -1003,32 +1143,32 @@ Updating (PUT) a POA&M can be accomplished by invoking the following command:
   ````
   - required parameter are:
 
-    |parameter                  | type or values                                                         |
-    |---------------------------|:-----------------------------------------------------------------------|
-    |--systemId                 |Integer - Unique system identifier                                      |
-    |--displayPoamId            |Integer - Globally unique identifier for individual POA&M Items         |
-    |--status                   |Possible Values: Ongoing,Risk Accepted,Completed,Not Applicable         |
-    |--vulnerabilityDescription |String - Vulnerability description for the POA&M Item. 2000 Characters  |
-    |--sourceIdentVuln          |String - Include Source Identifying Vulnerability text. 2000 Characters |
-    |--pocOrganization          |String - Organization/Office represented. 100 Characters                |
-    |--resources                |String - List of resources used. Character Limit = 250                  |
+    |parameter                  | type or values                                                 |
+    |---------------------------|:---------------------------------------------------------------|
+    |--systemId                 |Integer - Unique system identifier                              |
+    |--displayPoamId            |Integer - Globally unique identifier for individual POA&M Items |
+    |--status                   |Possible Values: Ongoing,Risk Accepted,Completed,Not Applicable |
+    |--vulnerabilityDescription |String - Vulnerability description for the POA&M Item           |
+    |--sourceIdentVuln          |String - Include Source Identifying Vulnerability text          |
+    |--pocOrganization          |String - Organization/Office represented                        |
+    |--resources                |String - List of resources used. Character Limit = 250          |
     
     ** If any poc information is provided all POC fields are required. See additional details for POC fields below.
 
   - conditional parameters are:
 
-    |parameter                 | type or values                                                                        |
-    |--------------------------|:--------------------------------------------------------------------------------------|
-    |--milestones              |JSON -  see milestone format                                                           |
-    |--pocFirstName            |String - First name of POC. 100 Characters                                             |
-    |--pocLastName             |String - Last name of POC. 100 Characters                                              |
-    |--pocEmail                |String - Email address of POC. 100 Characters                                          | 
-    |--pocPhoneNumber          |String - Phone number of POC (area code) ***-**** format. 100 Characters               |     
-    |--severity                |Possible values - Very Low, Low, Moderate, High, Very High                             |
-    |--scheduledCompletionDate |Date - Required for ongoing and completed POA&M items. Unix time format                |
-    |--completionDate          |Date - Field is required for completed POA&M items. Unix time format                   |
-    |--comments                |String - Field is required for completed and risk accepted POA&M items. 2000 Characters|
-    |--isActive                |Boolean - Used to delete milestones when updating a POA&M                              |
+    |parameter                 | type or values                                                         |
+    |--------------------------|:-----------------------------------------------------------------------|
+    |--milestones              |JSON -  see milestone format                                            |
+    |--pocFirstName            |String - First name of POC                                              |
+    |--pocLastName             |String - Last name of POC                                               |
+    |--pocEmail                |String - Email address of POC                                           | 
+    |--pocPhoneNumber          |String - Phone number of POC (area code) ***-**** format                |     
+    |--severity                |Possible values - Very Low, Low, Moderate, High, Very High              |
+    |--scheduledCompletionDate |Date - Required for ongoing and completed POA&M items. Unix time format |
+    |--completionDate          |Date - Field is required for completed POA&M items. Unix time format    |
+    |--comments                |String - Field is required for completed and risk accepted POA&M items  |
+    |--isActive                |Boolean - Used to delete milestones when updating a POA&M               |
 
     ** If a POC email is supplied, the application will attempt to locate a user already registered within the application and pre-populate any information not explicitly supplied in the request. If no such user is found, these fields are required within the request:
       pocFirstName, pocLastName, pocPhoneNumber
@@ -1041,7 +1181,7 @@ Updating (PUT) a POA&M can be accomplished by invoking the following command:
 
     |parameter           | type or values                                                                           |
     |--------------------|:-----------------------------------------------------------------------------------------|
-    |--externalUid       |String - External unique identifier for use with associating POA&M Items. 100 Characters  |
+    |--externalUid       |String - External unique identifier for use with associating POA&M Items                  |
     |--controlAcronym    |String - Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined|
     |--cci               |String - CCI associated with the test result                                              |
     |--securityChecks    |String - Security Checks that are associated with the POA&M                               |
@@ -1051,7 +1191,7 @@ Updating (PUT) a POA&M can be accomplished by invoking the following command:
     |--impact            |Possible values: Very Low, Low, Moderate, High, Very High                                 |
     |--impactDescription |String - Include description of Security Control’s impact                                 |
     |--residualRiskLevel |Possible values: Very Low, Low, Moderate, High, Very High                                 |
-    |--recommendations   |String - Include recommendations. Character Limit 2,000                                   |
+    |--recommendations   |String - Include recommendations                                                          |
     |--mitigation        |String - Include mitigation explanation. 2000 Characters                                  |
 
 **Note**
@@ -1059,10 +1199,9 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put poams help update
 ```
-
+[top](#put)
 
 ### ``put milestones``
-[top](#api-endpoints-provided)
 
 ----
 
@@ -1087,10 +1226,9 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put milestones help update
 ```
-
+[top](#put)
 
 ### ``put artifacts``
-[top](#api-endpoints-provided)
 
 ----
 Business Rules
@@ -1143,12 +1281,11 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put artifacts help update
 ```
-
+[top](#put)
 
 ## Usage - DELETE
 
 ### ``delete poams``
-[top](#api-endpoints-provided)
 
 ----
 Remove one or many poa&m items in a system
@@ -1157,10 +1294,9 @@ To remove (DELETE) one or more POA&M items use the following command:
 ```
 bundle exec exe/emasser delete poams remove --systemId [value] --poamId [value]
 ```
-
+[top](#delete)
 
 ### ``delete milestones``
-[top](#api-endpoints-provided)
 
 ----
 Remove milestones in a system for one or many POA&M items
@@ -1175,10 +1311,9 @@ To remove (DELETE) one or more Milestones in a system use the following command:
 ```
 bundle exec exe/emasser delete milestones remove--systemId [value] --poamId [value] --milestoneId [value]
 ```
-
+[top](#delete)
 
 ### ``delete artifacts``
-[top](#api-endpoints-provided)
 
 ---
 Remove one or many artifacts in a system
@@ -1193,3 +1328,4 @@ bundle exec exe/emasser delete artifacts remove --systemId [value] --files [valu
 or
 bundle exec exe/emasser delete artifacts remove --systemId [value] --files [value, value...] 
 ```
+[top](#delete)
