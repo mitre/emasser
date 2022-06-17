@@ -131,11 +131,11 @@ Ensure that docker engine is running and start the emasser Docker Container.
 ---
 ## Roadmap
 
-The `emasser` implements all endpoints provided by the `eMASS` API, there is, all of the functions available from the `eMASS GUI` that are exposed by the API. If additional functions are useful (accessible via the CLI), please submit a request to [eMass Tier III Support](disa.meade.id.mbx.emass-tier-iii-support@mail.mil) for possible inclusion into the API.
+The `emasser` implements all endpoints provided by the `eMASS` API, there is, all of the functions available from the `eMASS GUI` that are exposed by the API. If additional functions are useful (accessible via the CLI), please submit a request to [eMass Tier III Support](mailto:disa.meade.id.mbx.emass-tier-iii-support@mail.mil) for possible inclusion into the API.
 
 The Road Map seeks to add any useful features that facilitates organization that utilizes  `eMASS` instances and have a need to automate their cybersecurity management process. 
 
-For additional capability create an [issue](https://github.com/mitre/emasser/issues), and email it to (saf@groups.mitre.org) citing the issue link so we can help.
+For additional capability create an [issue](https://github.com/mitre/emasser/issues), and email it to the [SAF Team](mailto:saf@groups.mitre.org) citing the issue link so we can help.
 
 Some proposed capabilities (looking for a sponsor) are:
 * Update a system's record with met/not met NIST 800-53 Security and Privacy controls and/or common control indicators (CCI) based on scan results expressed in [Heimdall Data Format (HDF)](https://saf.mitre.org/#/normalize).
