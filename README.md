@@ -1,8 +1,6 @@
 # emasser
-![GitHub Release Date](https://img.shields.io/github/release-date/mitre/emasser?label=Release%20Date)
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/mitre/emasser?label=Release%20Version)
-[![Gem Version](https://badge.fury.io/rb/emasser.svg)](https://badge.fury.io/rb/emasser)
-
+![GitHub Release Date](https://img.shields.io/github/release-date/mitre/emasser?label=Release%20Date&logo=github&color=blue)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/mitre/emasser?label=Release%20Version&logo=github) ![Gem](https://img.shields.io/gem/v/emasser?label=gem%20version&logo=ruby&logoColor=red) ![Docker Version](https://img.shields.io/docker/v/mitre/emasser?label=docker%20version&logo=docker&sort=semver)
 
 ![emasser Testing](https://github.com/mitre/emasser/actions/workflows/test-cli.yml/badge.svg)
 ![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg)

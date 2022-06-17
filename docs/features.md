@@ -1,9 +1,17 @@
 # emasser CLI Features
 
-## Required Environment Variables
-To facilitate setting the required environment variables the `emasser `CLI utilized the zero-dependency module to load these variables from a .env file. An .env-example file is provided with the required and optional fields.
+## Environment Variables
+To facilitate setting the required environment variables the `emasser `CLI utilized the zero-dependency module to load these variables from a `.env` file.  
 
-emasser environment variables (required):
+### Configuring the `.env` File
+An `.env-example` file is provided with the required and optional fields.
+
+Modify the `.env_example` as necessary and save it as a `.env` file. 
+
+Place the file on the  path where the `emasser` command is executed.
+
+### Required and Optional Environment Variables
+The following environment variables are required:
 * EMASSER_API_KEY_API_KEY=`<API key>`
 * EMASSER_API_KEY_USER_UID=`<unique identifier for the API Key (EMASSER_API_KEY_API_KEY)`
 * EMASSER_HOST=`<FQDN of the eMASS server>`
@@ -11,14 +19,15 @@ emasser environment variables (required):
 * EMASSER_CERT_FILE_PATH=`<path to your eMASS certificate in PEM format>`
 * EMASSER_KEY_PASSWORD=`<password for the key given in EMASSER_KEY_FILE_PATH>`
   
-emasser environment variables (optional):
-* EMASSER_CLIENT_SIDE_VALIDATION=`<client side validation - true or false>`
-* EMASSER_VERIFY_SSL=`<verify SSL - true or false>`
-* EMASSER_VERIFY_SSL_HOST=`<verify host SSL - true or false>`
-* EMASSER_DEBUGGING=`<set debugging - true or false>`
-* EMASSER_CLI_DISPLAY_NULL=`<display null value fields - true or false>`
-* EMASSER_POCH_TO_DATETIME=`<convert epoch to data/time value - true or false>`
-
+The following environment variables are *optional:
+* EMASSER_CLIENT_SIDE_VALIDATION=`<client side validation - true or false (default true)>`
+* EMASSER_VERIFY_SSL=`<verify SSL - true or false (default true)>`
+* EMASSER_VERIFY_SSL_HOST=`<verify host SSL - true or false (default true)>`
+* EMASSER_DEBUGGING=`<set debugging - true or false (default false)>`
+* EMASSER_CLI_DISPLAY_NULL=`<display null value fields - true or false (default true)>`
+* EMASSER_POCH_TO_DATETIME=`<convert epoch to data/time value - true or false (default false)>`
+  
+\* If not provided defaults are used
 
 The proper format to set these variables in the `.env` files is as follows:
 ```bash
@@ -68,7 +77,7 @@ The CLI invoke commands listed in this document shows them when executing from t
 * [/api/systems/{systemId}/approval/pac](#post-pac)
 * [/api/systems/{systemId}/static-code-scans](#post-static_code_scan)
 * [/api/systems/{systemId}/cloud-resource-results](#post-cloudresource)
-* [/api/systems/{systemId}/container-scan-results]()
+* [/api/systems/{systemId}/container-scan-results](#post-container)
   
 ### PUT
 * [/api/systems/{systemId}/controls](#put-controls)
@@ -454,8 +463,8 @@ To view Workflow Definitions use the following command:
     |                     |                 cloudServiceProvider, commonControlProvider                 |
 
 [top](#api-endpoints-provided)
-### ```get workflow_instances```
 
+### ```get workflow_instances```
 ----
 There are two get endpoints to view workflow instances:
   - all
@@ -478,6 +487,7 @@ There are two get endpoints to view workflow instances:
       |parameter            | type or values                               |
       |---------------------|:---------------------------------------------|
       |--workflowInstanceId |Integer - Unique workflow instance identifier |
+
 [top](#api-endpoints-provided)
 
 
@@ -524,7 +534,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post test_results help add
 ```
-[top](##post)
+[top](#post)
 
 ### ``post poams``
 ---
