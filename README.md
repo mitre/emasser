@@ -53,12 +53,15 @@ The `emasser` CLI [**Architecture**](#emasser-cli-architecture) depicts the `ema
     gem build *.gemspec
     gem install *.gem
   ```
+
 ***Note:** To run in development mode there isn't a need to build the gem, simply clone from the emasser repository and use:
+
 ```
 bundle install
 
 bundle exec exe/emasser [command]
 ```
+
 ## Install via published RubyGems
 - Install the `emasser` gem from the [RubyGems](https://rubygems.org/gems/emass_client/versions/) registry
     ```bash
@@ -91,13 +94,14 @@ Ensure that docker engine is running and start the emasser Docker Container.
   ```bash
     docker pull mitre/emasser:latest
   ```
-**Notes:**
+
+**Docker Notes:**
 - Docker Options
   - `--rm` Automatically remove the container when it exits
   - `-v` Bind mount a volume
 - path-to-secrets
-  - Path to the `.env` file and the appropriate eMASS certificates (key. pem and client.pem).
-  - For example, if the `.env` is located in the same directory where the `docker run` is executed. Running the command in a Windows platform would look like this:
+  - Is the path to the `.env` file and the appropriate eMASS certificates (key.pem and client.pem).
+  - For example, if the `.env` is located in the same directory where the `docker run` is executed, running the command in a Windows platform would look like this:
   
       ```
       docker run --rm -v %cd%/.:/data mitre/emasser:latest
@@ -127,11 +131,11 @@ Ensure that docker engine is running and start the emasser Docker Container.
 ---
 ## Roadmap
 
-Emasser implements all endpoints provided by the `eMASS` API, there is, all `HTTP` calls from the `eMASS GUI` to the `eMASS backend` that are exposed by the API.
+The `emasser` implements all endpoints provided by the `eMASS` API, there is, all of the functions available from the `eMASS GUI` that are exposed by the API. If additional functions are useful (accessible via the CLI), please submit a request to [eMass Tier III Support](disa.meade.id.mbx.emass-tier-iii-support@mail.mil) for possible inclusion into the API.
 
 The Road Map seeks to add any useful features that facilitates organization that utilizes  `eMASS` instances and have a need to automate their cybersecurity management process. 
 
-For additional capability create an issue, and email (saf@groups.mitre.org) citing the issue link so we can help
+For additional capability create an [issue](https://github.com/mitre/emasser/issues), and email it to (saf@groups.mitre.org) citing the issue link so we can help.
 
 Some proposed capabilities (looking for a sponsor) are:
 * Update a system's record with met/not met NIST 800-53 Security and Privacy controls and/or common control indicators (CCI) based on scan results expressed in [Heimdall Data Format (HDF)](https://saf.mitre.org/#/normalize).
@@ -142,7 +146,7 @@ Some proposed capabilities (looking for a sponsor) are:
 ## Design
 
 ### Interactions with eMASS API
-The `emasser` CLI leverages the [emass_client](https://github.com/mitre/emass_client), which provides a REST API client based on a MITRE-created [OpenAPI](https://www.openapis.org/) version 3 specification for the official [eMASS API specification](https://mitre.github.io/emass_client/docs/redoc). This design enables REST API clients to be generated in [any supported programming language](https://openapi-generator.tech/docs/generators/). The design enables the `emass_client` to be generated independently of the emasser CLI. Currently a Ruby and a Typescript eMASS client API are provided. The TypeScript client is used with the [Security Automation Framework CLI (SAF) CLI](https://github.com/mitre/saf).
+The `emasser` CLI leverages the [emass_client](https://github.com/mitre/emass_client), which provides a REST API client developed by MITRE based on the [OpenAPI V3](https://www.openapis.org/) standards for the official [eMASS API specification](https://mitre.github.io/emass_client/docs/redoc). This design enables REST API clients to be generated in [any supported programming language](https://openapi-generator.tech/docs/generators/). The design enables the `emass_client` to be generated independently of the emasser CLI. Currently, a Ruby and a Typescript eMASS client API are provided. The TypeScript client is used with the [Security Automation Framework CLI (SAF) CLI](https://github.com/mitre/saf).
 
 ### Business Logic
 Because interactions with the API are handled by a dependency, the bulk of `emasser` business logic is for accepting user input/output, reading data from eMASS or from input, transforming data, and routing data to the appropriate eMASS API endpoint. This business logic is organized into Ruby Classes and Modules based on the command or subcommand requested by the user.
