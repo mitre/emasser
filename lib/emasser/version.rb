@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 module Emasser
-  VERSION = '1.0.6'
+  VERSION = '3.4.0'
 end

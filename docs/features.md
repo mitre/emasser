@@ -48,26 +48,56 @@ The CLI invoke commands listed in this document shows them when executing from t
 ## API Endpoints Provided
 
 ### GET
-* [/api](#get-test-connection)
-* [/api/system](#get-system)
-* [/api/systems](#get-systems)
-* [/api/systems/{systemId}](#get-system)
-* [/api/system-roles](#get-roles)
-* [/api/system-roles/{roleCategory}](#get-roles)
-* [/api/systems/{systemId}/controls](#get-controls)
-* [/api/systems/{systemId}/test-results](#get-testresults)
-* [/api/systems/{systemId}/poams](#get-poams)
-* [/api/systems/{systemId}/poams/{poamId}](#get-poams)
-* [/api/systems/{systemId}/poams/{poamId}/milestones](#get-milestones)
-* [/api/systems/{systemId}/poams/{poamId}/milestones/{milestoneId})](#get-milestones)
-* [/api/systems/{systemId}/artifacts](#get-artifacts)
-* [/api/systems/{systemId}/artifacts-export](#get-artifacts)
-* [/api/systems/{systemId}/approval/cac](#get-cac)
-* [/api/systems/{systemId}/approval/pac](#get-pac)
-* [/api/cmmc-assessments](#get-cmmc)
-* [/api/workflow-definitions](#get-workflowdefinitions)
-* [/api/systems/{systemId}/workflow-instances](#get-workflowinstances)
-
+- [emasser CLI Features](#emasser-cli-features)
+  - [Environment Variables](#environment-variables)
+    - [Configuring the `.env` File](#configuring-the-env-file)
+    - [Required and Optional Environment Variables](#required-and-optional-environment-variables)
+  - [Common emasser Endpoint Requests Information](#common-emasser-endpoint-requests-information)
+  - [Invoking emasser CLI Commands](#invoking-emasser-cli-commands)
+  - [API Endpoints Provided](#api-endpoints-provided)
+    - [GET](#get)
+    - [POST](#post)
+    - [PUT](#put)
+    - [DELETE](#delete)
+  - [Endpoints CLI help](#endpoints-cli-help)
+  - [Usage - GET](#usage---get)
+  - [### ```get test connection```](#-get-test-connection)
+    - [```get system```](#get-system)
+    - [get system id](#get-system-id)
+    - [get system byId](#get-system-byid)
+    - [```get systems```](#get-systems)
+    - [```get roles```](#get-roles)
+    - [```get controls```](#get-controls)
+    - [```get test_results```](#get-test_results)
+    - [```get poams```](#get-poams)
+    - [```get milestones```](#get-milestones)
+    - [```get artifacts```](#get-artifacts)
+    - [```get cac```](#get-cac)
+    - [```get pac```](#get-pac)
+    - [```get cmmc```](#get-cmmc)
+    - [```get workflow_definitions```](#get-workflow_definitions)
+    - [```get workflow_instances```](#get-workflow_instances)
+    - [```get dashboards```](#get-dashboards)
+  - [Usage - POST](#usage---post)
+  - [### ``post test_results``](#-post-test_results)
+  - [### ``post poams``](#-post-poams)
+  - [### ``post milestones``](#-post-milestones)
+  - [### ``post artifacts``](#-post-artifacts)
+  - [- Artifact cannot be saved if the Last Review Date is set in the future.](#--artifact-cannot-be-saved-if-the-last-review-date-is-set-in-the-future)
+  - [### ``post cac``](#-post-cac)
+  - [### ``post pac``](#-post-pac)
+  - [### ``post static_code_scan``](#-post-static_code_scan)
+  - [### ```post cloud_resource```](#-post-cloud_resource)
+  - [### ```post container```](#-post-container)
+  - [Usage - PUT](#usage---put)
+    - [``put controls``](#put-controls)
+    - [``put poams``](#put-poams)
+    - [``put milestones``](#put-milestones)
+    - [``put artifacts``](#put-artifacts)
+  - [Usage - DELETE](#usage---delete)
+    - [``delete poams``](#delete-poams)
+    - [``delete milestones``](#delete-milestones)
+    - [``delete artifacts``](#delete-artifacts)
 ### POST
 * [/api/systems/{systemId}/test-results](#post-test_results)
 * [/api/systems/{systemId}/poam](#post-poams)
@@ -78,6 +108,7 @@ The CLI invoke commands listed in this document shows them when executing from t
 * [/api/systems/{systemId}/static-code-scans](#post-static_code_scan)
 * [/api/systems/{systemId}/cloud-resource-results](#post-cloudresource)
 * [/api/systems/{systemId}/container-scan-results](#post-container)
+
   
 ### PUT
 * [/api/systems/{systemId}/controls](#put-controls)
@@ -440,7 +471,7 @@ To view Cybersecurity Maturity Model Certification (CMMC) Assessments use the fo
 
     $ bundle exec exe/emasser get workflow_definitions forSite --sinceDate=SINCEDATE 
 
-  - Required parameters are:
+  - Required parameter is:
 
     |parameter       | type or values                        |
     |----------------|:--------------------------------------|
@@ -463,13 +494,14 @@ To view Workflow Definitions use the following command:
     |                     |                 cloudServiceProvider, commonControlProvider                 |
 
 [top](#api-endpoints-provided)
-
 ### ```get workflow_instances```
+
 ----
 There are two get endpoints to view workflow instances:
   - all
+    ```
     $ bundle exec exe/emasser get workflow_instances all
-
+    ```
     - Optional parameters are:
 
       |parameter          | type or values                                     |
@@ -480,8 +512,9 @@ There are two get endpoints to view workflow instances:
       |--status           |Possible values: active, inactive, all              | 
 
   - byWorkflowInstanceId
-    $ bundle exec exe/emasser get workflow_instances byWorkflowInstanceId --workflowInstanceId=--WORKFLOWID
-
+    ```
+    $ bundle exec exe/emasser get workflow_instances byWorkflowInstanceId --workflowInstanceId=WORKFLOWID
+    ```
     - required parameter is:
 
       |parameter            | type or values                               |
@@ -489,7 +522,92 @@ There are two get endpoints to view workflow instances:
       |--workflowInstanceId |Integer - Unique workflow instance identifier |
 
 [top](#api-endpoints-provided)
+### ```get dashboards```
 
+----
+The Dashboards endpoints provide the ability to view data contained in dashboard exports. In the eMASS front end, these dashboard exports are generated as Excel exports.
+
+All endpoint calls utilize the same parameter values, they are:
+  - Required parameter is:
+
+    |parameter     | type or values                                  |
+    |--------------|:------------------------------------------------|
+    |--orgId       |Integer - The organization identification number |
+
+  - Optional parameters are:
+
+    |parameter    | type or values                                                |
+    |-------------|:--------------------------------------------------------------|
+    |--pageIndex  |Integer - The index of the starting page (default first page 0)|
+    |--pageSize   |Integer - The number of entries per page (default 20000)       |
+
+Available commands are:
+  - Get systems status detail dashboard information
+    ```
+    $ bundle exec exe/emasser get status_details --orgId=ORGID
+    ```
+  - Get systems control compliance summary dashboard information    
+    ```
+    $ bundle exec exe/emasser get control_compliance_summary --orgId=ORGID
+    ```
+  - Get systems security control details dashboard information
+    ```
+    $ bundle exec exe/emasser get security_control_details --orgId=ORGID
+    ```
+  - Get systems assessment procedures details dashboard information
+    ```
+    $ bundle exec exe/emasser get assessment_procedures_details --orgId=ORGID
+    ```
+  - Get systems POA&Ms summary dashboard information
+    ```
+    $ bundle exec exe/emasser get poam_summary --orgId=ORGID
+    ```
+  - Get system POA&Ms details dashboard information
+    ```
+    $ bundle exec exe/emasser get poam_details --orgId=ORGID
+    ```
+  - Get system hardware summary dashboard information
+    ```
+    $ bundle exec exe/emasser get hardware_summary --orgId=ORGID
+    ```
+  - Get system hardware details dashboard information
+    ```
+    $ bundle exec exe/emasser get hardware_details --orgId=ORGID
+    ```
+  - Get system associations details dashboard information
+    ```
+    $ bundle exec exe/emasser get associations_details --orgId=ORGID
+    ```
+  - Get user system assignments details dashboard information
+    ```
+    $ bundle exec exe/emasser get assignments_details --orgId=ORGID
+    ```
+  - Get user system privacy summary dashboard information
+    ```
+    $ bundle exec exe/emasser get privacy_summary --orgId=ORGID
+    ```
+  - Get VA OMB-FISMA SAOP summary dashboard information
+    ```
+    $ bundle exec exe/emasser get fisma_saop_summary --orgId=ORGID
+    ```
+  - Get VA system A&A summary dashboard information
+    ```
+    $ bundle exec exe/emasser get va_aa_summary --orgId=ORGID
+    ```
+  - Get VA system A2.0 summary dashboard information
+    ```
+    $ bundle exec exe/emasser get va_a2_summary --orgId=ORGID
+    ```
+  - Get VA System P.L. 109 reporting summary dashboard information
+    ```
+    $ bundle exec exe/emasser get va_pl_109_summary --orgId=ORGID
+    ```
+  - Get VA system FISMA inventory summary dashboard information
+    ```
+    $ bundle exec exe/emasser get fisma_inventory_summary --orgId=ORGID
+    ```
+
+[top](#api-endpoints-provided)
 
 ## Usage - POST
 
