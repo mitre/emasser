@@ -398,10 +398,11 @@ There are two get endpoints that provides the ability to view existing `Artifact
     |--ccis                         |String - The system CCIS string numerical value|
     |--systemOnly                   |BOOLEAN - true or false|
 
+
 - export - Retrieves the file artifacts (if compress is true the file binary contents are returned, otherwise the file textual contents are returned.)
-    ````
-    $ bundle exec exe/emasser get artifacts export --systemId=SYSTEMID
-    ````
+  ````
+  $ bundle exec exe/emasser get artifacts export --systemId=SYSTEMID
+  ````
   - required parameters are:
 
     |parameter    | type or values                    |
@@ -410,6 +411,7 @@ There are two get endpoints that provides the ability to view existing `Artifact
     |--filename   |The artifact file name             |
   
   - optional parameter is:
+  
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--compress   |BOOLEAN - true or false.           |
