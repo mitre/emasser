@@ -65,9 +65,25 @@ The CLI invoke commands listed in this document shows them when executing from t
 * [/api/systems/{systemId}/approval/cac](#get-cac)
 * [/api/systems/{systemId}/approval/pac](#get-pac)
 * [/api/cmmc-assessments](#get-cmmc)
-* [/api/workflow-definitions](#get-workflowdefinitions)
-* [/api/systems/{systemId}/workflow-instances](#get-workflowinstances)
-
+* [/api/workflow-definitions](#get-workflow_definitions)
+* [/api/systems/{systemId}/workflow-instances](#get-workflow_instances)
+* [/api/dashboards/system-status-details](#get-dashboards)
+* [/api/dashboards/system-control-compliance-summary](#get-dashboards)
+* [/api/dashboards/system-security-controls-details](#get-dashboards)
+* [/api/dashboards/system-assessment-procedures-details](#get-dashboards)
+* [/api/dashboards/system-poam-summary](#get-dashboards)
+* [/api/dashboards/system-poam-details](#get-dashboards)
+* [/api/dashboards/system-hardware-summary](#get-dashboards)
+* [/api/dashboards/system-hardware-details](#get-dashboards)
+* [/api/dashboards/system-associations-details](#get-dashboards)
+* [/api/dashboards/user-system-assignments-details](#get-dashboards)
+* [/api/dashboards/system-privacy-summary](#get-dashboards)
+* [/api/dashboards/va-omb-fisma-saop-summary](#get-dashboards)
+* [/api/dashboards/va-system-aa-summary](#get-dashboards)
+* [/api/dashboards/va-system-a2-summary](#get-dashboards)
+* [/api/dashboards/va-system-pl-109-reporting-summary](#get-dashboards)
+* [/api/dashboards/va-system-fisma-inventory-summary](#get-dashboards)
+  
 ### POST
 * [/api/systems/{systemId}/test-results](#post-test_results)
 * [/api/systems/{systemId}/poam](#post-poams)
@@ -78,7 +94,7 @@ The CLI invoke commands listed in this document shows them when executing from t
 * [/api/systems/{systemId}/static-code-scans](#post-static_code_scan)
 * [/api/systems/{systemId}/cloud-resource-results](#post-cloudresource)
 * [/api/systems/{systemId}/container-scan-results](#post-container)
-  
+
 ### PUT
 * [/api/systems/{systemId}/controls](#put-controls)
 * [/api/systems/{systemId}/poams](#put-poams)
@@ -102,6 +118,7 @@ Each CLI endpoint command has several layers of help.
       emasser get cac                   # Get location of one or many controls in...
       emasser get cmmc                  # Get CMMC assessment information
       emasser get controls              # Get system Controls
+      emasser get dashboards            # Get dashboard information
       emasser get help [COMMAND]        # Describe subcommands or one specific su...
       emasser get milestones            # Get system Milestones
       emasser get pac                   # Get status of active workflows in a system
@@ -381,10 +398,11 @@ There are two get endpoints that provides the ability to view existing `Artifact
     |--ccis                         |String - The system CCIS string numerical value|
     |--systemOnly                   |BOOLEAN - true or false|
 
+
 - export - Retrieves the file artifacts (if compress is true the file binary contents are returned, otherwise the file textual contents are returned.)
-    ````
-    $ bundle exec exe/emasser get artifacts export --systemId=SYSTEMID
-    ````
+  ````
+  $ bundle exec exe/emasser get artifacts export --systemId=SYSTEMID
+  ````
   - required parameters are:
 
     |parameter    | type or values                    |
@@ -393,6 +411,7 @@ There are two get endpoints that provides the ability to view existing `Artifact
     |--filename   |The artifact file name             |
   
   - optional parameter is:
+  
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
     |--compress   |BOOLEAN - true or false.           |
@@ -440,7 +459,7 @@ To view Cybersecurity Maturity Model Certification (CMMC) Assessments use the fo
 
     $ bundle exec exe/emasser get workflow_definitions forSite --sinceDate=SINCEDATE 
 
-  - Required parameters are:
+  - Required parameter is:
 
     |parameter       | type or values                        |
     |----------------|:--------------------------------------|
@@ -463,13 +482,14 @@ To view Workflow Definitions use the following command:
     |                     |                 cloudServiceProvider, commonControlProvider                 |
 
 [top](#api-endpoints-provided)
-
 ### ```get workflow_instances```
+
 ----
 There are two get endpoints to view workflow instances:
   - all
+    ```
     $ bundle exec exe/emasser get workflow_instances all
-
+    ```
     - Optional parameters are:
 
       |parameter          | type or values                                     |
@@ -480,8 +500,9 @@ There are two get endpoints to view workflow instances:
       |--status           |Possible values: active, inactive, all              | 
 
   - byWorkflowInstanceId
-    $ bundle exec exe/emasser get workflow_instances byWorkflowInstanceId --workflowInstanceId=--WORKFLOWID
-
+    ```
+    $ bundle exec exe/emasser get workflow_instances byWorkflowInstanceId --workflowInstanceId=WORKFLOWID
+    ```
     - required parameter is:
 
       |parameter            | type or values                               |
@@ -489,7 +510,92 @@ There are two get endpoints to view workflow instances:
       |--workflowInstanceId |Integer - Unique workflow instance identifier |
 
 [top](#api-endpoints-provided)
+### ```get dashboards```
 
+----
+The Dashboards endpoints provide the ability to view data contained in dashboard exports. In the eMASS front end, these dashboard exports are generated as Excel exports.
+
+All endpoint calls utilize the same parameter values, they are:
+  - Required parameter is:
+
+    |parameter     | type or values                                  |
+    |--------------|:------------------------------------------------|
+    |--orgId       |Integer - The organization identification number |
+
+  - Optional parameters are:
+
+    |parameter    | type or values                                                |
+    |-------------|:--------------------------------------------------------------|
+    |--pageIndex  |Integer - The index of the starting page (default first page 0)|
+    |--pageSize   |Integer - The number of entries per page (default 20000)       |
+
+Available commands are:
+  - Get systems status detail dashboard information
+    ```
+    $ bundle exec exe/emasser get status_details --orgId=ORGID
+    ```
+  - Get systems control compliance summary dashboard information    
+    ```
+    $ bundle exec exe/emasser get control_compliance_summary --orgId=ORGID
+    ```
+  - Get systems security control details dashboard information
+    ```
+    $ bundle exec exe/emasser get security_control_details --orgId=ORGID
+    ```
+  - Get systems assessment procedures details dashboard information
+    ```
+    $ bundle exec exe/emasser get assessment_procedures_details --orgId=ORGID
+    ```
+  - Get systems POA&Ms summary dashboard information
+    ```
+    $ bundle exec exe/emasser get poam_summary --orgId=ORGID
+    ```
+  - Get system POA&Ms details dashboard information
+    ```
+    $ bundle exec exe/emasser get poam_details --orgId=ORGID
+    ```
+  - Get system hardware summary dashboard information
+    ```
+    $ bundle exec exe/emasser get hardware_summary --orgId=ORGID
+    ```
+  - Get system hardware details dashboard information
+    ```
+    $ bundle exec exe/emasser get hardware_details --orgId=ORGID
+    ```
+  - Get system associations details dashboard information
+    ```
+    $ bundle exec exe/emasser get associations_details --orgId=ORGID
+    ```
+  - Get user system assignments details dashboard information
+    ```
+    $ bundle exec exe/emasser get assignments_details --orgId=ORGID
+    ```
+  - Get user system privacy summary dashboard information
+    ```
+    $ bundle exec exe/emasser get privacy_summary --orgId=ORGID
+    ```
+  - Get VA OMB-FISMA SAOP summary dashboard information
+    ```
+    $ bundle exec exe/emasser get fisma_saop_summary --orgId=ORGID
+    ```
+  - Get VA system A&A summary dashboard information
+    ```
+    $ bundle exec exe/emasser get va_aa_summary --orgId=ORGID
+    ```
+  - Get VA system A2.0 summary dashboard information
+    ```
+    $ bundle exec exe/emasser get va_a2_summary --orgId=ORGID
+    ```
+  - Get VA System P.L. 109 reporting summary dashboard information
+    ```
+    $ bundle exec exe/emasser get va_pl_109_summary --orgId=ORGID
+    ```
+  - Get VA system FISMA inventory summary dashboard information
+    ```
+    $ bundle exec exe/emasser get fisma_inventory_summary --orgId=ORGID
+    ```
+
+[top](#api-endpoints-provided)
 
 ## Usage - POST
 
