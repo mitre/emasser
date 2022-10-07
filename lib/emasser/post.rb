@@ -37,8 +37,33 @@ class Thor
 end
 
 module Emasser
+  # Common static messages
   POAMS_POST_HELP_MESSAGE = "\nInvoke \"emasser post poams help add\" for additional help"
   SCAN_POST_HELP_MESSAGE = "\nInvoke \"emasser post scan_findings help clear\" for additional help"
+
+  # The Registration endpoint provides the ability to register a certificate & obtain an API-key.
+  #
+  # Endpoint:
+  #    /api/api-key - Register certificate and obtain API key
+  class Register < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'cert', 'Register a certificate & obtain an API-key'
+    # rubocop:disable Style/RedundantBegin
+    def cert
+      begin
+        result = EmassClient::RegistrationApi.new.register_user({})
+        puts to_output_hash(result).green
+      rescue EmassClient::ApiError => e
+        puts 'Exception when calling RegistrationApi->register_user'.red
+        puts to_output_hash(e)
+      end
+    end
+    # rubocop:enable Style/RedundantBegin
+  end
+
   # The Test Results endpoints provide the ability to add test results for a
   # system's Assessment Procedures (CCIs) which determine Security Control compliance.
   #
@@ -772,6 +797,9 @@ module Emasser
   end
 
   class Post < SubCommandBase
+    desc 'register', 'Register a certificate & obtain an API-key'
+    subcommand 'register', Register
+
     desc 'test_results', 'Add system Test Results'
     subcommand 'test_results', TestResults
 
