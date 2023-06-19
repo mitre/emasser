@@ -11,7 +11,7 @@ jobs:
     name: Copy Markdown Files to gh_pages
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Build Deploment Folder 🔧
         run: |
