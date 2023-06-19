@@ -79,9 +79,11 @@ module OutputConverters
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/TernaryParentheses
   # rubocop:enable Style/IfWithBooleanLiteralBranches, Style/RescueStandardError, Metrics/BlockNesting
 
-  # rubocop:disable Style/IdenticalConditionalBranches
+  # rubocop:disable Style/IdenticalConditionalBranches 
+  # rubocop:disable Performance/RedundantMatch, Performance/RegexpMatch
+  # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def change_to_datetime(obj)
-    if obj.nil?
+    if obj.nil? || obj.kind_of?(String)
       return obj
     end
 
@@ -96,8 +98,14 @@ module OutputConverters
         obj_entry[key] = hash_array
         data_obj.merge!(obj_entry)
       else
-        if /(date|Date)/.match?(key.to_s)
-          value = value.nil? ? value : Time.at(value.to_i)
+        if /(DATE|TIMESTAMP|LASTSEEN|TIME|ATD)/.match(key.to_s.upcase)
+          # rubocop:disable Style/RescueStandardError, Lint/SelfAssignment
+          begin
+            value = value.nil? ? value : Time.at(value.to_i)
+          rescue
+            value = value
+          end
+          # rubocop:enable Style/RescueStandardError, Lint/SelfAssignment
         end
         obj_entry[key] = value
         data_obj.merge!(obj_entry)
@@ -108,4 +116,6 @@ module OutputConverters
     # rubocop:enable Style/RedundantReturn
   end
   # rubocop:enable Style/IdenticalConditionalBranches
+  # rubocop:enable Performance/RedundantMatch, Performance/RegexpMatch
+  # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
