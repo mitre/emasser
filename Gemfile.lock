@@ -1,8 +1,8 @@
 PATH
   remote: .
   specs:
-    emasser (3.4.1)
-      activesupport (~> 6.1.4)
+    emasser (3.4.0)
+      activesupport (>= 6.1.4, < 7.1.0)
       colorize (~> 0.8.1)
       dotenv (~> 2.7.6)
       emass_client (~> 3.10)
@@ -31,6 +31,7 @@ GEM
       typhoeus (~> 1.0, >= 1.0.1)
     ethon (0.16.0)
       ffi (>= 1.15.0)
+    ffi (1.15.5)
     ffi (1.15.5-x64-mingw32)
     i18n (1.14.1)
       concurrent-ruby (~> 1.0)
@@ -90,6 +91,7 @@ GEM
 
 PLATFORMS
   x64-mingw32
+  x86_64-linux
 
 DEPENDENCIES
   bundler (~> 2.3)

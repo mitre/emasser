@@ -24,7 +24,7 @@ Gem::Specification.new do |spec|
   # References: https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-rubygems-registry
   spec.metadata = { "github_repo" => "ssh://github.com/mitre/emasser" }
 
-  spec.add_runtime_dependency 'activesupport', '~> 6.1.4'
+  spec.add_runtime_dependency 'activesupport', '>= 6.1.4', '< 7.1.0'
   spec.add_runtime_dependency 'colorize', '~> 0.8.1'
   spec.add_runtime_dependency 'dotenv', '~> 2.7.6'
   spec.add_runtime_dependency 'rubyzip', '~> 2.3.2'
