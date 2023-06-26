@@ -96,7 +96,7 @@ module Emasser
     end
     # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 
-    desc "byId \[options\]", 'Retrieve a system - filtered by [options] params'
+    desc 'byId [options]', 'Retrieve a system - filtered by [options] params'
     option :systemId, type: :numeric, required: true,
                       desc: 'A numeric value representing the system identification'
     option :includePackage, type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
@@ -123,7 +123,7 @@ module Emasser
       true
     end
 
-    desc "all \[options\]", 'Retrieves all available system(s) - filtered by [options] params'
+    desc 'all [options]', 'Retrieves all available system(s) - filtered by [options] params'
     # Optional parameters/fields
     option :registrationType,
            type: :string, required: false,
@@ -179,7 +179,7 @@ module Emasser
       puts to_output_hash(e).yellow
     end
 
-    desc "byCategory \[options\]", 'Retrieves role(s) - filtered by [options] params'
+    desc 'byCategory [options]', 'Retrieves role(s) - filtered by [options] params'
     # Required parameters/fields
     option :roleCategory, type: :string, required: true, enum: %w[PAC CAC Other]
     option :role,         type: :string, required: true,
@@ -220,8 +220,7 @@ module Emasser
                       desc: 'A numeric value representing the system identification'
     # Optional parameters/fields
     option :acronyms, type: :string,  required: false,
-                      desc: 'The system acronym(s) e.g "AC-1, AC-2" - if not provided all controls for systemId are' \
-                            ' returned'
+           desc: 'The system acronym(s) e.g "AC-1, AC-2" - if not provided all controls for systemId are returned'
 
     def forSystem
       optional_options_keys = optional_options(@_initializer).keys
@@ -472,8 +471,7 @@ module Emasser
                       desc: 'A numeric value representing the system identification'
     # Optional parameters/fields
     option :controlAcronyms, type: :string,  required: false,
-                             desc: 'The system acronym(s) e.g "AC-1, AC-2" - if not provided all CACs for systemId' \
-                                   ' are returned'
+           desc: 'The system acronym(s) e.g "AC-1, AC-2" - if not provided all CACs for systemId are returned'
 
     def controls
       optional_options_keys = optional_options(@_initializer).keys
@@ -665,13 +663,16 @@ module Emasser
     end
 
     # Required parameters/fields
-    class_option :orgId, type: :numeric, required: true,
-                      desc: 'A numeric value representing the system identification'
+    class_option :orgId, aliases: '-o', type: :numeric,
+                 desc: 'A numeric value representing the system identification'
 
     # Optional parameters/fields
-    class_option :excludeinherited, type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false, default false.'
-    class_option :pageIndex, type: :numeric, required: false, desc: 'The page number to be returned, if not specified starts at page 0'
-    class_option :pageSize, type: :numeric, required: false, desc: 'The total entries per page, default is 20,000'
+    class_option :excludeinherited, aliases: '-I', type: :boolean, required: false, default: false,
+                 desc: 'BOOLEAN - true or false, default false.'
+    class_option :pageIndex, aliases: '-i', type: :numeric, required: false,
+                 desc: 'The page number to be returned, if not specified starts at page 0'
+    class_option :pageSize, aliases: '-s', type: :numeric, required: false,
+                 desc: 'The total entries per page, default is 20,000'
 
     #--------------------------------------------------------------------------
     # System Status Dashboard
@@ -1051,8 +1052,8 @@ module Emasser
     # /api/dashboards/va-system-pl-109-reporting-summary
     desc 'va_pl_109_summary', 'Get VA System P.L. 109 reporting summary dashboard information'
     def va_pl_109_summary
-      optional_options_keys = optional_options(@_initializer).keys
-      optional_options = to_input_hash(optional_options_keys, options)
+      optional_options = options.clone
+      optional_options.delete('orgId')
 
       result = EmassClient::DashboardsApi.new.get_va_system_pl109_reporting_summary(
         options[:orgId], optional_options
