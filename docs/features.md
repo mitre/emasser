@@ -12,14 +12,14 @@ Place the file on the  path where the `emasser` command is executed.
 
 ### Required and Optional Environment Variables
 The following environment variables are required:
-* EMASSER_API_KEY_API_KEY=`<API key>`
-* EMASSER_API_KEY_USER_UID=`<unique identifier for the API Key (EMASSER_API_KEY_API_KEY)`
-* EMASSER_HOST=`<FQDN of the eMASS server>`
+* EMASSER_API_KEY=`<API key>`
+* EMASSER_USER_UID=`<unique identifier for the API Key (EMASSER_API_KEY)`
+* EMASSER_HOST_URL=`<FQDN of the eMASS server>`
 * EMASSER_KEY_FILE_PATH=`<path to your eMASS key in PEM format>`
 * EMASSER_CERT_FILE_PATH=`<path to your eMASS certificate in PEM format>`
-* EMASSER_KEY_PASSWORD=`<password for the key given in EMASSER_KEY_FILE_PATH>`
+* EMASSER_KEY_FILE_PASSWORD=`<password for the key given in EMASSER_KEY_FILE_PATH>`
   
-The following environment variables are *optional:
+The following environment variables are optional*:
 * EMASSER_CLIENT_SIDE_VALIDATION=`<client side validation - true or false (default true)>`
 * EMASSER_VERIFY_SSL=`<verify SSL - true or false (default true)>`
 * EMASSER_VERIFY_SSL_HOST=`<verify host SSL - true or false (default true)>`
@@ -73,8 +73,17 @@ The CLI invoke commands listed in this document shows them when executing from t
 * [/api/dashboards/system-assessment-procedures-details](#get-dashboards)
 * [/api/dashboards/system-poam-summary](#get-dashboards)
 * [/api/dashboards/system-poam-details](#get-dashboards)
+* [/api/dashboards/system-artifacts-summary](#get-dashboards)
+* [/api/dashboards/system-artifacts-details](#get-dashboards)
 * [/api/dashboards/system-hardware-summary](#get-dashboards)
 * [/api/dashboards/system-hardware-details](#get-dashboards)
+* [/api/dashboards/system-sensor-hardware-summary](#get-dashboards)
+* [/api/dashboards/system-sensor-hardware-details](#get-dashboards)
+* [/api/dashboards/system-software-summary](#get-dashboards)
+* [/api/dashboards/system-software-details](#get-dashboards)
+* [/api/dashboards/system-ports-protocols-summary](#get-dashboards)
+* [/api/dashboards/system-ports-protocols-details](#get-dashboards)
+* [/api/dashboards/system-conmon-integration-status-summary](#get-dashboards)
 * [/api/dashboards/system-associations-details](#get-dashboards)
 * [/api/dashboards/user-system-assignments-details](#get-dashboards)
 * [/api/dashboards/system-privacy-summary](#get-dashboards)
@@ -83,7 +92,11 @@ The CLI invoke commands listed in this document shows them when executing from t
 * [/api/dashboards/va-system-a2-summary](#get-dashboards)
 * [/api/dashboards/va-system-pl-109-reporting-summary](#get-dashboards)
 * [/api/dashboards/va-system-fisma-inventory-summary](#get-dashboards)
-  
+* [/api/dashboards/va-system-fisma-inventory-crypto-summary](#get-dashboards)
+* [/api/dashboards/va-system-threat-risks-summary](#get-dashboards)
+* [/api/dashboards/va-system-threat-sources-details](#get-dashboards)
+* [/api/dashboards/va-system-threat-architecture-details](#get-dashboards)
+ 
 ### POST
 * [/api/systems/{systemId}/test-results](#post-test_results)
 * [/api/systems/{systemId}/poam](#post-poams)
@@ -92,7 +105,7 @@ The CLI invoke commands listed in this document shows them when executing from t
 * [/api/systems/{systemId}/approval/cac](#post-cac)
 * [/api/systems/{systemId}/approval/pac](#post-pac)
 * [/api/systems/{systemId}/static-code-scans](#post-static_code_scan)
-* [/api/systems/{systemId}/cloud-resource-results](#post-cloudresource)
+* [/api/systems/{systemId}/cloud-resource-results](#post-cloud_resource)
 * [/api/systems/{systemId}/container-scan-results](#post-container)
 
 ### PUT
@@ -522,79 +535,131 @@ All endpoint calls utilize the same parameter values, they are:
     |--------------|:------------------------------------------------|
     |--orgId       |Integer - The organization identification number |
 
-  - Optional parameters are:
+  - Optional flags (parameters) are:
 
-    |parameter    | type or values                                                |
-    |-------------|:--------------------------------------------------------------|
-    |--pageIndex  |Integer - The index of the starting page (default first page 0)|
-    |--pageSize   |Integer - The number of entries per page (default 20000)       |
+    |parameter          | type or values                                                |
+    |-------------------|:--------------------------------------------------------------|
+    |--excludeInherited |BOOLEAN - If no value is specified, includes inherited data    |
+    |--pageIndex        |Integer - The index of the starting page (default first page 0)|
+    |--pageSize         |Integer - The number of entries per page (default 20000)       |
 
 Available commands are:
   - Get systems status detail dashboard information
     ```
-    $ bundle exec exe/emasser get status_details --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards status_details [-o, --orgId] <value> [options]
     ```
   - Get systems control compliance summary dashboard information    
     ```
-    $ bundle exec exe/emasser get control_compliance_summary --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards control_compliance_summary [-o, --orgId] <value> [options]
     ```
   - Get systems security control details dashboard information
     ```
-    $ bundle exec exe/emasser get security_control_details --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards security_control_details [-o, --orgId] <value> [options]
     ```
   - Get systems assessment procedures details dashboard information
     ```
-    $ bundle exec exe/emasser get assessment_procedures_details --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards assessment_procedures_details [-o, --orgId] <value> [options]
     ```
   - Get systems POA&Ms summary dashboard information
     ```
-    $ bundle exec exe/emasser get poam_summary --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards poam_summary [-o, --orgId] <value> [options]
     ```
   - Get system POA&Ms details dashboard information
     ```
-    $ bundle exec exe/emasser get poam_details --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards poam_details [-o, --orgId] <value> [options]
+    ```
+  - Get artifacts summary dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards artifacts_summary [-o, --orgId] <value> [options]
+    ```
+  - Get artifacts details dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards artifacts_details [-o, --orgId] <value> [options]
     ```
   - Get system hardware summary dashboard information
     ```
-    $ bundle exec exe/emasser get hardware_summary --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards hardware_summary [-o, --orgId] <value> [options]
     ```
   - Get system hardware details dashboard information
     ```
-    $ bundle exec exe/emasser get hardware_details --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards hardware_details [-o, --orgId] <value> [options]
+    ```
+  - Get sensor hardware summary dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards sensor_hardware_summary [-o, --orgId] <value> [options]
+    ```
+  - Get sensor hardware details dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards sensor_hardware_details [-o, --orgId] <value> [options]
+    ```
+  - Get software baseline summary dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards software_summary [-o, --orgId] <value> [options]
+    ```
+  - Get software baseline details dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards software_details [-o, --orgId] <value> [options]
+    ```
+  - Get ports and protocols summary dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards ports_protocols_summary [-o, --orgId] <value> [options]
+    ```
+  - Get ports and protocols details dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards ports_protocols_details [-o, --orgId] <value> [options]
+    ```
+  - Get CONMON integration status summary dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards integration_status_summary [-o, --orgId] <value> [options]
     ```
   - Get system associations details dashboard information
     ```
-    $ bundle exec exe/emasser get associations_details --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards associations_details [-o, --orgId] <value> [options]
     ```
   - Get user system assignments details dashboard information
     ```
-    $ bundle exec exe/emasser get assignments_details --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards assignments_details [-o, --orgId] <value> [options]
     ```
   - Get user system privacy summary dashboard information
     ```
-    $ bundle exec exe/emasser get privacy_summary --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards privacy_summary [-o, --orgId] <value> [options]
     ```
   - Get VA OMB-FISMA SAOP summary dashboard information
     ```
-    $ bundle exec exe/emasser get fisma_saop_summary --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards fisma_saop_summary [-o, --orgId] <value> [options]
     ```
   - Get VA system A&A summary dashboard information
     ```
-    $ bundle exec exe/emasser get va_aa_summary --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards va_aa_summary [-o, --orgId] <value> [options]
     ```
   - Get VA system A2.0 summary dashboard information
     ```
-    $ bundle exec exe/emasser get va_a2_summary --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards va_a2_summary [-o, --orgId] <value> [options]
     ```
   - Get VA System P.L. 109 reporting summary dashboard information
     ```
-    $ bundle exec exe/emasser get va_pl_109_summary --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards va_pl_109_summary [-o, --orgId] <value> [options]
     ```
   - Get VA system FISMA inventory summary dashboard information
     ```
-    $ bundle exec exe/emasser get fisma_inventory_summary --orgId=ORGID
+    $ bundle exec exe/emasser get dashboards fisma_inventory_summary [-o, --orgId] <value> [options]
     ```
-
+  - Get VA system FISMA inventory summary dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards fisma_inventory_crypto_summary [-o, --orgId] <value> [options]
+    ```
+  - Get VA threat risk summary dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards va_threat_risk_summary [-o, --orgId] <value> [options]
+    ```
+  - Get VA threat source details dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards va_threat_source_details [-o, --orgId] <value> [options]
+    ```
+  - Get VA threat architecture details dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards va_threat_architecture_details [-o, --orgId] <value> [options]
+    ```
 [top](#api-endpoints-provided)
 
 ## Usage - POST
