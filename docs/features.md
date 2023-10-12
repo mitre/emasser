@@ -48,90 +48,123 @@ The CLI invoke commands listed in this document shows them when executing from t
 ## GET Endpoints
 #### Test Connection
   * [/api](#get-test-connection)
+
 #### System Endpoints
-   * [/api/system](#get-system)
-   * [/api/systems](#get-systems)
-   * [/api/systems/{systemId}](#get-system)
+  * [/api/system](#get-system)
+  * [/api/systems](#get-systems)
+  * [/api/systems/{systemId}](#get-system)
+
 #### System Roles Endpoints
   * [/api/system-roles](#get-roles)
   * [/api/system-roles/{roleCategory}](#get-roles)
+
 #### Controls Endpoint 
   * [/api/systems/{systemId}/controls](#get-controls)
+
 #### Test Results Endpoint
-  * [/api/systems/{systemId}/test-results](#get-testresults)
+  * [/api/systems/{systemId}/test-results](#get-test_results)
+
 #### POA&Ms Endpoints
   * [/api/systems/{systemId}/poams](#get-poams)
   * [/api/systems/{systemId}/poams/{poamId}](#get-poams)
+
 #### Milestones Endpoints
   * [/api/systems/{systemId}/poams/{poamId}/milestones](#get-milestones)
   * [/api/systems/{systemId}/poams/{poamId}/milestones/{milestoneId})](#get-milestones)
+
 #### Artifacts Endpoints
   * [/api/systems/{systemId}/artifacts](#get-artifacts)
   * [/api/systems/{systemId}/artifacts-export](#get-artifacts)
+
 #### CAC Endpoint
   * [/api/systems/{systemId}/approval/cac](#get-cac)
+
 #### PAC Endpoint
-* [/api/systems/{systemId}/approval/pac](#get-pac)
+  * [/api/systems/{systemId}/approval/pac](#get-pac)
+
 #### CMMC Assessment Endpoint
   * [/api/cmmc-assessments](#get-cmmc)
+
 #### Workflow Definition Endpoint
   * [/api/workflow-definitions](#get-workflow_definitions)
+
 #### Workflow Instances Endpoint
   * [/api/systems/{systemId}/workflow-instances](#get-workflow_instances)
+
 ### [Dashboards](#get-dashboards)
+
 #### System Status Dashboard
   * [/api/dashboards/system-status-details](#system-status-endpoint)
+
 #### Enterprise Terms Conditions Dashboard
   * [/api/dashboards/system-terms-conditions-summary](#system-terms-conditions-endpoints)
   * [/api/dashboards/system-terms-conditions-details](#system-terms-conditions-endpoints)
+
 ### Enterprise Security Controls Dashboard  
   * [/api/dashboards/system-control-compliance-summary](#enterprise-security-controls-endpoints)
   * [/api/dashboards/system-security-controls-details](#enterprise-security-controls-endpoints)
   * [/api/dashboards/system-assessment-procedures-details](#enterprise-security-controls-endpoints)
+
 ### Enterprise POA&M Dashboard
   * [/api/dashboards/system-poam-summary](#enterprise-poam-endpoints)
   * [/api/dashboards/system-poam-details](#enterprise-poam-endpoints)
+
 ### Enterprise Artifacts Dashboard
   * [/api/dashboards/system-artifacts-summary](#enterprise-artifacts-endpoints)
   * [/api/dashboards/system-artifacts-details](#enterprise-artifacts-endpoints)
+
 ### Hardware Baseline Dashboard
   * [/api/dashboards/system-hardware-summary](#hardware-baseline-endpoints)
   * [/api/dashboards/system-hardware-details](#hardware-baseline-endpoints)
+
 ### Enterprise Sensor-based Hardware Resources Dashboard
   * [/api/dashboards/system-sensor-hardware-summary](#enterprise-sensor-based-hardware-resources-endpoints)
   * [/api/dashboards/system-sensor-hardware-details](#enterprise-sensor-based-hardware-resources-endpoints)
+
 ### Software Baseline Dashboard
   * [/api/dashboards/system-software-summary](#software-baseline-endpoints)
   * [/api/dashboards/system-software-details](#software-baseline-endpoints)
+
 ### Enterprise Sensor-based Software Resources Dashboard
   * [/api/dashboards/system-sensor-software-summary](#enterprise-sensor-based-software-resources-endpoints)
   * [/api/dashboards/system-sensor-software-details](#enterprise-sensor-based-software-resources-endpoints)
   * [/api/dashboards/system-sensor-software-counts](#enterprise-sensor-based-software-resources-endpoints)
+
 ### Enterprise Vulnerability Dashboard
   * [/api/dashboards/system-vulnerability-summary](#enterprise-vulnerability-endpoints)
   * [/api/dashboards/system-device-findings-summary](#enterprise-vulnerability-endpoints)
   * [/api/dashboards/system-device-findings-details](#enterprise-vulnerability-endpoints)
+
 ### Ports and Protocols Dashboard
   * [/api/dashboards/system-ports-protocols-summary](#ports-and-protocols-endpoints)
   * [/api/dashboards/system-ports-protocols-details](#ports-and-protocols-endpoints)
+
 ### System CONMON Integration Status Dashboard
   * [/api/dashboards/system-conmon-integration-status-summary](#system-conmon-integration-status-endpoint)
+
 ### System Associations Dashboard
   * [/api/dashboards/system-associations-details](#system-associations-endpoint)
+
 ### Users Dashboard
   * [/api/dashboards/user-system-assignments-details](#users-endpoint)
+
 ### Privacy Compliance Dashboard
   * [/api/dashboards/system-privacy-summary](#privacy-compliance-endpoints)
   * [/api/dashboards/va-omb-fisma-saop-summary](#privacy-compliance-endpoints)
+
 ### System A&A Summary Dashboard
   * [/api/dashboards/va-system-aa-summary](#system-aa-summary-endpoint)
+
 ### System A2.0 Summary Dashboard
   * [/api/dashboards/va-system-a2-summary](#system-a20-summary-endpoint)
+
 ### System P.L. 109 Reporting Summary Dashboard
   * [/api/dashboards/va-system-pl-109-reporting-summary](#system-pl-109-reporting-summary-endpoint)
+
 ### FISMA Inventory Summary Dashboard
   * [/api/dashboards/va-system-fisma-inventory-summary](#fisma-inventory-summary-endpoints)
   * [/api/dashboards/va-system-fisma-inventory-crypto-summary](#fisma-inventory-summary-endpoints)
+
 ### Threat Risks Dashboard
   * [/api/dashboards/va-system-threat-risks-summary](#threat-risks-endpoints)
   * [/api/dashboards/va-system-threat-sources-details](#threat-risks-endpoints)
@@ -287,7 +320,7 @@ To retrieve controls use the following command:
     |-p, --policy                |Possible values: diacap, rmf, reporting                                      |
     |_S, --reportsForScorecard   |BOOLEAN - true or false                                                      |
   
-[top](#system-roles-endpoints)
+[top](#system-endpoints)
 ### ```get roles```
 
 ----
@@ -314,7 +347,7 @@ There are two get endpoints for system roles:
     |-p, --policy            |Possible values: diacap, rmf, reporting  |
 
 
-[top](#api-endpoints-provided)
+[top](#system-roles-endpoints)
 ### ```get controls```
 
 ----
@@ -334,7 +367,7 @@ To retrieve controls use the following command:
     |---------------|:------------------------------------------|
     |-a, --acronyms |The system acronym(s) e.g "AC-1, AC-2" - if not provided all controls for systemId are returned |
 
-[top](#api-endpoints-provided)
+[top](#controls-endpoint)
 ### ```get test_results```
 
 ----
@@ -357,7 +390,7 @@ To retrieve test results use the following command:
     |-c, --ccis                |String - The system CCIS string numerical value |
     |-L, --latestOnly          |BOOLEAN - true or false|
 
-[top](#api-endpoints-provided)
+[top](#test-results-endpoint)
 ### ```get poams```
 
 ----
@@ -395,7 +428,7 @@ There are two get endpoints for system poams:
     |-s, --systemId |Integer - Unique system identifier |
     |-p, --poamId   |Integer - Unique poam identifier   |
 
-[top](#api-endpoints-provided)
+[top](#poams-endpoints)
 ### ```get milestones```
 
 ----
@@ -431,7 +464,7 @@ There are two get endpoints for system milestones:
     |-p, --poamId      |Integer - Unique poam identifier      |
     |-m, --milestoneId |Integer - Unique milestone identifier |
 
-[top](#api-endpoints-provided)
+[top](#milestones-endpoints)
 ### ```get artifacts```
 
 ----
@@ -476,7 +509,7 @@ There are two get endpoints that provides the ability to view existing `Artifact
     |-C, --compress      |BOOLEAN - true or false.           |
     |-o, --printToStdout |BOOLEAN - true or false - Output file content to terminal - not valid for zip files|
 
-[top](#api-endpoints-provided)
+[top](#artifacts-endpoints)
 ### ```get cac```
 
 ----
@@ -496,7 +529,7 @@ To view one or many Control Approval Chain (CAC) in a system specified system ID
     |----------------------|:----------------------------------------------|
     |-a, --controlAcronyms |String - The system acronym(s) e.g "AC-1, AC-2"|
 
-[top](#api-endpoints-provided)
+[top](#cac-endpoint)
 ### ```get pac```
 
 ----
@@ -511,7 +544,7 @@ To view one or many Package Approval Chain (PAC) in a system specified system ID
     |-------------|:----------------------------------|
     |-s, --systemId   |Integer - Unique system identifier |
 
-[top](#api-endpoints-provided)
+[top](#pac-endpoint)
 ### ```get cmmc```
 
 ----
@@ -525,7 +558,7 @@ To view Cybersecurity Maturity Model Certification (CMMC) Assessments use the fo
     |----------------|:--------------------------------------|
     |-d, --sinceDate |Date - The CMMC date. Unix date format |
 
-[top](#api-endpoints-provided)
+[top](#cmmc-assessment-endpoint)
 ### ```get workflow_definitions```
 
 ----
@@ -541,7 +574,7 @@ To view Workflow Definitions use the following command:
     |-r, --registrationType |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional, |
     |                       |                 cloudServiceProvider, commonControlProvider                 |
 
-[top](#api-endpoints-provided)
+[top](#workflow-definition-endpoint)
 ### ```get workflow_instances```
 
 ----
@@ -570,7 +603,7 @@ There are two get endpoints to view workflow instances:
       |---------------------|:---------------------------------------------|
       |-w, --workflowInstanceId |Integer - Unique workflow instance identifier |
 
-[top](#api-endpoints-provided)
+[top](#workflow-instances-endpoint)
 ### ```get dashboards```
 
 ----

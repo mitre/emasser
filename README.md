@@ -9,7 +9,7 @@
 
 ## About
 
-`eMASSer` is a Command Line Interface (CLI) that aims to automate routine business use-cases and provide utility surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its Representational State Transfer (REST) Application Programming Interface (API). 
+`eMASSer` is a Command Line Interface (CLI) that aims to automate routine business use-cases and provide utility surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its Representational State Transfer (REST) [Application Programming Interface (API)](https://mitre.github.io/emass_client/docs/eMASS_API_Documentation.pdf). 
 
 ***NOTE***: The `eMASSer` CLI utilizes the [emass_client](https://github.com/mitre/emass_client) RubyGem executable package to access the eMASS API endpoints.
 
