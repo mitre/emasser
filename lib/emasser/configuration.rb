@@ -9,7 +9,7 @@ module Emasser
       ENV.fetch(env) { raise Emasser::ConfigurationMissingError.new(env) }
     rescue Emasser::ConfigurationMissingError => e
       if (ARGV[0].to_s.include? '-v') || (ARGV[0].to_s.include? '-V')
-        puts "emasser version: #{Emasser::VERSION}".green
+        puts "eMASSer version: #{Emasser::VERSION}".green
       else
         puts "\n", e.message.red
         puts 'Create a .env file containing required variables, place it in the root directory where the emasser command is executed'.yellow
@@ -17,10 +17,10 @@ module Emasser
         puts '  export EMASSER_API_KEY=<API key>'.green
         puts '  export EMASSER_USER_UID=<unique identifier of the eMASS user EMASSER_API_KEY belongs to>'.green
         puts '  export EMASSER_HOST_URL=<FQDN of the eMASS server>'.green
-        puts '  export EMASSER_KEY_FILE_PATH=<path to your emass key in PEM format>'.green
-        puts '  export EMASSER_CERT_FILE_PATH=<path to your emass certficate in PEM format>'.green
+        puts '  export EMASSER_KEY_FILE_PATH=<path to your eMASS key in PEM format>'.green
+        puts '  export EMASSER_CERT_FILE_PATH=<path to your eMASS certficate in PEM format>'.green
         puts '  export EMASSER_KEY_FILE_PASSWORD=<password for the key given in EMASSER_KEY_FILE_PATH>'.green, "\n"
-        puts 'See emasser environment variables requirements in emasser CLI Features for more information (https://mitre.github.io/emasser/docs/features.html).', "\n"
+        puts 'See eMASSer environment variables requirements in eMASSer CLI Features for more information (https://mitre.github.io/emasser/docs/features.html).', "\n"
       end
       exit
     end

@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency 'dotenv', '~> 2.7.6'
   spec.add_runtime_dependency 'rubyzip', '~> 2.3.2'
   spec.add_runtime_dependency 'thor', '~> 1.1.0'
-  spec.add_runtime_dependency 'emass_client', '~> 3.10'
+  spec.add_runtime_dependency 'emass_client', '~> 3.12'
 
   spec.add_development_dependency 'bundler', '~> 2.3'
   spec.add_development_dependency 'bundler-audit', '~> 0.7'

@@ -98,10 +98,18 @@ module OutputConverters
         obj_entry[key] = hash_array
         data_obj.merge!(obj_entry)
       else
+        date_value = value
         if /(DATE|TIMESTAMP|LASTSEEN|TIME|ATD)/.match(key.to_s.upcase)
-          value = value.nil? ? value : Time.at(value.to_i)
+          begin
+            date_value = Integer(value)
+            if date_value > 100000000
+              date_value = value.nil? ? value : Time.at(date_value)
+            end
+          rescue
+            date_value
+          end
         end
-        obj_entry[key] = value
+        obj_entry[key] = date_value
         data_obj.merge!(obj_entry)
       end
     end

@@ -41,3 +41,6 @@ describe Emasser::Artifacts do
     end
   end
 end
+
+# To run use
+#    rspec spec\test_delete_cli_spec.rb  --format documentation

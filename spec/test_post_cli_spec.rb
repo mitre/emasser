@@ -115,3 +115,6 @@ describe Emasser::Container do
     end
   end
 end
+
+# to run use:
+#    rspec spec\test_post_cli_spec.rb  --format documentation

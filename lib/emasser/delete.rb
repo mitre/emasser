@@ -51,11 +51,11 @@ module Emasser
     long_desc Help.text(:poam_del_mapper)
 
     # Required parameters/fields
-    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
-    option :poamId,   type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
+    option :systemId, aliases: '-s', type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :poamId, aliases: '-p', type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
 
     def remove
-      body = EmassClient::PoamGet.new
+      body = EmassClient::PoamRequestDeleteBodyInner.new
       body.poam_id = options[:poamId]
       body_array = Array.new(1, body)
 
@@ -80,26 +80,24 @@ module Emasser
     long_desc Help.text(:milestone_del_mapper)
 
     # Required parameters/fields
-    option :systemId,    type: :numeric, required: true,
+    option :systemId, aliases: '-s', type: :numeric, required: true,
                          desc: 'A numeric value representing the system identification'
-    option :poamId,      type: :numeric, required: true,
+    option :poamId, aliases: '-p', type: :numeric, required: true,
                          desc: 'A numeric value representing the poam identification'
-    option :milestoneId, type: :numeric, required: true,
+    option :milestoneId, aliases: '-m', type: :numeric, required: true,
                          desc: 'A numeric value representing the milestone identification'
 
     def remove
-      body = EmassClient::MilestonesGet.new
+      body = EmassClient::MilestonesRequestDeleteBodyInner.new
       body.milestone_id = options[:milestoneId]
       body_array = Array.new(1, body)
 
-      # Getting an empty return when utilizing the default return type - using 'Object' as return type
-      opts = Emasser::DEL_MILESTONES_RETURN_TYPE
-
-      result = EmassClient::MilestonesApi.new.delete_milestone(options[:systemId], options[:poamId], body_array, opts)
+      result = EmassClient::MilestonesApi.new.delete_milestone(options[:systemId], options[:poamId], body_array)
+      # The server returns an empty object upon successfully deleting a milestone.
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling MilestonesApi->delete_milestone'.red
-      puts to_output_hash(e).yellow
+      puts to_output_hash(e)
     end
   end
 
@@ -113,11 +111,11 @@ module Emasser
     end
 
     desc 'remove', 'Delete one or many artifacts in a system'
-    long_desc Help.text(:artifact_del_mapper)
+    long_desc Help.text(:artifacts_del_mapper)
 
     # Required parameters/fields
-    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
-    option :files, type: :array, required: true, desc: 'Artifact file(s) to remove from the given system'
+    option :systemId, aliases: '-s', type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :files, aliases: '-f', type: :array, required: true, desc: 'Artifact file(s) to remove from the given system'
 
     def remove
       body_array = []
@@ -127,10 +125,68 @@ module Emasser
         body_array << obj
       end
 
-      result = EmassClient::ArtifactsApi.new.delete_artifact(options[:systemId], body_array)
+      result = EmassClient::ArtifactsApi.new.delete_artifact(body_array, options[:systemId])
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling ArtifactsApi->delete_artifact'.red
+      puts to_output_hash(e)
+    end
+  end
+
+  # The Cloud Resource Results endpoint provides the ability to remove
+  # cloud resources and their scan results in the assets module for a system.
+  #
+  # Endpoint:
+  #  /api/systems/{systemId}/cloud-resource-results - Remove one or many cloud resources in a system
+  class CloudResource < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'remove', 'Delete one or many Cloud Resources and their scan results in the assets module for a system'
+
+    # Required parameters/fields
+    option :systemId, aliases: '-s', type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :resourceId, aliases: '-c', type: :string, required: true, desc: 'Unique identifier/resource namespace for policy compliance result'
+
+    def remove
+      body = EmassClient::CloudResourcesDeleteBodyInner.new
+      body.resource_id = options[:resourceId]
+      body_array = Array.new(1, body)
+
+      result = EmassClient::CloudResourceResultsApi.new.delete_cloud_resources(options[:systemId], body_array)
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling MilestonesApi->delete_cloud_resources'.red
+      puts to_output_hash(e)
+    end
+  end
+
+  # The Container Scan Results endpoint provides the ability to remove
+  # containers and their scan results in the assets module for a system.
+  #
+  # Endpoint:
+  #  /api/systems/{systemId}/container-scan-results - Remove one or many containers in a system
+  class Container < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'remove', 'Delete one or many containers scan results in the assets module for a system'
+
+    # Required parameters/fields
+    option :systemId, aliases: '-s', type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :containerId, aliases: '-c', type: :string, required: true, desc: 'Unique identifier of the container'
+
+    def remove
+      body = EmassClient::ContainerResourcesDeleteBodyInner.new
+      body.containerId = options[:containerId]
+      body_array = Array.new(1, body)
+
+      result = EmassClient::ContainerScanResultsApi.new.delete_container_sans(options[:systemId], body_array)
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling MilestonesApi->delete_cloud_resources'.red
       puts to_output_hash(e)
     end
   end
@@ -144,5 +200,11 @@ module Emasser
 
     desc 'artifacts', 'Delete system Artifacts'
     subcommand 'artifacts', Artifacts
+
+    desc 'cloud_resource', 'Delete cloud resource and their scan results'
+    subcommand 'cloud_resource', CloudResource
+
+    desc 'container', 'Delete container and their scan results'
+    subcommand 'container', Container
   end
 end

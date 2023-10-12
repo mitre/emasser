@@ -1,4 +1,4 @@
-# emasser
+# eMASSer
 ![GitHub Release Date](https://img.shields.io/github/release-date/mitre/emasser?label=Release%20Date&logo=github&color=blue)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mitre/emasser?label=Release%20Version&logo=github) ![Gem](https://img.shields.io/gem/v/emasser?label=gem%20version&logo=ruby&logoColor=red) ![Docker Version](https://img.shields.io/docker/v/mitre/emasser?label=docker%20version&logo=docker&sort=semver)
 
@@ -9,29 +9,29 @@
 
 ## About
 
-`emasser` is a Command Line Interface (CLI) that aims to automate routine business use-cases and provide utility surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its Representational State Transfer (REST) Application Programming Interface (API). 
+`eMASSer` is a Command Line Interface (CLI) that aims to automate routine business use-cases and provide utility surrounding the Enterprise Mission Assurance Support Service (eMASS) by leveraging its Representational State Transfer (REST) Application Programming Interface (API). 
 
-***NOTE***: The `emasser` CLI utilizes the [emass_client](https://github.com/mitre/emass_client) RubyGem executable package to access the eMASS API endpoints.
+***NOTE***: The `eMASSer` CLI utilizes the [emass_client](https://github.com/mitre/emass_client) RubyGem executable package to access the eMASS API endpoints.
 
 ---
 ## Documentation
 For detail content information about the `eMASS` API references the [**eMASS API Specification**](https://mitre.github.io/emass_client/docs/redoc/) page.
 
-For detail features provided by the `emasser` CLI references the [**emasser CLI Features**](docs/features.md) page.
+For detail features provided by the `eMASSer` CLI references the [**eMASSer CLI Features**](docs/features.md) page.
 
-The `emasser` CLI [**Architecture**](#emasser-cli-architecture) depicts the `emasser` structure, and provides an explanation of how it behaves. 
+The `eMASSer` CLI [**Architecture**](#emasser-cli-architecture) depicts the structure, and provides an explanation of CLI behaviors. 
 
 ---
 ## Installation Options
 
-`emasser` is a Ruby CLI distributed via GitHub (this repository), [RubyGems](https://rubygems.org/gems/emass_client/versions/), or [Docker](https://hub.docker.com/r/mitre/emasser/tags).
+`eMASSer` is a Ruby CLI distributed via GitHub (this repository), [RubyGems](https://rubygems.org/gems/emass_client/versions/), or [Docker](https://hub.docker.com/r/mitre/emasser/tags).
 
 ### Installation Dependencies
   * git
   * Ruby version 2.7 or greater
 
-### Runtime Dependencies
-  * Ruby version 2.7 or greater.
+### Runtime Major Dependencies
+  * Ruby version 2.7 or greater
   * `rubyzip (latest version)`
   * `emass_client (latest version)`
   * On Windows the `cURL` binary is required (libcurl.dll). To install cURL:
@@ -41,6 +41,7 @@ The `emasser` CLI [**Architecture**](#emasser-cli-architecture) depicts the `ema
       - Extract the file into the Ruby installation /bin directory
       - Rename the file to `libcurl.dll` if it has the `_x64` suffix
     - Install [cURL for windows](https://community.chocolatey.org/packages/curl) and add the installation directory to the PATH.
+  * See the `emasser.gemspec` file for all other dependencies 
 
 
 ## Install via GitHub
@@ -49,7 +50,7 @@ The `emasser` CLI [**Architecture**](#emasser-cli-architecture) depicts the `ema
   git clone <path to emasser repository> emasser
   cd emasser
   ```
-- Build the emasser gem*
+- Build the eMASSer gem*
   ```bash
     gem build *.gemspec
     gem install *.gem
@@ -81,7 +82,7 @@ bundle exec exe/emasser [command]
 ***Note:** See [Setting Environment Variables Configuration](https://github.com/mitre/emasser/wiki/Editing-Environment-Variables-Configuration) for detailed information on required and optional variables.
 
 ## Using Docker
-Ensure that docker engine is running and start the emasser Docker Container.
+Ensure that docker engine is running and start the eMASSer Docker Container.
 ### Install
 - On Linux or Mac:
   ```
@@ -109,7 +110,7 @@ Ensure that docker engine is running and start the emasser Docker Container.
       ```
   -  See [Editing Environment Variables Configuration](https://github.com/mitre/emasser/wiki/Editing-Environment-Variables-Configuration)
 
-### Run emasser API client commands
+### Run eMASSer API client commands
 - To list all available GET, POST, PUT, or DELETE commands use:
   ```
   docker run --rm -v $PWD/path-to-secrets:/data mitre/emasser:latest get help
@@ -132,7 +133,7 @@ Ensure that docker engine is running and start the emasser Docker Container.
 ---
 ## Roadmap
 
-The `emasser` implements all endpoints provided by the `eMASS` API, there is, all of the functions available from the `eMASS GUI` that are exposed by the API. If additional functions are useful (accessible via the CLI), please submit a request to [eMass Tier III Support](mailto:disa.meade.id.mbx.emass-tier-iii-support@mail.mil) for possible inclusion into the API.
+The `eMASSer` implements all endpoints provided by the `eMASS` API, there is, all of the functions available from the `eMASS GUI` that are exposed by the API. If additional functions are useful (accessible via the CLI), please submit a request to [eMass Tier III Support](mailto:disa.meade.id.mbx.emass-tier-iii-support@mail.mil) for possible inclusion into the API.
 
 The Road Map seeks to add any useful features that facilitates organization that utilizes  `eMASS` instances and have a need to automate their cybersecurity management process. 
 
@@ -147,13 +148,13 @@ Some proposed capabilities (looking for a sponsor) are:
 ## Design
 
 ### Interactions with eMASS API
-The `emasser` CLI leverages the [emass_client](https://github.com/mitre/emass_client), which provides a REST API client developed by MITRE based on the [OpenAPI V3](https://www.openapis.org/) standards for the official [eMASS API specification](https://mitre.github.io/emass_client/docs/redoc). This design enables REST API clients to be generated in [any supported programming language](https://openapi-generator.tech/docs/generators/). The design enables the `emass_client` to be generated independently of the emasser CLI. Currently, a Ruby and a Typescript eMASS client API are provided. The TypeScript client is used with the [Security Automation Framework CLI (SAF) CLI](https://github.com/mitre/saf).
+The `eMASSer` CLI leverages the [emass_client](https://github.com/mitre/emass_client), which provides a REST API client developed by MITRE based on the [OpenAPI V3](https://www.openapis.org/) standards for the official [eMASS API specification](https://mitre.github.io/emass_client/docs/redoc). This design enables REST API clients to be generated in [any supported programming language](https://openapi-generator.tech/docs/generators/). The design enables the `emass_client` to be generated independently of the eMASSer CLI. Currently, a Ruby and a Typescript eMASS client API are provided. The TypeScript client is used with the [Security Automation Framework CLI (SAF) CLI](https://github.com/mitre/saf).
 
 ### Business Logic
-Because interactions with the API are handled by a dependency, the bulk of `emasser` business logic is for accepting user input/output, reading data from eMASS or from input, transforming data, and routing data to the appropriate eMASS API endpoint. This business logic is organized into Ruby Classes and Modules based on the command or subcommand requested by the user.
+Because interactions with the API are handled by a dependency, the bulk of `eMASSer` business logic is for accepting user input/output, reading data from eMASS or from input, transforming data, and routing data to the appropriate eMASS API endpoint. This business logic is organized into Ruby Classes and Modules based on the command or subcommand requested by the user.
 
-## Emasser CLI Architecture
-The `emasser` CLI makes use of the `emass_client` ruby gem to communicate with an `eMASS` instance via the `eMASS API` as depicted in the diagram below:
+## eMASSer CLI Architecture
+The `eMASSer` CLI makes use of the `emass_client` ruby gem to communicate with an `eMASS` instance via the `eMASS API` as depicted in the diagram below:
 
 <div align="center">
   <img src="images/emasser_architecture.jpg" alt="emasser CLI Architecture" title="emasser CLI Architecture">
