@@ -79,7 +79,9 @@ module OutputConverters
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity, Style/TernaryParentheses
   # rubocop:enable Style/IfWithBooleanLiteralBranches, Style/RescueStandardError, Metrics/BlockNesting
 
+  # rubocop:disable Style/RedundantReturn
   # rubocop:disable Style/IdenticalConditionalBranches
+  # rubocop:disable Metrics/BlockNesting, Style/RescueStandardError
   # rubocop:disable Performance/RedundantMatch, Performance/RegexpMatch
   # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
   def change_to_datetime(obj)
@@ -113,11 +115,11 @@ module OutputConverters
         data_obj.merge!(obj_entry)
       end
     end
-    # rubocop:disable Style/RedundantReturn
     return data_obj
-    # rubocop:enable Style/RedundantReturn
   end
+  # rubocop:enable Style/RedundantReturn
   # rubocop:enable Style/IdenticalConditionalBranches
+  # rubocop:enable Metrics/BlockNesting, Style/RescueStandardError
   # rubocop:enable Performance/RedundantMatch, Performance/RegexpMatch
   # rubocop:enable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
 end
