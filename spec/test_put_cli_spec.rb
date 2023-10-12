@@ -53,3 +53,6 @@ describe Emasser::Artifacts do
     end
   end
 end
+
+# to run use:
+#    rspec spec\test_put_cli_spec.rb  --format documentation

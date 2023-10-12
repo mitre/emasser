@@ -19,8 +19,4 @@ module Emasser
   GET_WORKFLOWINSTANCES_RETURN_TYPE = {
     debug_return_type: 'Object'
   }.freeze
-
-  DEL_MILESTONES_RETURN_TYPE = {
-    debug_return_type: 'Object'
-  }.freeze
 end

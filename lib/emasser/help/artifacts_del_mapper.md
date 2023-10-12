@@ -4,6 +4,6 @@ Provide single file or a space/comma delimited list of file names to be removed 
 
 Example:
 
-bundle exec exe/emasser delete artifacts remove --systemId [value] --files [value] 
+bundle exec exe/emasser delete artifacts remove -s, --systemId [value] -f, --files [value] 
 or
-bundle exec exe/emasser delete artifacts remove --systemId [value] --files [value ... value] 
+bundle exec exe/emasser delete artifacts remove -s, --systemId [value] -f, --files [value ... value] 

@@ -1,14 +1,14 @@
-# emasser CLI Features
+# eMASSer CLI Features
 
 ## Environment Variables
-To facilitate setting the required environment variables the `emasser `CLI utilized the zero-dependency module to load these variables from a `.env` file.  
+To facilitate setting the required environment variables the `eMASSer `CLI utilized the zero-dependency module to load these variables from a `.env` file.  
 
 ### Configuring the `.env` File
 An `.env-example` file is provided with the required and optional fields.
 
 Modify the `.env_example` as necessary and save it as a `.env` file. 
 
-Place the file on the  path where the `emasser` command is executed.
+Place the file on the  path where the `eMASSer` command is executed.
 
 ### Required and Optional Environment Variables
 The following environment variables are required:
@@ -25,7 +25,7 @@ The following environment variables are optional*:
 * EMASSER_VERIFY_SSL_HOST=`<verify host SSL - true or false (default true)>`
 * EMASSER_DEBUGGING=`<set debugging - true or false (default false)>`
 * EMASSER_CLI_DISPLAY_NULL=`<display null value fields - true or false (default true)>`
-* EMASSER_POCH_TO_DATETIME=`<convert epoch to data/time value - true or false (default false)>`
+* EMASSER_EPOCH_TO_DATETIME=`<convert epoch to data/time value - true or false (default false)>`
   
 \* If not provided defaults are used
 
@@ -34,70 +34,143 @@ The proper format to set these variables in the `.env` files is as follows:
 export [VARIABLE_NAME]='value'
 ```
 ***NOTE***
-`emasser` requires authentication to an eMASS instance as well as authorization to use the eMASS API. This authentication and authorization is **not** a function of `emasser` and needs to be accomplished with the eMASS instances owner organization. Further information about eMASS credential requirements refer to [Defense Counterintelligence and Security Agency](https://www.dcsa.mil/is/emass/) about eMASS access.
+`eMASSer` requires authentication to an eMASS instance as well as authorization to use the eMASS API. This authentication and authorization is **not** a function of `eMASSer` and needs to be accomplished with the eMASS instances owner organization. Further information about eMASS credential requirements refer to [Defense Counterintelligence and Security Agency](https://www.dcsa.mil/is/emass/) about eMASS access.
 
 ---
-## Common emasser Endpoint Requests Information
+## Common eMASSer Endpoint Requests Information
   - To invoke any boolean parameters use --parameterName for TRUE and --no-parameterName for FALSE
-  - The eMASS API provides the capability of updating multiple entries within several endpoints, however the `emasser` CLI, in some cases only supports updating one entry at the time.
+  - The eMASS API provides the capability of updating multiple entries within several endpoints, however the `eMASSer` CLI, in some cases only supports updating one entry at the time.
 
-## Invoking emasser CLI Commands
+## Invoking eMASSer CLI Commands
 
-The CLI invoke commands listed in this document shows them when executing from the source code (after a pull from GitHub). Please reference the [`emasser` README](https://mitre.github.io/emasser/) on how to invoke the CLI using other available executables (gem or docker).
+The CLI invoke commands listed in this document shows them when executing from the source code (after a pull from GitHub). Please reference the [`eMASSer` README](https://mitre.github.io/emasser/) on how to invoke the CLI using other available executables (gem or docker).
 
-## API Endpoints Provided
+## GET Endpoints
+#### Test Connection
+  * [/api](#get-test-connection)
 
-### GET
-* [/api](#get-test-connection)
-* [/api/system](#get-system)
-* [/api/systems](#get-systems)
-* [/api/systems/{systemId}](#get-system)
-* [/api/system-roles](#get-roles)
-* [/api/system-roles/{roleCategory}](#get-roles)
-* [/api/systems/{systemId}/controls](#get-controls)
-* [/api/systems/{systemId}/test-results](#get-testresults)
-* [/api/systems/{systemId}/poams](#get-poams)
-* [/api/systems/{systemId}/poams/{poamId}](#get-poams)
-* [/api/systems/{systemId}/poams/{poamId}/milestones](#get-milestones)
-* [/api/systems/{systemId}/poams/{poamId}/milestones/{milestoneId})](#get-milestones)
-* [/api/systems/{systemId}/artifacts](#get-artifacts)
-* [/api/systems/{systemId}/artifacts-export](#get-artifacts)
-* [/api/systems/{systemId}/approval/cac](#get-cac)
-* [/api/systems/{systemId}/approval/pac](#get-pac)
-* [/api/cmmc-assessments](#get-cmmc)
-* [/api/workflow-definitions](#get-workflow_definitions)
-* [/api/systems/{systemId}/workflow-instances](#get-workflow_instances)
-* [/api/dashboards/system-status-details](#get-dashboards)
-* [/api/dashboards/system-control-compliance-summary](#get-dashboards)
-* [/api/dashboards/system-security-controls-details](#get-dashboards)
-* [/api/dashboards/system-assessment-procedures-details](#get-dashboards)
-* [/api/dashboards/system-poam-summary](#get-dashboards)
-* [/api/dashboards/system-poam-details](#get-dashboards)
-* [/api/dashboards/system-artifacts-summary](#get-dashboards)
-* [/api/dashboards/system-artifacts-details](#get-dashboards)
-* [/api/dashboards/system-hardware-summary](#get-dashboards)
-* [/api/dashboards/system-hardware-details](#get-dashboards)
-* [/api/dashboards/system-sensor-hardware-summary](#get-dashboards)
-* [/api/dashboards/system-sensor-hardware-details](#get-dashboards)
-* [/api/dashboards/system-software-summary](#get-dashboards)
-* [/api/dashboards/system-software-details](#get-dashboards)
-* [/api/dashboards/system-ports-protocols-summary](#get-dashboards)
-* [/api/dashboards/system-ports-protocols-details](#get-dashboards)
-* [/api/dashboards/system-conmon-integration-status-summary](#get-dashboards)
-* [/api/dashboards/system-associations-details](#get-dashboards)
-* [/api/dashboards/user-system-assignments-details](#get-dashboards)
-* [/api/dashboards/system-privacy-summary](#get-dashboards)
-* [/api/dashboards/va-omb-fisma-saop-summary](#get-dashboards)
-* [/api/dashboards/va-system-aa-summary](#get-dashboards)
-* [/api/dashboards/va-system-a2-summary](#get-dashboards)
-* [/api/dashboards/va-system-pl-109-reporting-summary](#get-dashboards)
-* [/api/dashboards/va-system-fisma-inventory-summary](#get-dashboards)
-* [/api/dashboards/va-system-fisma-inventory-crypto-summary](#get-dashboards)
-* [/api/dashboards/va-system-threat-risks-summary](#get-dashboards)
-* [/api/dashboards/va-system-threat-sources-details](#get-dashboards)
-* [/api/dashboards/va-system-threat-architecture-details](#get-dashboards)
+#### System Endpoints
+  * [/api/system](#get-system)
+  * [/api/systems](#get-systems)
+  * [/api/systems/{systemId}](#get-system)
+
+#### System Roles Endpoints
+  * [/api/system-roles](#get-roles)
+  * [/api/system-roles/{roleCategory}](#get-roles)
+
+#### Controls Endpoint 
+  * [/api/systems/{systemId}/controls](#get-controls)
+
+#### Test Results Endpoint
+  * [/api/systems/{systemId}/test-results](#get-test_results)
+
+#### POA&Ms Endpoints
+  * [/api/systems/{systemId}/poams](#get-poams)
+  * [/api/systems/{systemId}/poams/{poamId}](#get-poams)
+
+#### Milestones Endpoints
+  * [/api/systems/{systemId}/poams/{poamId}/milestones](#get-milestones)
+  * [/api/systems/{systemId}/poams/{poamId}/milestones/{milestoneId})](#get-milestones)
+
+#### Artifacts Endpoints
+  * [/api/systems/{systemId}/artifacts](#get-artifacts)
+  * [/api/systems/{systemId}/artifacts-export](#get-artifacts)
+
+#### CAC Endpoint
+  * [/api/systems/{systemId}/approval/cac](#get-cac)
+
+#### PAC Endpoint
+  * [/api/systems/{systemId}/approval/pac](#get-pac)
+
+#### CMMC Assessment Endpoint
+  * [/api/cmmc-assessments](#get-cmmc)
+
+#### Workflow Definition Endpoint
+  * [/api/workflow-definitions](#get-workflow_definitions)
+
+#### Workflow Instances Endpoint
+  * [/api/systems/{systemId}/workflow-instances](#get-workflow_instances)
+
+### [Dashboards](#get-dashboards)
+
+#### System Status Dashboard
+  * [/api/dashboards/system-status-details](#system-status-endpoint)
+
+#### Enterprise Terms Conditions Dashboard
+  * [/api/dashboards/system-terms-conditions-summary](#system-terms-conditions-endpoints)
+  * [/api/dashboards/system-terms-conditions-details](#system-terms-conditions-endpoints)
+
+### Enterprise Security Controls Dashboard  
+  * [/api/dashboards/system-control-compliance-summary](#enterprise-security-controls-endpoints)
+  * [/api/dashboards/system-security-controls-details](#enterprise-security-controls-endpoints)
+  * [/api/dashboards/system-assessment-procedures-details](#enterprise-security-controls-endpoints)
+
+### Enterprise POA&M Dashboard
+  * [/api/dashboards/system-poam-summary](#enterprise-poam-endpoints)
+  * [/api/dashboards/system-poam-details](#enterprise-poam-endpoints)
+
+### Enterprise Artifacts Dashboard
+  * [/api/dashboards/system-artifacts-summary](#enterprise-artifacts-endpoints)
+  * [/api/dashboards/system-artifacts-details](#enterprise-artifacts-endpoints)
+
+### Hardware Baseline Dashboard
+  * [/api/dashboards/system-hardware-summary](#hardware-baseline-endpoints)
+  * [/api/dashboards/system-hardware-details](#hardware-baseline-endpoints)
+
+### Enterprise Sensor-based Hardware Resources Dashboard
+  * [/api/dashboards/system-sensor-hardware-summary](#enterprise-sensor-based-hardware-resources-endpoints)
+  * [/api/dashboards/system-sensor-hardware-details](#enterprise-sensor-based-hardware-resources-endpoints)
+
+### Software Baseline Dashboard
+  * [/api/dashboards/system-software-summary](#software-baseline-endpoints)
+  * [/api/dashboards/system-software-details](#software-baseline-endpoints)
+
+### Enterprise Sensor-based Software Resources Dashboard
+  * [/api/dashboards/system-sensor-software-summary](#enterprise-sensor-based-software-resources-endpoints)
+  * [/api/dashboards/system-sensor-software-details](#enterprise-sensor-based-software-resources-endpoints)
+  * [/api/dashboards/system-sensor-software-counts](#enterprise-sensor-based-software-resources-endpoints)
+
+### Enterprise Vulnerability Dashboard
+  * [/api/dashboards/system-vulnerability-summary](#enterprise-vulnerability-endpoints)
+  * [/api/dashboards/system-device-findings-summary](#enterprise-vulnerability-endpoints)
+  * [/api/dashboards/system-device-findings-details](#enterprise-vulnerability-endpoints)
+
+### Ports and Protocols Dashboard
+  * [/api/dashboards/system-ports-protocols-summary](#ports-and-protocols-endpoints)
+  * [/api/dashboards/system-ports-protocols-details](#ports-and-protocols-endpoints)
+
+### System CONMON Integration Status Dashboard
+  * [/api/dashboards/system-conmon-integration-status-summary](#system-conmon-integration-status-endpoint)
+
+### System Associations Dashboard
+  * [/api/dashboards/system-associations-details](#system-associations-endpoint)
+
+### Users Dashboard
+  * [/api/dashboards/user-system-assignments-details](#users-endpoint)
+
+### Privacy Compliance Dashboard
+  * [/api/dashboards/system-privacy-summary](#privacy-compliance-endpoints)
+  * [/api/dashboards/va-omb-fisma-saop-summary](#privacy-compliance-endpoints)
+
+### System A&A Summary Dashboard
+  * [/api/dashboards/va-system-aa-summary](#system-aa-summary-endpoint)
+
+### System A2.0 Summary Dashboard
+  * [/api/dashboards/va-system-a2-summary](#system-a20-summary-endpoint)
+
+### System P.L. 109 Reporting Summary Dashboard
+  * [/api/dashboards/va-system-pl-109-reporting-summary](#system-pl-109-reporting-summary-endpoint)
+
+### FISMA Inventory Summary Dashboard
+  * [/api/dashboards/va-system-fisma-inventory-summary](#fisma-inventory-summary-endpoints)
+  * [/api/dashboards/va-system-fisma-inventory-crypto-summary](#fisma-inventory-summary-endpoints)
+
+### Threat Risks Dashboard
+  * [/api/dashboards/va-system-threat-risks-summary](#threat-risks-endpoints)
+  * [/api/dashboards/va-system-threat-sources-details](#threat-risks-endpoints)
+  * [/api/dashboards/va-system-threat-architecture-details](#threat-risks-endpoints)
  
-### POST
+## POST Endpoints
 * [/api/systems/{systemId}/test-results](#post-test_results)
 * [/api/systems/{systemId}/poam](#post-poams)
 * [/api/systems/{systemId}/poam/{poamId}/milestones](#post-milestones)
@@ -108,18 +181,20 @@ The CLI invoke commands listed in this document shows them when executing from t
 * [/api/systems/{systemId}/cloud-resource-results](#post-cloud_resource)
 * [/api/systems/{systemId}/container-scan-results](#post-container)
 
-### PUT
+## PUT Endpoints
 * [/api/systems/{systemId}/controls](#put-controls)
 * [/api/systems/{systemId}/poams](#put-poams)
 * [/api/systems/{systemId}/poams/{poamId}/milestones](#put-milestones)
 * [/api/systems/{systemId}/artifacts](#put-artifacts)
 
-### DELETE
+## DELETE Endpoints
 * [/api/systems/{systemId}/poams](#delete-poams)
 * [/api/systems/{systemId}/poams/{poamId}/milestones](#delete-milestones)
 * [/api/systems/{systemId}/artifacts](#delete-artifacts)
+* [/api/systems/{systemId}/cloud-resource-results](#delete-cloud-resource)
+* [/api/systems/{systemId}/container-scan-results](#delete-container)
 
-## Endpoints CLI help
+# Endpoints CLI help
 
 Each CLI endpoint command has several layers of help. 
 - Using `help` after a `get, put, post, or delete` command lists all available endpoint calls. The following command would list all available `GET` endpoints commands.
@@ -148,20 +223,21 @@ Each CLI endpoint command has several layers of help.
     ```bash
     $ bundle exec exe/emasser get help artifacts
     commands:
-      emasser get artifacts export --filename=FILENAME --systemId=N  # Get artifa...
-      emasser get artifacts forSystem --systemId=N                   # Get all sy...
-      emasser get artifacts help [COMMAND]                           # Describe s...
+      emasser get artifacts export -f, --filename=FILENAME -s, --systemId=N  # Get artifa...
+      emasser get artifacts forSystem -s, --systemId=N                       # Get all sy...
+      emasser get artifacts help [COMMAND]                                   # Describe s...
     ```
 - Using `help` after any command lists all available options. The following command would list all available options for the `get artifacts export` endpoint command. 
     ```bash
     $ bundle exec exe/emasser get artifacts help export
     Usage:
-      emasser get artifacts export --filename=FILENAME --systemId=N
+      emasser get artifacts export -f, --filename=FILENAME -s, --systemId=N
 
     Options:
-      --systemId=N                   # A numeric value representing the system identification
-      --filename=FILENAME            # The artifact file name
-      [--compress], [--no-compress]  # BOOLEAN - true or false.
+      -s, --systemId=N                     # A numeric value representing the system identification
+      -f, --filename=FILENAME              # The artifact file name
+      -C, [--compress], [--no-compress]    # BOOLEAN - true or false.
+      -o, [--printToStdout=PRINTTOSTDOUT]  # Output file content to terminal - not valid for zip files      
     ```
 **The same format is applicable for POST, PUT and DELETE requests as well, however there may be additional help content**
 
@@ -177,7 +253,7 @@ The Test Connection endpoint provides the ability to verify connection to the we
 A return of success from the call indicates that the CLI can reach the configure server URL.
 References [Required Environment Variables](#required-environment-variables) for the necessary environment variables.
 
-[top](#api-endpoints-provided)
+[top](#test-connection)
 
 ### ```get system```
 
@@ -210,16 +286,16 @@ Retrieves the system content for provided identification (ID) number. To invoke 
   
       |parameter    | type or values                    |
       |-------------|:----------------------------------|
-      |--systemId   |Integer - Unique system identifier |
+      |-s, --systemId   |Integer - Unique system identifier |
 
   - Optional parameters are:
 
     |parameter               | type or values                          |
     |------------------------|:----------------------------------------|
-    |--includePackage        |BOOLEAN - true or false                  |
-    |--policy                |Possible values: diacap, rmf, reporting  |
+    |-I, --includePackage        |BOOLEAN - true or false                  |
+    |-p, --policy                |Possible values: diacap, rmf, reporting  |
 
-[top](#api-endpoints-provided)
+[top](#system-endpoints)
 
 ### ```get systems```
 
@@ -234,17 +310,17 @@ To retrieve controls use the following command:
   
     |parameter               | type or values                                                              |
     |------------------------|:----------------------------------------------------------------------------|
-    |--coamsId               |Cyber Operational Attributes Management System (COAMS) string Id             |   
-    |--ditprId               |DoD Information Technology (IT) Portfolio Repository (DITPR) string id       |     
-    |--includeDecommissioned |BOOLEAN - true or false                                                      |    
-    |--includeDitprMetrics   |BOOLEAN - true or false                                                      |
-    |--includePackage        |BOOLEAN - true or false                                                      |
-    |--policy                |Possible values: diacap, rmf, reporting                                      |
-    |--registrationType      |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional, |
-    |                        |                 cloudServiceProvider, commonControlProvider                  |
-    |--reportsForScorecard   |BOOLEAN - true or false                                                      |
+    |-c, --coamsId               |Cyber Operational Attributes Management System (COAMS) string Id             |   
+    |-t, --ditprId               |DoD Information Technology (IT) Portfolio Repository (DITPR) string id       |
+    |-r, --registrationType      |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional, |
+    |                            |                 cloudServiceProvider, commonControlProvider                 |    
+    |-I, --includeDecommissioned |BOOLEAN - true or false                                                      |    
+    |-M, --includeDitprMetrics   |BOOLEAN - true or false                                                      |
+    |-P, --includePackage        |BOOLEAN - true or false                                                      |
+    |-p, --policy                |Possible values: diacap, rmf, reporting                                      |
+    |_S, --reportsForScorecard   |BOOLEAN - true or false                                                      |
   
-[top](#api-endpoints-provided)
+[top](#system-endpoints)
 ### ```get roles```
 
 ----
@@ -255,138 +331,140 @@ There are two get endpoints for system roles:
     ```
 - byCategory - Retrieves roles based on the following required parameter:
     ````
-    $ bundle exec exe/emasser get roles byCategory --roleCategory=ROLECATEGORY --role=ROLE
+    $ bundle exec exe/emasser get roles byCategory -c, --roleCategory=ROLECATEGORY -r, --role=ROLE
     ````
   - required parameters are:
   
     |parameter       | type or values                            |
     |:---------------|:------------------------------------------|
-    |--roleCategory  |Possible values: PAC, CAC, Other           |
-    |--role          |Possible values: AO, Auditor, Artifact Manager, C&A Team, IAO, ISSO, PM/IAM, SCA, User Rep (View Only), Validator (IV&V)|
+    |-c, --roleCategory  |Possible values: PAC, CAC, Other           |
+    |-r, --role          |Possible values: AO, Auditor, Artifact Manager, C&A Team, IAO, ISSO, PM/IAM, SCA, User Rep (View Only), Validator (IV&V)|
 
   - optional parameter are:
   
     |parameter               | type or values                          |
     |------------------------|:----------------------------------------|
-    |--policy                |Possible values: diacap, rmf, reporting  |
-    |--includeDecommissioned |BOOLEAN - true or false                  |
+    |-p, --policy            |Possible values: diacap, rmf, reporting  |
 
-[top](#api-endpoints-provided)
+
+[top](#system-roles-endpoints)
 ### ```get controls```
 
 ----
 To retrieve controls use the following command:
 
-    $ bundle exec exe/emasser get controls forSystem --systemId=SYSTEMID
+    $ bundle exec exe/emasser get controls forSystem -s, --systemId=SYSTEMID
 
   - required parameter is:
 
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
-    |--systemId   |Integer - Unique system identifier |
+    |-s, --systemId   |Integer - Unique system identifier |
 
   - optional parameter is:
 
-    |parameter    | type or values                            |
-    |-------------|:------------------------------------------|
-    |--acronyms   |The system acronym(s) e.g "AC-1, AC-2" - if not provided all controls for systemId are returned |
+    |parameter      | type or values                            |
+    |---------------|:------------------------------------------|
+    |-a, --acronyms |The system acronym(s) e.g "AC-1, AC-2" - if not provided all controls for systemId are returned |
 
-[top](#api-endpoints-provided)
+[top](#controls-endpoint)
 ### ```get test_results```
 
 ----
 To retrieve test results use the following command:
 
-    $ bundle exec exe/emasser get test_results forSystem --systemId=SYSTEMID
+    $ bundle exec exe/emasser get test_results forSystem -s, --systemId=SYSTEMID
 
   - required parameter is:
 
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
-    |--systemId   |Integer - Unique system identifier |
+    |-s, --systemId   |Integer - Unique system identifier |
 
   - optional parameters are:
 
     |parameter          | type or values                            |
     |-------------------|:------------------------------------------|
-    |--controlAcronyms  |String - The system acronym(s) e.g "AC-1, AC-2" |
-    |--ccis             |String - The system CCIS string numerical value |
-    |--latestOnly       |BOOLEAN - true or false|
+    |-a, --controlAcronyms     |String - The system acronym(s) e.g "AC-1, AC-2" |
+    |-p, --assessmentProcedures|String - The system Security Control Assessment Procedure e.g "AC-1.1,AC-1.2"|
+    |-c, --ccis                |String - The system CCIS string numerical value |
+    |-L, --latestOnly          |BOOLEAN - true or false|
 
-[top](#api-endpoints-provided)
+[top](#test-results-endpoint)
 ### ```get poams```
 
 ----
 There are two get endpoints for system poams:
 - forSystem - Retrieves all poams for specified system ID
     ````
-    $ bundle exec exe/emasser get poams forSystem --systemId=SYSTEMID
+    $ bundle exec exe/emasser get poams forSystem -s, --systemId=SYSTEMID
     ````
   - required parameter is:
 
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
-    |--systemId   |Integer - Unique system identifier |
+    |-s, --systemId   |Integer - Unique system identifier |
 
   - optional parameters are:
 
     |parameter                      | type or values                                |
     |-------------------------------|:----------------------------------------------|
-    |--scheduledCompletionDateStart |Date - Unix time format (e.g. 1499644800)      |
-    |--scheduledCompletionDateEnd   |Date - Unix time format (e.g. 1499990400)      |
-    |--controlAcronyms              |String - The system acronym(s) e.g "AC-1, AC-2"|
-    |--ccis                         |String - The system CCIS string numerical value|
-    |--systemOnly                   |BOOLEAN - true or false|
+    |-d, --scheduledCompletionDateStart |Date - Unix time format (e.g. 1499644800)      |
+    |-e, --scheduledCompletionDateEnd   |Date - Unix time format (e.g. 1499990400)      |
+    |-a, --controlAcronyms              |String - The system acronym(s) e.g "AC-1, AC-2"|
+    |-p, --assessmentProcedures         |String - The system Security Control Assessment Procedure e.g "AC-1.1,AC-1.2"|
+    |-c, --ccis                         |String - The system CCIS string numerical value|
+    |-Y, --systemOnly                   |BOOLEAN - true or false|
 
 
 - byPoamId - Retrieves all poams for specified system and poam ID 
     ````
-    $ bundle exec exe/emasser get poams byPoamId --systemId=SYSTEMID --poamId=POAMID
+    $ bundle exec exe/emasser get poams byPoamId -s, --systemId=SYSTEMID -p, --poamId=POAMID
     ````
   - required parameters are:
 
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
-    |--systemId   |Integer - Unique system identifier |
-    |--poamId     |Integer - Unique poam identifier   |
+    |-s, --systemId |Integer - Unique system identifier |
+    |-p, --poamId   |Integer - Unique poam identifier   |
 
-[top](#api-endpoints-provided)
+[top](#poams-endpoints)
 ### ```get milestones```
 
 ----
 There are two get endpoints for system milestones:
 - byPoamId - Retrieves milestone(s) for specified system and poam ID
     ````
-    $ bundle exec exe/emasser get milestones byPoamId --systemId=SYSTEMID --poamId=POAMID
+    $ bundle exec exe/emasser get milestones byPoamId -s, --systemId=SYSTEMID -p, --poamId=POAMID
     ````
   - required parameters are:
 
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
-    |--systemId   |Integer - Unique system identifier |
-    |--poamId     |Integer - Unique poam identifier   |
+    |-s, --systemId   |Integer - Unique system identifier |
+    |-p, --poamId     |Integer - Unique poam identifier   |
 
   - optional parameters are:
 
     |parameter                      | type or values                                |
     |-------------------------------|:----------------------------------------------|
-    |--scheduledCompletionDateStart |Date - Unix time format (e.g. 1499644800)      |
-    |--scheduledCompletionDateEnd   |Date - Unix time format (e.g. 1499990400)      |
+    |-d, --scheduledCompletionDateStart |Date - Unix time format (e.g. 1499644800)      |
+    |-e, --scheduledCompletionDateEnd   |Date - Unix time format (e.g. 1499990400)      |
 
 
 - byMilestoneId, Retrieve milestone(s) for specified system, poam, and milestone ID"
     ````
-    $ bundle exec exe/emasser get poams byMilestoneId --systemId=SYSTEMID --poamId=POAMID --milestoneId=MILESTONEID
+    $ bundle exec exe/emasser get poams byMilestoneId -s, --systemId=SYSTEMID -p, --poamId=POAMID -m, --milestoneId=MILESTONEID
     ````
   - required parameters are:
 
     |parameter     | type or values                       |
     |--------------|:-------------------------------------|
-    |--systemId    |Integer - Unique system identifier    |
-    |--poamId      |Integer - Unique poam identifier      |
-    |--milestoneId |Integer - Unique milestone identifier |
+    |-s, --systemId    |Integer - Unique system identifier    |
+    |-p, --poamId      |Integer - Unique poam identifier      |
+    |-m, --milestoneId |Integer - Unique milestone identifier |
 
-[top](#api-endpoints-provided)
+[top](#milestones-endpoints)
 ### ```get artifacts```
 
 ----
@@ -394,91 +472,93 @@ There are two get endpoints that provides the ability to view existing `Artifact
 
 - forSystem - Retrieves one or many artifacts in a system specified system ID
     ````
-    $ bundle exec exe/emasser get artifacts forSystem --systemId=SYSTEMID
+    $ bundle exec exe/emasser get artifacts forSystem -s, --systemId=SYSTEMID
     ````
   - required parameter is:
 
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
-    |--systemId   |Integer - Unique system identifier |
+    |-s, --systemId   |Integer - Unique system identifier |
 
   - optional parameters are:
 
-    |parameter                      | type or values                                |
-    |-------------------------------|:----------------------------------------------|
-    |--filename                     |The artifact file name                         |
-    |--controlAcronyms              |String - The system acronym(s) e.g "AC-1, AC-2"|
-    |--ccis                         |String - The system CCIS string numerical value|
-    |--systemOnly                   |BOOLEAN - true or false|
+    |parameter                  | type or values                                |
+    |---------------------------|:----------------------------------------------|
+    |-f, --filename             |The artifact file name                         |
+    |-a, --controlAcronyms      |String - The system acronym(s) e.g "AC-1, AC-2"|
+    |-p, --assessmentProcedures |String - The system Security Control Assessment Procedure e.g "AC-1.1,AC-1.2"|
+    |-c, --ccis                 |String - The system CCIS string numerical value|
+    |-Y, --systemOnly           |BOOLEAN - true or false|
 
 
 - export - Retrieves the file artifacts (if compress is true the file binary contents are returned, otherwise the file textual contents are returned.)
   ````
-  $ bundle exec exe/emasser get artifacts export --systemId=SYSTEMID
+  $ bundle exec exe/emasser get artifacts export -s, --systemId=SYSTEMID
   ````
   - required parameters are:
 
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
-    |--systemId   |Integer - Unique system identifier |
-    |--filename   |The artifact file name             |
+    |-s, --systemId   |Integer - Unique system identifier |
+    |-f, --filename   |The artifact file name             |
   
   - optional parameter is:
   
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
-    |--compress   |BOOLEAN - true or false.           |
+    |-C, --compress      |BOOLEAN - true or false.           |
+    |-o, --printToStdout |BOOLEAN - true or false - Output file content to terminal - not valid for zip files|
 
-[top](#api-endpoints-provided)
+[top](#artifacts-endpoints)
 ### ```get cac```
 
 ----
 To view one or many Control Approval Chain (CAC) in a system specified system ID use the following command:
   ```
-  $ bundle exec exe/emasser get cac controls --systemId=SYSTEMID
+  $ bundle exec exe/emasser get cac controls -s, --systemId=SYSTEMID
   ```
   - required parameter is:
 
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
-    |--systemId   |Integer - Unique system identifier |
+    |-s, --systemId   |Integer - Unique system identifier |
   
   - optional parameter is:
 
-    |parameter                      | type or values                                |
-    |-------------------------------|:----------------------------------------------|
-    |--controlAcronyms              |String - The system acronym(s) e.g "AC-1, AC-2"|
+    |parameter             | type or values                                |
+    |----------------------|:----------------------------------------------|
+    |-a, --controlAcronyms |String - The system acronym(s) e.g "AC-1, AC-2"|
 
-[top](#api-endpoints-provided)
+[top](#cac-endpoint)
 ### ```get pac```
 
 ----
 To view one or many Package Approval Chain (PAC) in a system specified system ID use the following command:
 
   ````
-  $ bundle exec exe/emasser get pac package --systemId=SYSTEMID
+  $ bundle exec exe/emasser get pac package -s, --systemId=SYSTEMID
   ````
   - required parameter is:
 
     |parameter    | type or values                    |
     |-------------|:----------------------------------|
-    |--systemId   |Integer - Unique system identifier |
+    |-s, --systemId   |Integer - Unique system identifier |
 
-[top](#api-endpoints-provided)
+[top](#pac-endpoint)
 ### ```get cmmc```
 
 ----
 To view Cybersecurity Maturity Model Certification (CMMC) Assessments use the following command:
 
-    $ bundle exec exe/emasser get workflow_definitions forSite --sinceDate=SINCEDATE 
+    $ bundle exec exe/emasser get cmmc assessments -d, --sinceDate=SINCEDATE 
 
   - Required parameter is:
 
     |parameter       | type or values                        |
     |----------------|:--------------------------------------|
-    |--sinceDate     |Date - The CMMC date. Unix date format |
+    |-d, --sinceDate |Date - The CMMC date. Unix date format |
 
-[top](#api-endpoints-provided)
+[top](#cmmc-assessment-endpoint)
 ### ```get workflow_definitions```
 
 ----
@@ -490,11 +570,11 @@ To view Workflow Definitions use the following command:
 
     |parameter            | type or values                                                              |
     |---------------------|:----------------------------------------------------------------------------|
-    |--includeInactive    |BOOLEAN - true or false                                                      |    
-    |--registrationType   |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional, |
-    |                     |                 cloudServiceProvider, commonControlProvider                 |
+    |-I, --includeInactive  |BOOLEAN - true or false                                                      |    
+    |-r, --registrationType |Possible values: assessAndAuthorize, assessOnly, guest, regular, functional, |
+    |                       |                 cloudServiceProvider, commonControlProvider                 |
 
-[top](#api-endpoints-provided)
+[top](#workflow-definition-endpoint)
 ### ```get workflow_instances```
 
 ----
@@ -507,22 +587,23 @@ There are two get endpoints to view workflow instances:
 
       |parameter          | type or values                                     |
       |-------------------|:---------------------------------------------------|
-      |--includeComments  |BOOLEAN - true or false                             |    
-      |--pageIndex        |Integer - The page number to query                  |
-      |--sinceDate        |Date - The Workflow Instance date. Unix date format |
-      |--status           |Possible values: active, inactive, all              | 
+      |-C, --includeComments            |BOOLEAN - true or false               |   
+      |-D, --includeDecommissionSystems |BOOLEAN - true or false.              | 
+      |-p, --pageIndex        |Integer - The page number to query              |
+      |-d, --sinceDate        |Date - The Workflow Instance date. Unix date format |
+      |-s, --status           |Possible values: active, inactive, all              | 
 
-  - byWorkflowInstanceId
+  - byInstanceId
     ```
-    $ bundle exec exe/emasser get workflow_instances byWorkflowInstanceId --workflowInstanceId=WORKFLOWID
+    $ bundle exec exe/emasser get workflow_instances byInstanceId --workflowInstanceId=WORKFLOWID
     ```
     - required parameter is:
 
       |parameter            | type or values                               |
       |---------------------|:---------------------------------------------|
-      |--workflowInstanceId |Integer - Unique workflow instance identifier |
+      |-w, --workflowInstanceId |Integer - Unique workflow instance identifier |
 
-[top](#api-endpoints-provided)
+[top](#workflow-instances-endpoint)
 ### ```get dashboards```
 
 ----
@@ -533,21 +614,34 @@ All endpoint calls utilize the same parameter values, they are:
 
     |parameter     | type or values                                  |
     |--------------|:------------------------------------------------|
-    |--orgId       |Integer - The organization identification number |
+    |-o, --orgId       |Integer - The organization identification number |
 
   - Optional flags (parameters) are:
 
     |parameter          | type or values                                                |
     |-------------------|:--------------------------------------------------------------|
-    |--excludeInherited |BOOLEAN - If no value is specified, includes inherited data    |
-    |--pageIndex        |Integer - The index of the starting page (default first page 0)|
-    |--pageSize         |Integer - The number of entries per page (default 20000)       |
+    |-I, --excludeInherited |BOOLEAN - If no value is specified, includes inherited data    |
+    |-i, --pageIndex        |Integer - The index of the starting page (default first page 0)|
+    |-s, --pageSize         |Integer - The number of entries per page (default 20000)       |
+[top](#dashboards)
 
-Available commands are:
+#### System Status Endpoint
   - Get systems status detail dashboard information
     ```
     $ bundle exec exe/emasser get dashboards status_details [-o, --orgId] <value> [options]
     ```
+    [top](#system-status-dashboard)
+#### System Terms Conditions Endpoints
+  - Get system terms/conditions summary dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards terms_conditions_summary [-o, --orgId] <value> [options]
+    ```
+  - Get system terms/conditions details dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards terms_conditions_detail [-o, --orgId] <value> [options]
+    ```
+  [top](#enterprise-terms-conditions-dashboard)
+### Enterprise Security Controls Endpoints  
   - Get systems control compliance summary dashboard information    
     ```
     $ bundle exec exe/emasser get dashboards control_compliance_summary [-o, --orgId] <value> [options]
@@ -560,6 +654,9 @@ Available commands are:
     ```
     $ bundle exec exe/emasser get dashboards assessment_procedures_details [-o, --orgId] <value> [options]
     ```
+  [top](#enterprise-security-controls-dashboard)
+### Enterprise POA&M Endpoints
+
   - Get systems POA&Ms summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards poam_summary [-o, --orgId] <value> [options]
@@ -568,6 +665,8 @@ Available commands are:
     ```
     $ bundle exec exe/emasser get dashboards poam_details [-o, --orgId] <value> [options]
     ```
+  [top](#enterprise-poam-dashboard)
+### Enterprise Artifacts Endpoints
   - Get artifacts summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards artifacts_summary [-o, --orgId] <value> [options]
@@ -576,6 +675,8 @@ Available commands are:
     ```
     $ bundle exec exe/emasser get dashboards artifacts_details [-o, --orgId] <value> [options]
     ```
+  [top](#enterprise-artifacts-dashboard)
+### Hardware Baseline Endpoints
   - Get system hardware summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards hardware_summary [-o, --orgId] <value> [options]
@@ -584,6 +685,8 @@ Available commands are:
     ```
     $ bundle exec exe/emasser get dashboards hardware_details [-o, --orgId] <value> [options]
     ```
+  [top](#hardware-baseline-dashboard)
+### Enterprise Sensor-based Hardware Resources Endpoints
   - Get sensor hardware summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards sensor_hardware_summary [-o, --orgId] <value> [options]
@@ -592,6 +695,8 @@ Available commands are:
     ```
     $ bundle exec exe/emasser get dashboards sensor_hardware_details [-o, --orgId] <value> [options]
     ```
+  [top](#enterprise-sensor-based-hardware-resources-dashboard)
+### Software Baseline Endpoints
   - Get software baseline summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards software_summary [-o, --orgId] <value> [options]
@@ -600,6 +705,37 @@ Available commands are:
     ```
     $ bundle exec exe/emasser get dashboards software_details [-o, --orgId] <value> [options]
     ```
+  [top](#software-baseline-dashboard)
+
+### Enterprise Sensor-based Software Resources Endpoints
+  - Get sensor based software resources summary dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards sensor_software_summary [-o, --orgId] <value> [options]
+    ```
+  - Get sensor based software resources details dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards sensor_software_details [-o, --orgId] <value> [options]
+    ```
+  - Get sensor based software resources counts dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards sensor_software_counts [-o, --orgId] <value> [options]
+    ```
+  [top](#enterprise-sensor-based-software-resources-dashboard)
+### Enterprise Vulnerability Endpoints
+  - Get vulnerability summary dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards vulnerability_summary [-o, --orgId] <value> [options]
+    ```
+  - Get device findings summary dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards device_findings_summary [-o, --orgId] <value> [options]
+    ```
+  - Get device findings details dashboard information
+    ```
+    $ bundle exec exe/emasser get dashboards device_findings_details [-o, --orgId] <value> [options]
+    ```  
+  [top](#enterprise-vulnerability-dashboard)
+### Ports and Protocols Endpoints
   - Get ports and protocols summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards ports_protocols_summary [-o, --orgId] <value> [options]
@@ -608,18 +744,27 @@ Available commands are:
     ```
     $ bundle exec exe/emasser get dashboards ports_protocols_details [-o, --orgId] <value> [options]
     ```
+  [top](#ports-and-protocols-dashboard)
+
+### System CONMON Integration Status Endpoint
   - Get CONMON integration status summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards integration_status_summary [-o, --orgId] <value> [options]
     ```
+  [top](#system-conmon-integration-status-dashboard)
+### System Associations Endpoint
   - Get system associations details dashboard information
     ```
     $ bundle exec exe/emasser get dashboards associations_details [-o, --orgId] <value> [options]
     ```
+  [top](#system-associations-dashboard)
+### Users Endpoint
   - Get user system assignments details dashboard information
     ```
     $ bundle exec exe/emasser get dashboards assignments_details [-o, --orgId] <value> [options]
     ```
+  [top](#users-dashboard)
+### Privacy Compliance Endpoints  
   - Get user system privacy summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards privacy_summary [-o, --orgId] <value> [options]
@@ -628,18 +773,26 @@ Available commands are:
     ```
     $ bundle exec exe/emasser get dashboards fisma_saop_summary [-o, --orgId] <value> [options]
     ```
+  [top](#privacy-compliance-dashboard)
+### System A&A Summary Endpoint
   - Get VA system A&A summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards va_aa_summary [-o, --orgId] <value> [options]
     ```
+  [top](#system-aa-summary-dashboard)
+### System A2.0 Summary Endpoint
   - Get VA system A2.0 summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards va_a2_summary [-o, --orgId] <value> [options]
     ```
+  [top](#system-a20-summary-dashboard)
+### System P.L. 109 Reporting Summary Endpoint
   - Get VA System P.L. 109 reporting summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards va_pl_109_summary [-o, --orgId] <value> [options]
     ```
+  [top](#system-pl-109-reporting-summary-dashboard)
+### FISMA Inventory Summary Endpoints
   - Get VA system FISMA inventory summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards fisma_inventory_summary [-o, --orgId] <value> [options]
@@ -648,6 +801,8 @@ Available commands are:
     ```
     $ bundle exec exe/emasser get dashboards fisma_inventory_crypto_summary [-o, --orgId] <value> [options]
     ```
+  [top](#fisma-inventory-summary-dashboard)
+### Threat Risks Endpoints
   - Get VA threat risk summary dashboard information
     ```
     $ bundle exec exe/emasser get dashboards va_threat_risk_summary [-o, --orgId] <value> [options]
@@ -660,7 +815,7 @@ Available commands are:
     ```
     $ bundle exec exe/emasser get dashboards va_threat_architecture_details [-o, --orgId] <value> [options]
     ```
-[top](#api-endpoints-provided)
+  [top](#threat-risks-dashboard)
 
 ## Usage - POST
 
@@ -684,7 +839,7 @@ Test Result add (POST) endpoint API business rules.
 To add (POST) test results use the following command:
 
   ````
-  $ bundle exec exe/emasser post test_results add --systemId [value] --cci [value] --testedBy [value] --testDate [value] --description [value] --complianceStatus [value]
+  $ bundle exec exe/emasser post test_results add -s, --systemId [value] --cci [value] --testedBy [value] --testDate [value] --description [value] --complianceStatus [value]
   ````
 Note: If no POA&Ms or AP exist for the control (system), you will get this response:
 "You have entered a Non-Compliant Test Result. You must create a POA&M Item for this Control and/or AP if one does not already exist."
@@ -693,7 +848,7 @@ Note: If no POA&Ms or AP exist for the control (system), you will get this respo
 
     |parameter          | type or values                                              |
     |-------------------|:------------------------------------------------------------|
-    |--systemId         |Integer - Unique system identifier                           |
+    |-s, --systemId         |Integer - Unique system identifier                           |
     |--cci              |String - CCI associated with the test result. e.g "00221"    |
     |--testedBy         |String - Last Name, First Name. 100 Characters.              |
     |--testDate         |Date - Unix time format (e.g. 1499990400)                    |
@@ -705,7 +860,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post test_results help add
 ```
-[top](#post)
+[top](#post-endpoints)
 
 ### ``post poams``
 ---
@@ -765,7 +920,7 @@ The following POA&M parameters/fields have the following character limitations:
 
 To add (POST) POA&Ms use the following command:
 ```
-$ bundle exec exe/emasser post poams add --systemId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --pocOrganization [value] --resources [value]
+$ bundle exec exe/emasser post poams add -s, --systemId [value] --status [value] --vulnerabilityDescription [value] --sourceIdentVuln [value] --pocOrganization [value] --resources [value]
 ```
 **Notes:** 
   - The above listed parameters/fields are the minimal required.
@@ -782,7 +937,7 @@ Client API parameters/fields (required, conditional, and optional).
 
     |parameter                  | type or values                                                 |
     |---------------------------|:---------------------------------------------------------------|
-    |--systemId                 |Integer - Unique system identifier                              |
+    |-s, --systemId                 |Integer - Unique system identifier                              |
     |--status                   |Possible Values: Ongoing,Risk Accepted,Completed,Not Applicable |
     |--vulnerabilityDescription |String - Vulnerability description for the POA&M Item           |
     |--sourceIdentVuln          |String - Include Source Identifying Vulnerability text          |
@@ -834,21 +989,21 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post poams help add
 ```
-[top](#post)
+[top](#post-endpoints)
 
 ### ``post milestones``
 ---
 To add (POST) milestones in a system for one or more POA&M items use the following command:
 
 ````
-  $ bundle exec exe/emasser post milestones add --systemId [value] --poamId [value] --description [value] --scheduledCompletionDate [value]
+  $ bundle exec exe/emasser post milestones add -s, --systemId [value] -p, --poamId [value] --description [value] --scheduledCompletionDate [value]
 ````
   - required parameter are:
 
     |parameter                  | type or values                                      |
     |---------------------------|:----------------------------------------------------|
-    |--systemId                 |Integer - Unique system identifier                   |
-    |--poamId                   |Integer - Unique item identifier                     |
+    |-s, --systemId             |Integer - Unique system identifier                   |
+    |-p, --poamId               |Integer - Unique item identifier                     |
     |--description              |String - Milestone item description. 2000 Characters |
     |--scheduledCompletionDate  |Date - Schedule completion date. Unix date format    |
 
@@ -858,7 +1013,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post milestones help add
 ```
-[top](#post)
+[top](#post-endpoints)
 
 ### ``post artifacts``
 ---
@@ -887,14 +1042,14 @@ Business Rules:
 To add (POST) artifacts use the following command:
 
 ```
-$ bundle exec exe/emasser post artifacts upload --systemId [value] [--isTemplate or --no-isTemplate] --type [value] --category [value] --files [value...value]
+$ bundle exec exe/emasser post artifacts upload -s, --systemId [value] [--isTemplate or --no-isTemplate] --type [value] --category [value] --files [value...value]
 ```
 
   - required parameter are:
 
     |parameter       | type or values                                      |
     |----------------|:----------------------------------------------------|
-    |--systemId      |Integer - Unique system identifier                   |
+    |-s, --systemId      |Integer - Unique system identifier                   |
     |--isTemplate    |Boolean - Indicates whether an artifact is a template|
     |--type          |Possible Values: Procedure, Diagram, Policy, Labor, Document, Image, Other, Scan Result, Auditor Report|
     |--category      |Possible Values: Implementation Guidance, Evidence    |
@@ -906,7 +1061,7 @@ $ bundle exec exe/emasser post artifacts upload --systemId [value] [--isTemplate
     |-------------------------|:------------------------------------------------------| 
     |--description            |String - Artifact description. 2000 Characters         |
     |--refPageNumber          |String - Artifact reference page number. 50 Characters |
-    |--ccis                   |String -  CCIs associated with artifact                |
+    |-c, --ccis                   |String -  CCIs associated with artifact                |
     |--controls               |String - Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined|
     |--artifactExpirationDate |Date - Date Artifact expires and requires review. In Unix Date Format|
     |--lastReviewedDate       |Date - Date Artifact was last reviewed. In Unix Date Format          |
@@ -917,7 +1072,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post artifacts help upload
 ```
-[top](#post)
+[top](#post-endpoints)
 
 ### ``post cac``
 ----
@@ -929,13 +1084,13 @@ Business Rule
 To add (POST) test CAC use the following command:
 
   ````
-  $ bundle exec exe/emasser post pac add --systemId [value] --controlAcronym [value] --comments [value]
+  $ bundle exec exe/emasser post pac add -s, --systemId [value] --controlAcronym [value] --comments [value]
   ````
   - required parameter are:
 
     |parameter          | type or values                                              |
     |-------------------|:------------------------------------------------------------|
-    |--systemId         |Integer - Unique system identifier                           |
+    |-s, --systemId         |Integer - Unique system identifier                           |
     |--controlAcronym   |String - Control acronym associated with the POA&M Item. NIST SP 800-53 Revision 4 defined |
 
   - conditional parameter is:
@@ -949,7 +1104,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post cac help add
 ```
-[top](#post)
+[top](#post-endpoints)
 
 ### ``post pac``
 ----
@@ -958,13 +1113,13 @@ Submit control to second role of CAC
 To add (POST) test PAC use the following command:
 
   ````
-  $ bundle exec exe/emasser post pac add --systemId [value] --workflow [value] --name [value] --comments [value]
+  $ bundle exec exe/emasser post pac add -s, --systemId [value] --workflow [value] --name [value] --comments [value]
   ````
   - required parameter are:
 
     |parameter     | type or values                                                            |
     |--------------|:--------------------------------------------------------------------------|
-    |--systemId    |Integer - Unique system identifier                                         |
+    |-s, --systemId    |Integer - Unique system identifier                                         |
     |--workflow    |Possible Values: Assess and Authorize, Assess Only, Security Plan Approval |
     |--name        |String - Package name. 100 Characters                                      |
     |--comments    |String - Comments submitted upon initiation of the indicated workflow, 4,000 character|
@@ -974,20 +1129,20 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post pac help add
 ```
-[top](#post)
+[top](#post-endpoints)
 
 ### ``post static_code_scan``
 ----
 To add (POST) static code scans use the following command:
 
   ````
-  $ bundle exec exe/emasser post scan_findings add --systemId [value] --applicationName [value] --version [value] --codeCheckName [value] --scanDate [value] --cweId [value]
+  $ bundle exec exe/emasser post scan_findings add -s, --systemId [value] --applicationName [value] --version [value] --codeCheckName [value] --scanDate [value] --cweId [value]
   ````
   - required parameter are:
 
     |parameter          | type or values                                             |
     |-------------------|:-----------------------------------------------------------|
-    |--systemId         |Integer - Unique system identifier                          |
+    |-s, --systemId         |Integer - Unique system identifier                          |
     |--applicationName  |String - Name of the software application that was assessed |
     |--version          |String - The version of the application                     |
     |--codeCheckName    |Strings - Name of the software vulnerability or weakness    |
@@ -1006,13 +1161,13 @@ To add (POST) static code scans use the following command:
 To clear (POST) static code scans use the following command:
 
   ````
-  $ bundle exec exe/emasser post scan_findings clear --systemId [value] --applicationName [value] --version [value] --clearFindings
+  $ bundle exec exe/emasser post scan_findings clear -s, --systemId [value] --applicationName [value] --version [value] --clearFindings
   ````
   - required parameter are:
 
     |parameter          | type or values                                             |
     |-------------------|:-----------------------------------------------------------|
-    |--systemId         |Integer - Unique system identifier                          |
+    |-s, --systemId         |Integer - Unique system identifier                          |
     |--applicationName  |String - Name of the software application that was assessed |
     |--clearFindings*   |Boolean - To clear an application's findings set it to true |
 
@@ -1023,7 +1178,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post scan_findings help add
 ```
-[top](#post)
+[top](#post-endpoints)
 
 ### ```post cloud_resource```
 ---
@@ -1051,13 +1206,13 @@ The following Cloud Resource parameters/fields have the following character limi
 
 To add a cloud resource and their scan results in the assets module for a system use the following command:
 ````
-  $ bundle exec exe/emasser post cloud_resource add --systemId [value] --provider [value] --resourceId [value] --resourceName [value] --resourceType [value] --cspPolicyDefinitionId [value] --isCompliant or --is-not-Compliant --policyDefinitionTitle [value] --test [value]
+  $ bundle exec exe/emasser post cloud_resource add -s, --systemId [value] --provider [value] --resourceId [value] --resourceName [value] --resourceType [value] --cspPolicyDefinitionId [value] --isCompliant or --is-not-Compliant --policyDefinitionTitle [value] --test [value]
 ````
   - required parameter are:
 
     |parameter               | type or values                                                            |
     |------------------------|:--------------------------------------------------------------------------|
-    |--systemId              |Integer - Unique system identifier                                         |
+    |-s, --systemId              |Integer - Unique system identifier                                         |
     |--provider              |string - Cloud service provider name                                       |
     |--resourceId            |String - Unique identifier/resource namespace for policy compliance result |
     |--resourceName          |String - Friendly name of Cloud resource                                   |
@@ -1092,7 +1247,7 @@ For information at the command line use:
 $ bundle exec exe/emasser post cloud_resource help add
 ```    
 
-[top](#post)
+[top](#post-endpoints)
 
 
 ### ```post container```
@@ -1113,7 +1268,7 @@ The following Container parameters/fields have the following character limitatio
 
 To add containers and their scan results in the assets module for a system use the following command:
 ````
-  $ bundle exec ruby exe/emasser post container add --systemId [value] --containerId [value] --containerName [value] --time [value] --benchmark [value] --lastSeen [value] --ruleId [value] --status [value]
+  $ bundle exec ruby exe/emasser post container add -s, --systemId [value] --containerId [value] --containerName [value] --time [value] --benchmark [value] --lastSeen [value] --ruleId [value] --status [value]
  
 ````
 
@@ -1121,7 +1276,7 @@ To add containers and their scan results in the assets module for a system use t
 
     |parameter               | type or values                                                            |
     |------------------------|:--------------------------------------------------------------------------|
-    |--systemId              |Integer - Unique system identifier                                         |
+    |-s, --systemId              |Integer - Unique system identifier                                         |
     |--containerId           |String - Unique identifier of the container  |
     |--containerName         |String - Friendly name of the container      |
     |--time                  |Date   - Datetime of scan/result. Unix date format |
@@ -1151,7 +1306,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser post container help add
 ```
-[top](#post)
+[top](#post-endpoints)
 
 ## Usage - PUT
 
@@ -1196,7 +1351,7 @@ Updating (PUT) a Control can be accomplished by invoking the following command:
 
     |parameter                 | type or values                                                           |
     |--------------------------|:-------------------------------------------------------------------------|
-    |--systemId                |Integer - Unique system identifier                                        |
+    |-s, --systemId                |Integer - Unique system identifier                                        |
     |--acronym                 |String - The system acronym(s) e.g "AC-1, AC-2"                           |
     |--responsibleEntities     |String - Description of the responsible entities for the Security Control |
     |--controlDesignation      |Possible values: Common, System-Specific, or Hybrid                       |
@@ -1235,7 +1390,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put controls help update
 ```
-[top](#put)
+[top](#put-emdpoints)
 
 ### ``put poams``
 
@@ -1316,7 +1471,7 @@ Updating (PUT) a POA&M can be accomplished by invoking the following command:
 
     |parameter                  | type or values                                                 |
     |---------------------------|:---------------------------------------------------------------|
-    |--systemId                 |Integer - Unique system identifier                              |
+    |-s, --systemId                 |Integer - Unique system identifier                              |
     |--displayPoamId            |Integer - Globally unique identifier for individual POA&M Items |
     |--status                   |Possible Values: Ongoing,Risk Accepted,Completed,Not Applicable |
     |--vulnerabilityDescription |String - Vulnerability description for the POA&M Item           |
@@ -1370,7 +1525,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put poams help update
 ```
-[top](#put)
+[top](#put-endpoints)
 
 ### ``put milestones``
 
@@ -1385,9 +1540,9 @@ To add (POST) milestones in a system for one or more POA&M items use the followi
 
     |parameter                  | type or values                                      |
     |---------------------------|:----------------------------------------------------|
-    |--systemId                 |Integer - Unique system identifier                   |
-    |--poamId                   |Integer - Unique poam identifier                     |
-    |--milestoneId              |Integer - Unique milestone identifier                |
+    |-s, --systemId                 |Integer - Unique system identifier                   |
+    |-p, --poamId                   |Integer - Unique poam identifier                     |
+    |-m, --milestoneId              |Integer - Unique milestone identifier                |
     |--description              |String - Milestone item description. 2000 Characters |
     |--scheduledCompletionDate  |Date - Schedule completion date. Unix date format    |
 
@@ -1397,7 +1552,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put milestones help update
 ```
-[top](#put)
+[top](#put-endpoints)
 
 ### ``put artifacts``
 
@@ -1426,8 +1581,8 @@ To add (POST) milestones in a system for one or more POA&M items use the followi
 
     |parameter       | type or values                                      |
     |----------------|:----------------------------------------------------|
-    |--systemId      |Integer - Unique system identifier                   |
-    |--filename        |String - File name should match exactly one file within the provided zip file|
+    |-s, --systemId      |Integer - Unique system identifier                   |
+    |-f, --filename        |String - File name should match exactly one file within the provided zip file|
     |                |Binary  - Application/zip file. Max 30MB per artifact |
     |--isTemplate    |Boolean - Indicates whether an artifact is a template|
     |--type*         |Possible Values: Procedure, Diagram, Policy, Labor, Document, Image, Other, Scan Result, Auditor Report|
@@ -1441,7 +1596,7 @@ To add (POST) milestones in a system for one or more POA&M items use the followi
     |-------------------------|:------------------------------------------------------| 
     |--description            |String - Artifact description. 2000 Characters         |
     |--refPageNumber          |String - Artifact reference page number. 50 Characters |
-    |--ccis                   |String -  CCIs associated with artifact                |
+    |-c, --ccis                   |String -  CCIs associated with artifact                |
     |--controls               |String - Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined|
     |--artifactExpirationDate |Date - Date Artifact expires and requires review. In Unix Date Format|
     |--lastReviewedDate       |Date - Date Artifact was last reviewed. In Unix Date Format          |
@@ -1452,7 +1607,7 @@ For information at the command line use:
 ```
 $ bundle exec exe/emasser put artifacts help update
 ```
-[top](#put)
+[top](#put-endpoints)
 
 ## Usage - DELETE
 
@@ -1463,9 +1618,9 @@ Remove one or many poa&m items in a system
 
 To remove (DELETE) one or more POA&M items use the following command:
 ```
-bundle exec exe/emasser delete poams remove --systemId [value] --poamId [value]
+bundle exec exe/emasser delete poams remove -s, --systemId [value] -p, --poamId [value]
 ```
-[top](#delete)
+[top](#delete-endpoints)
 
 ### ``delete milestones``
 
@@ -1480,9 +1635,9 @@ The last milestone can not be deleted, at-least on must exist.
 
 To remove (DELETE) one or more Milestones in a system use the following command:
 ```
-bundle exec exe/emasser delete milestones remove--systemId [value] --poamId [value] --milestoneId [value]
+bundle exec exe/emasser delete milestones remove -s, --systemId [value] -p, --poamId [value] -m, --milestoneId [value]
 ```
-[top](#delete)
+[top](#delete-endpoints)
 
 ### ``delete artifacts``
 
@@ -1493,10 +1648,30 @@ Provide single file or a space/comma delimited list of file names to be removed 
 
 To remove (DELETE) one or more Artifacts from a system use the following command:
 ```
-bundle exec exe/emasser delete artifacts remove --systemId [value] --files [value]
+bundle exec exe/emasser delete artifacts remove -s, --systemId [value] -f, --files [value]
 or
-bundle exec exe/emasser delete artifacts remove --systemId [value] --files [value value...] 
+bundle exec exe/emasser delete artifacts remove -s, --systemId [value] -f, --files [value value...] 
 or
-bundle exec exe/emasser delete artifacts remove --systemId [value] --files [value, value...] 
+bundle exec exe/emasser delete artifacts remove -s, --systemId [value] -f, --files [value, value...] 
 ```
-[top](#delete)
+[top](#delete-endpoints)
+
+### ``delete cloud resource``
+---
+Delete one or many Cloud Resources and their scan results in the assets module for a system
+
+To remove (DELETE) one or many cloud resources in a system use the following command:
+```
+bundle exec exe/emasser delete cloud_resource remove -c, --resourceId [value] -s, --systemId [value]
+```
+[top](#delete-endpoints)
+
+### ``delete container``
+---
+Delete one or many containers scan results in the assets module for a system
+
+To remove (DELETE) one or many containers in a system use the following command:
+```
+bundle exec exe/emasser delete container remove -c, --containerId [value] -s, --systemId [value]
+```
+[top](#delete-endpoints)
