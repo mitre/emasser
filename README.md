@@ -2,10 +2,10 @@
 ![GitHub Release Date](https://img.shields.io/github/release-date/mitre/emasser?label=Release%20Date&logo=github&color=blue)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mitre/emasser?label=Release%20Version&logo=github) ![Gem](https://img.shields.io/gem/v/emasser?label=gem%20version&logo=ruby&logoColor=red) ![Docker Version](https://img.shields.io/docker/v/mitre/emasser?label=docker%20version&logo=docker&sort=semver)
 
-![emasser Testing](https://github.com/mitre/emasser/actions/workflows/test-cli.yml/badge.svg)
-![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg)
+[![emasser Testing](https://github.com/mitre/emasser/actions/workflows/test-cli.yml/badge.svg)](https://github.com/mitre/emasser/actions/workflows/test-cli.yml)
+[![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml)
 [![GitHub Pages](https://github.com/mitre/emasser/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/mitre/emasser/actions/workflows/gh-pages.yml)
-![Code Linter](https://github.com/mitre/emasser/actions/workflows/rubocop.yml/badge.svg)
+[![Code Linter](https://github.com/mitre/emasser/actions/workflows/rubocop.yml/badge.svg)](https://github.com/mitre/emasser/actions/workflows/rubocop.yml)
 
 ## About
 
