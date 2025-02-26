@@ -162,7 +162,7 @@ The `eMASSer` CLI makes use of the `emass_client` ruby gem to communicate with a
 
 ### NOTICE
 
-© 2020 The MITRE Corporation.
+© 2025 The MITRE Corporation.
 
 Approved for Public Release; Distribution Unlimited. Case Number 18-3678.
 
