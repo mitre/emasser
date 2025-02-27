@@ -111,7 +111,6 @@ module Emasser
     option :mitigations, type: :string, required: false,
            desc: 'Identify any mitigations in place for the Non-Compliant Security Control\'s vulnerabilities.'
 
-
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def update
       # Check if business logic is satisfied
