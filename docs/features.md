@@ -92,13 +92,13 @@ The CLI invoke commands listed in this document shows them when executing from t
 #### Software Baseline
   * [/api/systems/{systemId}/sw-baseline](#get-software)
   
-#### CMMC Assessment Endpoint
+#### CMMC Assessment
   * [/api/cmmc-assessments](#get-cmmc)
 
-#### Workflow Definition Endpoint
+#### Workflow Definition
   * [/api/workflow-definitions](#get-workflow_definitions)
 
-#### Workflow Instances Endpoint
+#### Workflow Instances
   * [/api/systems/{systemId}/workflow-instances](#get-workflow_instances)
 
 ### [Dashboards](#get-dashboards)
