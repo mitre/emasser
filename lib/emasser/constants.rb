@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module Emasser
+  GET_REGISTER_RETURN_TYPE = {
+    debug_return_type: 'Object'
+  }.freeze
+
   GET_SYSTEM_ID_QUERY_PARAMS = {
     include_package: false,
     include_ditpr_metrics: false,

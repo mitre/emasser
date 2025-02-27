@@ -31,7 +31,7 @@ module Emasser
   # connection to the web service.
   #
   # Endpoint:
-  #    /api - Test connection to the API
+  #   /api - Test connection to the API
   class Test < SubCommandBase
     def self.exit_on_failure?
       true
@@ -44,7 +44,7 @@ module Emasser
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling TestApi->test_connection'.red
-      puts to_output_hash(e)
+      puts to_output_hash(e).split('\n').join('. ')
     end
   end
 
@@ -52,7 +52,7 @@ module Emasser
   #
   # Endpoint:
   #    /api/systems            - Get system information
-  #    /api/systems/{systemId} - Get system information for a specific system
+  #   /api/systems/{systemId} - Get system information for a specific system
   class System < SubCommandBase
     def self.exit_on_failure?
       true
@@ -110,7 +110,6 @@ module Emasser
     desc 'byId [options]', 'Retrieve a system - filtered by [options] params'
     option :systemId, aliases: '-s', type: :numeric, required: true,
                       desc: 'A numeric value representing the system identification'
-    option :includePackage, aliases: '-I', type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
     option :policy, aliases: '-p', type: :string, required: false, enum: %w[diacap rmf reporting]
 
     def byId
@@ -124,7 +123,7 @@ module Emasser
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
         puts 'Exception when calling SystemsApi->get_systems'.red
-        puts to_output_hash(e)
+        puts to_output_hash(e).split('\n').join('. ')
       end
     end
   end
@@ -144,8 +143,6 @@ module Emasser
     option :coamsId, aliases: '-c', type: :string,  required: false,
                      desc: 'Cyber Operational Attributes Management System (COAMS) string Id'
     option :policy, aliases: '-p', type: :string, required: false, enum: %w[diacap rmf reporting]
-
-    option :includePackage, aliases: '-I', type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
     option :includeDitprMetrics, aliases: '-M', type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
     option :includeDecommissioned, aliases: '-D', type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
     option :reportsForScorecard, aliases: '-S', type: :boolean, required: false, desc: 'BOOLEAN - true or false.'
@@ -174,7 +171,7 @@ module Emasser
   #
   # Endpoint:
   #    /api/system-roles                - Get all available roles
-  #    /api/system-roles/{roleCategory} - Get system roles for provided role catgory
+  #   /api/system-roles/{roleCategory} - Get system roles for provided role catgory
   class Roles < SubCommandBase
     def self.exit_on_failure?
       true
@@ -352,7 +349,7 @@ module Emasser
     # Required parameters/fields
     option :systemId, aliases: '-s', type: :numeric, required: true,
                       desc: 'A numeric value representing the system identification'
-    option :poamId, aliases: '-p',  type: :numeric, required: true,
+    option :poamId, aliases: '-p', type: :numeric, required: true,
                       desc: 'A numeric value representing the poam identification'
     # Optional parameters/fields
     option :scheduledCompletionDateStart, aliases: '-d', type: :numeric, required: false,
@@ -396,9 +393,9 @@ module Emasser
     end
   end
 
-  # The Artifact endpoints provide the ability to add new Artifacts
+  # The Artifact endpoints provide the ability to view Artifacts
   # (supporting documentation/evidence for Security Control Assessments
-  # and system Authorization activities) to a system.
+  # and system Authorization activities) for a system.
   #
   # Endpoints:
   #    /api/systems/{systemId}/artifacts        - Get one or many artifacts in a system
@@ -450,6 +447,7 @@ module Emasser
     def export
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
+
       if options[:printToStdout]
         optional_options.merge!(Emasser::GET_ARTIFACTS_RETURN_TYPE)
         if options[:compress]
@@ -458,7 +456,12 @@ module Emasser
           puts 'Output to stdout - plain text'.yellow
         end
       else
-        puts 'Output to temp directory'.yellow
+        # The api method get_system_artifacts_export default return type is
+        # file, and it will output the file to the configured EMASSER_DOWNLOAD_DIR
+        # or to the default output folder 'eMASSerDownloads'
+        export_dir = ENV.fetch('EMASSER_DOWNLOAD_DIR', '')
+        export_dir = 'eMASSerDownloads' if export_dir.empty?
+        puts "Output to #{export_dir} directory".yellow
       end
 
       result = EmassClient::ArtifactsExportApi.new.get_system_artifacts_export(
@@ -517,13 +520,13 @@ module Emasser
         result = EmassClient::CACApi.new.get_system_cac(options[:systemId], optional_options)
         puts to_output_hash(result).green
       rescue EmassClient::ApiError => e
-        puts 'Exception when calling ApprovalChainApi->get_system_cac'.red
+        puts 'Exception when calling CACApi->get_system_cac'.red
         puts to_output_hash(e)
       end
     end
   end
 
-  # The Package Approval Chain (PAC) endpoints provide the ability to view the
+  # The Package Approval Chain (PAC) endpoints provides the ability to view the
   # status of existing workflows and initiate new workflows for a system.
   #
   # Notes:
@@ -548,33 +551,76 @@ module Emasser
       result = EmassClient::PACApi.new.get_system_pac(options[:systemId])
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling ApprovalChainApi->get_system_'.red
+      puts 'Exception when calling PACApi->get_system_pac'.red
       puts to_output_hash(e)
     end
   end
 
-  # The Cybersecurity Maturity Model Certification (CMMC) Assessments endpoint provides
-  # the ability to view CMMC assessment information. It is available to CMMC eMASS only.
+  # The Hardware Baseline endpoints provides the ability to view the
+  # hardware assets for a system.
   #
   # Endpoints:
-  #    /api/cmmc-assessments - Get CMMC assessment information
-  class CMMC < SubCommandBase
+  #    /api/systems/{systemId}/hw-baseline - Get one or many hardware assets in a system
+  class Hardware < SubCommandBase
     def self.exit_on_failure?
       true
     end
 
-    desc 'assessments', 'Get CMMC assessment information'
-    long_desc Help.text(:cmmc_get_mapper)
-
+    desc 'assets', 'Get one or many hardware assets in a system'
     # Required parameters/fields
-    option :sinceDate, aliases: '-d', type: :string, required: true, desc: 'The CMMC date. Unix date format'
+    option :systemId, aliases: '-s', type: :numeric, required: true,
+                      desc: 'A numeric value representing the system identification'
 
-    def assessments
-      result = EmassClient::CMMCAssessmentsApi.new.get_cmmc_assessments(options[:sinceDate])
-      puts to_output_hash(result).green
-    rescue EmassClient::ApiError => e
-      puts 'Exception when calling ApprovalChainApi->get_cmmc_assessments'.red
-      puts to_output_hash(e)
+    # Optional parameters/fields
+    option :pageIndex, aliases: '-i', type: :numeric, required: false, desc: 'The page number to be returned, if not specified starts at page 0'
+    option :pageSize, aliases: '-s', type: :numeric, required: false, desc: 'The total entries per page, default is 20,000'
+
+    def assets
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      begin
+        # Get hardware assets form provided system
+        result = EmassClient::HardwareBaselineApi.new.get_system_hw_baseline(options[:systemId], optional_options)
+        puts to_output_hash(result).green
+      rescue EmassClient::ApiError => e
+        puts 'Exception when calling HardwareBaselineApi->get_system_hw_baseline'.red
+        puts to_output_hash(e)
+      end
+    end
+  end
+
+  # The Software Baseline endpoints provides the ability to view the
+  # software assets for a system.
+  #
+  # Endpoints:
+  #    /api/systems/{systemId}/sw-baseline - Get one or many software assets in a system
+  class Software < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'assets', 'Get one or many software assets in a system'
+    # Required parameters/fields
+    option :systemId, aliases: '-s', type: :numeric, required: true,
+                      desc: 'A numeric value representing the system identification'
+
+    # Optional parameters/fields
+    option :pageIndex, aliases: '-i', type: :numeric, required: false, desc: 'The page number to be returned, if not specified starts at page 0'
+    option :pageSize, aliases: '-s', type: :numeric, required: false, desc: 'The total entries per page, default is 20,000'
+
+    def assets
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      begin
+        # Get software assets for given system
+        result = EmassClient::SoftwareBaselineApi.new.get_system_sw_baseline(options[:systemId], optional_options)
+        puts to_output_hash(result).green
+      rescue EmassClient::ApiError => e
+        puts 'Exception when calling SoftwareBaselineApi->get_system_sw_baseline'.red
+        puts to_output_hash(e)
+      end
     end
   end
 
@@ -594,7 +640,7 @@ module Emasser
     option :includeInactive, aliases: '-I', type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
     option :registrationType, aliases: '-r',
            type: :string, required: false,
-           enum: %w[assessAndAuthorize assessOnly guest regular functional cloudServiceProvider commonControlProvider]
+           enum: %w[assessAndAuthorize assessOnly guest regular functional cloudServiceProvider commonControlProvider authorityToUse reciprocityAcceptance]
 
     def forSite
       optional_options_keys = optional_options(@_initializer).keys
@@ -657,89 +703,152 @@ module Emasser
     end
   end
 
+  # The Cybersecurity Maturity Model Certification (CMMC) Assessments endpoint provides
+  # the ability to view CMMC assessment information. It is available to CMMC eMASS only.
+  #
+  # Endpoints:
+  #    /api/cmmc-assessments - Get CMMC assessment information
+  class CMMC < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'assessments', 'Get CMMC assessment information'
+    long_desc Help.text(:cmmc_get_mapper)
+
+    # Required parameters/fields
+    option :sinceDate, aliases: '-d', type: :string, required: true, desc: 'The CMMC date. Unix date format'
+
+    def assessments
+      result = EmassClient::CMMCAssessmentsApi.new.get_cmmc_assessments(options[:sinceDate])
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling ApprovalChainApi->get_cmmc_assessments'.red
+      puts to_output_hash(e)
+    end
+  end
+
   # The Dashboards endpoints provide the ability to view data contained in dashboard exports.
-  # In the eMASS front end, these dashboard exports are generated as Excel exports.
+  # In the eMASS frontend, these dashboard exports are generated as Excel exports.
   # Each dashboard dataset available from the API is automatically updated with the current
   # configuration of the dashboard and the instance of eMASS as the dashboard changes.
   #
-  # Endpoints: (37)
+  # Endpoints: (57)
   # ---------------------------------------------------------------------------
   # System Status Dashboard
-  #  /api/dashboards/system-status-details                    - Get systems status detail
+  #  /api/dashboards/system-status-details
   # ---------------------------------------------------------------------------
-  # Enterprise Security Controls Dashboard
-  #  /api/dashboards/system-control-compliance-summary        - Get systems control compliance summary
-  #  /api/dashboards/system-security-controls-details         - Get systems security control details
-  #  /api/dashboards/system-assessment-procedures-details     - Get systems assessement procdures details
+  # System Terms / Conditions Dashboards
+  #  /api/dashboards/system-terms-conditions-summary
+  #  /api/dashboards/system-terms-conditions-details
   # ---------------------------------------------------------------------------
-  # Enterprise Terms Conditions Dashboards
-  #  /api/dashboards/system-terms-conditions-summary          - Get systems terms conditions summary
-  #  /api/dashboards/system-terms-conditions-details          - Get systems terms conditions details
+  # System Connectivity/CCSD
+  #  /api/dashboards/system-connectivity-ccsd-summary
+  #  /api/dashboards/system-connectivity-ccsd-details
   # ---------------------------------------------------------------------------
-  # Enterprise POA&M Dashboards
-  #  /api/dashboards/system-poam-summary                      - Get systems POA&Ms summary
-  #  /api/dashboards/system-poam-details                      - Get system POA&Ms details
+  # System ATC/IATC
+  #  /api/dashboards/system-atc-iatc-details
   # ---------------------------------------------------------------------------
-  # Enterprise Artifacts Dashboards
-  #  /api/dashboards/system-artifacts-summary                 - Get system Artifacts summary
-  #  /api/dashboards/system-artifacts-details                 - Get system Artifacts details
+  # System Questionnaire
+  #   /api/dashboards/system-questionnaire-summary
+  #   /api/dashboards/system-questionnaire-details
   # ---------------------------------------------------------------------------
-  # Hardware Baseline Dashboards
-  #  /api/dashboards/system-hardware-summary                  - Get system hardware summary
-  #  /api/dashboards/system-hardware-details                  - Get system hardware details
+  # System Workflows Dashboard
+  #  /api/dashboards/system-workflows-history-summary
+  #  /api/dashboards/system-workflows-history-details
+  #  /api/dashboards/system-workflows-history-stage-details
   # ---------------------------------------------------------------------------
-  # Enterprise Sensor-based Hardware Resources Dashboards
-  #  /api/dashboards/system-sensor-hardware-summary           - Get system sensor hardware summary
-  #  /api/dashboards/system-sensor-hardware-details           - Get system sensor hardware details
+  # System Security Controls Dashboard
+  #  /api/dashboards/system-control-compliance-summary
+  #  /api/dashboards/system-security-controls-details
+  #  /api/dashboards/system-assessment-procedures-details
   # ---------------------------------------------------------------------------
-  # Software Baseline Dashboards
-  #  /api/dashboards/system-software-summary                  - Get system software summary
-  #  /api/dashboards/system-software-details                  - Get system ssoftware details
+  # System POA&M Dashboards
+  #  /api/dashboards/system-poam-summary
+  #  /api/dashboards/system-poam-details
   # ---------------------------------------------------------------------------
-  # Enterprise Sensor-based Software Resources Dashboards
-  #  /api/dashboards/system-sensor-software-summary           - Get system sensor software summary
-  #  /api/dashboards/system-sensor-software-details           - Get system sensor software details
-  #  /api/dashboards/system-sensor-software-counts            - Get system sensor software counts
+  # System Artifacts Dashboards
+  #  /api/dashboards/system-artifacts-summary
+  #  /api/dashboards/system-artifacts-details
   # ---------------------------------------------------------------------------
-  # Enterprise Vulnerability Dashboards
-  #  /api/dashboards/system-vulnerability-summary             - Get system vulnerability summary
-  #  /api/dashboards/system-device-findings-summary           - Get system device findings summary
-  #  /api/dashboards/system-device-findings-details           - Get system device findings details
+  # System Hardware Dashboards
+  #  /api/dashboards/system-hardware-summary
+  #  /api/dashboards/system-hardware-details
+  # ---------------------------------------------------------------------------
+  # System Sensor Hardware Dashboards
+  #  /api/dashboards/system-sensor-hardware-summary
+  #  /api/dashboards/system-sensor-hardware-details
+  # ---------------------------------------------------------------------------
+  # System Software Dashboards
+  #  /api/dashboards/system-software-summary
+  #  /api/dashboards/system-software-details
+  # ---------------------------------------------------------------------------
+  # System Sensor Software Dashboards
+  #  /api/dashboards/system-sensor-software-summary
+  #  /api/dashboards/system-sensor-software-details
+  #  /api/dashboards/system-sensor-software-counts
+  #--------------------------------------------------------------------------
+  # System Critical Assets
+  #   /api/dashboards/system-critical-assets-summary
+  #--------------------------------------------------------------------------
+  # System Vulnerability Dashboards
+  #   /api/dashboards/system-vulnerability-summary
+  # ---------------------------------------------------------------------------
+  # System Device Findings Dashboards
+  #   /api/dashboards/system-device-findings-summary
+  #   /api/dashboards/system-device-findings-details
+  #--------------------------------------------------------------------------
+  # System Applications Findings Dashboards
+  #   /api/dashboards/system-application-findings-summary
+  #   /api/dashboards/system-application-findings-details
   # ---------------------------------------------------------------------------
   # Ports and Protocols Dashboards
-  #  /api/dashboards/system-ports-protocols-summary           - Get system ports and protocols summary
-  #  /api/dashboards/system-ports-protocols-details           - Get system ports and protocols details
+  #   /api/dashboards/system-ports-protocols-summary
+  #   /api/dashboards/system-ports-protocols-details
   #----------------------------------------------------------------------------
   # System CONMON Integration Status Dashboard
-  #  /api/dashboards/system-conmon-integration-status-summary - Get system conmon integration status summary
+  #   /api/dashboards/system-conmon-integration-status-summary
   #----------------------------------------------------------------------------
   # System Associations Dashboard
-  #  /api/dashboards/system-associations-details              - Get system associations details
+  #   /api/dashboards/system-associations-details
   #----------------------------------------------------------------------------
-  # Users Dashboard
-  #  /api/dashboards/user-system-assignments-details          - Get user system assignments details
+  # User System Assignments Dashboard
+  #   /api/dashboards/user-system-assignments-details
   #----------------------------------------------------------------------------
-  # Privacy Compliance Dashboards
-  #  /api/dashboards/system-privacy-summary                   - Get user system privacy summary
-  #  /api/dashboards/va-omb-fisma-saop-summary                - Get VA OMB-FISMA SAOP summary
+  # Organization Migration Status
+  #	  /api/dashboards/organization-migration-status-summary
   #----------------------------------------------------------------------------
-  # System A&A Summary Dashboard
-  #  /api/dashboards/va-system-aa-summary                     - Get VA system A&A summary
+  # System Migration Status
+  #   /api/dashboards/system-migration-status-summary
   #----------------------------------------------------------------------------
-  # System A2.0 Summary Dashboard
-  #  /api/dashboards/va-system-a2-summary                     - Get VA system A2.0 summary
+  # System FISMA Metrics
+  #   /api/dashboards/system-fisma-metrics
   #----------------------------------------------------------------------------
-  # System P.L. 109 Reporting Summary Dashboard
-  #  /api/dashboards/va-system-pl-109-reporting-summary       - Get workflow instance by ID in a system
+  # Coast Guard System FISMA Metrics
+  #	  /api/dashboards/coastguard-system-fisma-metrics
   #----------------------------------------------------------------------------
-  # FISMA Inventory Summary Dashboards
-  #  /api/dashboards/va-system-fisma-inventory-summary        - Get VA system FISMA inventory summary
-  #  /api/dashboards/va-system-fisma-inventory-crypto-summary - Get VA system FISMA inventory crypto summary
+  # System Privacy Dashboards
+  #   /api/dashboards/system-privacy-summary
+  #--------------------------------------------------------------------------
+  # VA OMB FISMA
+  #   /api/dashboards/va-omb-fisma-saop-summary
   #----------------------------------------------------------------------------
-  # Threat Risks Dashboards
-  #  /api/dashboards/va-system-threat-risks-summary           - Get VA System Threat Risks Summary
-  #  /api/dashboards/va-system-threat-sources-details         - Get VA System Threat Sources Details
-  #  /api/dashboards/va-system-threat-architecture-details    - Get VA System Threat Architecture Details
+  # VA Systems Dashboard
+  #   /api/dashboards/va-system-icamp-tableau-poam-details
+  #   /api/dashboards/va-system-aa-summary
+  #   /api/dashboards/va-system-a2-summary
+  #   /api/dashboards/va-system-pl-109-reporting-summary
+  #   /api/dashboards/va-system-fisma-inventory-summary
+  #   /api/dashboards/va-system-fisma-inventory-crypto-summary
+  #   /api/dashboards/va-system-threat-risks-summary
+  #   /api/dashboards/va-system-threat-sources-details
+  #   /api/dashboards/va-system-threat-architecture-details
+  #----------------------------------------------------------------------------
+  # CMMC Assessment Dashboards
+  #   /api/dashboards/cmmc-assessment-status-summary
+  #   /api/dashboards/cmmc-assessment-requirements-compliance-summary
+  #   /api/dashboards/cmmc-assessment-security-requirements-details
+  #   /api/dashboards/cmmc-assessment-requirement-objectives-details
 
   class Dashboards < SubCommandBase
     def self.exit_on_failure?
@@ -773,51 +882,179 @@ module Emasser
     end
 
     #----------------------------------------------------------------------------
-    # Enterprise Terms Conditions Dashboards
+    # System Terms / Conditions Dashboards
     #  /api/dashboards/system-terms-conditions-summary
     desc 'terms_conditions_summary', 'Get systems terms conditions summary dashboard information'
     def terms_conditions_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseTermsConditionsDashboardsApi.new.get_system_terms_conditions_summary(
+      result = EmassClient::SystemTermsConditionsDashboardsApi.new.get_system_terms_conditions_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseTermsConditionsDashboardsApi->get_system_terms_conditions_summary'.red
+      puts 'Exception when calling SystemTermsConditionsDashboardsApi->get_system_terms_conditions_summary'.red
       puts to_output_hash(e)
     end
 
     #  /api/dashboards/system-terms-conditions-details
-    desc 'terms_conditions_detail', 'Get systems terms conditions details dashboard information'
+    desc 'terms_conditions_details', 'Get systems terms conditions details dashboard information'
     def terms_conditions_details
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseTermsConditionsDashboardsApi.new.get_system_terms_conditions_details(
+      result = EmassClient::SystemTermsConditionsDashboardsApi.new.get_system_terms_conditions_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseTermsConditionsDashboardsApi->get_system_terms_conditions_details'.red
+      puts 'Exception when calling SystemTermsConditionsDashboardsApi->get_system_terms_conditions_details'.red
+      puts to_output_hash(e)
+    end
+
+    # ---------------------------------------------------------------------------
+    # System Connectivity/CCSD
+    #  /api/dashboards/system-connectivity-ccsd-summary
+    desc 'connectivity_ccsd_summary', 'Get systems connectivity CCSD summary dashboard information'
+    def connectivity_ccsd_summary
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemConnectivityCCSDDashboardsApi.new.get_system_connectivity_ccsd_summary(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemConnectivityCCSDDashboardsApi->get_system_connectivity_ccsd_summary'.red
+      puts to_output_hash(e)
+    end
+
+    # /api/dashboards/system-connectivity-ccsd-details
+    desc 'connectivity_ccsd_details', 'Get systems connectivity CCSD details dashboard information'
+    def connectivity_ccsd_details
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemConnectivityCCSDDashboardsApi.new.get_system_connectivity_ccsd_details(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemConnectivityCCSDDashboardsApi->get_system_connectivity_ccsd_details'.red
+      puts to_output_hash(e)
+    end
+
+    # ---------------------------------------------------------------------------
+    # System ATC/IATC
+    #  /api/dashboards/system-atc-iatc-details
+    desc 'atc_iatc_details', 'Get systems ATC/IATC details dashboard information'
+    def atc_iatc_details
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemATCIATCDashboardApi.new.get_system_atc_iatc_details(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemATCIATCDashboardApi->get_system_atc_iatc_details'.red
+      puts to_output_hash(e)
+    end
+
+    # ---------------------------------------------------------------------------
+    # System Questionnaire
+    #   /api/dashboards/system-questionnaire-summary
+    desc 'questionnaire_summary', 'Get systems connequestionnaire summary dashboard information'
+    def questionnaire_summary
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemQuestionnaireDashboardsApi.new.get_system_questionnaire_summary(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemQuestionnaireDashboardsApi->get_system_questionnaire_summary'.red
+      puts to_output_hash(e)
+    end
+
+    # /api/dashboards/system-questionnaire-details
+    desc 'questionnaire_details', 'Get systems connequestionnaire details dashboard information'
+    def questionnaire_details
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemQuestionnaireDashboardsApi.new.get_system_questionnaire_details(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemQuestionnaireDashboardsApi->get_system_questionnaire_details'.red
+      puts to_output_hash(e)
+    end
+
+    # ---------------------------------------------------------------------------
+    # System Workflows Dashboard
+    #  /api/dashboards/system-workflows-history-summary
+    desc 'workflows_history_summary', 'Get system workflows history summary dashboard information'
+    def workflows_history_summary
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemWorkflowsDashboardsApi.new.get_system_workflows_history_summary(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemWorkflowsDashboardsApi->get_system_workflows_history_summary'.red
+      puts to_output_hash(e)
+    end
+    #--------------------------------------------------------------------------
+    #  /api/dashboards/system-workflows-history-details
+    desc 'workflows_history_details', 'Get system workflows history details dashboard information'
+    def workflows_history_details
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemWorkflowsDashboardsApi.new.get_system_workflows_history_details(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemWorkflowsDashboardsApi->get_system_workflows_history_details'.red
+      puts to_output_hash(e)
+    end
+    #--------------------------------------------------------------------------
+    #  /api/dashboards/system-workflows-history-stage-details
+    desc 'workflows_history_stage_details', 'Get system workflows history stage detail dashboard information'
+    def workflows_history_stage_details
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemWorkflowsDashboardsApi.new.get_system_workflows_history_stage_details(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemWorkflowsDashboardsApi->get_system_workflows_history_stage_details'.red
       puts to_output_hash(e)
     end
 
     #--------------------------------------------------------------------------
-    # Enterprise Security Controls Dashboards
+    # Security Controls Dashboards
     # /api/dashboards/system-control-compliance-summary
     desc 'control_compliance_summary', 'Get systems control compliance summary dashboard information'
     def control_compliance_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseSecurityControlsDashboardsApi.new.get_system_control_compliance_summary(
+      result = EmassClient::SystemSecurityControlsDashboardsApi.new.get_system_control_compliance_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseSecurityControlsDashboardsApi->get_system_control_compliance_summary'.red
+      puts 'Exception when calling SystemSecurityControlsDashboardsApi->get_system_control_compliance_summary'.red
       puts to_output_hash(e)
     end
 
@@ -827,12 +1064,12 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseSecurityControlsDashboardsApi.new.get_system_security_control_details(
+      result = EmassClient::SystemSecurityControlsDashboardsApi.new.get_system_security_control_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseSecurityControlsDashboardsApi->get_system_security_control_details'.red
+      puts 'Exception when calling SystemSecurityControlsDashboardsApi->get_system_security_control_details'.red
       puts to_output_hash(e)
     end
 
@@ -842,29 +1079,29 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseSecurityControlsDashboardsApi.new.get_system_assessment_procedures_details(
+      result = EmassClient::SystemSecurityControlsDashboardsApi.new.get_system_assessment_procedures_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseSecurityControlsDashboardsApi->get_system_assessment_procedures_details'.red
+      puts 'Exception when calling SystemSecurityControlsDashboardsApi->get_system_assessment_procedures_details'.red
       puts to_output_hash(e)
     end
 
     #--------------------------------------------------------------------------
-    # Enterprise POA&M Dashboard
+    # Ststem POA&M Dashboard
     # /api/dashboards/system-poam-summary
     desc 'poam_summary', 'Get systems POA&Ms summary dashboard information'
     def poam_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterprisePOAMDashboardsApi.new.get_system_poam_summary(
+      result = EmassClient::SystemPOAMDashboardsApi.new.get_system_poam_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterprisePOAMDashboardsApi->get_system_poam_summary'.red
+      puts 'Exception when calling SystemPOAMDashboardsApi->get_system_poam_summary'.red
       puts to_output_hash(e)
     end
 
@@ -874,29 +1111,29 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterprisePOAMDashboardsApi.new.get_system_poam_details(
+      result = EmassClient::SystemPOAMDashboardsApi.new.get_system_poam_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterprisePOAMDashboardsApi->get_system_poam_details'.red
+      puts 'Exception when calling SystemPOAMDashboardsApi->get_system_poam_details'.red
       puts to_output_hash(e)
     end
 
     #--------------------------------------------------------------------------
-    # Enterprise Artifacts Dashboard
+    # System Artifacts Dashboard
     # /api/dashboards/system-artifacts-summary
     desc 'artifacts_summary', 'Get systems artifacts summary dashboard information'
     def artifacts_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseArtifactsDashboardsApi.new.get_system_artifacts_summary(
+      result = EmassClient::SystemArtifactsDashboardsApi.new.get_system_artifacts_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseArtifactsDashboardsApi->get_system_artifacts_summary'.red
+      puts 'Exception when calling SystemArtifactsDashboardsApi->get_system_artifacts_summary'.red
       puts to_output_hash(e)
     end
 
@@ -906,29 +1143,29 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseArtifactsDashboardsApi.new.get_system_artifacts_details(
+      result = EmassClient::SystemArtifactsDashboardsApi.new.get_system_artifacts_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseArtifactsDashboardsApi->get_system_artifacts_details'.red
+      puts 'Exception when calling SystemArtifactsDashboardsApi->get_system_artifacts_details'.red
       puts to_output_hash(e)
     end
 
     #--------------------------------------------------------------------------
-    # Hardware Baseline Dashboard
+    # System Hardware Dashboard
     # /api/dashboards/system-hardware-summary
     desc 'hardware_summary', 'Get system hardware summary dashboard information'
     def hardware_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::HardwareBaselineDashboardsApi.new.get_system_hardware_summary(
+      result = EmassClient::SystemHardwareDashboardsApi.new.get_system_hardware_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling HardwareBaselineDashboardsApi->get_system_hardware_summary'.red
+      puts 'Exception when calling SystemHardwareDashboardsApi->get_system_hardware_summary'.red
       puts to_output_hash(e)
     end
 
@@ -938,29 +1175,29 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::HardwareBaselineDashboardsApi.new.get_system_hardware_details(
+      result = EmassClient::SystemHardwareDashboardsApi.new.get_system_hardware_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling HardwareBaselineDashboardsApi->get_system_hardware_details'.red
+      puts 'Exception when calling SystemHardwareDashboardsApi->get_system_hardware_details'.red
       puts to_output_hash(e)
     end
 
     #--------------------------------------------------------------------------
-    # Enterprise Sensor-based Hardware Resources Dashboard
+    # System Sensor Hardware Dashboard
     # /api/dashboards/system-sensor-hardware-summary
     desc 'sensor_hardware_summary', 'Get system sensor hardware summary dashboard information'
     def sensor_hardware_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseSensorBasedHardwareResourcesDashboardsApi.new.get_system_sensor_hardware_summary(
+      result = EmassClient::SystemSensorHardwareDashboardsApi.new.get_system_sensor_hardware_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseSensorBasedHardwareResourcesDashboardsApi->get_system_sensor_hardware_summary'.red
+      puts 'Exception when calling SystemSensorHardwareDashboardsApi->get_system_sensor_hardware_summary'.red
       puts to_output_hash(e)
     end
 
@@ -970,29 +1207,29 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseSensorBasedHardwareResourcesDashboardsApi.new.get_system_sensor_hardware_details(
+      result = EmassClient::SystemSensorHardwareDashboardsApi.new.get_system_sensor_hardware_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseSensorBasedHardwareResourcesDashboardsApi->get_system_sensor_hardware_details'.red
+      puts 'Exception when calling SystemSensorHardwareDashboardsApi->get_system_sensor_hardware_details'.red
       puts to_output_hash(e)
     end
 
     #--------------------------------------------------------------------------
-    # Software Baseline Dashboards
+    # System Software Dashboards
     # /api/dashboards/system-software-summary
     desc 'software_summary', 'Get system software summary dashboard information'
     def software_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::SoftwareBaselineDashboardsApi.new.get_system_software_summary(
+      result = EmassClient::SystemSoftwareDashboardsApi.new.get_system_software_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling SoftwareBaselineDashboardsApi->get_system_software_summary'.red
+      puts 'Exception when calling SystemSoftwareDashboardsApi->get_system_software_summary'.red
       puts to_output_hash(e)
     end
 
@@ -1002,29 +1239,29 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::SoftwareBaselineDashboardsApi.new.get_system_software_details(
+      result = EmassClient::SystemSoftwareDashboardsApi.new.get_system_software_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling SoftwareBaselineDashboardsApi->get_system_software_details'.red
+      puts 'Exception when calling SystemSoftwareDashboardsApi->get_system_software_details'.red
       puts to_output_hash(e)
     end
 
     #--------------------------------------------------------------------------
-    # Enterprise Sensor-based Software Resources Dashboards
+    # System Sensor Software Dashboards
     # /api/dashboards/system-sensor-software-summary
     desc 'sensor_software_summary', 'Get system sensor software summary dashboard information'
     def sensor_software_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseSensorBasedSoftwareResourcesDashboardsApi.new.get_system_sensor_software_summary(
+      result = EmassClient::SystemSensorSoftwareDashboardsApi.new.get_system_sensor_software_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseSensorBasedSoftwareResourcesDashboardsApi->get_system_sensor_software_summary'.red
+      puts 'Exception when calling SystemSensorSoftwareDashboardsApi->get_system_sensor_software_summary'.red
       puts to_output_hash(e)
     end
 
@@ -1034,12 +1271,12 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseSensorBasedSoftwareResourcesDashboardsApi.new.get_system_sensor_software_details(
+      result = EmassClient::SystemSensorSoftwareDashboardsApi.new.get_system_sensor_software_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseSensorBasedSoftwareResourcesDashboardsApi->get_system_sensor_software_details'.red
+      puts 'Exception when calling SystemSensorSoftwareDashboardsApi->get_system_sensor_software_details'.red
       puts to_output_hash(e)
     end
 
@@ -1049,44 +1286,63 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseSensorBasedSoftwareResourcesDashboardsApi.new.get_system_sensor_software_counts(
+      result = EmassClient::SystemSensorSoftwareDashboardsApi.new.get_system_sensor_software_counts(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseSensorBasedSoftwareResourcesDashboardsApi->get_system_sensor_software_counts'.red
+      puts 'Exception when calling SystemSensorSoftwareDashboardsApi->get_system_sensor_software_counts'.red
       puts to_output_hash(e)
     end
 
     #--------------------------------------------------------------------------
-    # Enterprise Vulnerability Dashboards
+    # System Critical Assets
+    # /api/dashboards/system-critical-assets-summary
+    desc 'critical_assets_summary', 'Get system critical assets summary dashboard information'
+    def critical_assets_summary
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemCriticalAssetsDashboardApi.new.get_system_critical_assets_summary(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemCriticalAssetsDashboardApi->get_system_critical_assets_summary'.red
+      puts to_output_hash(e)
+    end
+
+    #--------------------------------------------------------------------------
+    # System Vulnerability Dashboards
     # /api/dashboards/system-vulnerability-summary
     desc 'vulnerability_summary', 'Get system vulnerability summary dashboard information'
     def vulnerability_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseVulnerabilityDashboardsApi.new.get_system_vulnerability_summary(
+      result = EmassClient::SystemVulnerabilityDashboardApi.new.get_system_vulnerability_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseVulnerabilityDashboardsApi->get_system_vulnerability_summary'.red
+      puts 'Exception when calling SystemVulnerabilityDashboardApi->get_system_vulnerability_summary'.red
       puts to_output_hash(e)
     end
 
+    #--------------------------------------------------------------------------
+    # System Device Findings Dashboards
     # /api/dashboards/system-device-findings-summary
     desc 'device_findings_summary', 'Get system device findings summary dashboard information'
     def device_findings_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseVulnerabilityDashboardsApi.new.get_system_device_findings_summary(
+      result = EmassClient::SystemDeviceFindingsDashboardsApi.new.get_system_device_findings_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseVulnerabilityDashboardsApi->get_system_device_findings_summary'.red
+      puts 'Exception when calling SystemDeviceFindingsDashboardsApi->get_system_device_findings_summary'.red
       puts to_output_hash(e)
     end
 
@@ -1096,29 +1352,61 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::EnterpriseVulnerabilityDashboardsApi.new.get_system_device_findings_details(
+      result = EmassClient::SystemDeviceFindingsDashboardsApi.new.get_system_device_findings_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling EnterpriseVulnerabilityDashboardsApi->get_system_device_findings_details'.red
+      puts 'Exception when calling SystemDeviceFindingsDashboardsApi->get_system_device_findings_details'.red
       puts to_output_hash(e)
     end
 
     #--------------------------------------------------------------------------
-    # Ports and Protocols Dashboards
+    # System Applications Findings Dashboards
+    # /api/dashboards/system-application-findings-summary
+    desc 'application_findings_summary', 'Get system device findings summary dashboard information'
+    def application_findings_summary
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemApplicationFindingsDashboardsApi.new.get_system_application_findings_summary(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemApplicationFindingsDashboardsApi->get_system_application_findings_summary'.red
+      puts to_output_hash(e)
+    end
+
+    # /api/dashboards/system-application-findings-details
+    desc 'application_findings_details', 'Get system device findings details dashboard information'
+    def application_findings_details
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemApplicationFindingsDashboardsApi.new.get_system_application_findings_details(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemApplicationFindingsDashboardsApi->get_system_application_findings_details'.red
+      puts to_output_hash(e)
+    end
+
+    #--------------------------------------------------------------------------
+    # System Ports and Protocols Dashboards
     # /api/dashboards/system-ports-protocols-summary
     desc 'ports_protocols_summary', 'Get system ports & portocols summary dashboard information'
     def ports_protocols_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::PortsAndProtocolsDashboardsApi.new.get_system_ports_protocols_summary(
+      result = EmassClient::SystemPortsProtocolsDashboardsApi.new.get_system_ports_protocols_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling PortsAndProtocolsDashboardsApi->get_system_ports_protocols_summary'.red
+      puts 'Exception when calling SystemPortsProtocolsDashboardsApi->get_system_ports_protocols_summary'.red
       puts to_output_hash(e)
     end
 
@@ -1128,12 +1416,12 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::PortsAndProtocolsDashboardsApi.new.get_system_ports_protocols_details(
+      result = EmassClient::SystemPortsProtocolsDashboardsApi.new.get_system_ports_protocols_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling PortsAndProtocolsDashboardsApi->get_system_ports_protocols_details'.red
+      puts 'Exception when calling SystemPortsProtocolsDashboardsApi->get_system_ports_protocols_details'.red
       puts to_output_hash(e)
     end
 
@@ -1171,20 +1459,88 @@ module Emasser
       puts to_output_hash(e)
     end
 
-    #--------------------------------------------------------------------------
-    # Users Dashboard
+    #----------------------------------------------------------------------------
+    # User System Assignments Dashboard
     # /api/dashboards/user-system-assignments-details
     desc 'assignments_details', 'Get user system assignments details dashboard information'
     def assignments_details
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::UsersDashboardApi.new.get_user_system_assignments_details(
+      result = EmassClient::UserSystemAssignmentsDashboardApi.new.get_user_system_assignments_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling UsersDashboardApi->get_user_system_assignments_details'.red
+      puts 'Exception when calling UserSystemAssignmentsDashboardApi->get_user_system_assignments_details'.red
+      puts to_output_hash(e)
+    end
+
+    #----------------------------------------------------------------------------
+    # Organization Migration Status
+    #	 /api/dashboards/organization-migration-status-summary
+    desc 'organization_migration_status_summary', 'Get organization migration status summary dashboard information'
+    def organization_migration_status_summary
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::OrganizationMigrationStatusDashboardApi.new.get_organization_migration_status_summary(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling OrganizationMigrationStatusDashboardApi->get_organization_migration_status_summary'.red
+      puts to_output_hash(e)
+    end
+
+    #----------------------------------------------------------------------------
+    # System Migration Status
+    #  /api/dashboards/system-migration-status-summary
+    desc 'system_migration_status_summary', 'Get system migration status summary dashboard information'
+    def system_migration_status_summary
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemMigrationStatusDashboardApi.new.get_system_migration_status_summary(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemMigrationStatusDashboardApi->get_system_migration_status_summary'.red
+      puts to_output_hash(e)
+    end
+
+    #----------------------------------------------------------------------------
+    # System FISMA Metrics
+    #  /api/dashboards/system-fisma-metrics
+    desc 'fisma_metrics', 'Get FISMA metrics dashboard information'
+    def fisma_metrics
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::SystemFISMAMetricsDashboardApi.new.get_system_fisma_metrics(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SystemFISMAMetricsDashboardApi->get_system_fisma_metrics'.red
+      puts to_output_hash(e)
+    end
+
+    #----------------------------------------------------------------------------
+    # Coast Guard System FISMA Metrics
+    #	  /api/dashboards/coastguard-system-fisma-metrics
+    desc 'coastguard_fisma_metrics', 'Get coastguard FISMA metrics dashboard information'
+    def coastguard_fisma_metrics
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::CoastGuardSystemFISMAMetricsDashboardApi.new.get_coast_guard_system_fisma_metrics(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling CoastGuardSystemFISMAMetricsDashboardApi->get_coast_guard_system_fisma_metrics'.red
       puts to_output_hash(e)
     end
 
@@ -1196,95 +1552,106 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::PrivacyComplianceDashboardsApi.new.get_system_privacy_summary(
+      result = EmassClient::SystemPrivacyDashboardApi.new.get_system_privacy_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling PrivacyComplianceDashboardsApi->get_system_privacy_summary'.red
+      puts 'Exception when calling SystemPrivacyDashboardApi->get_system_privacy_summary'.red
       puts to_output_hash(e)
     end
 
+    #--------------------------------------------------------------------------
+    # VA OMB FISMA
     # /api/dashboards/va-omb-fisma-saop-summary
     desc 'fisma_saop_summary', 'Get VA OMB-FISMA SAOP summary dashboard information'
     def fisma_saop_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::PrivacyComplianceDashboardsApi.new.get_va_omb_fsma_saop_summary(
+      result = EmassClient::VAOMBFISMADashboardApi.new.get_va_omb_fsma_saop_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling PrivacyComplianceDashboardsApi->get_va_omb_fsma_saop_summary'.red
+      puts 'Exception when calling VAOMBFISMADashboardApi->get_va_omb_fsma_saop_summary'.red
       puts to_output_hash(e).yellow
     end
 
-    #--------------------------------------------------------------------------
-    # System A&A Summary Dashboard
+    #----------------------------------------------------------------------------
+    # VA Systems Dashboard
+    # /api/dashboards/va-system-icamp-tableau-poam-details
+    desc 'va_icamp_tableau_poam_details', 'Get VA ICAMP Tableau POA&M details dashboard information'
+    def va_icamp_tableau_poam_details
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::VASystemDashboardsApi.new.get_va_system_icamp_tableau_poam_details(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling VASystemDashboardsApi->get_va_system_icamp_tableau_poam_details'.red
+      puts to_output_hash(e).yellow
+    end
+
     # /api/dashboards/va-system-aa-summary
     desc 'va_aa_summary', 'Get VA system A&A summary dashboard information'
     def va_aa_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::SystemAASummaryDashboardApi.new.get_va_system_aa_summary(
+      result = EmassClient::VASystemDashboardsApi.new.get_va_system_aa_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling SystemAASummaryDashboardApi->get_va_system_aa_summary'.red
+      puts 'Exception when calling VASystemDashboardsApi->get_va_system_aa_summary'.red
       puts to_output_hash(e).yellow
     end
 
-    #--------------------------------------------------------------------------
-    # System A2.0 Summary Dashboard
     # /api/dashboards/va-system-a2-summary
     desc 'va_a2_summary', 'Get VA system A2.0 summary dashboard information'
     def va_a2_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::SystemA20SummaryDashboardApi.new.get_va_system_a2_summary(
+      result = EmassClient::VASystemDashboardsApi.new.get_va_system_a2_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling SystemA20SummaryDashboardApi->get_va_system_a2_summary'.red
+      puts 'Exception when calling VASystemDashboardsApi->get_va_system_a2_summary'.red
       puts to_output_hash(e).yellow
     end
 
-    #--------------------------------------------------------------------------
-    # System P.L. 109 Reporting Summary Dashboard
     # /api/dashboards/va-system-pl-109-reporting-summary
     desc 'va_pl_109_summary', 'Get VA System P.L. 109 reporting summary dashboard information'
     def va_pl_109_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::SystemPL109ReportingSummaryDashboardApi.new.get_va_system_pl109_reporting_summary(
+      result = EmassClient::VASystemDashboardsApi.new.get_va_system_pl109_reporting_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling SystemPL109ReportingSummaryDashboardApi->get_va_system_pl109_reporting_summary'.red
+      puts 'Exception when calling VASystemDashboardsApi->get_va_system_pl109_reporting_summary'.red
       puts to_output_hash(e).yellow
     end
 
-    #--------------------------------------------------------------------------
-    # FISMA Inventory Summary Dashboard
     # /api/dashboards/va-system-fisma-inventory-summary
     desc 'fisma_inventory_summary', 'Get VA system FISMA inventory summary dashboard information'
     def fisma_inventory_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::FISMAInventorySummaryDashboardsApi.new.get_va_system_fisma_invetory_summary(
+      result = EmassClient::VASystemDashboardsApi.new.get_va_system_fisma_invetory_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling FISMAInventorySummaryDashboardsApi->get_va_system_fisma_invetory_summary'.red
+      puts 'Exception when calling VASystemDashboardsApi->get_va_system_fisma_invetory_summary'.red
       puts to_output_hash(e).yellow
     end
 
@@ -1294,29 +1661,27 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::FISMAInventorySummaryDashboardsApi.new.get_va_system_fisma_invetory_crypto_summary(
+      result = EmassClient::VASystemDashboardsApi.new.get_va_system_fisma_invetory_crypto_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling FISMAInventorySummaryDashboardsApi->get_va_system_fisma_invetory_crypto_summary'.red
+      puts 'Exception when calling VASystemDashboardsApi->get_va_system_fisma_invetory_crypto_summary'.red
       puts to_output_hash(e).yellow
     end
 
-    #--------------------------------------------------------------------------
-    # Threat Risks Dashboard
     # /api/dashboards/va-system-threat-risks-summary
     desc 'threat_risk_summary', 'Get VA System Threat Risks Summary dashboard information'
     def threat_risk_summary
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::ThreatRisksDashboardsApi.new.get_va_system_threat_risk_summary(
+      result = EmassClient::VASystemDashboardsApi.new.get_va_system_threat_risk_summary(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling ThreatRisksDashboardsApi->get_va_system_threat_risk_summary'.red
+      puts 'Exception when calling VASystemDashboardsApi->get_va_system_threat_risk_summary'.red
       puts to_output_hash(e).yellow
     end
 
@@ -1326,12 +1691,12 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::ThreatRisksDashboardsApi.new.get_va_system_threat_source_details(
+      result = EmassClient::VASystemDashboardsApi.new.get_va_system_threat_source_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling ThreatRisksDashboardsApi->get_va_system_threat_source_details'.red
+      puts 'Exception when calling VASystemDashboardsApi->get_va_system_threat_source_details'.red
       puts to_output_hash(e).yellow
     end
 
@@ -1341,12 +1706,74 @@ module Emasser
       optional_options_keys = optional_options(@_initializer).keys
       optional_options = to_input_hash(optional_options_keys, options)
 
-      result = EmassClient::ThreatRisksDashboardsApi.new.get_va_system_threat_architecture_details(
+      result = EmassClient::VASystemDashboardsApi.new.get_va_system_threat_architecture_details(
         options[:orgId], optional_options
       )
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling ThreatRisksDashboardsApi->get_va_system_threat_architecture_details'.red
+      puts 'Exception when calling VASystemDashboardsApi->get_va_system_threat_architecture_details'.red
+      puts to_output_hash(e).yellow
+    end
+
+    #----------------------------------------------------------------------------
+    # CMMC Assessment Dashboards
+    # /api/dashboards/cmmc-assessment-status-summary
+    desc 'cmmc_status_summary', 'Get CMMC Assessment status summary dashboard information'
+    def cmmc_status_summary
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::CMMCAssessmentDashboardsApi.new.get_cmmc_assessment_status_summary(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling CMMCAssessmentDashboardsApi->get_cmmc_assessment_status_summary'.red
+      puts to_output_hash(e).yellow
+    end
+
+    # /api/dashboards/cmmc-assessment-requirements-compliance-summary
+    desc 'cmmc_compliance_summary', 'Get CMMC Assessment Requirements Compliance Summary dashboard information'
+    def cmmc_compliance_summary
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::CMMCAssessmentDashboardsApi.new.get_cmmc_assessment_requirements_compliance_summary(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling CMMCAssessmentDashboardsApi->get_cmmc_assessment_requirements_compliance_summary'.red
+      puts to_output_hash(e).yellow
+    end
+
+    # /api/dashboards/cmmc-assessment-security-requirements-details
+    desc 'cmmc_security_requirements_details', 'Get CMMC Assessment Security Requirements Details dashboard information'
+    def cmmc_security_requirements_details
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::CMMCAssessmentDashboardsApi.new.get_cmmc_assessment_security_requirements_details(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling CMMCAssessmentDashboardsApi->get_cmmc_assessment_security_requirements_details'.red
+      puts to_output_hash(e).yellow
+    end
+
+    # /api/dashboards/cmmc-assessment-requirement-objectives-details
+    desc 'cmmc_requirement_objectives_details', 'Get CMMC Assessment Requirement Objectives Details dashboard information'
+    def cmmc_requirement_objectives_details
+      optional_options_keys = optional_options(@_initializer).keys
+      optional_options = to_input_hash(optional_options_keys, options)
+
+      result = EmassClient::CMMCAssessmentDashboardsApi.new.get_cmmc_assessment_requirement_objectives_details(
+        options[:orgId], optional_options
+      )
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling CMMCAssessmentDashboardsApi->get_cmmc_assessment_requirement_objectives_details'.red
       puts to_output_hash(e).yellow
     end
   end
@@ -1385,14 +1812,20 @@ module Emasser
     desc 'pac', 'Get status of active workflows in a system'
     subcommand 'pac', PAC
 
-    desc 'cmmc', 'Get CMMC assessment information'
-    subcommand 'cmmc', CMMC
+    desc 'hardware', 'Get one or many hardware assets in a system'
+    subcommand 'hardware', Hardware
+
+    desc 'software', 'Get one or many software assets in a system'
+    subcommand 'software', Software
 
     desc 'workflow_definitions', 'Get workflow definitions in a site'
     subcommand 'workflow_definitions', WorkflowDefinitions
 
     desc 'workflow_instances', 'Get workflow instance by system and/or ID in a system'
     subcommand 'workflow_instances', WorkflowInstances
+
+    desc 'cmmc', 'Get CMMC assessment information'
+    subcommand 'cmmc', CMMC
 
     desc 'dashboards', 'Get dashboard information'
     subcommand 'dashboards', Dashboards
