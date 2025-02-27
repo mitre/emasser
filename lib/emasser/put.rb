@@ -47,7 +47,7 @@ module Emasser
       true
     end
 
-    desc 'update', 'Get control information in a system for one or many controls (acronym)'
+    desc 'update', 'Update control information in a system for one or many controls (acronym)'
     long_desc Help.text(:controls_put_mapper)
 
     # Required parameters/fields
@@ -108,6 +108,9 @@ module Emasser
            enum: ['Test', 'Interview', 'Examine', 'Test, Interview', 'Test, Examine',
                   'Interview, Examine', 'Test, Interview, Examine'],
            desc: 'Assessment method/combination that determines if the security requirements are implemented correctly'
+    option :mitigations, type: :string, required: false,
+           desc: 'Identify any mitigations in place for the Non-Compliant Security Control\'s vulnerabilities.'
+
 
     # rubocop:disable Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
     def update
@@ -254,8 +257,8 @@ module Emasser
     long_desc Help.text(:poam_put_mapper)
 
     # Required parameters/fields
-    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
-    option :poamId, type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
+    option :systemId, aliases: '-s', type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :poamId, aliases: '-p', type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
     # option :displayPoamId, type: :numeric, required: true,
     #        desc: 'Globally unique identifier for individual POA&M Items, seen on the front-end as "ID"'
     option :status, type: :string, required: true, enum: ['Ongoing', 'Risk Accepted', 'Completed', 'Not Applicable']
@@ -511,12 +514,12 @@ module Emasser
     long_desc Help.text(:milestone_put_mapper)
 
     # Required parameters/fields
-    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
-    option :poamId, type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
-    option :milestoneId,
+    option :systemId, aliases: '-s', type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :poamId, aliases: '-p', type: :numeric, required: true, desc: 'A numeric value representing the poam identification'
+    option :milestoneId, aliases: '-m',
            type: :numeric, required: true, desc: 'A numeric value representing the milestone identification'
-    option :description, type: :string, required: true, desc: 'The milestone description'
-    option :scheduledCompletionDate,
+    option :description, aliases: '-d', type: :string, required: true, desc: 'The milestone description'
+    option :scheduledCompletionDate, aliases: '-c',
            type: :numeric, required: false, desc: 'The scheduled completion date - Unix time format'
 
     def update
@@ -553,15 +556,15 @@ module Emasser
     long_desc Help.text(:artifacts_put_mapper)
 
     # Required parameters/fields
-    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
-    option :filename, type: :string, required: true, desc: 'Artifact file name to be updated'
-    option :type, type: :string, required: true, default: 'Other',
+    option :systemId, aliases: '-s', type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :filename, aliases: '-f', type: :string, required: true, desc: 'Artifact file name to be updated'
+    option :type, aliases: '-t', type: :string, required: true, default: 'Other',
       desc: 'The type of artifact. Possible values are: Procedure, Diagram, Policy, Labor, Document, Image, Other, Scan Result, Auditor Report. May also accept other values set by system administrators.'
-    option :category, type: :string, required: true, default: 'Evidence',
+    option :category, aliases: '-c', type: :string, required: true, default: 'Evidence',
       desc: 'The category of artifact. Possible values are: Implementation Guidance, Evidence. May also accept other values set by system administrators.'
     # NOTE: isTemplate is a required parameter, however Thor does not allow a boolean type to be required because it
     # automatically creates a --no-isTemplate option for isTemplate=false
-    option :isTemplate, type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
+    option :isTemplate, aliases: '-T', type: :boolean, required: false, default: false, desc: 'BOOLEAN - true or false.'
 
     # Optional fields
     option :name, type: :string, required: false, desc: 'Artifact name'
@@ -621,12 +624,12 @@ module Emasser
     end
 
     desc 'update', 'Update one hardware assets in a system per execution'
-    long_desc Help.text(:approvalPac_post_mapper)
+    long_desc Help.text(:hardware_put_mapper)
 
     # Required parameters/fields
-    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
-    option :hardwareId, type: :string, required: true, desc: 'GUID identifying the specific hardware asset'
-    option :assetName, type: :string, required: true, desc: 'Name of the hardware asset'
+    option :systemId, aliases: '-s', type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :hardwareId, aliases: '-h', type: :string, required: true, desc: 'GUID identifying the specific hardware asset'
+    option :assetName, aliases: '-a', type: :string, required: true, desc: 'Name of the hardware asset'
 
     # Conditional fields
     option :publicFacingFqdn, type: :string, required: false, desc: 'Public facing FQDN. Only applicable if Public Facing is set to true'
@@ -707,14 +710,14 @@ module Emasser
     end
 
     desc 'update', 'update one software assets into a system per execution'
-    long_desc Help.text(:approvalPac_post_mapper)
+    long_desc Help.text(:software_put_mapper)
 
     # Required parameters/fields
-    option :systemId, type: :numeric, required: true, desc: 'A numeric value representing the system identification'
-    option :softwareId, type: :string, required: true, desc: 'GUID identifying the specific software asset'
-    option :softwareVendor, type: :string, required: true, desc: 'Vendor of the software asset'
-    option :softwareName, type: :string, required: true, desc: 'Name of the software asset'
-    option :version, type: :string, required: true, desc: 'Version of the software asset'
+    option :systemId, aliases: '-s', type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :softwareId, aliases: '-S', type: :string, required: true, desc: 'GUID identifying the specific software asset'
+    option :softwareVendor, aliases: '-V', type: :string, required: true, desc: 'Vendor of the software asset'
+    option :softwareName, aliases: '-N', type: :string, required: true, desc: 'Name of the software asset'
+    option :version, aliases: '-v', type: :string, required: true, desc: 'Version of the software asset'
 
     # Conditional field
     # If Approval Status is set to “Unapproved” or “In Progress”, Approval Date will be set to null.
@@ -742,7 +745,6 @@ module Emasser
     option :licenseRenewalDate, type: :numeric, required: false, desc: 'License renewal date for the software asset'
     option :licenseExpirationDate, type: :numeric, required: false, desc: 'TLicense expiration date for the software asset'
     option :approvalStatus, type: :string, required: false, desc: 'Approval status of the software asset'
-    option :approvalDate, type: :numeric, required: false, desc: 'Approval date of the software asset'
     option :releaseDate, type: :numeric, required: false, desc: 'Release date of the software asset'
     option :maintenanceDate, type: :numeric, required: false, desc: 'Maintenance date of the software asset'
     option :retirementDate, type: :numeric, required: false, desc: 'Retirement date of the software asset'

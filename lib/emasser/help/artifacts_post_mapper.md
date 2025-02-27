@@ -3,57 +3,46 @@ Endpoint request parameters/fields
 Field                   Data Type  Details
 -------------------------------------------------------------------------------------------------
 systemId                Integer    [Required] Unique eMASS identifier. Will need to provide correct number.
+files*                  String     [Required] Artifact file(s) to post to the given system
 isTemplate              Boolean    [Required] Indicates whether an artifact is a template.
-type*                   String     [Required] Values include the following: (Procedure, Diagram, Policy, Labor,
+type**                  String     [Required] Values include the following: (Procedure, Diagram, Policy, Labor,
                                               Document, Image, Other, Scan Result, Auditor Report)
-category*               String     [Required] Values include the following: (Implementation Guidance, Evidence)
-files                   String     [Required] File names (to include path) to be uploaded into eMASS as artifacts
+category**              String     [Required] Values include the following: (Implementation Guidance, Evidence)
 
-description             String     [Optional] Artifact description. 2000 Characters.
-refPageNumber           String     [Optional] Artifact reference page number. 50 Characters.
-ccis                    String     [Optional] CCIs associated with artifact.
-controls                String     [Optional] Control acronym associated with the artifact. NIST SP 800-53 Revision 4 defined.
-artifactExpirationDate  Date       [Optional] Date Artifact expires and requires review. In Unix Date Format
-lastReviewedDate        Date       [Optional] Date Artifact was last reviewed. In Unix Date Format
 
-isInherited             Boolean    [Read-Only] Indicates whether an artifact is inherited.
-mimeContentType         String     [Read-Only] Standard MIME content type derived from file extension.
-fileSize                String     [Read-Only] File size of attached artifact.
+isBulk                  Boolean    [Optional] If no value is specified, the default is false, and an individual
+                                              artifact file is expected. When set to true, a .zip file is expected
+                                              which can contain multiple artifact files.
 
-* May also accept custom artifact type or category values set by system administrators.
+\* The CLI accepts a single (can be a zip file) or multiple files were the CLI archives them into a zip file.
 
-The request body of a POST request through the Artifact Endpoint accepts a single binary file with file extension.zip only.
+** May also accept custom artifact type or category values set by system administrators.
 
-This accepted .zip file should contain one or more files corresponding to existing artifacts or new artifacts that will be created upon successful receipt.
+The body of a request through the Artifacts POST endpoint accepts a single binary file.
+Two Artifact POST methods are currently accepted: individual and bulk.
 
-Filename uniqueness throughout eMASS will be enforced by the API.
+Filename uniqueness within an eMASS system will be enforced by the API for both methods.
 
-Upon successful receipt of a file, if a file within the .zip is matched via filename to an artifact existing within the application, the file associated with the artifact will be updated.
+For POST requests that should result in a single artifact, the request should include the file.
 
-If no artifact is matched via filename to the application, a new artifact will be created with the following default values. Any values not specified below will be blank.
+For POST requests that should result in the creation of many artifacts, the request should include
+a single file with the extension ".zip" only and the parameter isBulk should be set to true.
+This .zip file should contain one or more files corresponding to existing artifacts or new
+artifacts that will be created upon successful receipt.
+
+Upon successful receipt of one or many artifacts, if a file is matched via filename to an artifact
+existing within the application, the file associated with the artifact will be updated.
+
+If no artifact is matched via filename to the application, a new artifact will be created with
+the following default values. Any values not specified below will be null.
   - isTemplate: false
   - type: other
   - category: evidence
 
 To update values other than the file itself, please submit a PUT request.
 
-Business Rules
-- Artifact cannot be saved if the file does not have the following file extensions:
-  - .docx,.doc,.txt,.rtf,.xfdl,.xml,.mht,.mhtml,.html,.htm,.pdf
-  - .mdb,.accdb,.ppt,.pptx,.xls,.xlsx,.csv,.log
-  - .jpeg,.jpg,.tiff,.bmp,.tif,.png,.gif
-  - .zip,.rar,.msg,.vsd,.vsw,.vdx, .z{#}, .ckl,.avi,.vsdx
-- Artifact cannot be saved if File Name (fileName) exceeds 1,000 characters
-- Artifact cannot be saved if Description (description) exceeds 2,000 characters
-- Artifact cannot be saved if Reference Page Number (refPageNumber) exceeds 50 characters
-- Artifact cannot be saved if the file does not have an allowable file extension/type.
-- Artifact version cannot be saved if an Artifact with the same file name already exist in the system.
-- Artifact cannot be saved if the file size exceeds 30MB.
-- Artifact cannot be saved if the Last Review Date is set in the future.
-
-
 Example:
 
-bundle exec exe/emasser post artifacts upload --systemId [value] [--isTemplate or --no-isTemplate] --type [value] --category [value] --files[value...value]
+bundle exec exe/emasser post artifacts upload [-s, --systemId] <value> [-f, --files] <value...value> [-B, --isBulk or --no-isBulk] -[-T, --isTemplate or --no-isTemplate] [-t, --type] <value> [-c, --category] <value>
 
 Note: The example does not list any optional fields

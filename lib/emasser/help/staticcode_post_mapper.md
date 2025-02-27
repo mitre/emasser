@@ -11,10 +11,6 @@ codeCheckName           String     [Required] Name of the software vulnerability
 scanDate                Integer    [Required] The findings scan date - Unix time format
 cweId                   String     [Required] The Common Weakness Enumerator (CWE) identifier
 
-rawSeverity*            String     [Optional] Values include the following: (Low, Medium, Moderate, High, Critical)
-count                   Integer    [Optional] Number of instances observed for a specified finding
-
-*rawSeverity: In eMASS, values of "Critical" will appear as "Very High", and values of “Medium” will appear as "Moderate". Any values not listed as options in the list above will map to “Unknown” and appear as blank values.
 
 Example:
 

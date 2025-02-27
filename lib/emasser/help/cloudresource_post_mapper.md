@@ -15,11 +15,12 @@ cspAccountId             String    [Optional] System/owner's CSP account ID/numb
 cspRegion                String    [Optional] CSP region of system.
 isBaseline               Boolean   [Optional] True/false flag for providing results as baseline.
                                               If true, all existing compliance results for the resourceId will be replaced by results in the current call.
-
+Tags Object
 tags                     Object    [Optional] Informational tags associated to results for other metadata
-  text                   String    [Optional] Tag metadata information
+  text                     String    [Optional] Tag metadata information
 
-complianceResults        Object    [Required] Compliance result information
+Compliance Results Object
+complianceResults        Object  [Required] Compliance result information
   cspPolicyDefinitionId    String  [Required] Unique identifier/compliance namespace for CSP/Resource’s
                                             policy definition/compliance check.
   policyDefinitionTitle    String  [Required] Friendly policy/compliance check title. Recommend short title

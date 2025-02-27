@@ -125,10 +125,72 @@ module Emasser
         body_array << obj
       end
 
-      result = EmassClient::ArtifactsApi.new.delete_artifact(body_array, options[:systemId])
+      result = EmassClient::ArtifactsApi.new.delete_artifact(options[:systemId], body_array)
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
       puts 'Exception when calling ArtifactsApi->delete_artifact'.red
+      puts to_output_hash(e)
+    end
+  end
+
+  # Remove one or many hardware assets in a system
+  #
+  # Endpoint:
+  #    /api/systems/{systemId}/hw-baseline
+  class Hardware < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'remove', 'Delete one or many hardware assets in a system'
+
+    # Required parameters/fields
+    option :systemId, aliases: '-s', type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :hardwareIds, aliases: '-w', type: :array, required: true, desc: 'GUID identifying the specific hardware asset'
+
+    def remove
+      body_array = []
+      options[:hardwareIds].each do |hardware|
+        obj = {}
+        obj[:hardwareId] = hardware
+        body_array << obj
+      end
+
+      result = EmassClient::HardwareBaselineApi.new.delete_hw_baseline_assets(options[:systemId], body_array)
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling HardwareBaselineApi->delete_hw_baseline_assets'.red
+      puts to_output_hash(e)
+    end
+  end
+
+  # Remove one or many software assets in a system
+  #
+  # Endpoint:
+  #    /api/systems/{systemId}/sw-baseline
+  class Software < SubCommandBase
+    def self.exit_on_failure?
+      true
+    end
+
+    desc 'remove', 'Delete one or many software assets in a system'
+
+    # Required parameters/fields
+    option :systemId, aliases: '-s', type: :numeric, required: true, desc: 'A numeric value representing the system identification'
+    option :softwareIds, aliases: '-w', type: :array, required: true, desc: 'GUID identifying the specific software asset'
+
+    def remove
+      body_array = []
+      options[:softwareIds].each do |software|
+        obj = {}
+        obj[:softwareId] = software
+        body_array << obj
+      end
+
+      result = EmassClient::SoftwareBaselineApi.new.delete_sw_baseline_assets(options[:systemId], body_array)
+      puts to_output_hash(result).green
+    rescue EmassClient::ApiError => e
+      puts 'Exception when calling SoftwareBaselineApi->delete_sw_baseline_assets'.red
       puts to_output_hash(e)
     end
   end
@@ -137,7 +199,7 @@ module Emasser
   # cloud resources and their scan results in the assets module for a system.
   #
   # Endpoint:
-  #  /api/systems/{systemId}/cloud-resource-results - Remove one or many cloud resources in a system
+  #  /api/systems/{systemId}/cloud-resource-results
   class CloudResource < SubCommandBase
     def self.exit_on_failure?
       true
@@ -147,7 +209,7 @@ module Emasser
 
     # Required parameters/fields
     option :systemId, aliases: '-s', type: :numeric, required: true, desc: 'A numeric value representing the system identification'
-    option :resourceId, aliases: '-c', type: :string, required: true, desc: 'Unique identifier/resource namespace for policy compliance result'
+    option :resourceId, aliases: '-r', type: :string, required: true, desc: 'Unique identifier/resource namespace for policy compliance result'
 
     def remove
       body = EmassClient::CloudResourcesDeleteBodyInner.new
@@ -157,7 +219,7 @@ module Emasser
       result = EmassClient::CloudResourceResultsApi.new.delete_cloud_resources(options[:systemId], body_array)
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling MilestonesApi->delete_cloud_resources'.red
+      puts 'Exception when calling CloudResourceResultsApi->delete_cloud_resources'.red
       puts to_output_hash(e)
     end
   end
@@ -166,7 +228,7 @@ module Emasser
   # containers and their scan results in the assets module for a system.
   #
   # Endpoint:
-  #  /api/systems/{systemId}/container-scan-results - Remove one or many containers in a system
+  #  /api/systems/{systemId}/container-scan-results
   class Container < SubCommandBase
     def self.exit_on_failure?
       true
@@ -180,13 +242,13 @@ module Emasser
 
     def remove
       body = EmassClient::ContainerResourcesDeleteBodyInner.new
-      body.containerId = options[:containerId]
+      body.container_id = options[:containerId]
       body_array = Array.new(1, body)
 
       result = EmassClient::ContainerScanResultsApi.new.delete_container_sans(options[:systemId], body_array)
       puts to_output_hash(result).green
     rescue EmassClient::ApiError => e
-      puts 'Exception when calling MilestonesApi->delete_cloud_resources'.red
+      puts 'Exception when calling ContainerScanResultsApi->delete_container_sans'.red
       puts to_output_hash(e)
     end
   end
@@ -200,6 +262,12 @@ module Emasser
 
     desc 'artifacts', 'Delete system Artifacts'
     subcommand 'artifacts', Artifacts
+
+    desc 'hardware', 'Delete one or many hardware assets to a system'
+    subcommand 'hardware', Hardware
+
+    desc 'software', 'Delete one or many software assets to a system'
+    subcommand 'software', Software
 
     desc 'cloud_resource', 'Delete cloud resource and their scan results'
     subcommand 'cloud_resource', CloudResource
