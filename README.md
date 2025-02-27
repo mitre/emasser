@@ -157,7 +157,7 @@ Because interactions with the API are handled by a dependency, the bulk of `eMAS
 The `eMASSer` CLI makes use of the `emass_client` ruby gem to communicate with an `eMASS` instance via the `eMASS API` as depicted in the diagram below:
 
 <div align="center">
-  <img src="images/emasser_architecture.jpg" alt="emasser CLI Architecture" title="emasser CLI Architecture">
+  <img src="images/emasser_architecture.png" alt="emasser CLI Architecture" title="emasser CLI Architecture">
 </div>
 
 ### NOTICE
