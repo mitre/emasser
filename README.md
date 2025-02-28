@@ -31,7 +31,7 @@ The `eMASSer` CLI [**Architecture**](#emasser-cli-architecture) depicts the stru
   * Ruby version 3.22 or greater
 
 ### Runtime Major Dependencies
-  * Ruby version 2.7 or greater
+  * Ruby version 3.22 or greater
   * `rubyzip (latest version)`
   * `emass_client (latest version)`
   * On Windows the `cURL` binary is required (libcurl.dll). To install cURL:
