@@ -1,4 +1,4 @@
-name: Push emasser to Docker Hub on every release
+name: Push eMASSer to Docker Hub on every release
 
 on:
   release:
@@ -23,7 +23,7 @@ jobs:
           string: "${{ github.event.release.tag_name }}"
           replace-with: ''
           flags: 'g'
-      - name: Checkout the emasser Repository
+      - name: Checkout the eMASSer Repository
         uses: actions/checkout@v4
       - name: Build and push
         id: docker_build

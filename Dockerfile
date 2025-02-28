@@ -1,5 +1,5 @@
 # Buld from ruby 2.7.5 image
-FROM ruby:2.7.5 as build
+FROM ruby:3.2.5 as build
 
 LABEL name="emasser" \
       vendor="MITRE" \
@@ -13,8 +13,8 @@ LABEL name="emasser" \
 # Set the base directory that will be used from now on
 WORKDIR /emasser
 
-# Install dependency
-RUN gem install bundler -v '2.3.5'
+# Install dependency (old bumdle was 2.3.5)
+RUN gem install bundler -v '2.6.5'
 RUN apt update && apt install -y build-essential
 COPY . .
 RUN bundle install
