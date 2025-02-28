@@ -10,11 +10,7 @@ workflow      String     [Required] Values include the following: (Assess and Au
 name          String     [Required] Package name. 100 Characters.
 comments      String     [Required] Comments related to package approval chain. 4000 Characters.
 
-currentRole   String     [Read-Only] Current role in active package.
-currentStep   Integer    [Read-Only] Current step in the package Approval Chain.
-totalSteps    Integer    [Read-Only] Total number of steps in Package Approval Chain.
-
 
 Example:
 
-bundle exec exe/emasser post pac add --systemId [value] --workflow [value] --name [value] --comments [value]
+bundle exec exe/emasser post pac add [-s, --systemId] <value> [-f, --workflow] <value> [-n, --name] <value> [-c --comments] <value>

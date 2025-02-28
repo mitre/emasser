@@ -12,10 +12,10 @@ jobs:
       fail-fast: false
       matrix:
        platform: [ ubuntu-latest, macos-latest, windows-latest ]
-       ruby-version: ['2.6', '2.7']
+       ruby-version: ['3.4']
     runs-on: ${{ matrix.platform }}
     steps:
-      - name: Setup Ruby ${{matrix.ruby}}
+      - name: Setup Ruby ${{ matrix.ruby-version }}
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: ${{ matrix.ruby-version }}
@@ -24,14 +24,14 @@ jobs:
         with:
           args: install curl -y
         if: matrix.platform == 'windows-latest'
-      - name: Testing on ${{ matrix.platform }} for Ruby ${{ matrix.ruby }}
+      - name: Testing on ${{ matrix.platform }} for Ruby ${{ matrix.ruby-version }}
         if: matrix.platform == 'windows-latest'
         run: |
           # bundle install
           # bundle info emass_client
           # rspec spec --format documentation
           echo "need to fix path to libcurl.dll"
-      - name: Testing on ${{ matrix.platform }} for Ruby ${{ matrix.ruby }}
+      - name: Testing on ${{ matrix.platform }} for Ruby ${{ matrix.ruby-version }}
         if: matrix.platform == 'ubuntu-latest' || matrix.platform == 'macos-latest'
         run: |
           bundle install

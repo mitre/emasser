@@ -42,5 +42,53 @@ describe Emasser::Artifacts do
   end
 end
 
+describe Emasser::Hardware do
+  before do
+    # run before each test
+    @instance = Emasser::Hardware.new
+  end
+  context 'test an instance of Hardware class object' do
+    it 'should create an instance of Hardware (delete)' do
+      expect(@instance).to be_instance_of(Emasser::Hardware)
+    end
+  end
+end
+
+describe Emasser::Software do
+  before do
+    # run before each test
+    @instance = Emasser::Software.new
+  end
+  context 'test an instance of Software class object' do
+    it 'should create an instance of Software (delete)' do
+      expect(@instance).to be_instance_of(Emasser::Software)
+    end
+  end
+end
+
+describe Emasser::CloudResource do
+  before do
+    # run before each test
+    @instance = Emasser::CloudResource.new
+  end
+  context 'test an instance of CloudResource class object' do
+    it 'should create an instance of CloudResource (delete)' do
+      expect(@instance).to be_instance_of(Emasser::CloudResource)
+    end
+  end
+end
+
+describe Emasser::Container do
+  before do
+    # run before each test
+    @instance = Emasser::Container.new
+  end
+  context 'test an instance of Container class object' do
+    it 'should create an instance of Container (delete)' do
+      expect(@instance).to be_instance_of(Emasser::Container)
+    end
+  end
+end
+
 # To run use
 #    rspec spec\test_delete_cli_spec.rb  --format documentation

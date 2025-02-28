@@ -2,10 +2,10 @@
 ![GitHub Release Date](https://img.shields.io/github/release-date/mitre/emasser?label=Release%20Date&logo=github&color=blue)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/mitre/emasser?label=Release%20Version&logo=github) ![Gem](https://img.shields.io/gem/v/emasser?label=gem%20version&logo=ruby&logoColor=red) ![Docker Version](https://img.shields.io/docker/v/mitre/emasser?label=docker%20version&logo=docker&sort=semver)
 
-![emasser Testing](https://github.com/mitre/emasser/actions/workflows/test-cli.yml/badge.svg)
-![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg)
+[![emasser Testing](https://github.com/mitre/emasser/actions/workflows/test-cli.yml/badge.svg)](https://github.com/mitre/emasser/actions/workflows/test-cli.yml)
+[![CodeQL Vulnerabilities and Errors](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/mitre/emasser/actions/workflows/codeql-analysis.yml)
 [![GitHub Pages](https://github.com/mitre/emasser/actions/workflows/gh-pages.yml/badge.svg)](https://github.com/mitre/emasser/actions/workflows/gh-pages.yml)
-![Code Linter](https://github.com/mitre/emasser/actions/workflows/rubocop.yml/badge.svg)
+[![Code Linter](https://github.com/mitre/emasser/actions/workflows/rubocop.yml/badge.svg)](https://github.com/mitre/emasser/actions/workflows/rubocop.yml)
 
 ## About
 
@@ -28,7 +28,7 @@ The `eMASSer` CLI [**Architecture**](#emasser-cli-architecture) depicts the stru
 
 ### Installation Dependencies
   * git
-  * Ruby version 2.7 or greater
+  * Ruby version 3.22 or greater
 
 ### Runtime Major Dependencies
   * Ruby version 2.7 or greater
@@ -157,12 +157,12 @@ Because interactions with the API are handled by a dependency, the bulk of `eMAS
 The `eMASSer` CLI makes use of the `emass_client` ruby gem to communicate with an `eMASS` instance via the `eMASS API` as depicted in the diagram below:
 
 <div align="center">
-  <img src="images/emasser_architecture.jpg" alt="emasser CLI Architecture" title="emasser CLI Architecture">
+  <img src="images/emasser_architecture.png" alt="emasser CLI Architecture" title="emasser CLI Architecture">
 </div>
 
 ### NOTICE
 
-© 2020 The MITRE Corporation.
+© 2025 The MITRE Corporation.
 
 Approved for Public Release; Distribution Unlimited. Case Number 18-3678.
 

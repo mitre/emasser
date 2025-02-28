@@ -9,6 +9,16 @@ controlDesignation       String    [Required] Values include the following: (Com
 estimatedCompletionDate  Date      [Required] Field is required for Implementation Plan
 implementationNarrative  String    [Required] Includes Security Control comments.
 
+commonControlProvider   String     [Conditional] Values include the following: (DoD, Component, Enclave)
+naJustification         String     [Conditional] Provide justification for Security Controls deemed Not Applicable to the system.
+slcmCriticality         String     [Conditional] Criticality of Security Control regarding SLCM. Character Limit = 2,000
+slcmFrequency           String     [Conditional] Values include the following: (Constantly, Daily, Weekly, Monthly, Quarterly,
+                                                 Semi-Annually, Annually, Every,Two Years, Every Three Years, Undetermined)
+slcmMethod              String     [Conditional] Values include the following: (Automated, Semi-Automated, Manual, Undetermined)
+slcmReporting           String     [Conditional] Method for reporting Security Controls for SLCM. Character Limit = 2,000
+slcmTracking            String     [Conditional] How Non-Compliant Security Controls will be tracked for SLCM. Character Limit = 2,000
+slcmComments            String     [Conditional] Additional comments for Security Control regarding SLCM. Character Limit = 4,000
+
 implementationStatus    String     [Optional] Values include the following: (Planned, Implemented, Inherited, Not Applicable, Manually Inherited)
 severity                String     [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
 vulnerabilitySummary    String     [Optional] Include vulnerability summary. Character Limit = 2,000.
@@ -20,26 +30,24 @@ impactDescription       String     [Optional] Include description of Security Co
 residualRiskLevel       String     [Optional] Values include the following: (Very Low, Low, Moderate, High, Very High)
 testMethod              String     [Optional] Values include the following: ('Test', 'Interview', 'Examine', 'Test, Interview',
                                               'Test, Examine', 'Interview, Examine', 'Test, Interview, Examine')
-
-commonControlProvider   String     [Conditional] Values include the following: (DoD, Component, Enclave)
-naJustification         String     [Conditional] Provide justification for Security Controls deemed Not Applicable to the system.
-slcmCriticality         String     [Conditional] Criticality of Security Control regarding SLCM. Character Limit = 2,000
-slcmFrequency           String     [Conditional] Values include the following: (Constantly, Daily, Weekly, Monthly, Quarterly,
-                                                 Semi-Annually, Annually, Every,Two Years, Every Three Years, Undetermined)
-slcmMethod              String     [Conditional] Values include the following: (Automated, Semi-Automated, Manual, Undetermined)
-slcmReporting           String     [Conditional] Method for reporting Security Controls for SLCM. Character Limit = 2,000
-slcmTracking            String     [Conditional] How Non-Compliant Security Controls will be tracked for SLCM. Character Limit = 2,000
-slcmComments            String     [Conditional] Additional comments for Security Control regarding SLCM. Character Limit = 4,000
-
-name                     String    [Read-Only] Name of control as defined in NIST SP 800-53 Revision 4.
-ccis                     String    [Read-Only] Comma separated list of CCIs associated with the control.
-isInherited              Boolean   [Read-Only] Indicates whether a control is inherited.
-modifiedByOverlays       String    [Read-Only] List of overlays that affect the control.
-includedStatus           String    [Read-Only] Indicates the manner by which a control was included in the system's categorization. 
-complianceStatus         String    [Read-Only] Compliance status of the control.
+mitigations             String     [Optional] Identify any mitigations in place for the Non-Compliant Security Control's vulnerabilities. Character Limit = 2,000.
+applicationLayer        String     [Optional] If the Financial Management (Navy) overlay is applied to the system,
+                                              this field appears and can be populated. Character Limit = 2,000. Navy only.
+databaseLayer           String     [Optional] If the Financial Management (Navy) overlay is applied to the system,
+                                              this field appears and can be populated. Character Limit = 2,000. Navy only.
+operatingSystemLayer    String     [Optional] If the Financial Management (Navy) overlay is applied to the system,
+                                              this field appears and can be populated. Character Limit = 2,000. Navy only.
 
 
 Business Rules
+
+Risk Assessment
+  - Risk Assessment information cannot be updated if a Security Control is “Inherited.”
+  - Risk Assessment information cannot be updated for a DIACAP system record.
+  - Risk Assessment information cannot be updated if Security Control does not exist in the system record.
+
+
+Implementation Plan
 
 The following fields are required based on the value of the `implementationStatus` field
   |Value                   |Required Fields
