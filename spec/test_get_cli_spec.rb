@@ -218,8 +218,6 @@ describe 'System Application Findings Dashboards' do
   end
 end
 
-
-
 describe 'System Artifacts Dashboards' do
   before do
     # run before each test
