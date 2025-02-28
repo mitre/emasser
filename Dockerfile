@@ -13,7 +13,7 @@ LABEL name="emasser" \
 # Set the base directory that will be used from now on
 WORKDIR /emasser
 
-# Install dependency (old bumdle was 2.3.5)
+# Install dependency (old bundler was 2.3.5)
 RUN gem install bundler -v '2.6.5'
 RUN apt update && apt install -y build-essential
 COPY . .
@@ -27,7 +27,9 @@ RUN mkdir gems
 RUN mv emasser*.gem gems/emasser.gem
 
 
-FROM ruby:2-alpine
+# FROM ruby:2-alpine
+# Updated to ruby:3-alpine
+FROM ruby:3-alpine
 
 # Use the line below when testing creating the container locally
 # RUN sed -i 's/https/http/g' /etc/apk/repositories
