@@ -54,5 +54,29 @@ describe Emasser::Artifacts do
   end
 end
 
+describe Emasser::Hardware do
+  before do
+    # run before each test
+    @instance = Emasser::Hardware.new
+  end
+  context 'test an instance of Hardware class object' do
+    it 'should create an instance of Hardware (post)' do
+      expect(@instance).to be_instance_of(Emasser::Hardware)
+    end
+  end
+end
+
+describe Emasser::Software do
+  before do
+    # run before each test
+    @instance = Emasser::Software.new
+  end
+  context 'test an instance of Software class object' do
+    it 'should create an instance of Software (post)' do
+      expect(@instance).to be_instance_of(Emasser::Software)
+    end
+  end
+end
+
 # to run use:
 #    rspec spec\test_put_cli_spec.rb  --format documentation

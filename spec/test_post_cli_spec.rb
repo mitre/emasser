@@ -8,6 +8,18 @@ require 'emasser/post'
 
 # -----------------------------------------------------
 # Test that all required CLI POST classes are available
+describe Emasser::Register do
+  before do
+    # run before each test
+    @instance = Emasser::Register.new
+  end
+  context 'test an instance of Register class object' do
+    it 'should create an instance of Register (post)' do
+      expect(@instance).to be_instance_of(Emasser::Register)
+    end
+  end
+end
+
 describe Emasser::TestResults do
   before do
     # run before each test
@@ -80,14 +92,38 @@ describe Emasser::CAC do
   end
 end
 
-describe Emasser::ScanFindings do
+describe Emasser::Hardware do
   before do
     # run before each test
-    @instance = Emasser::ScanFindings.new
+    @instance = Emasser::Hardware.new
   end
-  context 'test an instance of ScanFindings class object' do
-    it 'should create an instance of ScanFindings (post)' do
-      expect(@instance).to be_instance_of(Emasser::ScanFindings)
+  context 'test an instance of Hardware class object' do
+    it 'should create an instance of Hardware (post)' do
+      expect(@instance).to be_instance_of(Emasser::Hardware)
+    end
+  end
+end
+
+describe Emasser::Software do
+  before do
+    # run before each test
+    @instance = Emasser::Software.new
+  end
+  context 'test an instance of Software class object' do
+    it 'should create an instance of Software (post)' do
+      expect(@instance).to be_instance_of(Emasser::Software)
+    end
+  end
+end
+
+describe Emasser::DeviceScans do
+  before do
+    # run before each test
+    @instance = Emasser::DeviceScans.new
+  end
+  context 'test an instance of DeviceScans class object' do
+    it 'should create an instance of DeviceScans (post)' do
+      expect(@instance).to be_instance_of(Emasser::DeviceScans)
     end
   end
 end
@@ -112,6 +148,18 @@ describe Emasser::Container do
   context 'test an instance of Container class object' do
     it 'should create an instance of Container (post)' do
       expect(@instance).to be_instance_of(Emasser::Container)
+    end
+  end
+end
+
+describe Emasser::ScanFindings do
+  before do
+    # run before each test
+    @instance = Emasser::ScanFindings.new
+  end
+  context 'test an instance of ScanFindings class object' do
+    it 'should create an instance of ScanFindings (post)' do
+      expect(@instance).to be_instance_of(Emasser::ScanFindings)
     end
   end
 end

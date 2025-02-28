@@ -28,7 +28,7 @@ The `eMASSer` CLI [**Architecture**](#emasser-cli-architecture) depicts the stru
 
 ### Installation Dependencies
   * git
-  * Ruby version 2.7 or greater
+  * Ruby version 3.22 or greater
 
 ### Runtime Major Dependencies
   * Ruby version 2.7 or greater
