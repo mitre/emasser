@@ -1,9 +1,8 @@
-name: Push emasser CLI to Docker Hub on every merge to master and tag as latest
+name: Push eMASSer CLI to Docker Hub on every merge to master and tag as latest
 
 on:
   push:
     branches: [ main ]
-
 
 jobs:
   docker:
