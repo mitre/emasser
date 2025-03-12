@@ -90,7 +90,7 @@ module Emasser
       puts "emasser version: #{Emasser::VERSION}".green
       exit
     elsif ARGV[0].to_s.downcase.include? 'hello'
-      users = ['rookie', 'greenhorn', 'novice', 'expert', 'oracle', 'maestro']
+      users = %w{rookie greenhorn novice expert oracle maestro}
       user_name = ENV.fetch('USERNAME', users.sample)
       puts "Hello #{user_name} - enjoy using eMASSer version #{Emasser::VERSION}!".cyan
       exit
