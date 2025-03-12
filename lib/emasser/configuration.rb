@@ -2,6 +2,7 @@
 
 module Emasser
   require 'emasser/errors'
+  require 'emasser/version'
   require 'fileutils'
 
   class Configuration
@@ -59,8 +60,8 @@ module Emasser
       puts 'Required environment variables:'.yellow
       puts '  export EMASSER_API_KEY=<API key>'.green
       puts '  export EMASSER_HOST_URL=<FQDN of the eMASS server>'.green
-      puts '  export EMASSER_KEY_FILE_PATH=<path to your eMASS key in PEM format>'.green
-      puts '  export EMASSER_CERT_FILE_PATH=<path to your eMASS certficate in PEM format>'.green
+      puts '  export EMASSER_KEY_FILE_PATH=<Path to your eMASS key in PEM format>'.green
+      puts '  export EMASSER_CERT_FILE_PATH=<Path to your eMASS certficate in PEM format>'.green
       puts '  export EMASSER_KEY_FILE_PASSWORD=<password for the key given in EMASSER_KEY_FILE_PATH>'.green
       puts 'Note: '.yellow + 'EMASSER_API_KEY is acquired by invoking the "emasser post register cert" API command'.cyan, "\n"
       puts 'Actionable (POST,PUT,DELETE) variable required by some eMASS instances:'.yellow
@@ -71,8 +72,8 @@ module Emasser
 
     def emasser_pki_help
       puts 'eMASSer PKI Certificate Requirements:'.yellow
-      puts 'eMASSer uses a client (signed certificate) and key (private key to the certificate) certificate for authenticating to eMASS.'.cyan
-      puts 'Both files are pem (Privacy-Enhanced Mail) text-based containers using base-64 encoding. The key file requires a passphrase.'.cyan
+      puts 'eMASSer uses a client (signed certificate) and key (private key for the certificate) certificate for authenticating to eMASS.'.cyan
+      puts 'Both files are a .pem (Privacy-Enhanced Mail) text-based containers using base-64 encoding. The key file requires a passphrase.'.cyan
       puts "\n"
       puts 'The following variables must be provided on the .env (configuration) file:'.yellow
       puts '  EMASSER_HOST_URL          - The eMASS host URL'.cyan
@@ -80,13 +81,17 @@ module Emasser
       puts '  EMASSER_KEY_FILE_PATH     - The private key for the certificate (.pem) file (full path is required)'.cyan
       puts '  EMASSER_KEY_FILE_PASSWORD - The key file passphrase value if the key file password has been set'.cyan
       puts 'IMPORTANT: If using a self signed certificate in the certificate chain the optional "EMASSER_VERIFY_SSL" variable must be set to false.'.red
+      puts "\n"
+      puts 'Certain eMASS integrations may require this variable for actionable (POST,PUT,DELETE) endpoint calls:'.yellow
+      puts '  EMASSER_USER_UID - The eMASS User Unique Identifier (user-uid)'.cyan
     end
 
     if (ARGV[0].to_s.downcase.include? '-v') || (ARGV[0].to_s.downcase.include? '--V')
       puts "emasser version: #{Emasser::VERSION}".green
       exit
     elsif ARGV[0].to_s.downcase.include? 'hello'
-      user_name = ENV.fetch('USERNAME', 'rookie')
+      users = ['rookie', 'greenhorn', 'novice', 'expert', 'oracle', 'maestro']
+      user_name = ENV.fetch('USERNAME', users.sample)
       puts "Hello #{user_name} - enjoy using eMASSer version #{Emasser::VERSION}!".cyan
       exit
     elsif ARGV[0].to_s.downcase.include? 'auth'
@@ -94,8 +99,9 @@ module Emasser
       puts 'Every call to the eMASS API (via eMASSer) requires the use of a client certificate and an API key.'.cyan
       puts 'A PKI-valid/trusted client certificate must be obtained from the owning eMASS instances that eMASSer is connecting to.'.cyan
       puts 'An API key is also required. To obtain the API key, after configuring the PKI certificate, than'.cyan
-      puts 'invoke the following API command to retrieve the API key: "emasser post register cert")'.cyan
-      puts "\n"
+      print 'invoke the following API command to retrieve the API key: '.cyan
+      print 'emasser post register cert'.underline.green
+      puts "\n\n"
       puts 'eMASS Authentication Errors:'.red
       puts 'If the API receives an untrusted certificate, a 403 forbidden response code will be returned.'.cyan
       puts 'If an invalid api-key or combination of client certificate and api-key (from the registered account) is received, a 401 unauthorized response code will be returned.'.cyan
@@ -106,7 +112,8 @@ module Emasser
     elsif (ARGV[0].to_s.downcase.include? 'help') || (ARGV[0].to_s.include? '-')
       puts 'eMASSer Help'.yellow
       puts 'eMASSer makes use of an environment configuration (.env) file for required and optional variables.'.cyan
-      puts 'The configuration file containing required variables must be located in the root directory where the eMASSer command is executed.'.cyan
+      puts 'The configuration file containing required variables must be located in the root directory where'.cyan
+      print 'the eMASSer command is executed. To create a .env invoke the '.cyan, 'emasser configure'.underline.green, ' command'.cyan
       puts "\n"
       show = Configuration.new
       show.emasser_pki_help
@@ -114,9 +121,12 @@ module Emasser
       puts 'See eMASSer environment variables requirements in eMASSer CLI Features for more information (https://mitre.github.io/emasser/docs/features.html).'.yellow
       puts 'For eMASS Authentication Requirements invoke the eMASSer API command with the [auth]entication parameter (emasser auth)'.green
       exit
+    elsif ARGV[0].to_s.downcase.include? 'configure'
+      Configure.configure
+      exit
     elsif ARGV.empty?
       puts 'eMASSer commands:'.yellow
-      puts '  emasser [get, put, post, delet] or [-h, --h, -v, -V, --version, --Version] or [help, Authentication, Authorization] '.yellow
+      puts '  emasser [get, put, post, delete] or [-h, --h, -v, -V, --version, --Version] or [help, Authentication, Authorization] '.yellow
       exit
     else
       # rubocop: disable Style/TernaryParentheses, Style/IfWithBooleanLiteralBranches, Style/RedundantCondition

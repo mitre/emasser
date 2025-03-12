@@ -6,7 +6,7 @@ module Emasser
   class ConfigurationMissingError < Error
     attr_reader :config
 
-    def initialize(config = 'an option', message = 'No configuration was provided for variable:')
+    def initialize(config = 'an option', message = 'Required environment variable missing:')
       @config = config
       super("#{message} #{@config}")
     end
@@ -15,7 +15,7 @@ module Emasser
   class ConfigurationEmptyValueError < Error
     attr_reader :config
 
-    def initialize(config = 'an option', message = 'Environment variable cannot be an empty:')
+    def initialize(config = 'an option', message = 'A value is expected for environment variable:')
       @config = config
       super("#{message} #{@config}")
     end

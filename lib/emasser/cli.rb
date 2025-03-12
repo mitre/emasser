@@ -16,18 +16,6 @@ module Emasser
     elsif ARGV[0].to_s.include? 'del'
       require 'emasser/delete'
       register(Emasser::Delete, 'delete', 'delete [RESOURCE]', 'Deletes resources')
-    elsif (ARGV[0].to_s.include? '-v') || (ARGV[0].to_s.include? '-V')
-      puts "emasser version: #{Emasser::VERSION}".green
-      exit
-    elsif ARGV[0].to_s.include? 'hello'
-      user_name = ENV.fetch('USERNAME', 'rookie')
-      puts "Hello #{user_name} - enjoy using emasser version #{Emasser::VERSION}!".cyan
-      exit
-    end
-
-    def help
-      puts 'Emasser commands:'.yellow
-      puts '  emasser [get, put, post, delete, -v, or -V]'.yellow
     end
 
     def self.exit_on_failure?

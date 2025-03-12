@@ -27,9 +27,10 @@ Gem::Specification.new do |spec|
   # ---- Run Time Dependencies
   spec.add_runtime_dependency 'activesupport', '>= 6.1.4', '< 7.1.0'
   spec.add_runtime_dependency 'colorize', '~> 1.1.0'
-  spec.add_runtime_dependency 'dotenv', '~> 3.1.2'
+  spec.add_runtime_dependency 'dotenv', '~> 3.1.7'
   spec.add_runtime_dependency 'rubyzip', '~> 2.3.2'
   spec.add_runtime_dependency 'thor', '~> 1.3.0'
+  spec.add_runtime_dependency 'tty-prompt', '~> 0.23.1'
   spec.add_runtime_dependency 'emass_client', '~> 3.20'
 
   # ---- Development Dependencies
