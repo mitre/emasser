@@ -1,0 +1,45 @@
+name: Auto Merge Main into PR (No Conflicts)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Fetch the latest main branch
+        run: |
+          git fetch origin main
+
+      - name: Check for merge conflicts
+        run: |
+          git merge --no-ff --no-commit origin/main || echo "Merge conflict detected"
+
+      - name: Merge main into PR branch
+        if: success()  # Only proceed if there are no merge conflicts
+        run: |
+          git merge --no-ff --no-commit origin/main
+          git commit -m "Auto merge main into PR branch"
+
+      - name: Push changes after merge
+        if: success()  # Only push if the merge was successful
+        run: |
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Fail if there are merge conflicts
+        if: failure()  # Only run this if the previous step (merge) failed
+        run: |
+          echo "Merge conflicts detected. Auto merge aborted."
+          exit 1
