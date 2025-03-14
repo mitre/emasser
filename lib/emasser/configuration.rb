@@ -80,6 +80,8 @@ module Emasser
       puts '  EMASSER_CERT_FILE_PATH    - The client certificate (.pem) file (full path is required)'.cyan
       puts '  EMASSER_KEY_FILE_PATH     - The private key for the certificate (.pem) file (full path is required)'.cyan
       puts '  EMASSER_KEY_FILE_PASSWORD - The key file passphrase value if the key file password has been set'.cyan
+      puts 'Certain eMASS integrations may require this variable for actionable (POST,PUT,DELETE) endpoint calls:'.yellow
+      puts '  EMASSER_USER_UID          - The eMASS User Unique Identifier (user-uid)'.cyan
       puts 'IMPORTANT: If using a self signed certificate in the certificate chain the optional "EMASSER_VERIFY_SSL" variable must be set to false.'.red
       puts "\n"
       puts 'Certain eMASS integrations may require this variable for actionable (POST,PUT,DELETE) endpoint calls:'.yellow
