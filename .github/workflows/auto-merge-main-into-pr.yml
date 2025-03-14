@@ -1,0 +1,97 @@
+name: Auto Merge Main into PR (Only if Main was Updated)
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  auto-merge:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout PR branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      - name: Fetch the latest main branch
+        run: |
+          git fetch origin main
+
+      - name: Get the commit hash of main at the time the PR was created
+        id: pr_created
+        run: |
+          PR_CREATED_COMMIT=$(git log --merges --pretty=format:'%H' origin/main..${{ github.event.pull_request.head.sha }} | tail -n 1)
+          echo "PR_CREATED_COMMIT=$PR_CREATED_COMMIT" >> $GITHUB_ENV
+
+      - name: Check if main was updated since PR was created
+        id: check_main_update
+        run: |
+          # Get the latest commit hash from the main branch
+          LATEST_MAIN_COMMIT=$(git rev-parse origin/main)
+      
+          # Compare the commit hashes
+          if [ "$PR_CREATED_COMMIT" != "$LATEST_MAIN_COMMIT" ]; then
+            echo "Main has been updated since PR creation"
+            echo "MAIN_UPDATED=true" >> $GITHUB_ENV
+          else
+            echo "Main has not been updated since PR creation"
+            echo "MAIN_UPDATED=false" >> $GITHUB_ENV
+          fi
+
+      - name: Check if main is already merged into PR
+        id: check_merge
+        run: |
+          # Check if the commit hash of the latest main commit is already in the PR's history
+          MERGE_COMMIT=$(git log --oneline --merges | grep -m 1 "Merge branch 'main' into" || true)
+          
+          if [[ -z "$MERGE_COMMIT" ]]; then
+            echo "Main has not been merged into the PR branch yet"
+            echo "MERGE_DONE=false" >> $GITHUB_ENV
+          else
+            echo "Main has already been merged into the PR branch"
+            echo "MERGE_DONE=true" >> $GITHUB_ENV
+          fi
+      
+      - name: Attempt to merge main into PR branch (if main was updated and not merged yet)
+        if: env.MAIN_UPDATED == 'true' && env.MERGE_DONE == 'false'
+        run: |
+          # Set user info for the merge commit, ensuring dependabot[bot] or another user is identified
+          # git config --global user.name "GitHub Actions"
+          # git config --global user.email "actions@github.com"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+
+          # Attempt to merge the main branch into the PR branch
+          git merge --no-ff --no-commit origin/main --allow-unrelated-histories || echo "Merge conflict detected"
+          # If merge was successful, commit and push
+          if [ $? -eq 0 ]; then
+            git commit -m "Auto merge main into PR branch"
+            git push
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Handle merge conflicts and notify the user
+        if: failure() && env.MAIN_UPDATED == 'true' && env.MERGE_DONE == 'false'
+        run: |
+          # Leave a comment on the PR about merge conflicts
+          PR_URL="https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -d '{"body":"Merge conflicts were detected when attempting to merge `main` into this PR. Please resolve the conflicts manually."}' $PR_URL
+          
+          # Optionally, print out conflict information for debugging
+          echo "Merge conflicts occurred. Please resolve them manually."
+
+      - name: Skip merge if no updates in main or already merged
+        if: env.MAIN_UPDATED == 'false' || env.MERGE_DONE == 'true'
+        run: |
+          if [ "$MAIN_UPDATED" == "false" ]; then
+            echo "No new changes in main since the PR was created. Skipping merge."
+          fi
+          if [ "$MERGE_DONE" == "true" ]; then
+            echo "Main has already been merged into the PR branch. Skipping merge."
+          fi
