@@ -1,4 +1,4 @@
-name: Auto Merge Main into PR (No Conflicts)
+name: Auto Merge Main into PR (Only if Main was Updated)
 
 on:
   push:
@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout PR branch
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.head_ref }}
 
@@ -21,25 +21,37 @@ jobs:
         run: |
           git fetch origin main
 
-      - name: Check for merge conflicts
+      - name: Get the commit hash of main at the time the PR was created
+        id: pr_created
         run: |
-          git merge --no-ff --no-commit origin/main || echo "Merge conflict detected"
+          PR_CREATED_COMMIT=$(git log --merges --pretty=format:'%H' origin/main..${{ github.event.pull_request.head.sha }} | tail -n 1)
+          echo "PR_CREATED_COMMIT=$PR_CREATED_COMMIT" >> $GITHUB_ENV
 
-      - name: Merge main into PR branch
-        if: success()  # Only proceed if there are no merge conflicts
+      - name: Check if main was updated since PR was created
+        id: check_main_update
         run: |
-          git merge --no-ff --no-commit origin/main
+          # Get the latest commit hash from the main branch
+          LATEST_MAIN_COMMIT=$(git rev-parse origin/main)
+      
+          # Compare the commit hashes
+          if [ "$PR_CREATED_COMMIT" != "$LATEST_MAIN_COMMIT" ]; then
+            echo "Main has been updated since PR creation"
+            echo "MAIN_UPDATED=true" >> $GITHUB_ENV
+          else
+            echo "Main has not been updated since PR creation"
+            echo "MAIN_UPDATED=false" >> $GITHUB_ENV
+          fi
+
+      - name: Merge main into PR branch (if main was updated)
+        if: env.MAIN_UPDATED == 'true'
+        run: |
+          git merge --no-ff --no-commit origin/main --allow-unrelated-histories
           git commit -m "Auto merge main into PR branch"
-
-      - name: Push changes after merge
-        if: success()  # Only push if the merge was successful
-        run: |
           git push
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Fail if there are merge conflicts
-        if: failure()  # Only run this if the previous step (merge) failed
+      - name: Skip merge if no updates in main
+        if: env.MAIN_UPDATED == 'false'
         run: |
-          echo "Merge conflicts detected. Auto merge aborted."
-          exit 1
+          echo "No new changes in main since the PR was created. Skipping merge."
