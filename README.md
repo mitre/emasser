@@ -15,11 +15,15 @@
 
 ---
 ## Documentation
-For detail content information about the `eMASS` API references the [**eMASS API Specification**](https://mitre.github.io/emass_client/docs/redoc/) page.
+For detail content information about the `eMASS` API references the [**eMASS API Specification**](https://mitre.github.io/emass_client/docs/redoc/).
 
-For detail features provided by the `eMASSer` CLI references the [**eMASSer CLI Features**](docs/features.md) page.
+For detail features provided by the `eMASSer` CLI references the [**eMASSer CLI Features**](docs/features.md).
 
 The `eMASSer` CLI [**Architecture**](#emasser-cli-architecture) depicts the structure, and provides an explanation of CLI behaviors. 
+
+---
+## Testing the eMASSer
+For testing the `eMASSer` with an interactive hosted mock server visit the [**eMASS Interactive Mock Server**](https://mitre.github.io/emass_client/docs/renderer/).
 
 ---
 ## Installation Options
@@ -31,7 +35,6 @@ The `eMASSer` CLI [**Architecture**](#emasser-cli-architecture) depicts the stru
   * Ruby version 3.22 or greater
 
 ### Runtime Major Dependencies
-  * Ruby version 3.22 or greater
   * `rubyzip (latest version)`
   * `emass_client (latest version)`
   * On Windows the `cURL` binary is required (libcurl.dll). To install cURL:

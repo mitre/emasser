@@ -72,7 +72,7 @@ module Emasser
 
     def emasser_pki_help
       puts 'eMASSer PKI Certificate Requirements:'.yellow
-      puts 'eMASSer uses a client (signed certificate) and key (private key for the certificate) certificate for authenticating to eMASS.'.cyan
+      puts 'eMASSer uses a client (signed certificate) and key (private key for the certificate) certificates for eMASS authentication.'.cyan
       puts 'Both files are a .pem (Privacy-Enhanced Mail) text-based containers using base-64 encoding. The key file requires a passphrase.'.cyan
       puts "\n"
       puts 'The following variables must be provided on the .env (configuration) file:'.yellow
@@ -80,17 +80,16 @@ module Emasser
       puts '  EMASSER_CERT_FILE_PATH    - The client certificate (.pem) file (full path is required)'.cyan
       puts '  EMASSER_KEY_FILE_PATH     - The private key for the certificate (.pem) file (full path is required)'.cyan
       puts '  EMASSER_KEY_FILE_PASSWORD - The key file passphrase value if the key file password has been set'.cyan
+      puts '  EMASSER_USER_UID*         - The eMASS User Unique Identifier (user-uid)'.cyan
+      puts '* Certain eMASS integrations may require the EMASSER_USER_UID variable for actionable (POST,PUT,DELETE) endpoint calls.'.green
       puts 'IMPORTANT: If using a self signed certificate in the certificate chain the optional "EMASSER_VERIFY_SSL" variable must be set to false.'.red
-      puts "\n"
-      puts 'Certain eMASS integrations may require this variable for actionable (POST,PUT,DELETE) endpoint calls:'.yellow
-      puts '  EMASSER_USER_UID - The eMASS User Unique Identifier (user-uid)'.cyan
     end
 
     if (ARGV[0].to_s.downcase.include? '-v') || (ARGV[0].to_s.downcase.include? '--V')
       puts "emasser version: #{Emasser::VERSION}".green
       exit
     elsif ARGV[0].to_s.downcase.include? 'hello'
-      users = ['rookie', 'greenhorn', 'novice', 'expert', 'oracle', 'maestro']
+      users = %w{rookie greenhorn novice expert oracle maestro}
       user_name = ENV.fetch('USERNAME', users.sample)
       puts "Hello #{user_name} - enjoy using eMASSer version #{Emasser::VERSION}!".cyan
       exit
@@ -104,7 +103,8 @@ module Emasser
       puts "\n\n"
       puts 'eMASS Authentication Errors:'.red
       puts 'If the API receives an untrusted certificate, a 403 forbidden response code will be returned.'.cyan
-      puts 'If an invalid api-key or combination of client certificate and api-key (from the registered account) is received, a 401 unauthorized response code will be returned.'.cyan
+      puts 'If an invalid api-key or combination of client certificate and api-key (from the registered account)'.cyan
+      puts 'is received, a 401 unauthorized response code will be returned.'.cyan
       puts "\n"
       show = Configuration.new
       show.emasser_pki_help
