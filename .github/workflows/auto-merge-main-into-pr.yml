@@ -42,8 +42,22 @@ jobs:
             echo "MAIN_UPDATED=false" >> $GITHUB_ENV
           fi
 
-      - name: Merge main into PR branch (if main was updated)
-        if: env.MAIN_UPDATED == 'true'
+      - name: Check if main is already merged into PR
+        id: check_merge
+        run: |
+          # Check if the commit hash of the latest main commit is already in the PR's history
+          MERGE_COMMIT=$(git log --oneline --merges | grep -m 1 "Merge branch 'main' into" || true)
+          
+          if [[ -z "$MERGE_COMMIT" ]]; then
+            echo "Main has not been merged into the PR branch yet"
+            echo "MERGE_DONE=false" >> $GITHUB_ENV
+          else
+            echo "Main has already been merged into the PR branch"
+            echo "MERGE_DONE=true" >> $GITHUB_ENV
+          fi
+      
+      - name: Attempt to merge main into PR branch (if main was updated and not merged yet)
+        if: env.MAIN_UPDATED == 'true' && env.MERGE_DONE == 'false'
         run: |
           # Set user info for the merge commit, ensuring dependabot[bot] or another user is identified
           # git config --global user.name "GitHub Actions"
@@ -52,16 +66,32 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
 
-          # Merge the main branch into the PR branch
-          git merge --no-ff --no-commit origin/main --allow-unrelated-histories
-           # Commit the merge
-          git commit -m "Auto merge main into PR branch"
-          # Push the changes
-          git push
+          # Attempt to merge the main branch into the PR branch
+          git merge --no-ff --no-commit origin/main --allow-unrelated-histories || echo "Merge conflict detected"
+          # If merge was successful, commit and push
+          if [ $? -eq 0 ]; then
+            git commit -m "Auto merge main into PR branch"
+            git push
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Skip merge if no updates in main
-        if: env.MAIN_UPDATED == 'false'
+      - name: Handle merge conflicts and notify the user
+        if: failure() && env.MAIN_UPDATED == 'true' && env.MERGE_DONE == 'false'
         run: |
-          echo "No new changes in main since the PR was created. Skipping merge."
+          # Leave a comment on the PR about merge conflicts
+          PR_URL="https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+          curl -X POST -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" -d '{"body":"Merge conflicts were detected when attempting to merge `main` into this PR. Please resolve the conflicts manually."}' $PR_URL
+          
+          # Optionally, print out conflict information for debugging
+          echo "Merge conflicts occurred. Please resolve them manually."
+
+      - name: Skip merge if no updates in main or already merged
+        if: env.MAIN_UPDATED == 'false' || env.MERGE_DONE == 'true'
+        run: |
+          if [ "$MAIN_UPDATED" == "false" ]; then
+            echo "No new changes in main since the PR was created. Skipping merge."
+          fi
+          if [ "$MERGE_DONE" == "true" ]; then
+            echo "Main has already been merged into the PR branch. Skipping merge."
+          fi
