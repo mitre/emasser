@@ -4,7 +4,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-    
+
+permissions:
+  contents: write
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
