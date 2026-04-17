@@ -146,7 +146,7 @@ GEM
     unicode-emoji (4.0.4)
     wisper (2.0.1)
     yaml (0.3.0)
-    yard (0.9.37)
+    yard (0.9.42)
 
 PLATFORMS
   x64-mingw-ucrt
